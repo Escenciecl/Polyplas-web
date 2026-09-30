@@ -1,0 +1,23 @@
+name: Descomprimir proyecto
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Descomprimir polyplas-nextjs.zip
+        run: |
+          if [ ! -f polyplas-nextjs.zip ]; then echo "No hay zip, nada que hacer"; exit 0; fi
+          unzip -q -o polyplas-nextjs.zip -d /tmp/p
+          cp -a /tmp/p/polyplas-next/. .
+          git rm -q polyplas-nextjs.zip
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Proyecto Next.js descomprimido"
+          git push
