@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import { getSitemapEntries } from "@/lib/content";
 
+export const dynamic = "force-static";
+
 /**
  * sitemap.xml: solo URLs canónicas que responden 200 e indexables.
  * (El de WordPress incluía 51 URLs que redirigían: productos y etiquetas.)

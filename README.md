@@ -2,13 +2,15 @@
 
 Migración de **polyplas.cl** desde WordPress + Elementor a **Next.js 15 (App Router, React 19)**.
 Todas las páginas se generan como HTML estático en el build: más rápido, sin base de datos y sin plugins.
+Se publica **gratis** en **Cloudflare Pages** (plan Free, permite uso comercial).
 
 ## Cómo correrlo
 
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm run build && npm start   # versión de producción local
+npm run build      # genera la carpeta out/ (sitio estático) + _redirects y _headers
+npm start          # sirve out/ localmente
 ```
 
 ## Estructura
@@ -38,27 +40,31 @@ public/
 1. Copia `content/blog/_plantilla.md` a `content/blog/mi-articulo.md` (sin el `_`).
 2. Completa `title`, `description`, `date` e `image`, y escribe el texto.
 3. Sube la imagen a `public/wp-content/uploads/...` (o a `public/blog/`).
-4. Haz commit y push: Vercel publica solo. El artículo aparece en `/blog/` y en el `sitemap.xml`.
+4. Haz commit y push: Cloudflare Pages publica solo. El artículo aparece en `/blog/` y en el `sitemap.xml`.
 
 ## Editar una página existente
 
 El contenido está en `content/html/<página>.html` y los metadatos (title, description) en
 `content/pages.json`. Para mejoras puntuales de títulos existe `META_OVERRIDES` en `lib/content.ts`.
 
-## Variables de entorno (Vercel → Settings → Environment Variables)
+## Cloudflare Pages (configuración)
 
-| Variable | Valor |
+| Campo | Valor |
 |---|---|
-| `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` | el código de `google-site-verification` actual (opcional si Search Console ya está verificado por DNS) |
-| `NEXT_PUBLIC_NOINDEX` | `1` solo en un entorno de pruebas con dominio propio |
+| Framework preset | Next.js (Static HTML Export) |
+| Build command | `npm run build` |
+| Build output directory | `out` |
+| Variable de entorno | `NODE_VERSION` = `22` |
 
-En los *previews* de Vercel el `robots.txt` bloquea todo automáticamente; solo producción es indexable.
+- `public/_redirects` y `public/_headers` se generan solos en cada build (`scripts/cloudflare.mjs`).
+  Para agregar una redirección, edita `content/redirects.json`.
+- La URL técnica `*.pages.dev` envía `noindex`, así Google solo indexa `polyplas.cl`.
 
 ## Checklist de lanzamiento (sin perder SEO)
 
-1. **Antes de cambiar el DNS**: desplegar en Vercel y revisar la URL `*.vercel.app`
+1. **Antes de cambiar el DNS**: revisar la URL `*.pages.dev`
    (formularios, carrito, chat, cotizadores de cada categoría).
-2. En Vercel → Domains: agregar `polyplas.cl` y `www.polyplas.cl` (www redirige a la raíz).
+2. En Cloudflare Pages → Custom domains: agregar `polyplas.cl` y `www.polyplas.cl`.
 3. Cambiar DNS al horario de menos tráfico. **Mantener WordPress** en un subdominio
    (ej. `antiguo.polyplas.cl`, con `noindex`) al menos 1 mes como respaldo.
 4. En Google Search Console: enviar `https://polyplas.cl/sitemap.xml` y usar
