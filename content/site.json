@@ -1,0 +1,19 @@
+{
+ "gtmId": "GTM-N7VSCSBW",
+ "headScripts": [
+  "/legacy/js/4708b85e71.js",
+  "/legacy/js/bd8876299b.js"
+ ],
+ "bodyScripts": [
+  "/legacy/js/265631b780.js",
+  "/legacy/js/0577991c27.js",
+  "/legacy/js/94d94a2182.js",
+  "/legacy/js/b7fbb01b0b.js",
+  "/legacy/js/f41c81c578.js"
+ ],
+ "headerScripts": [
+  "/legacy/js/bcd4e573d8.js"
+ ],
+ "footerScripts": [],
+ "businessJsonLd": "{\n        \"@context\": \"https://schema.org\",\n        \"@type\": [\"Store\", \"LocalBusiness\"],\n        \"additionalType\": \"https://schema.org/ManufacturingBusiness\",\n        \"name\": \"Polyplas\",\n        \"url\": \"https://polyplas.cl\",\n        \"logo\": \"https://polyplas.cl/wp-content/uploads/2022/07/marca-polyplas-1.svg\",\n        \"image\": \"https://polyplas.cl/wp-content/uploads/2022/07/marca-polyplas-1.svg\",\n        \"description\": \"Importadora y distribuidora de acrilicos, tinas de hidromasaje y cupulas en Chile con 29 anos de trayectoria.\",\n        \"telephone\": \"+56942086751\",\n        \"email\": \"contacto@polyplas.cl\",\n        \"sameAs\": [\n            \"https://www.google.com/maps/place/Polyplas+Ltda/@-33.4652533,-70.6387059,15z/data=!4m2!3m1!1s0x0:0x3c532dd090828712?sa=X\",\n            \"https://www.facebook.com/polyplas.ltda\"\n        ],\n        \"geo\": {\n            \"@type\": \"GeoCoordinates\",\n            \"latitude\": \"-33.4652\",\n            \"longitude\": \"-70.6387\"\n        },\n        \"address\": {\n            \"@type\": \"PostalAddress\",\n            \"streetAddress\": \"Santiago Concha 1525\",\n            \"addressLocality\": \"Santiago\",\n            \"addressRegion\": \"Region Metropolitana\",\n            \"addressCountry\": \"CL\"\n        },\n        \"openingHoursSpecification\": {\n            \"@type\": \"OpeningHoursSpecification\",\n            \"dayOfWeek\": [\"Monday\",\"Tuesday\",\"Wednesday\",\"Thursday\",\"Friday\"],\n            \"opens\": \"09:00\",\n            \"closes\": \"18:00\"\n        },\n        \"priceRange\": \"$$\"\n    }"
+}

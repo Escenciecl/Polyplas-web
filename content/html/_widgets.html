@@ -1,0 +1,884 @@
+<div id="polyplas-widget">
+<button id="polyplas-fab">
+<span class="pulse"></span>
+<svg fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+<span class="pp-fab-label">Chat de venta en vivo</span>
+</button>
+<div id="polyplas-window">
+<div id="polyplas-header">
+<div class="avatar">M</div>
+<div class="info">
+<h3>Maca · Polyplas</h3>
+<p id="polyplas-status">Cargando...</p>
+</div>
+<button class="close" id="polyplas-close">×</button>
+</div>
+
+<div id="polyplas-chat">
+<div id="polyplas-messages"></div>
+<div id="polyplas-offline-cta">
+<a href="/#contacto" id="polyplas-cta-btn" target="_blank">
+<svg fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+          Déjanos tu mensaje y te contactamos
+        </a>
+</div>
+<div id="polyplas-input-area">
+<input id="polyplas-input" placeholder="Escribe tu mensaje..." type="text"/>
+<button id="polyplas-send">
+<svg fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+<div class="polyplas-footer">Powered by Polyplas</div>
+</div>
+</div>
+</div>
+<style>
+  #pp-cb [hidden] { display: none !important; }
+  #pp-cb *, #pp-cb *::before, #pp-cb *::after {
+    box-sizing: border-box; margin: 0; padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+
+  /* ── Pestaña ── */
+  #pp-cb #pp-cb-tab {
+    position: fixed; right: 0; top: 0; z-index: 2147483644;
+    width: 44px; padding: 14px 0 !important;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    border: 0 !important; border-radius: 12px 0 0 12px !important;
+    background: linear-gradient(180deg, #881337 0%, #9f1239 100%) !important;
+    color: #fff !important; cursor: pointer;
+    box-shadow: -3px 4px 18px rgba(136,19,55,.32);
+    opacity: 0; visibility: hidden;
+    transition: opacity .25s ease, visibility 0s linear .25s, filter .15s ease;
+    -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  }
+  #pp-cb.pp-listo.pp-tab-on #pp-cb-tab { opacity: 1; visibility: visible; transition-delay: 0s; }
+  #pp-cb #pp-cb-tab:hover, #pp-cb #pp-cb-tab:focus {
+    filter: brightness(1.1); color: #fff !important;
+    background: linear-gradient(180deg, #881337 0%, #9f1239 100%) !important;
+  }
+  #pp-cb #pp-cb-tab:focus-visible { outline: 3px solid #f5b800; outline-offset: -3px; }
+  #pp-cb .pp-cb-tab-ico { width: 18px; height: 18px; flex-shrink: 0; }
+  #pp-cb .pp-cb-tab-txt {
+    writing-mode: vertical-rl; transform: rotate(180deg);
+    white-space: nowrap; font-size: 13px; font-weight: 700;
+    letter-spacing: .09em; text-transform: uppercase; color: #fff;
+  }
+
+  /* ── Panel (escritorio: cajón a la izquierda de la pestaña) ── */
+  #pp-cb #pp-cb-panel {
+    position: fixed; right: 56px; top: 0; z-index: 2147483644;
+    width: 340px; max-width: calc(100vw - 72px);
+    padding: 22px 20px 18px;
+    background: #fff; color: #1a1f2b;
+    border: 1px solid rgba(0,0,0,.06); border-top: 4px solid #881337;
+    border-radius: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.04), 0 12px 28px rgba(0,0,0,.12), 0 32px 60px rgba(136,19,55,.14);
+    opacity: 0; visibility: hidden; transform: translateX(12px);
+    transition: opacity .22s ease, transform .22s cubic-bezier(.22,1,.36,1), visibility 0s linear .22s;
+  }
+  #pp-cb.pp-abierto #pp-cb-panel { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+
+  #pp-cb .pp-cb-close {
+    position: absolute; top: 10px; right: 10px; width: 28px; height: 28px;
+    border: 0 !important; border-radius: 8px !important; background: #f1f3f8 !important;
+    color: #5b6473 !important; font-size: 18px; line-height: 1; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #pp-cb .pp-cb-close:hover { background: #e4e8f1 !important; }
+  #pp-cb h2 { font-size: 16px; font-weight: 700; line-height: 1.3; padding-right: 30px; color: #1a1f2b; }
+  #pp-cb .pp-cb-sub { margin-top: 6px; font-size: 13px; line-height: 1.5; color: #525b6b; }
+  #pp-cb a.pp-cb-wsp {
+    display: flex !important; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; height: 50px; margin-top: 14px;
+    border: 0 !important; border-radius: 12px !important;
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%) !important;
+    color: #fff !important; font-size: 15px; font-weight: 700; letter-spacing: .2px;
+    text-decoration: none !important; cursor: pointer;
+    box-shadow: 0 2px 12px rgba(22,163,74,.35);
+    transition: filter .15s, transform .1s;
+  }
+  #pp-cb a.pp-cb-wsp:hover { filter: brightness(1.08); transform: translateY(-1px); color: #fff !important; }
+  #pp-cb a.pp-cb-wsp svg { width: 20px; height: 20px; flex-shrink: 0; }
+  #pp-cb #pp-cb-close:focus-visible { outline: 3px solid #f5b800; outline-offset: 2px; }
+
+  /* ── Móvil (≤480px): tarjeta centrada arriba, con fondo oscuro; se ubica sobre el botón de chat ── */
+  #pp-cb-bk { display: none; }
+  #pp-cb.pp-mov #pp-cb-bk {
+    display: block; position: fixed; inset: 0; z-index: 2147483646; background: rgba(15,23,42,.45);
+    opacity: 0; visibility: hidden; transition: opacity .2s, visibility 0s linear .2s;
+  }
+  #pp-cb.pp-mov.pp-abierto #pp-cb-bk { opacity: 1; visibility: visible; transition-delay: 0s; }
+  #pp-cb.pp-mov #pp-cb-panel {
+    z-index: 2147483647; right: auto; left: 50%; top: max(12px, 6vh);
+    width: min(360px, calc(100vw - 24px)); max-width: none;
+    max-height: calc(100vh - 24px); overflow-y: auto;
+    transform: translate(-50%, 12px);
+  }
+  #pp-cb.pp-mov.pp-abierto #pp-cb-panel { transform: translate(-50%, 0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    #pp-cb #pp-cb-tab, #pp-cb #pp-cb-panel, #pp-cb-bk { transition: none !important; }
+  }
+
+  /* ── Móvil: pestaña compacta solo con ícono ── */
+  @media (max-width: 480px) {
+    #pp-cb #pp-cb-tab .pp-cb-tab-txt { display: none; }
+    #pp-cb #pp-cb-tab {
+      width: 36px;
+      padding: 10px 0 !important;
+      border-radius: 10px 0 0 10px !important;
+    }
+  }
+
+  /* ── Ocultar flotantes cuando un modal/checkout está abierto ── */
+  body.pp-modal-active #polyplas-fab {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity .15s, visibility 0s linear .15s !important;
+  }
+  body.pp-modal-active #pp-cb #pp-cb-tab {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+</style>
+<div id="pp-cb">
+<button aria-controls="pp-cb-panel" aria-expanded="false" id="pp-cb-tab" type="button">
+<svg aria-hidden="true" class="pp-cb-tab-ico" fill="currentColor" viewbox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.6 21 3 13.4 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.3.2 2.5.57 3.6a1 1 0 0 1-.25 1l-2.2 2.2z"></path></svg>
+<span class="pp-cb-tab-txt">Cómo comprar online</span>
+</button>
+<div id="pp-cb-bk"></div>
+<div aria-hidden="true" aria-labelledby="pp-cb-h" id="pp-cb-panel" role="dialog">
+<button aria-label="Cerrar" class="pp-cb-close" id="pp-cb-close" type="button">×</button>
+<div id="pp-cb-form-view">
+<h2 id="pp-cb-h">¿No sabes cómo comprar online?</h2>
+<p class="pp-cb-sub">Te guiamos paso a paso para que hagas tu pedido sin complicaciones.</p>
+<a class="pp-cb-wsp" href="https://wa.me/56930997983?text=necesito%20asistencia%20para%20comprar%20online" rel="noopener" target="_blank">
+<svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"></path><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.548 4.107 1.509 5.843L.057 23.25a.75.75 0 0 0 .918.943l5.444-1.428A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 2.25A9.75 9.75 0 0 1 21.75 12 9.75 9.75 0 0 1 12 21.75a9.714 9.714 0 0 1-4.892-1.315l-.346-.202-3.578.939.966-3.497-.215-.353A9.714 9.714 0 0 1 2.25 12 9.75 9.75 0 0 1 12 2.25z"></path></svg>
+        Escríbenos por WhatsApp
+      </a>
+</div>
+</div>
+</div>
+<style>
+/* ── Botón flotante ─────────────────────────────────────── */
+#ppGC-fab {
+  display: none;
+  position: fixed;
+  top: 20px;
+  right: 28px;
+  z-index: 10001;
+  align-items: center;
+  gap: 10px;
+  background: #00448D;
+  color: #fff;
+  border: none;
+  border-radius: 32px;
+  height: 52px;
+  padding: 0 20px 0 16px;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: .5px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,68,141,0.45);
+  transition: transform .15s, box-shadow .15s;
+}
+#ppGC-fab:hover { transform: scale(1.05); box-shadow: 0 8px 28px rgba(0,68,141,0.55); }
+#ppGC-badge {
+  background: #ef4444;
+  color: #fff;
+  border-radius: 50%;
+  min-width: 22px;
+  height: 22px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+}
+
+/* ── Overlay compartido ─────────────────────────────────── */
+#ppGC-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  z-index: 10002;
+}
+
+/* ── Base modal ─────────────────────────────────────────── */
+.ppGC-modal-wrap {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 10003;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  pointer-events: none;
+}
+.ppGC-modal-box {
+  background: #fff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  pointer-events: all;
+  box-shadow: 0 20px 60px rgba(0,0,0,.25);
+}
+
+/* ════════════════════════════════════════════════════════
+   MODAL 1 — CARRITO
+   ════════════════════════════════════════════════════════ */
+#ppGC-cart-header {
+  position: sticky;
+  top: 0;
+  background: #00448D;
+  color: #fff;
+  padding: 18px 22px;
+  border-radius: 20px 20px 0 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#ppGC-cart-header h3 { font-size: 1rem; font-weight: 700; margin: 0; }
+#ppGC-cart-body { padding: 20px; }
+
+/* Ítems del carrito */
+.ppGC-cart-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid #ccd8ee;
+}
+.ppGC-cart-item:last-child { border-bottom: none; }
+.ppGC-cart-item-info { flex: 1; min-width: 0; }
+.ppGC-cart-item-mod {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: #00448D;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.ppGC-cart-item-name {
+  font-size: 0.88rem;
+  color: #1a1a2e;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.ppGC-cart-item-qty {
+  font-size: 0.78rem;
+  color: #666;
+  margin-top: 3px;
+}
+.ppGC-cart-item-price {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #00448D;
+  white-space: nowrap;
+}
+.ppGC-cart-item-remove {
+  background: none;
+  border: none;
+  color: #ccc;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: color .15s;
+}
+.ppGC-cart-item-remove:hover { color: #dc2626; }
+
+/* Vacío */
+.ppGC-cart-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #888;
+  font-size: 0.9rem;
+}
+.ppGC-cart-empty svg { opacity: .3; margin-bottom: 12px; }
+
+/* Total */
+.ppGC-cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0 0;
+  margin-top: 4px;
+  border-top: 2px solid #ccd8ee;
+}
+.ppGC-cart-total-row span { font-size: 0.85rem; color: #555; font-weight: 600; }
+.ppGC-cart-total-row strong { font-size: 1.2rem; color: #00448D; font-weight: 800; }
+
+/* Barra progreso envío gratis */
+.ppGC-shipping-bar { margin: 12px 0 0; }
+.ppGC-shipping-track { height: 5px; background: #e4ebf5; border-radius: 100px; overflow: hidden; }
+.ppGC-shipping-fill { height: 100%; background: linear-gradient(90deg, #00448D, #3b82f6); border-radius: 100px; transition: width 0.4s ease; }
+.ppGC-shipping-label { font-size: 0.72rem; color: #666; margin-top: 5px; display: block; }
+.ppGC-shipping-label.reached { color: #1a7c2a; font-weight: 600; }
+
+/* Botones del carrito */
+.ppGC-cart-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 18px;
+}
+.ppGC-btn-checkout-go {
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  border: none;
+  background: #00448D;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: .5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background .2s;
+}
+.ppGC-btn-checkout-go:hover { background: #003370; }
+.ppGC-btn-keep-shopping {
+  width: 100%;
+  padding: 13px;
+  border-radius: 10px;
+  border: 2px solid #00448D;
+  background: #fff;
+  color: #00448D;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: .3px;
+  transition: background .2s;
+}
+.ppGC-btn-keep-shopping:hover { background: #f0f4fb; }
+
+/* ════════════════════════════════════════════════════════
+   MODAL 2 — CHECKOUT
+   ════════════════════════════════════════════════════════ */
+#ppGC-co-header {
+  position: sticky;
+  top: 0;
+  background: #004a99;
+  color: #fff;
+  padding: 18px 22px 14px;
+  border-radius: 20px 20px 0 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+#ppGC-co-header h3 { font-size: 1rem; font-weight: 700; margin: 0; }
+#ppGC-co-body { padding: 22px; }
+
+/* Indicadores de paso */
+.ppGC-steps { display: flex; align-items: center; }
+.ppGC-step { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.ppGC-step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(255,255,255,.2); color: rgba(255,255,255,.6);
+  font-size: 0.75rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .2s;
+}
+.ppGC-step-num.active { background: #fff; color: #004a99; }
+.ppGC-step-num.done   { background: #28a745; color: #fff; }
+.ppGC-step-label {
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px;
+  color: rgba(255,255,255,.55); font-weight: 600; white-space: nowrap;
+}
+.ppGC-step-label.active { color: #fff; }
+.ppGC-step-label.done   { color: #4ade80; }
+.ppGC-step-line { flex: 1; height: 2px; background: rgba(255,255,255,.2); margin: 0 8px 14px; transition: background .2s; }
+.ppGC-step-line.done { background: #28a745; }
+.ppGC-close-btn {
+  position: absolute; top: 14px; right: 16px;
+  background: rgba(255,255,255,.15); border: none; color: #fff;
+  width: 30px; height: 30px; border-radius: 8px;
+  font-size: 14px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Resumen colapsable paso 1 */
+.ppGC-summary {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  background: #f0f4fb; border-radius: 12px; padding: 12px 16px;
+  margin-bottom: 18px; border: 1px solid #ccd8ee; gap: 12px;
+}
+.ppGC-summary-info { flex: 1; min-width: 0; }
+.ppGC-summary-title-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.ppGC-summary-title { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1.5px; color: #004a99; font-weight: 700; }
+.ppGC-summary-toggle { background: none; border: none; cursor: pointer; color: #004a99; font-size: 0.7rem; font-weight: 700; padding: 0; text-decoration: underline; font-family: inherit; }
+.ppGC-summary-items { font-size: 0.8rem; color: #555; transition: max-height .3s ease, opacity .3s ease; max-height: 500px; overflow: hidden; }
+.ppGC-summary-items.collapsed { max-height: 0; opacity: 0; }
+.ppGC-summary-total { font-size: 0.9rem; font-weight: 700; color: #004a99; white-space: nowrap; }
+
+/* Toggle cliente */
+.ppGC-client-toggle {
+  display: flex; background: #f0f4fb; border-radius: 10px;
+  padding: 4px; margin-bottom: 20px; gap: 4px;
+}
+.ppGC-client-toggle button {
+  flex: 1; padding: 10px; border-radius: 8px; border: none;
+  background: none; color: #004a99; font-family: inherit;
+  font-size: 0.84rem; font-weight: 600; cursor: pointer;
+  transition: all .18s; letter-spacing: .3px;
+}
+.ppGC-client-toggle button.active { background: #004a99; color: #fff; box-shadow: 0 2px 10px rgba(0,74,153,.25); }
+
+/* Form */
+.ppGC-form-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; margin-bottom: 20px;
+}
+.ppGC-form-grid .full { grid-column: 1 / -1; }
+.ppGC-field label {
+  display: block; font-size: 0.68rem; text-transform: uppercase;
+  letter-spacing: 1.5px; color: #004a99; margin-bottom: 5px; font-weight: 700;
+}
+.ppGC-field-error { display: none; font-size: 0.72rem; color: #dc2626; margin-top: 4px; padding-left: 2px; }
+.ppGC-field input, .ppGC-field select {
+  width: 100%; padding: 10px 13px;
+  background: #f7f9fd !important; border: 1.5px solid #ccd8ee !important;
+  border-radius: 8px; color: #1a1a2e !important; font-family: inherit;
+  font-size: 0.88rem; outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  -webkit-appearance: none; appearance: none; box-sizing: border-box;
+}
+.ppGC-field input:focus, .ppGC-field select:focus {
+  border-color: #004a99 !important; box-shadow: 0 0 0 3px rgba(0,74,153,.1) !important;
+  background: #fff !important;
+}
+.ppGC-field input.ppGC-input-error, .ppGC-field select.ppGC-input-error {
+  border-color: #dc2626 !important; box-shadow: 0 0 0 2px rgba(220,38,38,.12) !important;
+}
+.ppGC-field input.ppGC-input-valid, .ppGC-field select.ppGC-input-valid {
+  border-color: #34a853 !important; background: #f0faf4 !important;
+}
+
+/* Error banner */
+.ppGC-form-error {
+  display: none; margin-bottom: 10px; padding: 10px 14px;
+  background: #fef2f2; border-left: 3px solid #dc2626;
+  border-radius: 8px; font-size: 0.82rem; color: #dc2626; font-weight: 600;
+}
+
+/* Separadores */
+.ppGC-section-divider {
+  font-size: 0.63rem; text-transform: uppercase; letter-spacing: 2px;
+  color: #004a99; font-weight: 700; margin: 20px 0 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.ppGC-section-divider::after { content: ''; flex: 1; height: 1px; background: #ccd8ee; }
+
+/* Botón siguiente */
+.ppGC-btn-next {
+  width: 100%; padding: 14px; border-radius: 10px; border: none;
+  background: #004a99; color: #fff; font-family: inherit;
+  font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 4px;
+  letter-spacing: .5px; transition: background .2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.ppGC-btn-next:hover { background: #003366; }
+.ppGC-btn-back-link {
+  display: block; width: 100%; text-align: center; margin-top: 14px;
+  background: none; border: none; color: #004a99; font-size: 0.84rem;
+  cursor: pointer; font-family: inherit; font-weight: 600;
+}
+.ppGC-btn-back-link:hover { text-decoration: underline; }
+
+/* Resumen paso 2 */
+.ppGC-order-box {
+  background: #f0f4fb; border-radius: 12px; padding: 14px 16px;
+  margin-bottom: 16px; border: 1px solid #ccd8ee;
+}
+.ppGC-order-box-title {
+  font-size: 0.68rem; text-transform: uppercase; letter-spacing: 2px;
+  color: #004a99; margin-bottom: 10px; font-weight: 700;
+}
+.ppGC-order-item {
+  display: flex; justify-content: space-between; font-size: 0.8rem;
+  padding: 6px 0; border-bottom: 1px solid #ccd8ee; gap: 12px;
+}
+.ppGC-order-item:last-child { border-bottom: none; }
+.ppGC-order-item .desc { color: #555; flex: 1; }
+.ppGC-order-item .monto { color: #004a99; white-space: nowrap; font-weight: 600; }
+
+/* Entrega */
+.ppGC-entrega-title {
+  font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1.5px;
+  color: #004a99; font-weight: 700; margin-bottom: 10px;
+}
+.ppGC-entrega-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.ppGC-entrega-opt {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; border: 1.5px solid #ccd8ee;
+  border-radius: 10px; cursor: pointer; transition: all .18s;
+  background: #f7f9fd;
+}
+.ppGC-entrega-opt:hover { border-color: #004a99; background: #edf2ff; }
+.ppGC-entrega-opt.selected { border-color: #004a99; background: #edf2ff; }
+.ppGC-entrega-icon { font-size: 1.3rem; flex-shrink: 0; }
+.ppGC-entrega-info { flex: 1; }
+.ppGC-entrega-info strong { display: block; font-size: 0.85rem; color: #1a1a2e; font-weight: 600; }
+.ppGC-entrega-info span { font-size: 0.75rem; color: #666; }
+.ppGC-entrega-badge { font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
+.badge-gratis { background: #d4edda; color: #155724; }
+.badge-propio { background: #fff3cd; color: #856404; }
+
+/* Total */
+.ppGC-modal-total {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px; padding: 14px 16px;
+  background: #004a99; border-radius: 12px;
+}
+.ppGC-modal-total span { color: rgba(255,255,255,.8); font-size: 0.82rem; }
+.ppGC-modal-total strong { font-family: Arial, sans-serif; font-size: 1.9rem; color: #fff; letter-spacing: 2px; }
+
+/* Webpay */
+.ppGC-btn-webpay {
+  width: 100%; padding: 16px; border-radius: 12px; border: none;
+  background: #28a745; color: #fff; font-family: inherit;
+  font-size: 1rem; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  transition: all .2s; letter-spacing: .5px;
+  box-shadow: 0 4px 16px rgba(40,167,69,.35);
+}
+.ppGC-btn-webpay:hover { background: #218838; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(40,167,69,.45); }
+.ppGC-btn-webpay:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+.ppGC-webpay-note { text-align: center; font-size: 0.72rem; color: #888; margin-top: 10px; }
+
+@media (max-width: 480px) {
+  #ppGC-fab { top: 14px; right: 16px; }
+  .ppGC-modal-wrap { align-items: flex-end; padding: 0; }
+  .ppGC-modal-box {
+    max-height: 92dvh;
+    border-radius: 20px 20px 0 0;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .ppGC-form-grid { grid-template-columns: 1fr; }
+  .ppGC-form-grid .full { grid-column: 1; }
+  /* Previene zoom automático de iOS al enfocar inputs */
+  .ppGC-field input, .ppGC-field select,
+  #ppGC-regionPreCheck, #ppGC-comunaPreCheck,
+  #ppgc_pn_region, #ppgc_pn_ciudad, #ppgc_pn_dir { font-size: 16px !important; }
+  /* Área de toque mínima 44px en botón eliminar */
+  .ppGC-cart-item-remove {
+    min-width: 44px; min-height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+  }
+  /* Menos padding lateral en el cuerpo de los modales */
+  #ppGC-cart-body { padding: 16px; }
+  #ppGC-co-body   { padding: 16px; }
+  /* Botones con más área táctil */
+  .ppGC-btn-checkout-go, .ppGC-btn-keep-shopping { padding: 17px; }
+  .ppGC-btn-next, .ppGC-btn-webpay { padding: 17px; font-size: 1rem; }
+  /* Toggle cliente más cómodo */
+  .ppGC-client-toggle button { padding: 13px 10px; font-size: 0.9rem; }
+}
+</style>
+<button aria-label="Ver carrito" id="ppGC-fab" onclick="ppGCOpen()">
+<svg fill="none" height="20" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="20">
+<circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
+<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+</svg>
+<span>Carrito</span>
+<span id="ppGC-badge">0</span>
+</button>
+<div id="ppGC-overlay" onclick="ppGCCloseAll()"></div>
+<div class="ppGC-modal-wrap" id="ppGC-cart-modal">
+<div class="ppGC-modal-box">
+<div id="ppGC-cart-header">
+<h3>Tu carrito — <span id="ppGC-cart-count">0</span> producto(s)</h3>
+<button class="ppGC-close-btn" onclick="ppGCCloseCart()" style="position:static;background:rgba(255,255,255,.15);">✕</button>
+</div>
+<div id="ppGC-cart-body">
+<div id="ppGC-cart-items"></div>
+<div class="ppGC-cart-total-row" id="ppGC-cart-total-row" style="display:none;">
+<span>Total</span>
+<strong id="ppGC-cart-total-val">$ 0</strong>
+</div>
+<div class="ppGC-shipping-bar" id="ppGC-shipping-bar" style="display:none;">
+<div class="ppGC-shipping-track">
+<div class="ppGC-shipping-fill" id="ppGC-shipping-fill" style="width:0%"></div>
+</div>
+<span class="ppGC-shipping-label" id="ppGC-shipping-label"></span>
+</div>
+<div class="ppGC-cart-actions" id="ppGC-cart-actions" style="display:none;">
+<button class="ppGC-btn-checkout-go" onclick="ppGCOpenCheckout()">
+          Ir al pago
+          <svg fill="none" height="16" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" width="16"><polyline points="9 18 15 12 9 6"></polyline></svg>
+</button>
+<button class="ppGC-btn-keep-shopping" onclick="ppGCCloseCart()">
+          ← Seguir comprando
+        </button>
+</div>
+</div>
+</div>
+</div>
+<div class="ppGC-modal-wrap" id="ppGC-co-modal">
+<div class="ppGC-modal-box">
+<div id="ppGC-co-header">
+<div style="display:flex;align-items:center;justify-content:space-between;">
+<h3>Finalizar pedido</h3>
+<button class="ppGC-close-btn" onclick="ppGCCloseCheckout()">✕</button>
+</div>
+<div class="ppGC-steps">
+<div class="ppGC-step">
+<div class="ppGC-step-num active" id="ppGCsDot1">1</div>
+<span class="ppGC-step-label active" id="ppGCsLbl1">Tus datos</span>
+</div>
+<div class="ppGC-step-line" id="ppGCsLine"></div>
+<div class="ppGC-step">
+<div class="ppGC-step-num" id="ppGCsDot2">2</div>
+<span class="ppGC-step-label" id="ppGCsLbl2">Entrega y pago</span>
+</div>
+</div>
+</div>
+<div id="ppGC-co-body">
+
+<div id="ppGC-s1">
+<div class="ppGC-summary">
+<div class="ppGC-summary-info">
+<div class="ppGC-summary-title-row">
+<div class="ppGC-summary-title">Tu pedido</div>
+<button class="ppGC-summary-toggle" id="ppGC-sum-toggle" onclick="ppGCToggleSummary()">Ocultar</button>
+</div>
+<div class="ppGC-summary-items" id="ppGC-sum-items">—</div>
+</div>
+<div class="ppGC-summary-total" id="ppGC-sum-total">—</div>
+</div>
+<div class="ppGC-client-toggle">
+<button class="active" id="ppGC-btnPN" onclick="ppGCSetClientType('PN')">Persona Natural</button>
+<button id="ppGC-btnEMP" onclick="ppGCSetClientType('EMP')">Empresa</button>
+</div>
+
+<div class="ppGC-form-grid" id="ppGC-fieldsPN">
+<div class="ppGC-field full">
+<label>Nombre completo *</label>
+<input id="ppgc_nombre" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Juan Pérez González" type="text"/>
+</div>
+<div class="ppGC-field">
+<label>RUT *</label>
+<input id="ppgc_rut" onblur="ppGCValidateField(this)" oninput="ppGCFormatRut(this)" placeholder="12.345.678-9" type="text"/>
+<div class="ppGC-field-error" id="ppgc_rut_err">RUT inválido · 8 dígitos + verificador (ej: 12.345.678-9)</div>
+</div>
+<div class="ppGC-field">
+<label>Teléfono *</label>
+<input id="ppgc_tel" onblur="ppGCValidateField(this)" onfocus="ppGCOnTelFocus(this)" oninput="ppGCOnTelInput(this)" onkeydown="ppGCOnTelKeydown(event,this)" type="tel" value="+56 "/>
+<div class="ppGC-field-error" id="ppgc_tel_err">Ingresa 9 dígitos (ej: +56 912345678)</div>
+</div>
+<div class="ppGC-field full">
+<label>Email *</label>
+<input id="ppgc_email" onblur="ppGCValidateField(this)" oninput="ppGCOnEmailInput(this)" placeholder="correo@ejemplo.cl" type="text"/>
+<div class="ppGC-field-error" id="ppgc_email_err">Ingresa un email válido</div>
+</div>
+<div class="ppGC-field full">
+<label>Dirección de facturación *</label>
+<input id="ppgc_bill_dir" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Av. Ejemplo 1234, Depto 5" type="text"/>
+</div>
+<div class="ppGC-field">
+<label>Región *</label>
+<select id="ppgc_bill_region" onblur="ppGCValidateField(this)" onchange="ppGCUpdateComunas('ppgc_bill'); this.classList.remove('ppGC-input-error');">
+<option value="">Selecciona región...</option>
+<option value="RM">Región Metropolitana</option>
+<option value="XV">Arica y Parinacota</option><option value="I">Tarapacá</option>
+<option value="II">Antofagasta</option><option value="III">Atacama</option>
+<option value="IV">Coquimbo</option><option value="V">Valparaíso</option>
+<option value="VI">O'Higgins</option><option value="VII">Maule</option>
+<option value="XVI">Ñuble</option><option value="VIII">Biobío</option>
+<option value="IX">La Araucanía</option><option value="XIV">Los Ríos</option>
+<option value="X">Los Lagos</option><option value="XI">Aysén</option>
+<option value="XII">Magallanes</option>
+</select>
+</div>
+<div class="ppGC-field">
+<label>Comuna *</label>
+<select disabled="" id="ppgc_bill_ciudad" onblur="ppGCValidateField(this)">
+<option value="">Selecciona primero la región...</option>
+</select>
+</div>
+</div>
+
+<div class="ppGC-form-grid" id="ppGC-fieldsEMP" style="display:none;">
+<div class="ppGC-field">
+<label>RUT Empresa *</label>
+<input id="ppgc_emp_rut" onblur="ppGCValidateField(this)" oninput="ppGCFormatRut(this)" placeholder="76.543.210-K" type="text"/>
+<div class="ppGC-field-error" id="ppgc_emp_rut_err">RUT inválido · 8 dígitos + verificador</div>
+</div>
+<div class="ppGC-field full">
+<label>Razón Social *</label>
+<input id="ppgc_emp_razon" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Empresa Ejemplo SpA" type="text"/>
+</div>
+<div class="ppGC-field">
+<label>Giro *</label>
+<input id="ppgc_emp_giro" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Comercio al por mayor" type="text"/>
+</div>
+<div class="ppGC-field">
+<label>Teléfono *</label>
+<input id="ppgc_emp_tel" onblur="ppGCValidateField(this)" onfocus="ppGCOnTelFocus(this)" oninput="ppGCOnTelInput(this)" onkeydown="ppGCOnTelKeydown(event,this)" type="tel" value="+56 "/>
+<div class="ppGC-field-error" id="ppgc_emp_tel_err">Ingresa 9 dígitos (ej: +56 912345678)</div>
+</div>
+<div class="ppGC-field full">
+<label>Email *</label>
+<input id="ppgc_emp_email" onblur="ppGCValidateField(this)" oninput="ppGCOnEmailInput(this)" placeholder="contacto@empresa.cl" type="text"/>
+<div class="ppGC-field-error" id="ppgc_emp_email_err">Ingresa un email válido</div>
+</div>
+<div class="ppGC-field full">
+<label>Dirección *</label>
+<input id="ppgc_emp_dir" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Av. Ejemplo 1234, Oficina 5" type="text"/>
+</div>
+<div class="ppGC-field">
+<label>Región *</label>
+<select id="ppgc_emp_region" onblur="ppGCValidateField(this)" onchange="ppGCUpdateComunas('ppgc_emp'); this.classList.remove('ppGC-input-error');">
+<option value="">Selecciona región...</option>
+<option value="RM">Región Metropolitana</option>
+<option value="XV">Arica y Parinacota</option><option value="I">Tarapacá</option>
+<option value="II">Antofagasta</option><option value="III">Atacama</option>
+<option value="IV">Coquimbo</option><option value="V">Valparaíso</option>
+<option value="VI">O'Higgins</option><option value="VII">Maule</option>
+<option value="XVI">Ñuble</option><option value="VIII">Biobío</option>
+<option value="IX">La Araucanía</option><option value="XIV">Los Ríos</option>
+<option value="X">Los Lagos</option><option value="XI">Aysén</option>
+<option value="XII">Magallanes</option>
+</select>
+</div>
+<div class="ppGC-field">
+<label>Comuna *</label>
+<select disabled="" id="ppgc_emp_ciudad" onblur="ppGCValidateField(this)">
+<option value="">Selecciona primero la región...</option>
+</select>
+</div>
+</div>
+<div class="ppGC-form-error" id="ppGC-s1-err"></div>
+<button class="ppGC-btn-next" onclick="ppGCGoToStep2()">
+          Continuar — Elegir entrega
+          <svg fill="none" height="16" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" width="16"><polyline points="9 18 15 12 9 6"></polyline></svg>
+</button>
+<button class="ppGC-btn-back-link" onclick="ppGCBackToCart()">← Volver al carrito</button>
+</div>
+
+<div id="ppGC-s2" style="display:none;">
+<div class="ppGC-section-divider">Resumen del pedido</div>
+<div class="ppGC-order-box">
+<div class="ppGC-order-box-title">Tu pedido</div>
+<div id="ppGC-order-items"></div>
+</div>
+<div class="ppGC-section-divider">Entrega</div>
+<div id="ppGC-regionCheck" style="display:none;margin-bottom:18px;">
+<div style="font-size:0.8rem;color:#666;margin-bottom:10px;padding:10px 14px;background:#f0f4fb;border-radius:8px;border-left:3px solid #004a99;">
+            Tu pedido califica para <strong>despacho gratuito</strong> en comunas de la RM. Indica tu región para ver opciones.
+          </div>
+<div class="ppGC-entrega-title" style="margin-bottom:8px;">¿En qué región estás?</div>
+<select id="ppGC-regionPreCheck" onchange="ppGCOnRegionPreCheck()" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-family:inherit;font-size:0.88rem;outline:none;-webkit-appearance:none;appearance:none;">
+<option value="">Selecciona tu región...</option>
+<option value="RM">Región Metropolitana</option>
+<option value="XV">Arica y Parinacota</option><option value="I">Tarapacá</option>
+<option value="II">Antofagasta</option><option value="III">Atacama</option>
+<option value="IV">Coquimbo</option><option value="V">Valparaíso</option>
+<option value="VI">O'Higgins</option><option value="VII">Maule</option>
+<option value="XVI">Ñuble</option><option value="VIII">Biobío</option>
+<option value="IX">La Araucanía</option><option value="XIV">Los Ríos</option>
+<option value="X">Los Lagos</option><option value="XI">Aysén</option>
+<option value="XII">Magallanes</option>
+</select>
+<div id="ppGC-regionNoDespachoMsg" style="display:none;margin-top:10px;padding:10px 14px;background:#fff3cd;border-left:3px solid #f59e0b;border-radius:6px;font-size:0.78rem;color:#856404;line-height:1.5;">
+            El despacho gratis aplica solo para la Región Metropolitana. Fuera de RM: retiro en tienda o envío propio.
+          </div>
+<div id="ppGC-comunaCheck" style="display:none;margin-top:12px;">
+<div class="ppGC-entrega-title" style="margin-bottom:8px;">¿En qué comuna?</div>
+<select id="ppGC-comunaPreCheck" onchange="ppGCOnComunaPreCheck()" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-family:inherit;font-size:0.88rem;outline:none;-webkit-appearance:none;appearance:none;">
+<option value="">Selecciona tu comuna...</option>
+</select>
+<div id="ppGC-comunaExcluidaMsg" style="display:none;margin-top:10px;padding:10px 14px;background:#fff3cd;border-left:3px solid #f59e0b;border-radius:6px;font-size:0.78rem;color:#856404;">
+              Tu comuna no tiene despacho gratis. Retira en tienda o usa envío propio.
+            </div>
+</div>
+</div>
+<div class="ppGC-entrega-title" id="ppGC-entregaTitulo" style="display:none;">¿Cómo recibes tu pedido?</div>
+<div class="ppGC-entrega-options" id="ppGC-entregaOptions"></div>
+<div id="ppGC-retiroInfo" style="display:none;margin-top:14px;background:#f0f4fb;border-radius:12px;padding:16px 18px;border:1px solid #ccd8ee;">
+<div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin-bottom:10px;">Dirección de retiro</div>
+<div style="font-size:0.88rem;color:#1a1a2e;line-height:2;">
+<div><strong>Santiago Concha 1525, Santiago</strong></div>
+<div>Lunes a jueves · 9:00 a 18:00 hrs</div>
+<div>Viernes · 9:00 a 17:00 hrs</div>
+<div style="margin-top:8px;font-size:0.78rem;color:#666;">Coordina al +56 9 4208 6751</div>
+</div>
+</div>
+<div id="ppGC-envioInfo" style="display:none;margin-top:14px;background:#fffbeb;border-radius:12px;padding:16px 18px;border:1px solid #fde68a;">
+<div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#92400e;font-weight:700;margin-bottom:10px;">Envío gestionado por ti</div>
+<div style="font-size:0.85rem;color:#1a1a2e;line-height:2;">
+<div>Tu transportista retira desde:</div>
+<div style="margin-left:16px;"><strong>Santiago Concha 1525, Santiago</strong></div>
+<div style="margin-left:16px;">Lun–Jue 9:00–18:00 · Vie 9:00–17:00</div>
+<div style="margin-top:8px;font-size:0.78rem;color:#666;">Coordina vía WhatsApp al +56 9 4208 6751.</div>
+</div>
+</div>
+<div id="ppGC-addressSection" style="display:none;">
+<div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin:16px 0 10px;">Dirección de despacho</div>
+<div class="ppGC-form-grid">
+<div class="ppGC-field">
+<label>Región *</label>
+<select id="ppgc_pn_region" onchange="ppGCUpdateComunas('ppgc_pn'); ppGCRecalcDespacho()">
+<option value="">Selecciona región...</option>
+<option value="RM">Región Metropolitana</option>
+<option value="XV">Arica y Parinacota</option><option value="I">Tarapacá</option>
+<option value="II">Antofagasta</option><option value="III">Atacama</option>
+<option value="IV">Coquimbo</option><option value="V">Valparaíso</option>
+<option value="VI">O'Higgins</option><option value="VII">Maule</option>
+<option value="XVI">Ñuble</option><option value="VIII">Biobío</option>
+<option value="IX">La Araucanía</option><option value="XIV">Los Ríos</option>
+<option value="X">Los Lagos</option><option value="XI">Aysén</option>
+<option value="XII">Magallanes</option>
+</select>
+</div>
+<div class="ppGC-field">
+<label>Comuna *</label>
+<select disabled="" id="ppgc_pn_ciudad" onchange="ppGCRecalcDespacho()">
+<option value="">Selecciona primero la región...</option>
+</select>
+</div>
+<div class="ppGC-field full">
+<label>Dirección *</label>
+<input id="ppgc_pn_dir" placeholder="Av. Ejemplo 1234, Depto 5" type="text"/>
+</div>
+</div>
+</div>
+<div class="ppGC-section-divider">Pago seguro</div>
+<div class="ppGC-form-error" id="ppGC-s2-err">Elige una modalidad de entrega para continuar.</div>
+<div class="ppGC-modal-total">
+<span>Total a pagar</span>
+<div style="text-align:right;">
+<strong id="ppGC-modal-total">$ 0</strong>
+<div style="font-size:0.68rem;color:rgba(255,255,255,0.8);font-weight:700;margin-top:2px;">IVA incluido</div>
+</div>
+</div>
+<button class="ppGC-btn-webpay" disabled="" id="ppGC-btn-wp" onclick="ppGCSubmitCheckout()">
+<svg fill="none" height="22" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="22"><rect height="16" rx="2" width="22" x="1" y="4"></rect><line x1="1" x2="23" y1="10" y2="10"></line></svg>
+          PAGAR CON WEBPAY PLUS
+        </button>
+<p class="ppGC-webpay-note">Pago 100% seguro · Tarjetas de crédito y débito · SSL</p>
+<button class="ppGC-btn-back-link" onclick="ppGCGoToStep1()">← Volver a mis datos</button>
+</div>
+</div>
+</div>
+</div>

@@ -1,0 +1,242 @@
+[
+ {
+  "source": "/acrilico/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/author/fnac1525/",
+  "destination": "/nosotros/"
+ },
+ {
+  "source": "/categoria-producto/cupulas-de-acrilico/",
+  "destination": "/categoria-producto/cupulas/"
+ },
+ {
+  "source": "/categoria-producto/receptaculos-de-ducha/",
+  "destination": "/categoria-producto/receptaculos/"
+ },
+ {
+  "source": "/categoria-producto/sin-categorizar/",
+  "destination": "/categoria-producto/cupulas/"
+ },
+ {
+  "source": "/category/sin-categoria/",
+  "destination": "/blog/"
+ },
+ {
+  "source": "/etiqueta-producto/acrilico-dimensionado/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/etiqueta-producto/acrilico-para-construccion/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/etiqueta-producto/acrilico-para-decoracion/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/etiqueta-producto/acrilico-para-letreros-luminosos/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/etiqueta-producto/acrilico-para-mamparas/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/etiqueta-producto/acrilico-para-proteccion/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/etiqueta-producto/acrilico-para-proyectos-industriales/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/etiqueta-producto/acrilico-para-publicidad/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/etiqueta-producto/acrilico-para-vitrinas/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/etiqueta-producto/acrilico-transparente/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/etiqueta-producto/cubierta-de-acrilico/",
+  "destination": "/categoria-producto/cupulas/"
+ },
+ {
+  "source": "/etiqueta-producto/cupula-de-acrilico-para-techos/",
+  "destination": "/categoria-producto/cupulas/"
+ },
+ {
+  "source": "/etiqueta-producto/cupula-de-acrilico-transparente/",
+  "destination": "/categoria-producto/cupulas/"
+ },
+ {
+  "source": "/etiqueta-producto/cupula-de-acrilico/",
+  "destination": "/categoria-producto/cupulas/"
+ },
+ {
+  "source": "/etiqueta-producto/cupula-de-proteccion/",
+  "destination": "/categoria-producto/cupulas/"
+ },
+ {
+  "source": "/etiqueta-producto/cupula-para-techo/",
+  "destination": "/categoria-producto/cupulas/"
+ },
+ {
+  "source": "/etiqueta-producto/cupula-protectora/",
+  "destination": "/categoria-producto/cupulas/"
+ },
+ {
+  "source": "/etiqueta-producto/hidromasaje/",
+  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+ },
+ {
+  "source": "/etiqueta-producto/jacuzy/",
+  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+ },
+ {
+  "source": "/etiqueta-producto/jacuzzy/",
+  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+ },
+ {
+  "source": "/etiqueta-producto/lamina-de-acrilico/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/etiqueta-producto/pet/",
+  "destination": "/categoria-producto/planchas-pet/"
+ },
+ {
+  "source": "/etiqueta-producto/placa-de-acrilico/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/etiqueta-producto/plancha-acrilica/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/etiqueta-producto/planchas/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/etiqueta-producto/plato-de-ducha/",
+  "destination": "/categoria-producto/receptaculos/"
+ },
+ {
+  "source": "/etiqueta-producto/pmma/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/etiqueta-producto/receptaculo-de-ducha/",
+  "destination": "/categoria-producto/receptaculos/"
+ },
+ {
+  "source": "/etiqueta-producto/receptaculo-ducha/",
+  "destination": "/categoria-producto/receptaculos/"
+ },
+ {
+  "source": "/etiqueta-producto/tina-hidromasaje/",
+  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+ },
+ {
+  "source": "/etiqueta-producto/tina-hidromsaje/",
+  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+ },
+ {
+  "source": "/guia-tinas-hidromasaje/",
+  "destination": "/guia-para-comprar-tina-de-hidromasaje-en-chile/"
+ },
+ {
+  "source": "/producto/cupula-acrilico-68-x-68-cm/",
+  "destination": "/categoria-producto/cupulas/"
+ },
+ {
+  "source": "/producto/cupula-acrilico-80-x-80-cm/",
+  "destination": "/categoria-producto/cupulas/"
+ },
+ {
+  "source": "/producto/cupula-acrilico-bronce-80-x-80-cm/",
+  "destination": "/categoria-producto/cupulas/"
+ },
+ {
+  "source": "/producto/cupula-de-acrilico-54x54-4mm-de-espesor/",
+  "destination": "/categoria-producto/cupulas/"
+ },
+ {
+  "source": "/producto/plancha-acrilico-1800-x-1200-3mm-espejo-dorado/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/producto/plancha-acrilico-1800-x-1200-3mm-espejo-plateado/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/producto/plancha-acrilico-1800-x-1200-3mm-fluor-verde/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/producto/plancha-acrilico-1830x1220/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/producto/plancha-acrilico-2000x1500/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/producto/plancha-acrilico-2440x1220/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/producto/plancha-acrilico-2440x1830/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/producto/plancha-acrtilico-3000x2000/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/producto/plancha-policarbonato-3000-x-2000/",
+  "destination": "/categoria-producto/policarbonato-compacto/"
+ },
+ {
+  "source": "/producto/planchas-de-pet/",
+  "destination": "/categoria-producto/planchas-pet/"
+ },
+ {
+  "source": "/producto/planchas-de-petg/",
+  "destination": "/categoria-producto/planchas-petg/"
+ },
+ {
+  "source": "/producto/receptaculo-de-ducha-acrilico-80x80-ultimas-unidades-25-off/",
+  "destination": "/categoria-producto/receptaculos/"
+ },
+ {
+  "source": "/producto/receptaculo-de-ducha-acrilico-90x90-ultimas-unidades-25-off/",
+  "destination": "/categoria-producto/receptaculos/"
+ },
+ {
+  "source": "/producto/receptaculo-de-ducha-acrilico-esquinero-80x80-ultimas-unidades/",
+  "destination": "/categoria-producto/receptaculos/"
+ },
+ {
+  "source": "/producto/tina-coinco-basica/",
+  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+ },
+ {
+  "source": "/producto/tina-de-hidromasaje-kuyen-doble-full/",
+  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+ },
+ {
+  "source": "/producto/tina-hidromasaje-vilcun/",
+  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+ },
+ {
+  "source": "/producto/tina-queilen-basica/",
+  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+ }
+]

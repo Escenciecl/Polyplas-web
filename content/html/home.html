@@ -1,0 +1,880 @@
+<div class="elementor elementor-37" data-elementor-id="37" data-elementor-post-type="page" data-elementor-type="wp-page">
+<section class="elementor-section elementor-top-section elementor-element elementor-element-e5b556a elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-e-type="section" data-element_type="section" data-id="e5b556a">
+<div class="elementor-container elementor-column-gap-default">
+<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-a5b053c" data-e-type="column" data-element_type="column" data-id="a5b053c">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-1e2bd0a elementor-widget elementor-widget-html" data-e-type="widget" data-element_type="widget" data-id="1e2bd0a" data-widget_type="html.default">
+<div class="elementor-widget-container">
+<div class="poly-top-header">
+<div class="poly-top-container">
+<div class="poly-logo-box">
+<a href="/" title="Ir al inicio de Polyplas">
+<img alt="Polyplas Chile - Especialistas en Acrílicos y Tinas" decoding="async" fetchpriority="high" height="65" loading="eager" src="/wp-content/uploads/2022/07/marca-polyplas-1.svg" width="280"/>
+</a>
+</div>
+<div class="poly-search-box">
+<form autocomplete="off" class="poly-search-form" id="polySearchForm" role="search">
+<label class="sr-only" for="poly-search-field">Buscar productos</label>
+<input aria-autocomplete="list" aria-controls="polySuggestions" aria-expanded="false" aria-haspopup="listbox" autocapitalize="off" class="poly-search-input" enterkeyhint="search" id="poly-search-field" inputmode="search" placeholder="¿Qué buscas?" required="" role="combobox" type="search"/>
+<button aria-label="Ejecutar búsqueda" class="poly-search-btn" type="submit">
+<svg aria-hidden="true" height="22" viewbox="0 0 24 24" width="22">
+<path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="#004a99"></path>
+</svg>
+</button>
+</form>
+<ul aria-label="Sugerencias de búsqueda" class="poly-suggestions" id="polySuggestions" role="listbox"></ul>
+</div>
+</div>
+</div>
+<style>
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.poly-top-header{width:100%;background:#fff;padding:15px 0;font-family:'Segoe UI',Roboto,Arial,sans-serif;box-sizing:border-box;contain:style}
+.poly-top-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:center;padding:0 20px;gap:40px;position:relative}
+.poly-logo-box{position:absolute;left:20px}
+.poly-logo-box img{height:65px;width:auto;aspect-ratio:280/65;display:block;transition:transform .3s ease}
+.poly-logo-box img:hover{transform:scale(1.02)}
+.poly-search-box{max-width:500px;width:100%;position:relative}
+.poly-search-form{display:flex;align-items:stretch;border:2px solid #004a99;border-radius:40px;overflow:hidden;background:#fff;transition:box-shadow .3s,border-color .3s}
+.poly-search-form:focus-within{box-shadow:0 4px 12px rgba(0,74,153,.15);border-color:#003366}
+.poly-search-input{border:none;padding:12px 20px;flex-grow:1;outline:none;font-size:15px;color:#333;background:transparent;min-width:0}
+.poly-search-input::-webkit-search-cancel-button,.poly-search-input::-webkit-search-decoration{-webkit-appearance:none;appearance:none}
+.poly-search-btn{background:none;border:none;padding:0 18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .2s;min-height:44px;min-width:44px;flex-shrink:0}
+.poly-search-btn:hover{opacity:.7}
+.poly-suggestions{list-style:none;margin:6px 0 0;padding:6px;position:absolute;top:100%;left:0;right:0;z-index:10000;background:#fff;border:1px solid #e3e8ef;border-radius:16px;box-shadow:0 8px 24px rgba(0,74,153,.12);display:none;max-height:320px;overflow-y:auto}
+.poly-suggestions::-webkit-scrollbar{width:4px}
+.poly-suggestions::-webkit-scrollbar-thumb{background:#c8d3e0;border-radius:4px}
+.poly-suggestions.open{display:block}
+.poly-suggestions li{padding:10px 16px;border-radius:10px;cursor:pointer;font-family:'Segoe UI',Roboto,Arial,sans-serif;font-size:14px;color:#1c2430;display:flex;align-items:center;gap:10px}
+.poly-suggestions li:hover,.poly-suggestions li.active{background:#eaf2fb;color:#004a99}
+.poly-suggestions li .poly-sug-tag{margin-left:auto;font-size:11px;color:#5d6a7a;text-transform:uppercase;letter-spacing:.04em;flex-shrink:0}
+@media (max-width:992px){
+  .poly-top-header{padding:8px 0}
+  .poly-top-container{flex-direction:row !important;justify-content:space-between;align-items:center;padding:0 15px;gap:10px}
+  .poly-logo-box{position:static}
+  .poly-logo-box img{height:40px}
+  .poly-search-box{flex:0 0 44px;width:44px;max-width:44px;margin:0 !important;transition:flex-basis .25s ease,max-width .25s ease}
+  .poly-search-form{border-radius:50%;height:44px}
+  .poly-search-input{display:none}
+  .poly-search-btn{width:44px;min-width:44px;padding:0}
+  .poly-search-btn svg{width:24px;height:24px}
+  .poly-search-box.is-active{flex:1 1 0;max-width:none}
+  .poly-search-box.is-active .poly-search-form{border-radius:40px;height:auto}
+  .poly-search-box.is-active .poly-search-input{display:block;font-size:16px;padding:12px 16px}
+  .poly-suggestions{margin-top:8px;padding:8px;border-radius:18px;max-height:50vh;overflow-y:auto}
+  .poly-suggestions li{padding:14px 16px;font-size:15px;border-radius:12px;min-height:48px}
+  .poly-suggestions li+li{border-top:1px solid #f0f3f8}
+  .poly-suggestions li .poly-sug-tag{font-size:10px}
+}
+@media (max-width:380px){.poly-suggestions li .poly-sug-tag{display:none}}
+</style>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="elementor-section elementor-top-section elementor-element elementor-element-43e423c elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-e-type="section" data-element_type="section" data-id="43e423c">
+<div class="elementor-container elementor-column-gap-default">
+<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-079e78a" data-e-type="column" data-element_type="column" data-id="079e78a">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-2196fd0 elementor-widget elementor-widget-html" data-e-type="widget" data-element_type="widget" data-id="2196fd0" data-widget_type="html.default">
+<div class="elementor-widget-container">
+<nav class="poly-nav-wrapper">
+<button aria-expanded="false" aria-label="Abrir menú" class="poly-mobile-btn" id="polyBtn">
+<span></span><span></span><span></span>
+</button>
+<ul class="poly-menu-list" id="polyMenu">
+<li><a href="/nosotros/">SOBRE NOSOTROS</a></li>
+<li><a href="/categoria-producto/cupulas/">CÚPULAS</a></li>
+<li class="poly-has-submenu">
+<a class="poly-submenu-toggle" href="#">PLANCHAS DE ACRÍLICO <span class="arrow-down"></span></a>
+<ul class="poly-submenu">
+<li><a href="/categoria-producto/planchas-acrilico/">Planchas de Acrílico</a></li>
+<li><a href="/categoria-producto/planchas-pet/">Planchas PET</a></li>
+<li><a href="/categoria-producto/planchas-petg/">Planchas PETG</a></li>
+<li><a href="/categoria-producto/policarbonato-compacto/">Planchas de Policarbonato</a></li>
+</ul>
+</li>
+<li><a href="/categoria-producto/receptaculos/">RECEPTÁCULOS</a></li>
+<li><a href="/categoria-producto/tinas-de-hidromasaje/">TINAS DE HIDROMASAJE</a></li>
+<li><a href="/blog/">BLOG</a></li>
+<li><a class="mobile-only-link" href="/contacto/">CONTACTO</a></li>
+</ul>
+</nav>
+<style>
+.poly-nav-wrapper{width:100%;background:#fdfdfd;border-top:1px solid #eee;border-bottom:1px solid #eee;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif}
+.poly-menu-list{display:flex;justify-content:center;list-style:none;margin:0 auto;padding:0;max-width:1200px}
+.poly-menu-list>li{position:relative}
+.poly-menu-list li a{display:block;padding:18px 20px;color:#444;text-decoration:none;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.5px;transition:color .3s,background .3s,box-shadow .3s}
+.poly-menu-list>li>a:hover{color:#004a99;background:rgba(0,74,153,.05);box-shadow:inset 0 -3px 0 #004a99}
+.arrow-down{display:inline-block;width:0;height:0;margin-left:6px;vertical-align:middle;border-top:4px solid #444;border-right:4px solid transparent;border-left:4px solid transparent;transition:transform .3s}
+.poly-menu-list li:hover .arrow-down{border-top-color:#004a99}
+.poly-submenu{display:none;position:absolute;top:100%;left:0;background:#fff;min-width:240px;box-shadow:0 8px 24px rgba(0,0,0,.1);padding:10px 0;margin:0;list-style:none;z-index:1000;border-top:3px solid #004a99}
+.poly-submenu li a{padding:12px 20px;font-weight:600;font-size:13px;text-transform:none;color:#555}
+.poly-submenu li a:hover{background:#f4f8fc;color:#004a99}
+@media (min-width:993px){.poly-has-submenu:hover .poly-submenu{display:block;animation:fadeInMenu .2s ease forwards}}
+.poly-mobile-btn{display:none}
+.mobile-only-link{display:none}
+@media (max-width:992px){
+  .poly-nav-wrapper{background:#fff;border-top:none;padding:0 15px 8px;display:flex;flex-direction:column;align-items:flex-start}
+  .poly-mobile-btn{display:flex;flex-direction:column;gap:5px;background:#fff;border:1px solid #004a99;padding:8px 12px;border-radius:6px;cursor:pointer}
+  .poly-mobile-btn span{width:22px;height:2px;background:#004a99}
+  .poly-menu-list{display:none;flex-direction:column;width:100%;margin-top:15px;background:#fff}
+  .poly-menu-list.is-active{display:flex;animation:fadeInMenu .3s ease forwards}
+  .poly-menu-list li{width:100%;border-bottom:1px solid #f9f9f9}
+  .poly-menu-list li a{padding:16px 10px;font-size:14px}
+  .poly-submenu{display:none;position:relative;box-shadow:none;background:#f9fbfd;border-top:none;padding:0}
+  .poly-submenu li a{padding:14px 30px;border-bottom:1px solid #edf2f7}
+  .submenu-active .poly-submenu{display:block}
+  .submenu-active .arrow-down{transform:rotate(180deg)}
+  .mobile-only-link{display:block !important;color:#004a99 !important;background:#f0f7ff !important}
+}
+@keyframes fadeInMenu{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="elementor-section elementor-top-section elementor-element elementor-element-0aa922f elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-e-type="section" data-element_type="section" data-id="0aa922f">
+<div class="elementor-container elementor-column-gap-default">
+<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-477071a" data-e-type="column" data-element_type="column" data-id="477071a">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-61a56cf elementor-widget elementor-widget-html" data-e-type="widget" data-element_type="widget" data-id="61a56cf" data-widget_type="html.default">
+<div class="elementor-widget-container">
+<div class="poly-container-fijo">
+<div class="poly-wrapper-fijo">
+<div class="poly-slide-fijo active-fijo">
+<img alt="Planchas de acrílico y productos Polyplas" class="poly-bg-fijo" decoding="async" fetchpriority="high" height="110" loading="eager" src="/wp-content/uploads/2026/08/tinahidromasajescaled-1.webp" width="1200"/>
+<div aria-hidden="true" class="poly-overlay-fijo"></div>
+<div class="poly-content-fijo">
+<h1 class="poly-title-fijo">
+                    Venta de Planchas de Acrílico, Cúpulas, Tinas de Hidromasaje y Receptáculos en Chile
+                </h1>
+</div>
+</div>
+<div class="poly-slide-fijo">
+<img alt="Cúpulas de acrílico y planchas resistentes" class="poly-bg-fijo" decoding="async" height="110" loading="lazy" src="/wp-content/uploads/2026/08/tinahidromasajescaled-1.webp" width="1200"/>
+<div aria-hidden="true" class="poly-overlay-fijo"></div>
+<div class="poly-content-fijo">
+<h2 class="poly-title-fijo">
+                    Fabricación de Cúpulas Acrílicas y Planchas de Policarbonato de Alta Resistencia
+                </h2>
+</div>
+</div>
+<div class="poly-slide-fijo">
+<img alt="Tinas de hidromasaje y receptáculos de ducha" class="poly-bg-fijo" decoding="async" height="110" loading="lazy" src="/wp-content/uploads/2026/08/tinahidromasajescaled-1.webp" width="1200"/>
+<div aria-hidden="true" class="poly-overlay-fijo"></div>
+<div class="poly-content-fijo">
+<h2 class="poly-title-fijo">
+                    Línea Sanitaria: Tinas de Hidromasaje y Receptáculos con Despacho a todo Chile
+                </h2>
+</div>
+</div>
+</div>
+</div>
+<style>
+.poly-container-fijo{width:100%!important;max-width:1200px!important;margin:10px auto!important;padding:0 15px!important;box-sizing:border-box!important;display:block!important;clear:both!important}
+.poly-wrapper-fijo{position:relative!important;width:100%!important;height:110px!important;background:#111!important;border-radius:8px!important;overflow:hidden!important;display:block!important}
+.poly-slide-fijo{display:none!important;position:absolute!important;inset:0!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;padding:5px 20px!important}
+.poly-slide-fijo.active-fijo{display:flex!important}
+.poly-bg-fijo{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;z-index:1!important}
+.poly-overlay-fijo{position:absolute!important;inset:0!important;background:linear-gradient(to bottom,rgba(0,0,0,.45),rgba(0,0,0,.75))!important;z-index:2!important}
+.poly-content-fijo{position:relative!important;z-index:3!important;width:100%!important;max-width:1000px!important;text-align:center!important}
+.poly-title-fijo{color:#fff!important;font-family:'Segoe UI',Roboto,sans-serif!important;font-size:clamp(.9rem,1.8vw,1.35rem)!important;font-weight:700!important;line-height:1.25!important;margin:0!important;text-shadow:0 2px 8px rgba(0,0,0,.85)!important}
+@media(max-width:768px){
+  .poly-wrapper-fijo{height:90px!important}
+  .poly-slide-fijo{padding:5px 10px!important}
+}
+</style>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="elementor-section elementor-top-section elementor-element elementor-element-079efde elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-e-type="section" data-element_type="section" data-id="079efde">
+<div class="elementor-container elementor-column-gap-default">
+<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-e469010" data-e-type="column" data-element_type="column" data-id="e469010">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-4671848 elementor-widget elementor-widget-html" data-e-type="widget" data-element_type="widget" data-id="4671848" data-widget_type="html.default">
+<div class="elementor-widget-container">
+<section class="poly-main-container-unique">
+<div class="poly-categories-grid-ele">
+<article class="poly-cat-card-ele">
+<div class="poly-cat-image-wrapper-ele">
+<img alt="Planchas de acrílico, policarbonato, PET y PETG Polyplas en Chile" decoding="async" fetchpriority="high" height="170" loading="eager" src="/wp-content/uploads/2026/08/planchaspolicarbonatocompacto-1.webp" width="275"/>
+</div>
+<div class="poly-cat-content-ele">
+<h3 class="poly-cat-title-ele">PLANCHAS DE ACRÍLICO</h3>
+<p class="poly-cat-description-ele">Importación y venta de planchas de acrílico, policarbonatos, PET y PETG para arquitectura y diseño.</p>
+<a class="poly-cat-btn-ele" href="/categoria-producto/planchas-acrilico/" title="Ver catálogo de planchas de acrílico, policarbonato y plásticos industriales">
+                   VER CATÁLOGO
+                </a>
+</div>
+</article>
+<article class="poly-cat-card-ele">
+<div class="poly-cat-image-wrapper-ele">
+<img alt="Cúpulas acrílicas para iluminación natural Polyplas" decoding="async" height="170" loading="lazy" src="/wp-content/uploads/2026/08/cupula_web_11zon.webp" width="275"/>
+</div>
+<div class="poly-cat-content-ele">
+<h3 class="poly-cat-title-ele">CÚPULAS ACRÍLICAS</h3>
+<p class="poly-cat-description-ele">Iluminación natural, lucarnas y soluciones de diseño arquitectónico a medida.</p>
+<a class="poly-cat-btn-ele" href="/categoria-producto/cupulas/" title="Explorar soluciones en cúpulas acrílicas y lucarnas">
+                   VER CÚPULAS
+                </a>
+</div>
+</article>
+<article class="poly-cat-card-ele">
+<div class="poly-cat-image-wrapper-ele">
+<img alt="Tinas de hidromasaje y spas premium Polyplas" decoding="async" height="170" loading="lazy" src="/wp-content/uploads/2026/08/tina-hidromasaje-kuyen-full-polyplas-1.webp" width="275"/>
+</div>
+<div class="poly-cat-content-ele">
+<h3 class="poly-cat-title-ele">TINAS DE HIDROMASAJE</h3>
+<p class="poly-cat-description-ele">Línea de alta gama, fabricación nacional bajo estándares internacionales para el hogar.</p>
+<a class="poly-cat-btn-ele" href="/categoria-producto/tinas-de-hidromasaje/" title="Ver modelos de tinas de hidromasaje y spas de lujo">
+                   VER MODELOS DE TINAS
+                </a>
+</div>
+</article>
+<article class="poly-cat-card-ele">
+<div class="poly-cat-image-wrapper-ele">
+<img alt="Receptáculos de ducha funcionales Polyplas" decoding="async" height="170" loading="lazy" src="/wp-content/uploads/2026/07/receptaculo-home.webp" width="275"/>
+</div>
+<div class="poly-cat-content-ele">
+<h3 class="poly-cat-title-ele">RECEPTÁCULOS</h3>
+<p class="poly-cat-description-ele">Diseño contemporáneo y alta durabilidad para espacios de ducha y proyectos de baño.</p>
+<a class="poly-cat-btn-ele" href="/categoria-producto/receptaculos/" title="Ver catálogo de receptáculos de ducha de alta calidad">
+                   VER RECEPTÁCULOS
+                </a>
+</div>
+</article>
+</div>
+</section>
+<style>
+.poly-main-container-unique{width:100%!important;max-width:1200px!important;margin:0 auto!important;padding:20px 15px!important;font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif!important;box-sizing:border-box!important;display:block!important}
+.poly-categories-grid-ele{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:24px!important;width:100%!important}
+.poly-cat-card-ele{background:#004a99!important;border-radius:12px!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;box-shadow:0 4px 20px rgba(0,0,0,.15)!important;transition:transform .3s ease,box-shadow .3s ease!important}
+.poly-cat-card-ele:hover{transform:translateY(-5px)!important;box-shadow:0 8px 25px rgba(0,74,153,.35)!important}
+.poly-cat-image-wrapper-ele{width:100%!important;height:170px!important;overflow:hidden!important;background:#003366!important}
+.poly-cat-image-wrapper-ele img{width:100%!important;height:100%!important;object-fit:cover!important;transition:transform .5s ease!important;will-change:transform}
+.poly-cat-card-ele:hover .poly-cat-image-wrapper-ele img{transform:scale(1.05)!important}
+.poly-cat-content-ele{padding:22px 18px!important;display:flex!important;flex-direction:column!important;flex-grow:1!important}
+.poly-cat-title-ele{color:#fff!important;font-size:1.1rem!important;font-weight:800!important;margin:0 0 10px!important;line-height:1.25!important}
+.poly-cat-description-ele{color:#e6f0fa!important;font-size:.88rem!important;line-height:1.45!important;margin:0 0 20px!important;flex-grow:1!important}
+.poly-cat-btn-ele{display:block!important;width:100%!important;padding:11px 15px!important;background:#fff!important;color:#004a99!important;border-radius:25px!important;font-weight:700!important;text-decoration:none!important;font-size:.78rem!important;text-align:center!important;box-sizing:border-box!important;text-transform:uppercase!important;letter-spacing:.5px!important;transition:background .2s ease,color .2s ease!important}
+.poly-cat-btn-ele:hover{background:#1c1c1c!important;color:#fff!important}
+@media(max-width:1024px){
+  .poly-categories-grid-ele{grid-template-columns:repeat(2,1fr)!important;gap:18px!important}
+  .poly-cat-image-wrapper-ele{height:210px!important}
+}
+@media(max-width:650px){
+  .poly-categories-grid-ele{grid-template-columns:1fr!important;gap:16px!important}
+  .poly-cat-image-wrapper-ele{height:190px!important}
+  .poly-cat-content-ele{padding:18px 16px!important}
+  .poly-cat-title-ele{font-size:1rem!important}
+}
+</style>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="elementor-section elementor-top-section elementor-element elementor-element-8875fdb elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-e-type="section" data-element_type="section" data-id="8875fdb">
+<div class="elementor-container elementor-column-gap-default">
+<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-b8e952f" data-e-type="column" data-element_type="column" data-id="b8e952f">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-4adb593 elementor-widget elementor-widget-html" data-e-type="widget" data-element_type="widget" data-id="4adb593" data-widget_type="html.default">
+<div class="elementor-widget-container">
+<section class="poly-trust-compact">
+<div class="poly-header-sm">
+<p class="poly-title-visual">Tu Proyecto, Nuestra Prioridad</p>
+<p>Más de 29 años liderando el mercado en soluciones de acrílico y bienestar en Chile.</p>
+</div>
+<div class="poly-grid-sm">
+<div class="poly-card-sm">
+<div class="poly-icon-sm">
+<i class="fa-solid fa-truck-fast"></i>
+</div>
+<div class="poly-info-sm">
+<div class="poly-card-title">ENVÍO A TODO CHILE</div>
+<p>Despachos seguros y rastreables de Arica a Punta Arenas.</p>
+<details class="poly-envio-details">
+<summary>Ver condiciones</summary>
+<div class="poly-envio-content">
+<ul class="lista-condiciones">
+<li>Se cobra embalaje.</li>
+<li>Se entrega en Stgo al flete que indica el cliente.</li>
+<li>El flete es pagado por el cliente.</li>
+<li class="sugerencia-bullet"><strong>Sugerencia:</strong> elija sus planchas cortadas gratuitamente para disminuir costos en su flete.</li>
+</ul>
+</div>
+</details>
+</div>
+</div>
+<div class="poly-card-sm">
+<div class="poly-icon-sm">
+<i class="fa-solid fa-credit-card"></i>
+</div>
+<div class="poly-info-sm">
+<div class="poly-card-title">PAGA EN 6 Y 12 CUOTAS</div>
+<p>Hasta 12 cuotas sin interés según tu banco con TransBank.</p>
+</div>
+</div>
+<div class="poly-card-sm">
+<div class="poly-icon-sm">
+<i class="fa-solid fa-user-gear"></i>
+</div>
+<div class="poly-info-sm">
+<div class="poly-card-title">ASESORÍA Y GARANTÍA</div>
+<p>Importadora directa con soporte experto post-venta.</p>
+</div>
+</div>
+</div>
+</section>
+<style>
+    .poly-trust-compact {
+        padding: 40px 20px;
+        background-color: #f1f4f8; 
+        text-align: center;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    /* Ajuste para mantener el estilo del H2 original */
+    .poly-title-visual {
+        color: #004a99;
+        font-size: 24px;
+        font-weight: 800;
+        margin-bottom: 8px !important;
+        text-transform: uppercase;
+        line-height: 1.2;
+        display: block;
+    }
+
+    .poly-header-sm p:not(.poly-title-visual) {
+        color: #555;
+        font-size: 15px;
+        margin-bottom: 30px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .poly-grid-sm {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .poly-card-sm {
+        background: #ffffff;
+        border: 1px solid #d1d9e2;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        text-align: left;
+        gap: 15px;
+        box-shadow: 0 4px 15px rgba(0, 74, 153, 0.05);
+        transition: transform 0.3s ease;
+    }
+
+    .poly-card-sm:hover {
+        transform: translateY(-5px);
+    }
+
+    .poly-icon-sm {
+        font-size: 28px;
+        color: #004a99;
+        flex-shrink: 0;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1f4f8;
+        border-radius: 50%;
+    }
+
+    /* Ajuste para mantener el estilo del H3 original */
+    .poly-card-title {
+        color: #222;
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0 0 4px 0;
+        text-transform: uppercase;
+        font-family: inherit;
+    }
+
+    .poly-info-sm p {
+        color: #666;
+        font-size: 13px;
+        line-height: 1.4;
+        margin: 0;
+    }
+
+    /* ... Resto de tu CSS original ... */
+    .poly-envio-details { margin-top: 10px; }
+    .poly-envio-details summary { font-size: 12px; color: #004a99; font-weight: 700; cursor: pointer; text-decoration: underline; outline: none; list-style: none; }
+    .poly-envio-content { font-size: 12px; color: #444; background: #fdfdfd; padding: 12px; border-radius: 8px; margin-top: 8px; border: 1px dashed #d1d9e2; }
+    .lista-condiciones { list-style: none; padding: 0; margin: 0; }
+    .lista-condiciones li { margin-bottom: 6px; position: relative; padding-left: 15px; line-height: 1.4; }
+    .lista-condiciones li::before { content: "•"; color: #004a99; font-weight: bold; position: absolute; left: 0; }
+    .sugerencia-bullet { margin-top: 10px !important; border-top: 1px solid #eee; padding-top: 8px !important; color: #2a9d8f !important; }
+    .sugerencia-bullet::before { content: "💡" !important; left: -5px !important; }
+
+    @media (max-width: 480px) {
+        .poly-card-sm { flex-direction: column; text-align: center; }
+        .poly-icon-sm { margin: 0 auto 10px; }
+        .poly-envio-content { text-align: left; }
+    }
+</style> </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="elementor-section elementor-top-section elementor-element elementor-element-47118cc elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-e-type="section" data-element_type="section" data-id="47118cc">
+<div class="elementor-container elementor-column-gap-default">
+<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-6758c12" data-e-type="column" data-element_type="column" data-id="6758c12">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-3cfcf44 elementor-widget elementor-widget-html" data-e-type="widget" data-element_type="widget" data-id="3cfcf44" data-widget_type="html.default">
+<div class="elementor-widget-container">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Polyplas",
+  "url": "https://polyplas.cl",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "28",
+    "bestRating": "5",
+    "worstRating": "1"
+  },
+  "review": [
+    {
+      "@type": "Review",
+      "author": { "@type": "Person", "name": "Juan Pablo R." },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+      "reviewBody": "Excelente atención y productos de primera. El acrílico llegó impecable hasta Antofagasta."
+    },
+    {
+      "@type": "Review",
+      "author": { "@type": "Person", "name": "Marcela S." },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+      "reviewBody": "Compré una tina de hidromasaje y la asesoría técnica fue clave. Muy recomendados."
+    },
+    {
+      "@type": "Review",
+      "author": { "@type": "Person", "name": "Ricardo M." },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+      "reviewBody": "Fabricantes de confianza. Se nota la experiencia de años en la calidad del material."
+    }
+  ]
+}
+</script>
+<section class="poly-reviews-linked">
+<div class="poly-reviews-wrapper">
+<div class="poly-reviews-header">
+<div class="google-brand">
+<i class="fab fa-google"></i> Opiniones de Clientes Polyplas
+            </div>
+<h2>Lo que dicen nuestros clientes en Chile</h2>
+<a aria-label="Ver 28 reseñas de clientes en Google, calificación 4.9 de 5" class="poly-rating-link" href="https://www.google.com/search?q=Polyplas+Ltda&amp;stick=H4sIAAAAAAAA_-NgU1I1qLA0MzNKNk1OTU4ztLRINja1MqgwTjY1NkpJMbA0sDCyMDc0WsTKG5CfU1mQk1is4FOSkggAhE7I6zkAAAA&amp;hl=es-419&amp;mat=CQ7jJIQpcwySElcBTVDHnsaTNSQZFb-l-U56iPomPnA78QA-ogYuBAnVJBmOLXam8Hc26UgBVWDxRAqmIcWG7MKHVlASHlgDQlb6-Gf2KZDX1Tbv0XGkxo0DY_sJVkpy-Oo&amp;authuser=0&amp;ved=2ahUKEwj9qvrl8bSUAxUEIbkGHTBrIvAQ-MgIegQIGBAi#mpd=~10523913051405869838/customers/reviews" target="_blank" title="Ver todas las reseñas en Google Business">
+<span class="score">4.9</span>
+<span class="stars-main">★★★★★</span>
+<span class="total-link">Ver 28 reseñas <i class="fas fa-external-link-alt"></i></span>
+</a>
+</div>
+<div class="poly-reviews-grid">
+<div class="poly-review-card">
+<div class="card-stars">★★★★★</div>
+<p>"Excelente atención y productos de primera. El acrílico llegó impecable hasta Antofagasta."</p>
+<div class="card-author">
+<strong>Juan Pablo R.</strong>
+</div>
+</div>
+<div class="poly-review-card">
+<div class="card-stars">★★★★★</div>
+<p>"Compré una tina de hidromasaje y la asesoría técnica fue clave. Muy recomendados."</p>
+<div class="card-author">
+<strong>Marcela S.</strong>
+</div>
+</div>
+<div class="poly-review-card">
+<div class="card-stars">★★★★★</div>
+<p>"Fabricantes de confianza. Se nota la experiencia de años en la calidad del material."</p>
+<div class="card-author">
+<strong>Ricardo M.</strong>
+</div>
+</div>
+</div>
+</div>
+</section>
+<style>
+    .poly-reviews-linked {
+        padding: 60px 20px;
+        background-color: #f4f7f9;
+        font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    }
+    .poly-reviews-wrapper { max-width: 1200px; margin: 0 auto; text-align: center; }
+    .poly-reviews-header { margin-bottom: 40px; }
+    .google-brand { 
+        display: flex; justify-content: center; align-items: center;
+        gap: 8px; margin-bottom: 12px; color: #666;
+        font-size: 13px; text-transform: uppercase; letter-spacing: 1px;
+    }
+    .poly-reviews-header h2 { 
+        color: #004a99; font-size: clamp(22px, 5vw, 30px);
+        margin: 0 0 20px 0; font-weight: 800; line-height: 1.2; font-family: inherit;
+    }
+    .poly-rating-link {
+        display: inline-flex; flex-wrap: wrap; justify-content: center;
+        align-items: center; text-decoration: none; background: #fff;
+        padding: 12px 25px; border-radius: 50px; border: 1px solid #d1d9e2;
+        transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    .poly-rating-link:hover {
+        background: #004a99; border-color: #004a99; transform: translateY(-3px);
+    }
+    .poly-rating-link:hover span, .poly-rating-link:hover i { color: #fff !important; }
+    .score { font-weight: bold; color: #333; font-size: 18px; }
+    .stars-main { color: #fbbc05; font-size: 18px; margin: 0 10px; }
+    .total-link { color: #004a99; font-size: 14px; font-weight: 600; }
+    .poly-reviews-grid { 
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 25px; margin-top: 20px;
+    }
+    .poly-review-card {
+        background: #fff; padding: 30px; border-radius: 15px; text-align: left;
+        box-shadow: 0 10px 25px rgba(0, 74, 153, 0.04); border: 1px solid #e1e8f0;
+        display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .card-stars { color: #fbbc05; margin-bottom: 15px; font-size: 16px; }
+    .poly-review-card p { 
+        color: #444; font-size: 15px; font-style: italic;
+        line-height: 1.6; margin-bottom: 20px; position: relative;
+    }
+    .card-author strong { color: #004a99; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }
+    @media (max-width: 480px) {
+        .poly-reviews-linked { padding: 40px 15px; }
+        .poly-rating-link { border-radius: 20px; padding: 15px; }
+        .stars-main { margin: 5px 0; width: 100%; }
+        .poly-reviews-grid { grid-template-columns: 1fr; }
+    }
+</style> </div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="elementor-section elementor-top-section elementor-element elementor-element-08dd2c7 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-e-type="section" data-element_type="section" data-id="08dd2c7">
+<div class="elementor-container elementor-column-gap-default">
+<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-dc0e485" data-e-type="column" data-element_type="column" data-id="dc0e485">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-6a838be elementor-widget elementor-widget-html" data-e-type="widget" data-element_type="widget" data-id="6a838be" data-widget_type="html.default">
+<div class="elementor-widget-container">
+<style>
+.poly-tray{padding:60px 20px;background:#f9fbff;font-family:system-ui,Arial,sans-serif;width:100%;box-sizing:border-box}
+.poly-tray-inner{display:flex;gap:50px;max-width:1200px;margin:0 auto;align-items:center;flex-wrap:wrap}
+.poly-tray-text{flex:1.2;min-width:300px}
+.poly-tray-badge{color:#004a99;font-weight:800;font-size:12px;text-transform:uppercase;background:#eef4fa;padding:6px 16px;border-radius:20px;letter-spacing:.8px}
+.poly-tray-text h2{color:#004a99;font-size:clamp(24px,5vw,36px);margin:20px 0;font-weight:800;line-height:1.2}
+.poly-tray-text p{color:#444;line-height:1.7;font-size:16px;margin:0 0 18px}
+.poly-tray-text a{color:#004a99;text-decoration:underline;text-underline-offset:3px}
+.poly-stats{display:flex;gap:20px;margin-top:35px}
+.poly-stat{background:#fff;border:1px solid #d1d9e2;padding:15px;border-radius:14px;font-size:13px;color:#555;flex:1;text-align:center;transition:border-color .3s,transform .3s}
+.poly-stat:hover{border-color:#004a99;transform:translateY(-3px)}
+.poly-stat strong{color:#004a99;font-size:24px;display:block;margin-bottom:4px}
+.poly-tray-map{flex:1;min-width:300px;background:#fff;padding:15px;border-radius:20px;box-shadow:0 12px 35px rgba(0,74,153,.08);border:1px solid #eef2f7}
+.poly-tray-map iframe{width:100%;height:300px;border:0;border-radius:12px;display:block}
+.poly-addr-grid{padding:20px 10px 10px;display:grid;grid-template-columns:1fr 1fr;gap:20px;border-top:1px solid #f0f4f8;margin-top:10px}
+.poly-addr-item p{margin:0;font-size:14px;color:#555;line-height:1.5}
+.poly-addr-item i{color:#004a99;margin-right:6px}
+@media(max-width:850px){
+  .poly-tray{padding:40px 15px}
+  .poly-tray-inner{flex-direction:column;gap:32px}
+  .poly-tray-text{min-width:100%;text-align:center}
+  .poly-stats{justify-content:center;max-width:420px;margin:28px auto 0}
+  .poly-tray-map{width:100%;min-width:100%}
+  .poly-tray-map iframe{height:220px}
+  .poly-addr-grid{grid-template-columns:1fr;text-align:center}
+}
+</style>
+<section class="poly-tray" itemscope="" itemtype="https://schema.org/LocalBusiness">
+<meta content="Polyplas Chile" itemprop="name"/>
+<meta content="Líderes en distribución de productos de acrílico y tinas de hidromasaje en Chile con más de 29 años de trayectoria." itemprop="description"/>
+<meta content="https://polyplas.cl/wp-content/uploads/2022/07/marca-polyplas-1.svg" itemprop="image"/>
+<meta content="+56942086751" itemprop="telephone"/>
+<meta content="$$" itemprop="priceRange"/>
+<div class="poly-tray-inner">
+<div class="poly-tray-text">
+<span class="poly-tray-badge">Desde 1997</span>
+<h2>Nuestra Trayectoria y Ubicación</h2>
+<p>Con <strong>más de 29 años</strong> liderando el mercado chileno, en <strong>Polyplas</strong> nos hemos consolidado como referentes en la <strong>distribución de productos de acrílico</strong> y soluciones de bienestar.</p>
+<p>Nuestra experiencia nos permite entregar productos de alta calidad con un servicio personalizado, garantizando durabilidad y diseño en cada proyecto de <strong><a href="/categoria-producto/planchas-acrilico/">planchas de acrílico</a> y <a href="/categoria-producto/tinas-de-hidromasaje/">tinas de hidromasaje para 1 y 2 personas</a></strong>.</p>
+<div class="poly-stats">
+<div class="poly-stat"><strong>+29</strong> Años de Experiencia</div>
+<div class="poly-stat">Importadora <strong>Directa</strong> sin intermediarios</div>
+</div>
+</div>
+<div class="poly-tray-map">
+<iframe allowfullscreen="" aria-label="Mapa de ubicación Polyplas Chile" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3328.647318556!2d-70.648215!3d-33.461121!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662c57989396f7b%3A0x6b4a6b6b6b6b6b6b!2sSantiago%20Concha%201525%2C%20Santiago!5e0!3m2!1ses!2scl!4v1700000000000" title="Ubicación de Casa Matriz Polyplas en Santiago Concha 1525">
+</iframe>
+<div class="poly-addr-grid">
+<div class="poly-addr-item" itemprop="address" itemscope="" itemtype="https://schema.org/PostalAddress">
+<p><strong><i class="fa-solid fa-location-dot"></i> Casa Matriz</strong></p>
+<p itemprop="streetAddress">Santiago Concha 1525</p>
+<p><span itemprop="addressLocality">Santiago</span>, <span itemprop="addressRegion">Región Metropolitana</span>.</p>
+</div>
+<div class="poly-addr-item">
+<p><strong><i class="fa-solid fa-clock"></i> Horario de Atención</strong></p>
+<p><time datetime="Mo-Fr 09:00-18:00" itemprop="openingHours">Lun a Vie: 9:00 – 18:00 hrs.</time></p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="elementor-section elementor-top-section elementor-element elementor-element-c9b77bc elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-e-type="section" data-element_type="section" data-id="c9b77bc">
+<div class="elementor-container elementor-column-gap-default">
+<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-614f1e6" data-e-type="column" data-element_type="column" data-id="614f1e6">
+<div class="elementor-widget-wrap">
+</div>
+</div>
+</div>
+</section>
+<section class="elementor-section elementor-top-section elementor-element elementor-element-60c0365 elementor-section-boxed elementor-section-height-default elementor-section-height-default" data-e-type="section" data-element_type="section" data-id="60c0365">
+<div class="elementor-container elementor-column-gap-default">
+<div class="elementor-column elementor-col-100 elementor-top-column elementor-element elementor-element-a3237e1" data-e-type="column" data-element_type="column" data-id="a3237e1">
+<div class="elementor-widget-wrap elementor-element-populated">
+<div class="elementor-element elementor-element-cfb7aac elementor-widget elementor-widget-html" data-e-type="widget" data-element_type="widget" data-id="cfb7aac" data-widget_type="html.default" id="contacto">
+<div class="elementor-widget-container">
+<div class="poly-ui-container" id="polyFormContainer">
+<div class="poly-glass-card" id="formWrapper">
+<div id="formContent">
+<div class="poly-ui-header">
+<h2>Cotizador de Productos</h2>
+<p>Recibe tu presupuesto con <strong>IVA incluido</strong> de forma inmediata en tu correo y WhatsApp.</p>
+</div>
+<form action="https://api.web3forms.com/submit" class="poly-ui-form" id="polyForm" method="POST">
+<input name="access_key" type="hidden" value="5f4f9a20-91c4-4a65-9dd5-d7412aa58bd9"/>
+<input name="from_name" type="hidden" value="Polyplas Cotizador"/>
+<input name="subject" type="hidden" value="Nueva Solicitud de Cotización"/>
+<input name="botcheck" style="display: none;" type="checkbox"/>
+<div class="poly-ui-row">
+<div class="poly-ui-field">
+<label>Nombre Completo</label>
+<div class="input-wrapper">
+<input name="name" placeholder="Ej: Juan Pérez" required="" type="text"/>
+</div>
+</div>
+<div class="poly-ui-field">
+<label>WhatsApp</label>
+<div class="input-wrapper">
+<input name="whatsapp" placeholder="+569 1234 5678" required="" type="tel"/>
+</div>
+</div>
+</div>
+<div class="poly-ui-field">
+<label>Correo Electrónico</label>
+<div class="input-wrapper">
+<input name="email" placeholder="ejemplo@correo.com" required="" type="email"/>
+</div>
+</div>
+<div class="poly-ui-field">
+<label>Detalle del requerimiento</label>
+<div class="input-wrapper">
+<textarea name="message" placeholder="Describe medidas, materiales o tipo de proyecto..." required="" rows="4"></textarea>
+</div>
+</div>
+<button class="poly-ui-btn" type="submit">
+          Consultar
+          <svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+<line x1="5" x2="19" y1="12" y2="12"></line>
+<polyline points="12 5 19 12 12 19"></polyline>
+</svg>
+</button>
+<div class="poly-ui-footer">
+<p>🔒 Conexión segura. Tus datos están protegidos.</p>
+</div>
+</form>
+</div>
+<div id="successMessage" style="display: none; text-align: center; padding: 40px 0;">
+<div class="success-icon">
+<svg height="80" viewbox="0 0 24 24" width="80">
+<circle cx="12" cy="12" fill="rgba(37, 211, 102, 0.2)" r="11" stroke="#25d366" stroke-width="1"></circle>
+<path d="M7 13l3 3 7-7" fill="none" stroke="#25d366" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<h2 style="color: white; margin-top: 20px;">¡Solicitud Enviada!</h2>
+<p style="color: rgba(255,255,255,0.8); line-height: 1.6;">Hemos recibido tu requerimiento con éxito. En breve nos pondremos en contacto contigo vía WhatsApp.</p>
+<button class="poly-ui-btn" onclick="location.reload()" style="width: auto; padding: 12px 30px; margin-top: 25px; font-size: 14px; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">Enviar otra solicitud</button>
+</div>
+</div>
+</div>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+  .poly-ui-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .poly-glass-card {
+    width: 100%;
+    background: radial-gradient(circle at 0% 0%, #004a99 0%, #002d5c 100%);
+    padding: 60px 50px;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 45, 92, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-sizing: border-box;
+    min-height: 400px;
+    transition: all 0.5s ease;
+  }
+
+  .poly-ui-header {
+    text-align: center;
+    margin-bottom: 45px;
+  }
+
+  .poly-ui-header h2 {
+    color: #ffffff;
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 800;
+    margin: 0 0 15px 0;
+    letter-spacing: -1px;
+  }
+
+  .poly-ui-header p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .poly-ui-header strong {
+    color: #25d366;
+  }
+
+  .poly-ui-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .poly-ui-field {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  .poly-ui-field label {
+    display: block;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .input-wrapper input,
+  .input-wrapper textarea {
+    width: 100%;
+    padding: 16px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+  }
+
+  .input-wrapper input:focus,
+  .input-wrapper textarea:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #25d366;
+    box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.1);
+  }
+
+  .poly-ui-btn {
+    width: 100%;
+    background: #25d366;
+    color: #002d5c;
+    border: none;
+    padding: 22px;
+    border-radius: 14px;
+    font-size: 17px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    margin-top: 10px;
+  }
+
+  .poly-ui-btn:hover {
+    background: #ffffff;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  .poly-ui-footer p {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 13px;
+    margin-top: 30px;
+    text-align: center;
+  }
+
+  .success-icon {
+    animation: scaleIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  @keyframes scaleIn {
+    from {
+      transform: scale(0);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .poly-ui-row {
+      grid-template-columns: 1fr;
+    }
+    .poly-glass-card {
+      padding: 40px 25px;
+      border-radius: 0;
+    }
+  }
+</style>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>

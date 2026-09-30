@@ -1,0 +1,47 @@
+/* ---------------------------------------------------------------------------
+   Estilos propios del proyecto Next.js (lo heredado de WordPress está en /legacy)
+   --------------------------------------------------------------------------- */
+
+html { scroll-behavior: smooth; }
+body { margin: 0; }
+main#contenido { display: block; }
+
+/* H1 agregados en páginas que no tenían (mismo aspecto que un título de sección) */
+h1.pp-h1-added {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  line-height: 1.2;
+  margin: 32px auto 16px;
+  max-width: 1140px;
+  padding: 0 16px;
+}
+
+/* Artículos nuevos escritos en Markdown */
+.pp-md-post {
+  max-width: 780px;
+  margin: 40px auto 64px;
+  padding: 0 16px;
+  font-family: "Inter", Arial, sans-serif;
+  color: #1f2933;
+  line-height: 1.7;
+  font-size: 17px;
+}
+.pp-md-post h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); line-height: 1.2; margin: 0 0 8px; }
+.pp-md-post h2 { font-size: 1.5rem; margin: 2em 0 0.5em; }
+.pp-md-post h3 { font-size: 1.2rem; margin: 1.6em 0 0.4em; }
+.pp-md-post img { max-width: 100%; height: auto; border-radius: 8px; }
+.pp-md-post a { color: #e52727; }
+.pp-md-date { color: #6b7280; font-size: 0.9rem; margin-bottom: 2em; }
+
+/* Página /buscar/ */
+.pp-buscar {
+  max-width: 780px;
+  margin: 48px auto 72px;
+  padding: 0 16px;
+  font-family: "Inter", Arial, sans-serif;
+}
+.pp-buscar h1 { font-size: 1.8rem; }
+.pp-buscar form { display: flex; gap: 8px; margin: 16px 0 24px; }
+.pp-buscar input { flex: 1; padding: 12px 14px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 16px; }
+.pp-buscar button { padding: 12px 20px; border: 0; border-radius: 8px; background: #e52727; color: #fff; font-weight: 600; cursor: pointer; }
+.pp-buscar ul { padding-left: 18px; line-height: 2; }
+.pp-buscar a { color: #e52727; }

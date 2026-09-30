@@ -1,0 +1,926 @@
+{
+ "/": {
+  "key": "home",
+  "type": "page",
+  "meta": {
+   "title": "Planchas de Acrílico y Tinas de Hidromasaje en Chile",
+   "description": "Importadora con stock disponible. Planchas de acrílico, tinas de hidromasaje y cúpulas. Atención a personas y empresas en todo Chile. Solicita tu cotización.",
+   "robots": "max-image-preview:large",
+   "canonical": "/",
+   "og": {
+    "type": "article",
+    "title": "Planchas de Acrílico y Tinas de Hidromasaje en Chile",
+    "description": "Importadora con stock disponible. Planchas de acrílico, tinas de hidromasaje y cúpulas. Atención a personas y empresas en todo Chile. Solicita tu cotización.",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2022-07-04T19:20:13+00:00",
+   "modified": "2026-08-31T16:21:14+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"Planchas de Acr\\u00edlico y Tinas de Hidromasaje en Chile\",\"description\":\"Importadora con stock disponible. Planchas de acr\\u00edlico, tinas de hidromasaje y c\\u00fapulas. Atenci\\u00f3n a personas y empresas en todo Chile. Solicita tu cotizaci\\u00f3n.\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#breadcrumblist\"},\"datePublished\":\"2022-07-04T15:20:13-04:00\",\"dateModified\":\"2026-08-31T12:21:14-04:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"},\"potentialAction\":{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https:\\/\\/polyplas.cl\\/?s={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/deb1e9c63f.js",
+  "scripts": [
+   "/legacy/js/d83186c2ff.js",
+   "/legacy/js/8eec609a27.js",
+   "/legacy/js/4ef2032d6c.js",
+   "/legacy/js/3f4457c4a0.js"
+  ],
+  "css": [
+   "/wp-content/uploads/elementor/css/post-37.css",
+   "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  ],
+  "h1": [
+   "Venta de Planchas de Acrílico, Cúpulas, Tinas de Hidromasaje y Receptáculos en Chile"
+  ]
+ },
+ "/blog/": {
+  "key": "blog",
+  "type": "page",
+  "meta": {
+   "title": "Blog Técnico y Guías de Proyectos | Polyplas",
+   "description": "Aprende a instalar, manipular y mantener tus cúpulas, tinas de hidromasaje, receptáculos y planchas de acrílico con los consejos técnicos de Polyplas.",
+   "robots": "max-image-preview:large",
+   "canonical": "/blog/",
+   "og": {
+    "type": "article",
+    "title": "Blog Técnico y Guías de Proyectos | Polyplas",
+    "description": "Aprende a instalar, manipular y mantener tus cúpulas, tinas de hidromasaje, receptáculos y planchas de acrílico con los consejos técnicos de Polyplas.",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2026-07-15T15:59:18+00:00",
+   "modified": "2026-08-27T00:57:13+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/blog\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/blog\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/blog\\/#listItem\",\"position\":2,\"name\":\"Blog\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/blog\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/blog\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/blog\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/blog\\/\",\"name\":\"Blog T\\u00e9cnico y Gu\\u00edas de Proyectos | Polyplas\",\"description\":\"Aprende a instalar, manipular y mantener tus c\\u00fapulas, tinas de hidromasaje, recept\\u00e1culos y planchas de acr\\u00edlico con los consejos t\\u00e9cnicos de Polyplas.\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/blog\\/#breadcrumblist\"},\"datePublished\":\"2026-07-15T11:59:18-04:00\",\"dateModified\":\"2026-08-26T20:57:13-04:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/a8ac808dc9.js",
+  "scripts": [
+   "/legacy/js/d83186c2ff.js",
+   "/legacy/js/8eec609a27.js"
+  ],
+  "css": [
+   "/wp-content/uploads/elementor/css/post-3120.css"
+  ],
+  "h1": [
+   "Blog Técnico de Polyplas"
+  ]
+ },
+ "/categoria-producto/cupulas/": {
+  "key": "categoria-producto__cupulas",
+  "type": "category",
+  "meta": {
+   "title": "Cúpulas de Acrílico para Iluminación y Techado",
+   "description": "Cúpulas de acrílico a medida en Chile. Alta durabilidad para iluminación natural y ventilación. Fabricación nacional con precisión. ¡Cotiza tu proyecto hoy!",
+   "robots": "max-image-preview:large",
+   "canonical": "/categoria-producto/cupulas/",
+   "og": {
+    "type": "article",
+    "title": "Cúpulas de Acrílico para Iluminación y Techado",
+    "description": "Cúpulas de acrílico a medida en Chile. Alta durabilidad para iluminación natural y ventilación. Fabricación nacional con precisión. ¡Cotiza tu proyecto hoy!",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": null,
+   "modified": null
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/cupulas\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/cupulas\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/cupulas\\/#listItem\",\"position\":2,\"name\":\"C\\u00fapulas de Acr\\u00edlico Termoformadas: Iluminaci\\u00f3n Natural y Alta Resistencia\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"CollectionPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/cupulas\\/#collectionpage\",\"url\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/cupulas\\/\",\"name\":\"C\\u00fapulas de Acr\\u00edlico para Iluminaci\\u00f3n y Techado\",\"description\":\"C\\u00fapulas de acr\\u00edlico a medida en Chile. Alta durabilidad para iluminaci\\u00f3n natural y ventilaci\\u00f3n. Fabricaci\\u00f3n nacional con precisi\\u00f3n. \\u00a1Cotiza tu proyecto hoy!\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/cupulas\\/#breadcrumblist\"}},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/cupulas\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/cupulas\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}",
+   "{\n            \"@context\": \"https://schema.org\",\n            \"@type\": \"FAQPage\",\n            \"mainEntity\": [{\n                \"@type\": \"Question\",\n                \"name\": \"De que material son las cupulas de acrilico?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"Nuestras cupulas estan fabricadas en acrilico virgen de 4mm de espesor con proteccion UV para evitar el amarillamiento.\"\n                }\n            },{\n                \"@type\": \"Question\",\n                \"name\": \"Las cupulas de acrilico son resistentes al clima?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"Si. El espesor de 4mm y la calidad virgen del acrilico aseguran alta resistencia ante granizos y lluvias fuertes, manteniendo su forma y transparencia.\"\n                }\n            },{\n                \"@type\": \"Question\",\n                \"name\": \"Realizan envios de cupulas a regiones?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"Si. Enviamos cupulas de acrilico a todo Chile desde Arica hasta Punta Arenas con embalajes especiales para proteger el producto.\"\n                }\n            },{\n                \"@type\": \"Question\",\n                \"name\": \"Cual es la diferencia entre cupula transparente y bronce?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"La transparente permite transmision de luz del 92%, ideal para espacios que requieren mucha claridad. La bronce reduce el resplandor y ofrece control termico, ideal para zonas con sol directo.\"\n                }\n            }]\n        }"
+  ],
+  "dataLayer": "/legacy/js/7c0538fb75.js",
+  "scripts": [
+   "/legacy/js/d83186c2ff.js",
+   "/legacy/js/8eec609a27.js",
+   "/legacy/js/97d641e3c7.js",
+   "/legacy/js/cdc7f5c881.js",
+   "/legacy/js/8595ce7a4a.js",
+   "/legacy/js/db1dad7709.js"
+  ],
+  "css": [
+   "/wp-content/uploads/elementor/css/post-1872.css"
+  ],
+  "h1": [
+   "Cúpulas de Acrílico Termoformadas: Iluminación Natural y Alta Resistencia"
+  ]
+ },
+ "/categoria-producto/planchas-acrilico/": {
+  "key": "categoria-producto__planchas-acrilico",
+  "type": "category",
+  "meta": {
+   "title": "Planchas de Acrílico Transparente y Colores | Venta Mayor y Menor",
+   "description": "Venta de planchas de acrílico transparentes y de color de 2mm a 10mm. Despacho gratis en RM sobre $350.000 y retiro en Santiago Centro. ¡Cotiza online!",
+   "robots": "max-image-preview:large",
+   "canonical": "/categoria-producto/planchas-acrilico/",
+   "og": {
+    "type": "article",
+    "title": "Planchas de Acrílico Transparente y Colores | Venta Mayor y Menor",
+    "description": "Venta de planchas de acrílico transparentes y de color de 2mm a 10mm. Despacho gratis en RM sobre $350.000 y retiro en Santiago Centro. ¡Cotiza online!",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": null,
+   "modified": null
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-acrilico\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-acrilico\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-acrilico\\/#listItem\",\"position\":2,\"name\":\"Planchas de Acr\\u00edlico\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"CollectionPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-acrilico\\/#collectionpage\",\"url\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-acrilico\\/\",\"name\":\"Planchas de Acr\\u00edlico Transparente y Colores | Venta Mayor y Menor\",\"description\":\"Venta de planchas de acr\\u00edlico transparentes y de color de 2mm a 10mm. Despacho gratis en RM sobre $350.000 y retiro en Santiago Centro. \\u00a1Cotiza online!\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-acrilico\\/#breadcrumblist\"}},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-acrilico\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-acrilico\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}",
+   "{\n            \"@context\": \"https://schema.org\",\n            \"@type\": \"FAQPage\",\n            \"mainEntity\": [{\n                \"@type\": \"Question\",\n                \"name\": \"Realizan cortes en las planchas de acrilico?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"Si. Cada plancha incluye 1 corte gratuito de adaptacion a la medida que necesites. Si requieres cortes adicionales, aplica un recargo del 10% sobre el total del pedido.\"\n                }\n            },{\n                \"@type\": \"Question\",\n                \"name\": \"Las planchas de acrilico son resistentes para uso exterior?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"Si. Nuestras planchas de acrilico cuentan con proteccion UV integrada, lo que garantiza que el material no se ponga amarillo y mantenga su transparencia original bajo exposicion solar constante.\"\n                }\n            },{\n                \"@type\": \"Question\",\n                \"name\": \"Que tan resistente es el acrilico comparado con el vidrio?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"El acrilico tiene una claridad optica del 92% y es 10 veces mas resistente al impacto que el vidrio. Es mas ligero y seguro para vitrinas, mamparas y protecciones.\"\n                }\n            },{\n                \"@type\": \"Question\",\n                \"name\": \"Tienen planchas de acrilico en colores o acabados especiales?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"Si. Contamos con acrilico transparente, blanco, Espejo Dorado, Espejo Plateado y Fluor en Rojo, Verde y Rosado.\"\n                }\n            },{\n                \"@type\": \"Question\",\n                \"name\": \"Como puedo pagar y realizan envios a todo Chile?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"Puedes pagar en 3 a 12 cuotas sin interes via Transbank. Realizamos despachos de planchas de acrilico a todo Chile, desde Arica hasta Punta Arenas.\"\n                }\n            },{\n                \"@type\": \"Question\",\n                \"name\": \"Cuanto miden las planchas de acrilico disponibles?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"Contamos with stock permanente en formatos desde 1830x1220 mm hasta 3000x2000 mm, en espesores de 2 a 10mm.\"\n                }\n            },{\n                \"@type\": \"Question\",\n                \"name\": \"¿Cuánto cuesta una plancha de acrílico según el espesor?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"El precio depende del espesor y del formato: las planchas más delgadas (2 a 3mm) tienen el valor más accesible y son ideales para señalética y protecciones, mientras que los espesores de 5 a 10mm tienen mayor valor por su mayor rigidez y grosor, recomendados para vitrinas y mobiliario. Puedes calcular el precio exacto de tu plancha y espesor directamente en nuestra plataforma o cotizarlo por WhatsApp al instante.\"\n                }\n            },{\n                \"@type\": \"Question\",\n                \"name\": \"¿Sirven las planchas de acrílico para techos y cubiertas?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"Sí. El acrílico es una excelente opción para techos, cubiertas de terrazas y cierres translúcidos porque deja pasar la luz manteniendo un 92% de claridad, es hasta 10 veces más resistente al impacto que el vidrio y no se amarillea gracias a su protección UV integrada, lo que lo hace apto para exposición solar permanente.\"\n                }\n            },{\n                \"@type\": \"Question\",\n                \"name\": \"¿Tienen planchas de acrílico con diseños o para decoración?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"Sí. Además del acrílico transparente contamos con acabados espejo (dorado y plateado) y colores fluor (rojo, verde y rosado), muy usados en proyectos de decoración, retail y arquitectura interior. Todos mantienen la misma resistencia y protección de la línea transparente.\"\n                }\n            },{\n                \"@type\": \"Question\",\n                \"name\": \"¿Qué espesor de acrílico conviene según el uso?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"Como referencia rápida: 2 a 3mm para carteles, señalética y manualidades; 4 a 5mm para vitrinas, mamparas y protecciones; y 6 a 10mm para mobiliario, mesas y estructuras que requieren máxima rigidez. Si tienes dudas sobre tu proyecto, te asesoramos por WhatsApp sin costo.\"\n                }\n            }]\n        }"
+  ],
+  "dataLayer": "/legacy/js/bae693ebb2.js",
+  "scripts": [
+   "/legacy/js/d83186c2ff.js",
+   "/legacy/js/8eec609a27.js",
+   "/legacy/js/83092f3229.js",
+   "/legacy/js/823679f4a4.js",
+   "/legacy/js/78983f641a.js",
+   "/legacy/js/cdc7f5c881.js",
+   "/legacy/js/0c2d7efbe0.js",
+   "/legacy/js/3d32d371d1.js",
+   "/legacy/js/5c6917b0a1.js",
+   "/legacy/js/cd983c8861.js",
+   "/legacy/js/3e06c7254c.js",
+   "/legacy/js/8fbec184f3.js"
+  ],
+  "css": [
+   "/wp-content/uploads/elementor/css/post-2389.css"
+  ],
+  "h1": [
+   "Planchas de Acrílico"
+  ]
+ },
+ "/categoria-producto/planchas-pet/": {
+  "key": "categoria-producto__planchas-pet",
+  "type": "category",
+  "meta": {
+   "title": "Planchas de PET Rígidas Transparentes | Polyplas",
+   "description": "Láminas de PET rígidas de alta transparencia y grado alimenticio. Ideales para protección, retail y packaging. 100% reciclables y resistentes. ¡Cotiza hoy!",
+   "robots": "max-image-preview:large",
+   "canonical": "/categoria-producto/planchas-pet/",
+   "og": {
+    "type": "article",
+    "title": "Planchas de PET Rígidas Transparentes | Polyplas",
+    "description": "Láminas de PET rígidas de alta transparencia y grado alimenticio. Ideales para protección, retail y packaging. 100% reciclables y resistentes. ¡Cotiza hoy!",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": null,
+   "modified": null
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-pet\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-pet\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-pet\\/#listItem\",\"position\":2,\"name\":\"Planchas de PET R\\u00edgidas: Transparencia Superior y 100% Reciclables\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"CollectionPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-pet\\/#collectionpage\",\"url\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-pet\\/\",\"name\":\"Planchas de PET R\\u00edgidas Transparentes | Polyplas\",\"description\":\"L\\u00e1minas de PET r\\u00edgidas de alta transparencia y grado alimenticio. Ideales para protecci\\u00f3n, retail y packaging. 100% reciclables y resistentes. \\u00a1Cotiza hoy!\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-pet\\/#breadcrumblist\"}},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-pet\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-pet\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/576aa2a07e.js",
+  "scripts": [
+   "/legacy/js/d83186c2ff.js",
+   "/legacy/js/8eec609a27.js",
+   "/legacy/js/e0deffeff4.js",
+   "/legacy/js/823679f4a4.js",
+   "/legacy/js/8c65638e81.js",
+   "/legacy/js/cdc7f5c881.js",
+   "/legacy/js/8f3c0c2854.js",
+   "/legacy/js/81f853e923.js",
+   "/legacy/js/cd983c8861.js",
+   "/legacy/js/9106cee380.js"
+  ],
+  "css": [
+   "/wp-content/uploads/elementor/css/post-2395.css"
+  ],
+  "h1": [
+   "Planchas de PET Rígidas: Transparencia Superior y 100% Reciclables"
+  ]
+ },
+ "/categoria-producto/planchas-petg/": {
+  "key": "categoria-producto__planchas-petg",
+  "type": "category",
+  "meta": {
+   "title": "Planchas de PETG Rígidas | Grado Alimenticio | Polyplas",
+   "description": "Láminas de PETG de alta transparencia. Ideales para termoformado, exhibidores y uso alimenticio. Resistentes, versátiles y fáciles de procesar. ¡Cotiza hoy!",
+   "robots": "max-image-preview:large",
+   "canonical": "/categoria-producto/planchas-petg/",
+   "og": {
+    "type": "article",
+    "title": "Planchas de PETG Rígidas | Grado Alimenticio | Polyplas",
+    "description": "Láminas de PETG de alta transparencia. Ideales para termoformado, exhibidores y uso alimenticio. Resistentes, versátiles y fáciles de procesar. ¡Cotiza hoy!",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": null,
+   "modified": null
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-petg\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-petg\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-petg\\/#listItem\",\"position\":2,\"name\":\"Planchas de PETG Premium: Claridad Cristalina y Alta Resistencia\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"CollectionPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-petg\\/#collectionpage\",\"url\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-petg\\/\",\"name\":\"Planchas de PETG R\\u00edgidas | Grado Alimenticio | Polyplas\",\"description\":\"L\\u00e1minas de PETG de alta transparencia. Ideales para termoformado, exhibidores y uso alimenticio. Resistentes, vers\\u00e1tiles y f\\u00e1ciles de procesar. \\u00a1Cotiza hoy!\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-petg\\/#breadcrumblist\"}},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-petg\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/planchas-petg\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/3bd871a600.js",
+  "scripts": [
+   "/legacy/js/d83186c2ff.js",
+   "/legacy/js/8eec609a27.js",
+   "/legacy/js/931ab89cb5.js",
+   "/legacy/js/823679f4a4.js",
+   "/legacy/js/a4450cec2d.js",
+   "/legacy/js/cdc7f5c881.js",
+   "/legacy/js/8f3c0c2854.js",
+   "/legacy/js/a5c609413d.js",
+   "/legacy/js/cd983c8861.js",
+   "/legacy/js/5d15c2e113.js",
+   "/legacy/js/f620992e4c.js"
+  ],
+  "css": [
+   "/wp-content/uploads/elementor/css/post-2401.css"
+  ],
+  "h1": [
+   "Planchas de PETG Premium: Claridad Cristalina y Alta Resistencia"
+  ]
+ },
+ "/categoria-producto/policarbonato-compacto/": {
+  "key": "categoria-producto__policarbonato-compacto",
+  "type": "category",
+  "meta": {
+   "title": "Planchas de Policarbonato | Compacto, UV - Polyplas Chile",
+   "description": "Descubre en Polyplas planchas de policarbonato para techos, pérgolas etc. Alta resistencia, con protección UV y a los mejores precios. ¡Pide tu cotización!",
+   "robots": "max-image-preview:large",
+   "canonical": "/categoria-producto/policarbonato-compacto/",
+   "og": {
+    "type": "article",
+    "title": "Planchas de Policarbonato | Compacto, UV - Polyplas Chile",
+    "description": "Descubre en Polyplas planchas de policarbonato para techos, pérgolas etc. Alta resistencia, con protección UV y a los mejores precios. ¡Pide tu cotización!",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": null,
+   "modified": null
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/policarbonato-compacto\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/policarbonato-compacto\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/policarbonato-compacto\\/#listItem\",\"position\":2,\"name\":\"Policarbonato Compacto: Resistencia Irrompible y Claridad Total\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"CollectionPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/policarbonato-compacto\\/#collectionpage\",\"url\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/policarbonato-compacto\\/\",\"name\":\"Planchas de Policarbonato | Compacto, UV - Polyplas Chile\",\"description\":\"Descubre en Polyplas planchas de policarbonato para techos, p\\u00e9rgolas etc. Alta resistencia, con protecci\\u00f3n UV y a los mejores precios. \\u00a1Pide tu cotizaci\\u00f3n!\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/policarbonato-compacto\\/#breadcrumblist\"}},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/policarbonato-compacto\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/policarbonato-compacto\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/82b0163f34.js",
+  "scripts": [
+   "/legacy/js/d83186c2ff.js",
+   "/legacy/js/8eec609a27.js",
+   "/legacy/js/c3cc7bc7d0.js",
+   "/legacy/js/823679f4a4.js",
+   "/legacy/js/34bf78a9d7.js",
+   "/legacy/js/cdc7f5c881.js",
+   "/legacy/js/8f3c0c2854.js",
+   "/legacy/js/52ea64196a.js",
+   "/legacy/js/cd983c8861.js",
+   "/legacy/js/ca1321517c.js",
+   "/legacy/js/b01be75aca.js"
+  ],
+  "css": [
+   "/wp-content/uploads/elementor/css/post-2407.css"
+  ],
+  "h1": [
+   "Policarbonato Compacto: Resistencia Irrompible y Claridad Total"
+  ]
+ },
+ "/categoria-producto/politica-de-devolucion/": {
+  "key": "categoria-producto__politica-de-devolucion",
+  "type": "category",
+  "meta": {
+   "title": "Política de devolución - polyplas",
+   "description": null,
+   "robots": "max-image-preview:large",
+   "canonical": "/categoria-producto/politica-de-devolucion/",
+   "og": {
+    "type": "article",
+    "title": "Política de devolución - polyplas",
+    "description": null,
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": null,
+   "modified": null
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/politica-de-devolucion\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/politica-de-devolucion\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/politica-de-devolucion\\/#listItem\",\"position\":2,\"name\":\"Pol\\u00edtica de devoluci\\u00f3n\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"CollectionPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/politica-de-devolucion\\/#collectionpage\",\"url\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/politica-de-devolucion\\/\",\"name\":\"Pol\\u00edtica de devoluci\\u00f3n - polyplas\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/politica-de-devolucion\\/#breadcrumblist\"}},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/politica-de-devolucion\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/politica-de-devolucion\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/a2b17ff555.js",
+  "scripts": [
+   "/legacy/js/d83186c2ff.js",
+   "/legacy/js/8eec609a27.js"
+  ],
+  "css": [],
+  "h1": [
+   "Política de devolución"
+  ]
+ },
+ "/categoria-producto/receptaculos/": {
+  "key": "categoria-producto__receptaculos",
+  "type": "category",
+  "meta": {
+   "title": "Receptáculos de Ducha: Diseño de Alta Resistencia y Elegancia - polyplas",
+   "description": null,
+   "robots": "max-image-preview:large",
+   "canonical": "/categoria-producto/receptaculos/",
+   "og": {
+    "type": "article",
+    "title": "Receptáculos de Ducha: Diseño de Alta Resistencia y Elegancia - polyplas",
+    "description": null,
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": null,
+   "modified": null
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/receptaculos\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/receptaculos\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/receptaculos\\/#listItem\",\"position\":2,\"name\":\"Recept\\u00e1culos de Ducha: Dise\\u00f1o de Alta Resistencia y Elegancia\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"CollectionPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/receptaculos\\/#collectionpage\",\"url\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/receptaculos\\/\",\"name\":\"Recept\\u00e1culos de Ducha: Dise\\u00f1o de Alta Resistencia y Elegancia - polyplas\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/receptaculos\\/#breadcrumblist\"}},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/receptaculos\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/receptaculos\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/28da2a84c4.js",
+  "scripts": [
+   "/legacy/js/d83186c2ff.js",
+   "/legacy/js/8eec609a27.js",
+   "/legacy/js/6b42856fbc.js",
+   "/legacy/js/cdc7f5c881.js",
+   "/legacy/js/b6191830d6.js",
+   "/legacy/js/b01be75aca.js"
+  ],
+  "css": [
+   "/wp-content/uploads/elementor/css/post-2413.css"
+  ],
+  "h1": [
+   "Receptáculos de Ducha: Diseño de Alta Resistencia y Elegancia"
+  ]
+ },
+ "/categoria-producto/tinas-de-hidromasaje/": {
+  "key": "categoria-producto__tinas-de-hidromasaje",
+  "type": "category",
+  "meta": {
+   "title": "Tinas de Hidromasaje desde $479.990 | 3 y 6 Cuotas Sin Interés",
+   "description": "Tinas de hidromasaje desde $479.990 c/IVA, para 1 o 2 personas. Compra online con Webpay en 3 y 6 cuotas sin interés. Retiro en Santiago. ¡Ofertas por tiempo limitado!",
+   "robots": "max-image-preview:large",
+   "canonical": "/categoria-producto/tinas-de-hidromasaje/",
+   "og": {
+    "type": "article",
+    "title": "Tinas de Hidromasaje desde $479.990 | 3 y 6 Cuotas Sin Interés",
+    "description": "Tinas de hidromasaje desde $479.990 c/IVA, para 1 o 2 personas. Compra online con Webpay en 3 y 6 cuotas sin interés. Retiro en Santiago. ¡Ofertas por tiempo limitado!",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": null,
+   "modified": null
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/tinas-de-hidromasaje\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/tinas-de-hidromasaje\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/tinas-de-hidromasaje\\/#listItem\",\"position\":2,\"name\":\"Tinas de Hidromasaje\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"CollectionPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/tinas-de-hidromasaje\\/#collectionpage\",\"url\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/tinas-de-hidromasaje\\/\",\"name\":\"Tinas de Hidromasaje desde $479.990 | 3 y 6 Cuotas Sin Inter\\u00e9s\",\"description\":\"Tinas de hidromasaje desde $479.990 c\\/IVA, para 1 o 2 personas. Compra online con Webpay en 3 y 6 cuotas sin inter\\u00e9s. Retiro en Santiago. \\u00a1Ofertas por tiempo limitado!\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/tinas-de-hidromasaje\\/#breadcrumblist\"}},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/tinas-de-hidromasaje\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/categoria-producto\\/tinas-de-hidromasaje\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}",
+   "{\n            \"@context\": \"https://schema.org\",\n            \"@type\": \"FAQPage\",\n            \"mainEntity\": [{\n                \"@type\": \"Question\",\n                \"name\": \"Las tinas de hidromasaje tienen garantia?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"Si. Todas nuestras tinas incluyen garantia y soporte tecnico post-venta. Somos importadora directa con 29 anos en el mercado chileno.\"\n                }\n            },{\n                \"@type\": \"Question\",\n                \"name\": \"Realizan envios de tinas de hidromasaje a todo Chile?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"Si. Despachamos tinas de hidromasaje a todo Chile con embalaje especial para garantizar que lleguen en perfectas condiciones.\"\n                }\n            },{\n                \"@type\": \"Question\",\n                \"name\": \"Las tinas se pueden pagar en cuotas?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"Si. Aceptamos pago en 3 a 12 cuotas sin interes via Transbank Webpay.\"\n                }\n            },{\n                \"@type\": \"Question\",\n                \"name\": \"Que tipos de tinas de hidromasaje tienen disponibles?\",\n                \"acceptedAnswer\": {\n                    \"@type\": \"Answer\",\n                    \"text\": \"Contamos con modelos para 1 y 2 personas, con jets dirigibles, motor hasta 1.5HP y disenos rectangulares y ovalados. Precios desde $479.990 IVA incluido.\"\n                }\n            }]\n        }"
+  ],
+  "dataLayer": "/legacy/js/22afa02a0b.js",
+  "scripts": [
+   "/legacy/js/d83186c2ff.js",
+   "/legacy/js/8eec609a27.js",
+   "/legacy/js/212fd39362.js",
+   "/legacy/js/cdc7f5c881.js",
+   "/legacy/js/c5fccaa89e.js",
+   "/legacy/js/0863a908cf.js"
+  ],
+  "css": [
+   "/wp-content/uploads/elementor/css/post-2419.css"
+  ],
+  "h1": [
+   "Tinas de Hidromasaje"
+  ]
+ },
+ "/como-instalar-cupula-acrilico-sin-filtraciones/": {
+  "key": "como-instalar-cupula-acrilico-sin-filtraciones",
+  "type": "post",
+  "meta": {
+   "title": "Cómo Instalar una Cúpula de Acrílico sin Filtraciones",
+   "description": "Guía técnica paso a paso para instalar cúpulas y claraboyas de acrílico. Aprende a realizar el sellado hermético y evitar filtraciones de lluvia en tu obra.",
+   "robots": "max-image-preview:large",
+   "canonical": "/como-instalar-cupula-acrilico-sin-filtraciones/",
+   "og": {
+    "type": "article",
+    "title": "Cómo Instalar una Cúpula de Acrílico sin Filtraciones",
+    "description": "Guía técnica paso a paso para instalar cúpulas y claraboyas de acrílico. Aprende a realizar el sellado hermético y evitar filtraciones de lluvia en tu obra.",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2026-07-15T21:01:02+00:00",
+   "modified": "2026-08-25T23:13:09+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BlogPosting\",\"@id\":\"https:\\/\\/polyplas.cl\\/como-instalar-cupula-acrilico-sin-filtraciones\\/#blogposting\",\"name\":\"C\\u00f3mo Instalar una C\\u00fapula de Acr\\u00edlico sin Filtraciones\",\"headline\":\"C\\u00f3mo instalar una c\\u00fapula de acr\\u00edlico en el techo sin filtraciones\",\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2026\\/08\\/cupula_bronce.webp\",\"width\":820,\"height\":578},\"datePublished\":\"2026-07-15T17:01:02-04:00\",\"dateModified\":\"2026-08-25T19:13:09-04:00\",\"inLanguage\":\"es-ES\",\"mainEntityOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/como-instalar-cupula-acrilico-sin-filtraciones\\/#webpage\"},\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/como-instalar-cupula-acrilico-sin-filtraciones\\/#webpage\"},\"articleSection\":\"Sin categor\\u00eda\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/como-instalar-cupula-acrilico-sin-filtraciones\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/como-instalar-cupula-acrilico-sin-filtraciones\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/como-instalar-cupula-acrilico-sin-filtraciones\\/#listItem\",\"position\":2,\"name\":\"C\\u00f3mo instalar una c\\u00fapula de acr\\u00edlico en el techo sin filtraciones\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/como-instalar-cupula-acrilico-sin-filtraciones\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/como-instalar-cupula-acrilico-sin-filtraciones\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"Person\",\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\",\"url\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/\",\"name\":\"Fredy Arriagada Cuevas\",\"image\":{\"@type\":\"ImageObject\",\"@id\":\"https:\\/\\/polyplas.cl\\/como-instalar-cupula-acrilico-sin-filtraciones\\/#authorImage\",\"url\":\"https:\\/\\/secure.gravatar.com\\/avatar\\/c667f7e2a6849d02a848012f739bb0ff7779c600626974034747e784131967cd?s=96&d=mm&r=g\",\"width\":96,\"height\":96,\"caption\":\"Fredy Arriagada Cuevas\"}},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/como-instalar-cupula-acrilico-sin-filtraciones\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/como-instalar-cupula-acrilico-sin-filtraciones\\/\",\"name\":\"C\\u00f3mo Instalar una C\\u00fapula de Acr\\u00edlico sin Filtraciones\",\"description\":\"Gu\\u00eda t\\u00e9cnica paso a paso para instalar c\\u00fapulas y claraboyas de acr\\u00edlico. Aprende a realizar el sellado herm\\u00e9tico y evitar filtraciones de lluvia en tu obra.\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/como-instalar-cupula-acrilico-sin-filtraciones\\/#breadcrumblist\"},\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"creator\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2026\\/08\\/cupula_bronce.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/como-instalar-cupula-acrilico-sin-filtraciones\\/#mainImage\",\"width\":820,\"height\":578},\"primaryImageOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/como-instalar-cupula-acrilico-sin-filtraciones\\/#mainImage\"},\"datePublished\":\"2026-07-15T17:01:02-04:00\",\"dateModified\":\"2026-08-25T19:13:09-04:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/55b9ee4081.js",
+  "scripts": [],
+  "css": [
+   "/wp-content/uploads/elementor/css/post-3151.css"
+  ],
+  "h1": [
+   "Cómo Instalar una Cúpula de Acrílico en el Techo sin Filtraciones"
+  ]
+ },
+ "/contacto/": {
+  "key": "contacto",
+  "type": "page",
+  "meta": {
+   "title": "Polyplas Chile: Acrílicos y Tinas de Hidromasaje",
+   "description": "¿Tienes un proyecto en mente? Contacta a Polyplas. Cotiza planchas de acrílico a medida, tinas de hidromasaje y cúpulas con envíos a todo Chile aquí.",
+   "robots": "max-image-preview:large",
+   "canonical": "/contacto/",
+   "og": {
+    "type": "article",
+    "title": "Polyplas Chile: Acrílicos y Tinas de Hidromasaje",
+    "description": "¿Tienes un proyecto en mente? Contacta a Polyplas. Cotiza planchas de acrílico a medida, tinas de hidromasaje y cúpulas con envíos a todo Chile aquí.",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2022-07-04T19:29:51+00:00",
+   "modified": "2026-08-27T00:59:36+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/contacto\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/contacto\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/contacto\\/#listItem\",\"position\":2,\"name\":\"Contacto\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/contacto\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/contacto\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/contacto\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/contacto\\/\",\"name\":\"Polyplas Chile: Acr\\u00edlicos y Tinas de Hidromasaje\",\"description\":\"\\u00bfTienes un proyecto en mente? Contacta a Polyplas. Cotiza planchas de acr\\u00edlico a medida, tinas de hidromasaje y c\\u00fapulas con env\\u00edos a todo Chile aqu\\u00ed.\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/contacto\\/#breadcrumblist\"},\"datePublished\":\"2022-07-04T15:29:51-04:00\",\"dateModified\":\"2026-08-26T20:59:36-04:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/aec0a60221.js",
+  "scripts": [
+   "/legacy/js/d83186c2ff.js",
+   "/legacy/js/8eec609a27.js",
+   "/legacy/js/a7602f603c.js"
+  ],
+  "css": [],
+  "h1": [
+   "Contáctenos"
+  ]
+ },
+ "/cortar-perforar-acrilico/": {
+  "key": "cortar-perforar-acrilico",
+  "type": "post",
+  "meta": {
+   "title": "Cómo Cortar y Perforar Acrílico sin que se Trice | Polyplas",
+   "description": "Evita pérdidas de material en tu taller. Descubre los consejos técnicos definitivos para cortar, perforar y manipular planchas de acrílico de forma segura.",
+   "robots": "max-image-preview:large",
+   "canonical": "/cortar-perforar-acrilico/",
+   "og": {
+    "type": "article",
+    "title": "Cómo Cortar y Perforar Acrílico sin que se Trice | Polyplas",
+    "description": "Evita pérdidas de material en tu taller. Descubre los consejos técnicos definitivos para cortar, perforar y manipular planchas de acrílico de forma segura.",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2026-07-15T16:11:38+00:00",
+   "modified": "2026-08-25T22:47:32+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BlogPosting\",\"@id\":\"https:\\/\\/polyplas.cl\\/cortar-perforar-acrilico\\/#blogposting\",\"name\":\"C\\u00f3mo Cortar y Perforar Acr\\u00edlico sin que se Trice | Polyplas\",\"headline\":\"C\\u00f3mo cortar y perforar acr\\u00edlico sin que se trice\",\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2026\\/07\\/acrilico_uso.webp\",\"width\":1408,\"height\":768},\"datePublished\":\"2026-07-15T12:11:38-04:00\",\"dateModified\":\"2026-08-25T18:47:32-04:00\",\"inLanguage\":\"es-ES\",\"mainEntityOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/cortar-perforar-acrilico\\/#webpage\"},\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/cortar-perforar-acrilico\\/#webpage\"},\"articleSection\":\"Sin categor\\u00eda\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/cortar-perforar-acrilico\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/cortar-perforar-acrilico\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/cortar-perforar-acrilico\\/#listItem\",\"position\":2,\"name\":\"C\\u00f3mo cortar y perforar acr\\u00edlico sin que se trice\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/cortar-perforar-acrilico\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/cortar-perforar-acrilico\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"Person\",\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\",\"url\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/\",\"name\":\"Fredy Arriagada Cuevas\",\"image\":{\"@type\":\"ImageObject\",\"@id\":\"https:\\/\\/polyplas.cl\\/cortar-perforar-acrilico\\/#authorImage\",\"url\":\"https:\\/\\/secure.gravatar.com\\/avatar\\/c667f7e2a6849d02a848012f739bb0ff7779c600626974034747e784131967cd?s=96&d=mm&r=g\",\"width\":96,\"height\":96,\"caption\":\"Fredy Arriagada Cuevas\"}},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/cortar-perforar-acrilico\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/cortar-perforar-acrilico\\/\",\"name\":\"C\\u00f3mo Cortar y Perforar Acr\\u00edlico sin que se Trice | Polyplas\",\"description\":\"Evita p\\u00e9rdidas de material en tu taller. Descubre los consejos t\\u00e9cnicos definitivos para cortar, perforar y manipular planchas de acr\\u00edlico de forma segura.\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/cortar-perforar-acrilico\\/#breadcrumblist\"},\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"creator\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2026\\/07\\/acrilico_uso.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/cortar-perforar-acrilico\\/#mainImage\",\"width\":1408,\"height\":768},\"primaryImageOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/cortar-perforar-acrilico\\/#mainImage\"},\"datePublished\":\"2026-07-15T12:11:38-04:00\",\"dateModified\":\"2026-08-25T18:47:32-04:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/a2ff4c9103.js",
+  "scripts": [],
+  "css": [
+   "/wp-content/uploads/elementor/css/post-3125.css"
+  ],
+  "h1": [
+   "Guía de Taller: Cómo cortar y perforar acrílico sin que se trice"
+  ]
+ },
+ "/cupulas-de-acrilico-mantenimiento-reparacion/": {
+  "key": "cupulas-de-acrilico-mantenimiento-reparacion",
+  "type": "post",
+  "meta": {
+   "title": "Cómo reparar ruidos y filtraciones en cúpulas - Polyplas",
+   "description": "Diagnostica y soluciona ruidos térmicos, condensación interna y filtraciones en cúpulas de acrílico. Guía técnica de mantenimiento de Polyplas.",
+   "robots": "max-image-preview:large",
+   "canonical": "/cupulas-de-acrilico-mantenimiento-reparacion/",
+   "og": {
+    "type": "article",
+    "title": "Cómo reparar ruidos y filtraciones en cúpulas - Polyplas",
+    "description": "Diagnostica y soluciona ruidos térmicos, condensación interna y filtraciones en cúpulas de acrílico. Guía técnica de mantenimiento de Polyplas.",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2026-07-29T22:22:11+00:00",
+   "modified": "2026-09-22T15:49:44+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BlogPosting\",\"@id\":\"https:\\/\\/polyplas.cl\\/cupulas-de-acrilico-mantenimiento-reparacion\\/#blogposting\",\"name\":\"C\\u00f3mo reparar ruidos y filtraciones en c\\u00fapulas - Polyplas\",\"headline\":\"C\\u00fapulas de acr\\u00edlico: reparaci\\u00f3n de ruidos y filtraciones\",\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2023\\/05\\/tina-hidromasaje4.jpg\",\"width\":800,\"height\":491},\"datePublished\":\"2026-07-29T18:22:11-04:00\",\"dateModified\":\"2026-09-22T12:49:44-03:00\",\"inLanguage\":\"es-ES\",\"mainEntityOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/cupulas-de-acrilico-mantenimiento-reparacion\\/#webpage\"},\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/cupulas-de-acrilico-mantenimiento-reparacion\\/#webpage\"},\"articleSection\":\"Sin categor\\u00eda\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/cupulas-de-acrilico-mantenimiento-reparacion\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/cupulas-de-acrilico-mantenimiento-reparacion\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/cupulas-de-acrilico-mantenimiento-reparacion\\/#listItem\",\"position\":2,\"name\":\"C\\u00fapulas de acr\\u00edlico: reparaci\\u00f3n de ruidos y filtraciones\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/cupulas-de-acrilico-mantenimiento-reparacion\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/cupulas-de-acrilico-mantenimiento-reparacion\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"Person\",\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\",\"url\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/\",\"name\":\"Fredy Arriagada Cuevas\",\"image\":{\"@type\":\"ImageObject\",\"@id\":\"https:\\/\\/polyplas.cl\\/cupulas-de-acrilico-mantenimiento-reparacion\\/#authorImage\",\"url\":\"https:\\/\\/secure.gravatar.com\\/avatar\\/c667f7e2a6849d02a848012f739bb0ff7779c600626974034747e784131967cd?s=96&d=mm&r=g\",\"width\":96,\"height\":96,\"caption\":\"Fredy Arriagada Cuevas\"}},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/cupulas-de-acrilico-mantenimiento-reparacion\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/cupulas-de-acrilico-mantenimiento-reparacion\\/\",\"name\":\"C\\u00f3mo reparar ruidos y filtraciones en c\\u00fapulas - Polyplas\",\"description\":\"Diagnostica y soluciona ruidos t\\u00e9rmicos, condensaci\\u00f3n interna y filtraciones en c\\u00fapulas de acr\\u00edlico. Gu\\u00eda t\\u00e9cnica de mantenimiento de Polyplas.\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/cupulas-de-acrilico-mantenimiento-reparacion\\/#breadcrumblist\"},\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"creator\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2023\\/05\\/tina-hidromasaje4.jpg\",\"@id\":\"https:\\/\\/polyplas.cl\\/cupulas-de-acrilico-mantenimiento-reparacion\\/#mainImage\",\"width\":800,\"height\":491},\"primaryImageOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/cupulas-de-acrilico-mantenimiento-reparacion\\/#mainImage\"},\"datePublished\":\"2026-07-29T18:22:11-04:00\",\"dateModified\":\"2026-09-22T12:49:44-03:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/4ede798a4d.js",
+  "scripts": [
+   "/legacy/js/aab2cf9b07.js"
+  ],
+  "css": [],
+  "h1": [
+   "¿Por qué cruje, se empaña o se filtra una cúpula de acrílico? Diagnóstico y solución"
+  ]
+ },
+ "/elegir-tina-hidromasaje/": {
+  "key": "elegir-tina-hidromasaje",
+  "type": "post",
+  "meta": {
+   "title": "Cómo Elegir tu Tina de Hidromasaje Perfecta | Polyplas",
+   "description": "Evita errores costosos. Guía técnica para elegir tu tina de hidromasaje según medidas, materiales (acrílico vs. fibra) y distribución de tu baño.",
+   "robots": "max-image-preview:large",
+   "canonical": "/elegir-tina-hidromasaje/",
+   "og": {
+    "type": "article",
+    "title": "Cómo Elegir tu Tina de Hidromasaje Perfecta | Polyplas",
+    "description": "Evita errores costosos. Guía técnica para elegir tu tina de hidromasaje según medidas, materiales (acrílico vs. fibra) y distribución de tu baño.",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2026-07-15T20:47:31+00:00",
+   "modified": "2026-08-25T23:07:03+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BlogPosting\",\"@id\":\"https:\\/\\/polyplas.cl\\/elegir-tina-hidromasaje\\/#blogposting\",\"name\":\"C\\u00f3mo Elegir tu Tina de Hidromasaje Perfecta | Polyplas\",\"headline\":\"C\\u00f3mo elegir la tina de hidromasaje perfecta para tu espacio\",\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2026\\/08\\/queilen.webp\",\"width\":900,\"height\":676},\"datePublished\":\"2026-07-15T16:47:31-04:00\",\"dateModified\":\"2026-08-25T19:07:03-04:00\",\"inLanguage\":\"es-ES\",\"mainEntityOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/elegir-tina-hidromasaje\\/#webpage\"},\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/elegir-tina-hidromasaje\\/#webpage\"},\"articleSection\":\"Sin categor\\u00eda\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/elegir-tina-hidromasaje\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/elegir-tina-hidromasaje\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/elegir-tina-hidromasaje\\/#listItem\",\"position\":2,\"name\":\"C\\u00f3mo elegir la tina de hidromasaje perfecta para tu espacio\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/elegir-tina-hidromasaje\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/elegir-tina-hidromasaje\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"Person\",\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\",\"url\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/\",\"name\":\"Fredy Arriagada Cuevas\",\"image\":{\"@type\":\"ImageObject\",\"@id\":\"https:\\/\\/polyplas.cl\\/elegir-tina-hidromasaje\\/#authorImage\",\"url\":\"https:\\/\\/secure.gravatar.com\\/avatar\\/c667f7e2a6849d02a848012f739bb0ff7779c600626974034747e784131967cd?s=96&d=mm&r=g\",\"width\":96,\"height\":96,\"caption\":\"Fredy Arriagada Cuevas\"}},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/elegir-tina-hidromasaje\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/elegir-tina-hidromasaje\\/\",\"name\":\"C\\u00f3mo Elegir tu Tina de Hidromasaje Perfecta | Polyplas\",\"description\":\"Evita errores costosos. Gu\\u00eda t\\u00e9cnica para elegir tu tina de hidromasaje seg\\u00fan medidas, materiales (acr\\u00edlico vs. fibra) y distribuci\\u00f3n de tu ba\\u00f1o.\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/elegir-tina-hidromasaje\\/#breadcrumblist\"},\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"creator\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2026\\/08\\/queilen.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/elegir-tina-hidromasaje\\/#mainImage\",\"width\":900,\"height\":676},\"primaryImageOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/elegir-tina-hidromasaje\\/#mainImage\"},\"datePublished\":\"2026-07-15T16:47:31-04:00\",\"dateModified\":\"2026-08-25T19:07:03-04:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/b3af42bdb1.js",
+  "scripts": [],
+  "css": [
+   "/wp-content/uploads/elementor/css/post-3140.css"
+  ],
+  "h1": [
+   "Cómo Elegir la Tina de Hidromasaje Perfecta para tu Espacio"
+  ]
+ },
+ "/esta-pagina-no-existe-404/": {
+  "key": "404",
+  "type": "notfound",
+  "meta": {
+   "title": "Página no encontrada – polyplas",
+   "description": null,
+   "robots": "noindex",
+   "canonical": null,
+   "og": {
+    "type": null,
+    "title": null,
+    "description": null,
+    "image": null,
+    "image:width": null,
+    "image:height": null
+   },
+   "published": null,
+   "modified": null
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/esta-pagina-no-existe-404\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/esta-pagina-no-existe-404\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/esta-pagina-no-existe-404\\/#listItem\",\"position\":2,\"name\":\"Not Found\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/esta-pagina-no-existe-404\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/esta-pagina-no-existe-404\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/esta-pagina-no-existe-404\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/esta-pagina-no-existe-404\\/\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/esta-pagina-no-existe-404\\/#breadcrumblist\"}},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/b918cda2c3.js",
+  "scripts": [],
+  "css": [],
+  "h1": [
+   "¡Esta página no resistió el impacto!"
+  ]
+ },
+ "/gracias/": {
+  "key": "gracias",
+  "type": "page",
+  "meta": {
+   "title": "gracias - polyplas",
+   "description": "Pago aprobado Tu pedido fue recibido.Te enviamos un comprobante a tu casilla de correo electrónico. N° de orden Monto pagado Código autorización Volver al inicio Pago no completado El pago fue rechazado o cancelado.Puedes intentarlo nuevamente. Volver e intentar de nuevo",
+   "robots": "noindex, max-snippet:-1, max-image-preview:large, max-video-preview:-1",
+   "canonical": "/gracias/",
+   "og": {
+    "type": "article",
+    "title": "gracias - polyplas",
+    "description": "Pago aprobado Tu pedido fue recibido.Te enviamos un comprobante a tu casilla de correo electrónico. N° de orden Monto pagado Código autorización Volver al inicio Pago no completado El pago fue rechazado o cancelado.Puedes intentarlo nuevamente. Volver e intentar de nuevo",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2026-06-09T16:41:32+00:00",
+   "modified": "2026-07-30T18:08:37+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/gracias\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/gracias\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/gracias\\/#listItem\",\"position\":2,\"name\":\"gracias\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/gracias\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/gracias\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/gracias\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/gracias\\/\",\"name\":\"gracias - polyplas\",\"description\":\"Pago aprobado Tu pedido fue recibido.Te enviamos un comprobante a tu casilla de correo electr\\u00f3nico. N\\u00b0 de orden Monto pagado C\\u00f3digo autorizaci\\u00f3n Volver al inicio Pago no completado El pago fue rechazado o cancelado.Puedes intentarlo nuevamente. Volver e intentar de nuevo\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/gracias\\/#breadcrumblist\"},\"datePublished\":\"2026-06-09T12:41:32-04:00\",\"dateModified\":\"2026-07-30T14:08:37-04:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/16c3f00aae.js",
+  "scripts": [
+   "/legacy/js/2770cf7118.js",
+   "/legacy/js/10f8410117.js"
+  ],
+  "css": [],
+  "h1": [
+   "Pago aprobado"
+  ]
+ },
+ "/guia-de-acrilicos/": {
+  "key": "guia-de-acrilicos",
+  "type": "page",
+  "meta": {
+   "title": "Guía completa de acrílicos en Chile: tipos, espesores y usos | Polyplas",
+   "description": "Aprende qué tipo de acrílico elegir según tu proyecto: transparente, espejo o flúor. Espesores, usos y consejos de Polyplas, importadora con 29 años en Chile.",
+   "robots": "max-image-preview:large",
+   "canonical": "/guia-de-acrilicos/",
+   "og": {
+    "type": "article",
+    "title": "Guía completa de acrílicos en Chile: tipos, espesores y usos | Polyplas",
+    "description": "Aprende qué tipo de acrílico elegir según tu proyecto: transparente, espejo o flúor. Espesores, usos y consejos de Polyplas, importadora con 29 años en Chile.",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2026-05-18T15:11:06+00:00",
+   "modified": "2026-09-22T16:16:52+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-acrilicos\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/guia-de-acrilicos\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-acrilicos\\/#listItem\",\"position\":2,\"name\":\"gu\\u00eda planchas acr\\u00edlico\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-acrilicos\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-acrilicos\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-acrilicos\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/guia-de-acrilicos\\/\",\"name\":\"Gu\\u00eda completa de acr\\u00edlicos en Chile: tipos, espesores y usos | Polyplas\",\"description\":\"Aprende qu\\u00e9 tipo de acr\\u00edlico elegir seg\\u00fan tu proyecto: transparente, espejo o fl\\u00faor. Espesores, usos y consejos de Polyplas, importadora con 29 a\\u00f1os en Chile.\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-acrilicos\\/#breadcrumblist\"},\"datePublished\":\"2026-05-18T11:11:06-04:00\",\"dateModified\":\"2026-09-22T13:16:52-03:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/30d8ad84c1.js",
+  "scripts": [
+   "/legacy/js/4f10bebdc1.js",
+   "/legacy/js/e3fb30450c.js"
+  ],
+  "css": [],
+  "h1": [
+   "Guía del Acrílico: Tipos, Usos y Cómo Elegir la Plancha Perfecta"
+  ]
+ },
+ "/guia-de-cupulas-de-acrilico-termoformadas/": {
+  "key": "guia-de-cupulas-de-acrilico-termoformadas",
+  "type": "post",
+  "meta": {
+   "title": "Guía Cúpulas de Acrílico - claraboyas Termoformadas",
+   "description": "Guía de instalación y medidas de cúpulas de acrílico termoformadas con protección UV en Chile. Revisa modelos disponibles, precios y stock online en Polyplas.",
+   "robots": "max-image-preview:large",
+   "canonical": "/guia-de-cupulas-de-acrilico-termoformadas/",
+   "og": {
+    "type": "article",
+    "title": "Guía Cúpulas de Acrílico - claraboyas Termoformadas",
+    "description": "Guía de instalación y medidas de cúpulas de acrílico termoformadas con protección UV en Chile. Revisa modelos disponibles, precios y stock online en Polyplas.",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2026-09-08T15:46:51+00:00",
+   "modified": "2026-09-22T15:25:10+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BlogPosting\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-cupulas-de-acrilico-termoformadas\\/#blogposting\",\"name\":\"Gu\\u00eda C\\u00fapulas de Acr\\u00edlico - claraboyas Termoformadas\",\"headline\":\"Gu\\u00eda de c\\u00fapulas de acr\\u00edlico termoformadas\",\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2023\\/05\\/cup80x80.png\",\"width\":1024,\"height\":1024},\"datePublished\":\"2026-09-08T12:46:51-03:00\",\"dateModified\":\"2026-09-22T12:25:10-03:00\",\"inLanguage\":\"es-ES\",\"mainEntityOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-cupulas-de-acrilico-termoformadas\\/#webpage\"},\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-cupulas-de-acrilico-termoformadas\\/#webpage\"},\"articleSection\":\"Sin categor\\u00eda\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-cupulas-de-acrilico-termoformadas\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/guia-de-cupulas-de-acrilico-termoformadas\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-cupulas-de-acrilico-termoformadas\\/#listItem\",\"position\":2,\"name\":\"Gu\\u00eda de c\\u00fapulas de acr\\u00edlico termoformadas\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-cupulas-de-acrilico-termoformadas\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-cupulas-de-acrilico-termoformadas\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"Person\",\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\",\"url\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/\",\"name\":\"Fredy Arriagada Cuevas\",\"image\":{\"@type\":\"ImageObject\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-cupulas-de-acrilico-termoformadas\\/#authorImage\",\"url\":\"https:\\/\\/secure.gravatar.com\\/avatar\\/c667f7e2a6849d02a848012f739bb0ff7779c600626974034747e784131967cd?s=96&d=mm&r=g\",\"width\":96,\"height\":96,\"caption\":\"Fredy Arriagada Cuevas\"}},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-cupulas-de-acrilico-termoformadas\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/guia-de-cupulas-de-acrilico-termoformadas\\/\",\"name\":\"Gu\\u00eda C\\u00fapulas de Acr\\u00edlico - claraboyas Termoformadas\",\"description\":\"Gu\\u00eda de instalaci\\u00f3n y medidas de c\\u00fapulas de acr\\u00edlico termoformadas con protecci\\u00f3n UV en Chile. Revisa modelos disponibles, precios y stock online en Polyplas.\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-cupulas-de-acrilico-termoformadas\\/#breadcrumblist\"},\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"creator\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2023\\/05\\/cup80x80.png\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-cupulas-de-acrilico-termoformadas\\/#mainImage\",\"width\":1024,\"height\":1024},\"primaryImageOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/guia-de-cupulas-de-acrilico-termoformadas\\/#mainImage\"},\"datePublished\":\"2026-09-08T12:46:51-03:00\",\"dateModified\":\"2026-09-22T12:25:10-03:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/2b1d9543db.js",
+  "scripts": [
+   "/legacy/js/bcabe69fa1.js"
+  ],
+  "css": [],
+  "h1": [
+   "Guía de Cúpulas de Acrílico Termoformadas: Medidas e Instalación"
+  ]
+ },
+ "/guia-para-comprar-tina-de-hidromasaje-en-chile/": {
+  "key": "guia-para-comprar-tina-de-hidromasaje-en-chile",
+  "type": "page",
+  "meta": {
+   "title": "Guía de Tinas de Hidromasaje y Jacuzzis | Polyplas",
+   "description": "¿Qué tina con hidromasaje elegir? Descubre modelos de jacuzzi para 2 personas y bañeras premium en Chile. Precios, medidas y stock en Santiago.",
+   "robots": "max-image-preview:large",
+   "canonical": "/guia-para-comprar-tina-de-hidromasaje-en-chile/",
+   "og": {
+    "type": "article",
+    "title": "Guía de Tinas de Hidromasaje y Jacuzzis | Polyplas",
+    "description": "¿Qué tina con hidromasaje elegir? Descubre modelos de jacuzzi para 2 personas y bañeras premium en Chile. Precios, medidas y stock en Santiago.",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2026-05-18T20:01:56+00:00",
+   "modified": "2026-09-22T16:20:04+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-para-comprar-tina-de-hidromasaje-en-chile\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/guia-para-comprar-tina-de-hidromasaje-en-chile\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-para-comprar-tina-de-hidromasaje-en-chile\\/#listItem\",\"position\":2,\"name\":\"Gu\\u00eda Tinas de Hidromasaje Chile: Modelos y Precios | Polyplas\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-para-comprar-tina-de-hidromasaje-en-chile\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/guia-para-comprar-tina-de-hidromasaje-en-chile\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-para-comprar-tina-de-hidromasaje-en-chile\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/guia-para-comprar-tina-de-hidromasaje-en-chile\\/\",\"name\":\"Gu\\u00eda de Tinas de Hidromasaje y Jacuzzis | Polyplas\",\"description\":\"\\u00bfQu\\u00e9 tina con hidromasaje elegir? Descubre modelos de jacuzzi para 2 personas y ba\\u00f1eras premium en Chile. Precios, medidas y stock en Santiago.\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/guia-para-comprar-tina-de-hidromasaje-en-chile\\/#breadcrumblist\"},\"datePublished\":\"2026-05-18T16:01:56-04:00\",\"dateModified\":\"2026-09-22T13:20:04-03:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/534f23069a.js",
+  "scripts": [
+   "/legacy/js/1d9f5466c6.js"
+  ],
+  "css": [],
+  "h1": [
+   "Guía para Comprar tu Tina de Hidromasaje en Chile 2026"
+  ]
+ },
+ "/guia-practica-receptaculos-de-ducha-sin-filtraciones/": {
+  "key": "guia-practica-receptaculos-de-ducha-sin-filtraciones",
+  "type": "post",
+  "meta": {
+   "title": "Receptáculos de Ducha en Acrílico | Polyplas",
+   "description": "Receptáculos de ducha Polyplas en acrílico sanitario reforzado con fibra de vidrio. Diseños antideslizantes y anti-filtraciones. ¡Revisa el catálogo!",
+   "robots": "max-image-preview:large",
+   "canonical": "/guia-practica-receptaculos-de-ducha-sin-filtraciones/",
+   "og": {
+    "type": "article",
+    "title": "Receptáculos de Ducha en Acrílico | Polyplas",
+    "description": "Receptáculos de ducha Polyplas en acrílico sanitario reforzado con fibra de vidrio. Diseños antideslizantes y anti-filtraciones. ¡Revisa el catálogo!",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2026-09-09T16:46:55+00:00",
+   "modified": "2026-09-22T15:21:27+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BlogPosting\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-practica-receptaculos-de-ducha-sin-filtraciones\\/#blogposting\",\"name\":\"Recept\\u00e1culos de Ducha en Acr\\u00edlico | Polyplas\",\"headline\":\"Gu\\u00eda recept\\u00e1culos de ducha, Polyplas\",\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2026\\/09\\/receptaculo.png\",\"width\":896,\"height\":1167},\"datePublished\":\"2026-09-09T13:46:55-03:00\",\"dateModified\":\"2026-09-22T12:21:27-03:00\",\"inLanguage\":\"es-ES\",\"mainEntityOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/guia-practica-receptaculos-de-ducha-sin-filtraciones\\/#webpage\"},\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/guia-practica-receptaculos-de-ducha-sin-filtraciones\\/#webpage\"},\"articleSection\":\"Sin categor\\u00eda\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-practica-receptaculos-de-ducha-sin-filtraciones\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/guia-practica-receptaculos-de-ducha-sin-filtraciones\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-practica-receptaculos-de-ducha-sin-filtraciones\\/#listItem\",\"position\":2,\"name\":\"Gu\\u00eda recept\\u00e1culos de ducha, Polyplas\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-practica-receptaculos-de-ducha-sin-filtraciones\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/guia-practica-receptaculos-de-ducha-sin-filtraciones\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"Person\",\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\",\"url\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/\",\"name\":\"Fredy Arriagada Cuevas\",\"image\":{\"@type\":\"ImageObject\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-practica-receptaculos-de-ducha-sin-filtraciones\\/#authorImage\",\"url\":\"https:\\/\\/secure.gravatar.com\\/avatar\\/c667f7e2a6849d02a848012f739bb0ff7779c600626974034747e784131967cd?s=96&d=mm&r=g\",\"width\":96,\"height\":96,\"caption\":\"Fredy Arriagada Cuevas\"}},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-practica-receptaculos-de-ducha-sin-filtraciones\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/guia-practica-receptaculos-de-ducha-sin-filtraciones\\/\",\"name\":\"Recept\\u00e1culos de Ducha en Acr\\u00edlico | Polyplas\",\"description\":\"Recept\\u00e1culos de ducha Polyplas en acr\\u00edlico sanitario reforzado con fibra de vidrio. Dise\\u00f1os antideslizantes y anti-filtraciones. \\u00a1Revisa el cat\\u00e1logo!\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/guia-practica-receptaculos-de-ducha-sin-filtraciones\\/#breadcrumblist\"},\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"creator\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2026\\/09\\/receptaculo.png\",\"@id\":\"https:\\/\\/polyplas.cl\\/guia-practica-receptaculos-de-ducha-sin-filtraciones\\/#mainImage\",\"width\":896,\"height\":1167},\"primaryImageOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/guia-practica-receptaculos-de-ducha-sin-filtraciones\\/#mainImage\"},\"datePublished\":\"2026-09-09T13:46:55-03:00\",\"dateModified\":\"2026-09-22T12:21:27-03:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/de5a02c654.js",
+  "scripts": [
+   "/legacy/js/82277e15ee.js"
+  ],
+  "css": [],
+  "h1": [
+   "Guía de Selección: Receptáculos de Ducha Polyplas"
+  ]
+ },
+ "/jacuzzi-tina-de-hidromasaje-transforma-tu-bano/": {
+  "key": "jacuzzi-tina-de-hidromasaje-transforma-tu-bano",
+  "type": "post",
+  "meta": {
+   "title": "Jacuzzis y Tinas de Hidromasaje: Cuál Elegir | Polyplas",
+   "description": "¿Buscas un jacuzzi o tina de hidromasaje? Descubre las diferencias, modelos individuales y dobles en Polyplas con instalación sin obras complejas.",
+   "robots": "max-image-preview:large",
+   "canonical": "/jacuzzi-tina-de-hidromasaje-transforma-tu-bano/",
+   "og": {
+    "type": "article",
+    "title": "Jacuzzis y Tinas de Hidromasaje: Cuál Elegir | Polyplas",
+    "description": "¿Buscas un jacuzzi o tina de hidromasaje? Descubre las diferencias, modelos individuales y dobles en Polyplas con instalación sin obras complejas.",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2026-08-24T02:28:06+00:00",
+   "modified": "2026-09-22T15:46:28+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BlogPosting\",\"@id\":\"https:\\/\\/polyplas.cl\\/jacuzzi-tina-de-hidromasaje-transforma-tu-bano\\/#blogposting\",\"name\":\"Jacuzzis y Tinas de Hidromasaje: Cu\\u00e1l Elegir | Polyplas\",\"headline\":\"\\u00bfJacuzzi o Tina de Hidromasaje? Descubre c\\u00f3mo transformar tu ba\\u00f1o en un spa definitivo y cu\\u00e1l elegir\",\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2024\\/12\\/hidro-3.webp\",\"width\":1024,\"height\":1024},\"datePublished\":\"2026-08-23T22:28:06-04:00\",\"dateModified\":\"2026-09-22T12:46:28-03:00\",\"inLanguage\":\"es-ES\",\"mainEntityOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/jacuzzi-tina-de-hidromasaje-transforma-tu-bano\\/#webpage\"},\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/jacuzzi-tina-de-hidromasaje-transforma-tu-bano\\/#webpage\"},\"articleSection\":\"Sin categor\\u00eda\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/jacuzzi-tina-de-hidromasaje-transforma-tu-bano\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/jacuzzi-tina-de-hidromasaje-transforma-tu-bano\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/jacuzzi-tina-de-hidromasaje-transforma-tu-bano\\/#listItem\",\"position\":2,\"name\":\"\\u00bfJacuzzi o Tina de Hidromasaje? Descubre c\\u00f3mo transformar tu ba\\u00f1o en un spa definitivo y cu\\u00e1l elegir\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/jacuzzi-tina-de-hidromasaje-transforma-tu-bano\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/jacuzzi-tina-de-hidromasaje-transforma-tu-bano\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"Person\",\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\",\"url\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/\",\"name\":\"Fredy Arriagada Cuevas\",\"image\":{\"@type\":\"ImageObject\",\"@id\":\"https:\\/\\/polyplas.cl\\/jacuzzi-tina-de-hidromasaje-transforma-tu-bano\\/#authorImage\",\"url\":\"https:\\/\\/secure.gravatar.com\\/avatar\\/c667f7e2a6849d02a848012f739bb0ff7779c600626974034747e784131967cd?s=96&d=mm&r=g\",\"width\":96,\"height\":96,\"caption\":\"Fredy Arriagada Cuevas\"}},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/jacuzzi-tina-de-hidromasaje-transforma-tu-bano\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/jacuzzi-tina-de-hidromasaje-transforma-tu-bano\\/\",\"name\":\"Jacuzzis y Tinas de Hidromasaje: Cu\\u00e1l Elegir | Polyplas\",\"description\":\"\\u00bfBuscas un jacuzzi o tina de hidromasaje? Descubre las diferencias, modelos individuales y dobles en Polyplas con instalaci\\u00f3n sin obras complejas.\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/jacuzzi-tina-de-hidromasaje-transforma-tu-bano\\/#breadcrumblist\"},\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"creator\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2024\\/12\\/hidro-3.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/jacuzzi-tina-de-hidromasaje-transforma-tu-bano\\/#mainImage\",\"width\":1024,\"height\":1024},\"primaryImageOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/jacuzzi-tina-de-hidromasaje-transforma-tu-bano\\/#mainImage\"},\"datePublished\":\"2026-08-23T22:28:06-04:00\",\"dateModified\":\"2026-09-22T12:46:28-03:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/23564cc67f.js",
+  "scripts": [
+   "/legacy/js/5fc96110ad.js"
+  ],
+  "css": [],
+  "h1": [
+   "¿Jacuzzi o Tina de Hidromasaje? Descubre cómo transformar tu baño en un spa definitivo y cuál elegir"
+  ]
+ },
+ "/nosotros/": {
+  "key": "nosotros",
+  "type": "page",
+  "meta": {
+   "title": "Nosotros - polyplas",
+   "description": "SOBRE NOSOTROS CÚPULAS PLANCHAS DE ACRÍLICO Planchas de Acrílico Planchas PET Planchas PETG Planchas de Policarbonato RECEPTÁCULOS TINAS DE HIDROMASAJE BLOG CONTACTO Desde 1996 Nosotros En Polyplas somos una empresa con 29 años de trayectoria en el mercado, dedicada a la importación y comercialización de acrílicos de alta calidad. Hemos trabajado con un propósito claro:",
+   "robots": "max-image-preview:large",
+   "canonical": "/nosotros/",
+   "og": {
+    "type": "article",
+    "title": "Nosotros - polyplas",
+    "description": "SOBRE NOSOTROS CÚPULAS PLANCHAS DE ACRÍLICO Planchas de Acrílico Planchas PET Planchas PETG Planchas de Policarbonato RECEPTÁCULOS TINAS DE HIDROMASAJE BLOG CONTACTO Desde 1996 Nosotros En Polyplas somos una empresa con 29 años de trayectoria en el mercado, dedicada a la importación y comercialización de acrílicos de alta calidad. Hemos trabajado con un propósito claro:",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2022-07-04T19:27:35+00:00",
+   "modified": "2026-08-27T01:01:43+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/nosotros\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/nosotros\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/nosotros\\/#listItem\",\"position\":2,\"name\":\"Nosotros\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/nosotros\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/nosotros\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/nosotros\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/nosotros\\/\",\"name\":\"Nosotros - polyplas\",\"description\":\"SOBRE NOSOTROS C\\u00daPULAS PLANCHAS DE ACR\\u00cdLICO Planchas de Acr\\u00edlico Planchas PET Planchas PETG Planchas de Policarbonato RECEPT\\u00c1CULOS TINAS DE HIDROMASAJE BLOG CONTACTO Desde 1996 Nosotros En Polyplas somos una empresa con 29 a\\u00f1os de trayectoria en el mercado, dedicada a la importaci\\u00f3n y comercializaci\\u00f3n de acr\\u00edlicos de alta calidad. Hemos trabajado con un prop\\u00f3sito claro:\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/nosotros\\/#breadcrumblist\"},\"datePublished\":\"2022-07-04T15:27:35-04:00\",\"dateModified\":\"2026-08-26T21:01:43-04:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/4a2d1f9aed.js",
+  "scripts": [
+   "/legacy/js/d83186c2ff.js",
+   "/legacy/js/8eec609a27.js"
+  ],
+  "css": [
+   "/wp-content/uploads/elementor/css/post-41.css"
+  ],
+  "h1": [
+   "Nosotros"
+  ]
+ },
+ "/plancas_de_acrilico_guia_de_espesores/": {
+  "key": "plancas_de_acrilico_guia_de_espesores",
+  "type": "post",
+  "meta": {
+   "title": "Planchas de Acrílico: Guía de Espesores y Usos | Polyplas",
+   "description": "Descubre cómo elegir la plancha de acrílico adecuada. Guía técnica de espesores (2mm a 10mm), cortes, tipos y usos en proyectos. ¡Cotiza aquí!",
+   "robots": "max-image-preview:large",
+   "canonical": "/plancas_de_acrilico_guia_de_espesores/",
+   "og": {
+    "type": "article",
+    "title": "Planchas de Acrílico: Guía de Espesores y Usos | Polyplas",
+    "description": "Descubre cómo elegir la plancha de acrílico adecuada. Guía técnica de espesores (2mm a 10mm), cortes, tipos y usos en proyectos. ¡Cotiza aquí!",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2026-07-22T17:35:56+00:00",
+   "modified": "2026-09-22T15:56:14+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BlogPosting\",\"@id\":\"https:\\/\\/polyplas.cl\\/plancas_de_acrilico_guia_de_espesores\\/#blogposting\",\"name\":\"Planchas de Acr\\u00edlico: Gu\\u00eda de Espesores y Usos | Polyplas\",\"headline\":\"Planchas de Acr\\u00edlico: Gu\\u00eda de Espesores, Usos y Tipos para Elegir la Adecuada\",\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2026\\/07\\/colores_acrilicos.webp\",\"width\":1023,\"height\":876},\"datePublished\":\"2026-07-22T13:35:56-04:00\",\"dateModified\":\"2026-09-22T12:56:14-03:00\",\"inLanguage\":\"es-ES\",\"mainEntityOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/plancas_de_acrilico_guia_de_espesores\\/#webpage\"},\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/plancas_de_acrilico_guia_de_espesores\\/#webpage\"},\"articleSection\":\"Sin categor\\u00eda\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/plancas_de_acrilico_guia_de_espesores\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/plancas_de_acrilico_guia_de_espesores\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/plancas_de_acrilico_guia_de_espesores\\/#listItem\",\"position\":2,\"name\":\"Planchas de Acr\\u00edlico: Gu\\u00eda de Espesores, Usos y Tipos para Elegir la Adecuada\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/plancas_de_acrilico_guia_de_espesores\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/plancas_de_acrilico_guia_de_espesores\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"Person\",\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\",\"url\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/\",\"name\":\"Fredy Arriagada Cuevas\",\"image\":{\"@type\":\"ImageObject\",\"@id\":\"https:\\/\\/polyplas.cl\\/plancas_de_acrilico_guia_de_espesores\\/#authorImage\",\"url\":\"https:\\/\\/secure.gravatar.com\\/avatar\\/c667f7e2a6849d02a848012f739bb0ff7779c600626974034747e784131967cd?s=96&d=mm&r=g\",\"width\":96,\"height\":96,\"caption\":\"Fredy Arriagada Cuevas\"}},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/plancas_de_acrilico_guia_de_espesores\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/plancas_de_acrilico_guia_de_espesores\\/\",\"name\":\"Planchas de Acr\\u00edlico: Gu\\u00eda de Espesores y Usos | Polyplas\",\"description\":\"Descubre c\\u00f3mo elegir la plancha de acr\\u00edlico adecuada. Gu\\u00eda t\\u00e9cnica de espesores (2mm a 10mm), cortes, tipos y usos en proyectos. \\u00a1Cotiza aqu\\u00ed!\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/plancas_de_acrilico_guia_de_espesores\\/#breadcrumblist\"},\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"creator\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2026\\/07\\/colores_acrilicos.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/plancas_de_acrilico_guia_de_espesores\\/#mainImage\",\"width\":1023,\"height\":876},\"primaryImageOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/plancas_de_acrilico_guia_de_espesores\\/#mainImage\"},\"datePublished\":\"2026-07-22T13:35:56-04:00\",\"dateModified\":\"2026-09-22T12:56:14-03:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/04e5ebc12f.js",
+  "scripts": [
+   "/legacy/js/821c24c31a.js"
+  ],
+  "css": [],
+  "h1": [
+   "Planchas de Acrílico: Guía de Espesores, Usos y Tipos para Elegir la Adecuada"
+  ]
+ },
+ "/planchas-de-policarbonato-uso-en-terraza/": {
+  "key": "planchas-de-policarbonato-uso-en-terraza",
+  "type": "post",
+  "meta": {
+   "title": "Techo con planchas de Policarbonato: Evita temperatura extrema | Polyplas",
+   "description": "¿Tu terraza se siente como un horno? Aprende a elegir policarbonato con protección térmica y evita el efecto invernadero manteniendo la luz natural en tu hogar.",
+   "robots": "max-image-preview:large",
+   "canonical": "/planchas-de-policarbonato-uso-en-terraza/",
+   "og": {
+    "type": "article",
+    "title": "Techo con planchas de Policarbonato: Evita temperatura extrema | Polyplas",
+    "description": "¿Tu terraza se siente como un horno? Aprende a elegir policarbonato con protección térmica y evita el efecto invernadero manteniendo la luz natural en tu hogar.",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2026-08-24T02:46:09+00:00",
+   "modified": "2026-09-22T15:42:35+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BlogPosting\",\"@id\":\"https:\\/\\/polyplas.cl\\/planchas-de-policarbonato-uso-en-terraza\\/#blogposting\",\"name\":\"Techo con planchas de Policarbonato: Evita temperatura extrema | Polyplas\",\"headline\":\"\\u00bfTu terraza se siente como un horno? C\\u00f3mo evitar el calor extremo con las planchas de policarbonato correctas\",\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2026\\/08\\/terraza-policarbonato.webp\",\"width\":1408,\"height\":768},\"datePublished\":\"2026-08-23T22:46:09-04:00\",\"dateModified\":\"2026-09-22T12:42:35-03:00\",\"inLanguage\":\"es-ES\",\"mainEntityOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/planchas-de-policarbonato-uso-en-terraza\\/#webpage\"},\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/planchas-de-policarbonato-uso-en-terraza\\/#webpage\"},\"articleSection\":\"Sin categor\\u00eda\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/planchas-de-policarbonato-uso-en-terraza\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/planchas-de-policarbonato-uso-en-terraza\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/planchas-de-policarbonato-uso-en-terraza\\/#listItem\",\"position\":2,\"name\":\"\\u00bfTu terraza se siente como un horno? C\\u00f3mo evitar el calor extremo con las planchas de policarbonato correctas\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/planchas-de-policarbonato-uso-en-terraza\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/planchas-de-policarbonato-uso-en-terraza\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"Person\",\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\",\"url\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/\",\"name\":\"Fredy Arriagada Cuevas\",\"image\":{\"@type\":\"ImageObject\",\"@id\":\"https:\\/\\/polyplas.cl\\/planchas-de-policarbonato-uso-en-terraza\\/#authorImage\",\"url\":\"https:\\/\\/secure.gravatar.com\\/avatar\\/c667f7e2a6849d02a848012f739bb0ff7779c600626974034747e784131967cd?s=96&d=mm&r=g\",\"width\":96,\"height\":96,\"caption\":\"Fredy Arriagada Cuevas\"}},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/planchas-de-policarbonato-uso-en-terraza\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/planchas-de-policarbonato-uso-en-terraza\\/\",\"name\":\"Techo con planchas de Policarbonato: Evita temperatura extrema | Polyplas\",\"description\":\"\\u00bfTu terraza se siente como un horno? Aprende a elegir policarbonato con protecci\\u00f3n t\\u00e9rmica y evita el efecto invernadero manteniendo la luz natural en tu hogar.\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/planchas-de-policarbonato-uso-en-terraza\\/#breadcrumblist\"},\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"creator\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2026\\/08\\/terraza-policarbonato.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/planchas-de-policarbonato-uso-en-terraza\\/#mainImage\",\"width\":1408,\"height\":768},\"primaryImageOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/planchas-de-policarbonato-uso-en-terraza\\/#mainImage\"},\"datePublished\":\"2026-08-23T22:46:09-04:00\",\"dateModified\":\"2026-09-22T12:42:35-03:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/a19c0ef351.js",
+  "scripts": [
+   "/legacy/js/9eb51aef86.js"
+  ],
+  "css": [],
+  "h1": [
+   "¿Tu terraza se siente como un horno? Cómo evitar el calor extremo con las planchas de policarbonato correctas"
+  ]
+ },
+ "/politica-de-privacidad-de-datos/": {
+  "key": "politica-de-privacidad-de-datos",
+  "type": "page",
+  "meta": {
+   "title": "Politica de privacidad de datos - polyplas",
+   "description": "En Polyplas estamos profundamente comprometidos con la seguridad y confidencialidad de los datos personales de nuestros usuarios y clientes. Cuando le solicitamos completar campos de información personal con la cual usted pueda ser identificado, lo hacemos asegurando que solo se empleará de acuerdo con los términos consignados en este documento.1. Información que RecopilamosNuestro sitio web",
+   "robots": "max-image-preview:large",
+   "canonical": "/politica-de-privacidad-de-datos/",
+   "og": {
+    "type": "article",
+    "title": "Politica de privacidad de datos - polyplas",
+    "description": "En Polyplas estamos profundamente comprometidos con la seguridad y confidencialidad de los datos personales de nuestros usuarios y clientes. Cuando le solicitamos completar campos de información personal con la cual usted pueda ser identificado, lo hacemos asegurando que solo se empleará de acuerdo con los términos consignados en este documento.1. Información que RecopilamosNuestro sitio web",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2026-07-31T20:30:24+00:00",
+   "modified": "2026-08-27T01:04:12+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/politica-de-privacidad-de-datos\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/politica-de-privacidad-de-datos\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/politica-de-privacidad-de-datos\\/#listItem\",\"position\":2,\"name\":\"Politica de privacidad de datos\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/politica-de-privacidad-de-datos\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/politica-de-privacidad-de-datos\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/politica-de-privacidad-de-datos\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/politica-de-privacidad-de-datos\\/\",\"name\":\"Politica de privacidad de datos - polyplas\",\"description\":\"En Polyplas estamos profundamente comprometidos con la seguridad y confidencialidad de los datos personales de nuestros usuarios y clientes. Cuando le solicitamos completar campos de informaci\\u00f3n personal con la cual usted pueda ser identificado, lo hacemos asegurando que solo se emplear\\u00e1 de acuerdo con los t\\u00e9rminos consignados en este documento.1. Informaci\\u00f3n que RecopilamosNuestro sitio web\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/politica-de-privacidad-de-datos\\/#breadcrumblist\"},\"datePublished\":\"2026-07-31T16:30:24-04:00\",\"dateModified\":\"2026-08-26T21:04:12-04:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/cb63d8b269.js",
+  "scripts": [],
+  "css": [
+   "/wp-content/uploads/elementor/css/post-3402.css"
+  ],
+  "h1": [
+   "Política de privacidad de datos"
+  ]
+ },
+ "/receptaculos-de-ducha-instalacion/": {
+  "key": "receptaculos-de-ducha-instalacion",
+  "type": "post",
+  "meta": {
+   "title": "Receptáculos de Ducha: Instalación Sin Filtración | Polyplas",
+   "description": "¿Preocupado por goteras en tu baño? Descubre cómo elegir e instalar un receptáculo de ducha de acrílico Polyplas con un sellado hermético y definitivo.",
+   "robots": "max-image-preview:large",
+   "canonical": "/receptaculos-de-ducha-instalacion/",
+   "og": {
+    "type": "article",
+    "title": "Receptáculos de Ducha: Instalación Sin Filtración | Polyplas",
+    "description": "¿Preocupado por goteras en tu baño? Descubre cómo elegir e instalar un receptáculo de ducha de acrílico Polyplas con un sellado hermético y definitivo.",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+   },
+   "published": "2026-07-20T19:50:18+00:00",
+   "modified": "2026-09-22T15:59:34+00:00"
+  },
+  "jsonLd": [
+   "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BlogPosting\",\"@id\":\"https:\\/\\/polyplas.cl\\/receptaculos-de-ducha-instalacion\\/#blogposting\",\"name\":\"Recept\\u00e1culos de Ducha: Instalaci\\u00f3n Sin Filtraci\\u00f3n | Polyplas\",\"headline\":\"Recept\\u00e1culos de Ducha: Gu\\u00eda Definitiva para una Instalaci\\u00f3n Sin Filtraciones\",\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/08\\/img-receptaculos.webp\",\"width\":797,\"height\":297},\"datePublished\":\"2026-07-20T15:50:18-04:00\",\"dateModified\":\"2026-09-22T12:59:34-03:00\",\"inLanguage\":\"es-ES\",\"mainEntityOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/receptaculos-de-ducha-instalacion\\/#webpage\"},\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/receptaculos-de-ducha-instalacion\\/#webpage\"},\"articleSection\":\"Sin categor\\u00eda\"},{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/receptaculos-de-ducha-instalacion\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/receptaculos-de-ducha-instalacion\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/receptaculos-de-ducha-instalacion\\/#listItem\",\"position\":2,\"name\":\"Recept\\u00e1culos de Ducha: Gu\\u00eda Definitiva para una Instalaci\\u00f3n Sin Filtraciones\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/receptaculos-de-ducha-instalacion\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/receptaculos-de-ducha-instalacion\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"Person\",\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\",\"url\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/\",\"name\":\"Fredy Arriagada Cuevas\",\"image\":{\"@type\":\"ImageObject\",\"@id\":\"https:\\/\\/polyplas.cl\\/receptaculos-de-ducha-instalacion\\/#authorImage\",\"url\":\"https:\\/\\/secure.gravatar.com\\/avatar\\/c667f7e2a6849d02a848012f739bb0ff7779c600626974034747e784131967cd?s=96&d=mm&r=g\",\"width\":96,\"height\":96,\"caption\":\"Fredy Arriagada Cuevas\"}},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/receptaculos-de-ducha-instalacion\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/receptaculos-de-ducha-instalacion\\/\",\"name\":\"Recept\\u00e1culos de Ducha: Instalaci\\u00f3n Sin Filtraci\\u00f3n | Polyplas\",\"description\":\"\\u00bfPreocupado por goteras en tu ba\\u00f1o? Descubre c\\u00f3mo elegir e instalar un recept\\u00e1culo de ducha de acr\\u00edlico Polyplas con un sellado herm\\u00e9tico y definitivo.\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/receptaculos-de-ducha-instalacion\\/#breadcrumblist\"},\"author\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"creator\":{\"@id\":\"https:\\/\\/polyplas.cl\\/author\\/fnac1525\\/#author\"},\"image\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/08\\/img-receptaculos.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/receptaculos-de-ducha-instalacion\\/#mainImage\",\"width\":797,\"height\":297},\"primaryImageOfPage\":{\"@id\":\"https:\\/\\/polyplas.cl\\/receptaculos-de-ducha-instalacion\\/#mainImage\"},\"datePublished\":\"2026-07-20T15:50:18-04:00\",\"dateModified\":\"2026-09-22T12:59:34-03:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "/legacy/js/dbff608123.js",
+  "scripts": [
+   "/legacy/js/eb247934d7.js"
+  ],
+  "css": [],
+  "h1": [
+   "Receptáculos de Ducha: Guía Definitiva para una Instalación Sin Filtraciones"
+  ]
+ }
+}
