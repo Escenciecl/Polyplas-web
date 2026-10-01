@@ -49,7 +49,8 @@ export const metadata: Metadata = {
     ],
     apple: "/wp-content/uploads/2022/07/favicon-polyplas-1-300x300.webp",
   },
-  verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION },
+  // Verificación de Google Search Console (mismo código que tenía WordPress)
+  verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "7Nik4IJlZ_Oy3ZCWabbakndDA5IvebGoRZ31BNOTO-Y" },
   formatDetection: { telephone: false },
 };
 

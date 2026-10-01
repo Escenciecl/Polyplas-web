@@ -26,6 +26,15 @@ const generic = [
   "/producto/* / 301",
   "/etiqueta-producto/* / 301",
   "/:slug/feed/ /:slug/ 301",
+  // sitemaps antiguos de AIOSEO / WordPress -> sitemap nuevo
+  "/sitemap_index.xml /sitemap.xml 301",
+  "/post-sitemap.xml /sitemap.xml 301",
+  "/page-sitemap.xml /sitemap.xml 301",
+  "/product-sitemap.xml /sitemap.xml 301",
+  "/category-sitemap.xml /sitemap.xml 301",
+  "/product_cat-sitemap.xml /sitemap.xml 301",
+  "/product_tag-sitemap.xml /sitemap.xml 301",
+  "/wp-sitemap.xml /sitemap.xml 301",
 ];
 
 fs.writeFileSync(
