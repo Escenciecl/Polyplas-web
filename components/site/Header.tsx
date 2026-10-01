@@ -42,16 +42,6 @@ export default function Header() {
               </li>
             ))}
           </ul>
-          <div className="pp-topbar__contact">
-            <a href={nav.telefono.enlace}>
-              {Icono.telefono}
-              {nav.telefono.texto}
-            </a>
-            <a href={nav.whatsapp.enlace} target="_blank" rel="noopener">
-              {Icono.whatsapp}
-              {nav.whatsapp.texto}
-            </a>
-          </div>
         </div>
       </div>
 
