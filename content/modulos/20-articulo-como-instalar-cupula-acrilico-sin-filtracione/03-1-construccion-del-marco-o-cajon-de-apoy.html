@@ -1,0 +1,235 @@
+<style>
+  :root {
+    --navy-dark: #0c1a30;
+    --blue-accent: #1e3a8a;
+    --red-alert: #ef4444;
+    --gray-bg: #f9fafb;
+    --gray-border: #e5e7eb;
+    --text-main: #1f2937;
+    --text-muted: #4b5563;
+  }
+
+  .poly-post {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px 15px 60px 15px;
+  }
+
+  .poly-post h1, .poly-post h2, .poly-post h3 , .poly-post h1.pp-was-h2{
+    font-family: 'Montserrat', sans-serif;
+    color: var(--navy-dark);
+    margin-top: 35px;
+    margin-bottom: 15px;
+  }
+
+  .poly-post-header {
+    margin-bottom: 30px;
+    text-align: left;
+  }
+
+  .poly-post-badge {
+    display: inline-block;
+    background-color: var(--blue-accent);
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+  }
+
+  .poly-post-title {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.25;
+    margin: 0 0 15px 0;
+  }
+
+  .poly-post-meta {
+    display: flex;
+    gap: 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--gray-border);
+    padding-bottom: 20px;
+  }
+
+  .poly-post-hero-img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border: 1px solid var(--gray-border);
+  }
+
+  .poly-post-lead {
+    font-size: 18px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 30px;
+    border-left: 4px solid var(--blue-accent);
+    padding-left: 20px;
+  }
+
+  .poly-post-section {
+    background-color: var(--gray-bg);
+    border: 1px solid var(--gray-border);
+    border-radius: 8px;
+    padding: 25px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+
+  .poly-section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 0 !important;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Estilo para los enlaces internos insertados */
+  .poly-post a.poly-inline-link {
+    color: var(--blue-accent);
+    text-decoration: underline;
+    font-weight: 600;
+  }
+  .poly-post a.poly-inline-link:hover {
+    color: var(--navy-dark);
+  }
+
+  .poly-solution-list {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0 0 0;
+  }
+
+  .poly-solution-list li {
+    position: relative;
+    padding-left: 25px;
+    margin-bottom: 12px;
+    font-size: 15px;
+  }
+
+  .poly-solution-list li strong {
+    color: var(--navy-dark);
+  }
+
+  .poly-solution-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: var(--blue-accent);
+    font-weight: 900;
+    font-size: 16px;
+  }
+
+  .poly-cta-box {
+    background: linear-gradient(135deg, #0c1a30 0%, #111827 100%);
+    color: #ffffff;
+    border-radius: 8px;
+    padding: 35px;
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .poly-cta-box h3 {
+    color: #ffffff;
+    font-size: 22px;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
+
+  .poly-cta-box p {
+    color: #94a3b8;
+    font-size: 15px;
+    margin-bottom: 25px;
+  }
+
+  .poly-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    color: var(--navy-dark);
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 14px 28px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+  }
+
+  .poly-cta-btn:hover {
+    background-color: var(--blue-accent);
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    .poly-post-title {
+      font-size: 26px;
+    }
+    .poly-post-lead {
+      font-size: 16px;
+    }
+  }
+</style>
+<div class="poly-post">
+<img alt="Instalación de cúpula acrílica termoformada para iluminación natural" class="poly-post-hero-img" decoding="async" src="/wp-content/uploads/2026/08/cupula_web_11zon.webp"/>
+<p class="poly-post-lead">
+    Instalar una <a class="poly-inline-link" href="/categoria-producto/cupulas/" target="_blank">cúpula de acrílico</a> es la forma más eficiente de transformar espacios oscuros mediante iluminación natural directa. Sin embargo, abrir un espacio en el techo genera siempre la misma preocupación en instaladores y clientes: la estanqueidad. Una mala fijación o el uso de sellantes inadecuados terminará inevitablemente en filtraciones de agua de lluvia.
+  </p>
+<p>
+    Para evitar post-ventas costosas y daños estructurales en el cielo del inmueble, el montaje debe seguir un protocolo de sellado rígido. En esta guía te explicamos cómo asegurar un anclaje hermético de tus <a class="poly-inline-link" href="/categoria-producto/cupulas/" target="_blank">cúpulas y claraboyas</a> en techos planos o inclinados.
+  </p>
+<section class="poly-post-section">
+<h2 class="poly-section-title">1. Construcción del marco o "cajón de apoyo" levantado</h2>
+<p>
+      El error más grave de impermeabilización es montar la <a class="poly-inline-link" href="/categoria-producto/cupulas/" target="_blank">cúpula</a> directamente al nivel del techo. El agua que corre por la techumbre se acumulará en sus bordes y se filtrará por capilaridad o presión de viento.
+    </p>
+<ul class="poly-solution-list">
+<li><strong>Construye un marco elevado (botaaguas):</strong> El vano del techo debe contar con un marco o cajón perimetral de madera o metal que eleve la base de la cúpula al menos entre 10 y 15 cm por sobre el nivel de la techumbre.</li>
+<li><strong>Recubre el cajón con membrana asfáltica:</strong> Antes de colocar el acrílico, la cara exterior del marco y la unión con el techo deben ser revestidas completamente con membrana impermeabilizante, asegurando que el agua escurra libremente a los costados.</li>
+<li><strong>Garantiza la pendiente:</strong> En techos planos, el marco de apoyo debe diseñarse con una ligera inclinación para favorecer la autolimpieza y evitar que el agua se estanque en las pestañas de fijación.</li>
+</ul>
+</section>
+<section class="poly-post-section">
+<h2 class="poly-section-title">2. El sellado químico: Usa solo silicona neutra</h2>
+<p>
+      No todos los sellantes son compatibles con los plásticos. El uso de siliconas acéticas comunes daña la estructura molecular de las <a class="poly-inline-link" href="/categoria-producto/cupulas/" target="_blank">cúpulas de acrílico</a> termoformadas, provocando microfisuras ("crazing") a mediano plazo que rompen el material.
+    </p>
+<ul class="poly-solution-list">
+<li><strong>Aplica silicona 100% neutra curado alcoxi:</strong> Este tipo de silicona ofrece máxima adherencia sobre acrílico, madera y metal, manteniendo flexibilidad permanente frente a movimientos estructurales y dilatación térmica sin dañar el polímero.</li>
+<li><strong>Cinta de espuma de celda cerrada:</strong> Antes de aplicar la silicona líquida, pega una cinta de espuma de neopreno o EPDM sobre el borde superior del cajón de apoyo. Esta cinta actúa como una barrera física de doble sello que absorbe vibraciones.</li>
+</ul>
+</section>
+<section class="poly-post-section">
+<h2 class="poly-section-title">3. Fijación mecánica que permita la dilatación térmica</h2>
+<p>
+      Al igual que las planchas, las cúpulas se expanden con el calor solar y se contraen con el frío del invierno. Si las fijas de forma rígida al marco de soporte, la tensión del material terminará por trizar los puntos de anclaje.
+    </p>
+<ul class="poly-solution-list">
+<li><strong>Perfora agujeros sobremedida:</strong> Los orificios en las pestañas de la cúpula para los tornillos deben ser al menos de 2 a 3 mm más grandes que el diámetro del tornillo para dar margen de movimiento libre.</li>
+<li><strong>Usa golillas de goma (grommets) de ala ancha:</strong> Coloca siempre golillas de neopreno o EPDM con tapa metálica (tipo tornillo autoperforante de techo) sobre cada fijación. Esto distribuye la presión de apriete de manera uniforme e impide el paso del agua por el orificio del tornillo.</li>
+<li><strong>Evita el torque excesivo:</strong> Atornilla de forma firme pero detén la herramienta en cuanto la golilla de goma comience a comprimirse ligeramente. El exceso de fuerza agrietará la pestaña de acrílico.</li>
+</ul>
+</section>
+<div class="poly-cta-box">
+<h3>¿Buscas cúpulas a la medida de tu proyecto?</h3>
+<p>En Polyplas fabricamos <a href="/categoria-producto/cupulas/" style="color: #93c5fd; text-decoration: underline;" target="_blank">cúpulas de acrílico</a> virgen de alto peso molecular con protección UV incorporada, optimizadas para alta transmisión lumínica y resistencia extrema.</p>
+<a class="poly-cta-btn" href="https://api.whatsapp.com/send?phone=569XXXXXXXX&amp;text=Hola%20Polyplas,%20le%C3%AD%20su%20artículo%20sobre%20instalación%20de%20cúpulas.%20Necesito%20cotizar." target="_blank">Cotizar Cúpulas por WhatsApp</a>
+</div>
+</div>

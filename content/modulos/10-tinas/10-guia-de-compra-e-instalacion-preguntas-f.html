@@ -1,0 +1,63 @@
+<div class="poly-faq-wrapper">
+<h2 class="poly-main-title">Guía de Compra e Instalación (Preguntas Frecuentes)</h2>
+<div class="poly-accordion">
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Qué requerimientos eléctricos necesita la tina?</h3>
+<div class="poly-content">
+                Nuestras tinas cuentan con <strong>motores de 1 HP</strong> de alta eficiencia. Se recomienda una conexión eléctrica independiente con protección (automático y diferencial) para garantizar un funcionamiento óptimo y seguro.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿El metacrilato se pone amarillo con el tiempo?</h3>
+<div class="poly-content">
+                No. Utilizamos <strong>Metacrilato Sanitizado con filtro UV</strong> de 3,5mm. Este material está diseñado para mantener su blanco extrabrillante y resistir el envejecimiento provocado por la luz y el uso de químicos de limpieza.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Qué incluye el sistema de hidromasaje?</h3>
+<div class="poly-content">
+                Dependiendo del modelo (Coinco, Vilcún, etc.), el kit estándar incluye el <strong>motor de 1 HP, de 6 a 8 jets de alto flujo, pulsador neumático, regulador de aire</strong> y sistema de desagüe/rebalse semiautomático.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Es necesaria una estructura de obra para instalarla?</h3>
+<div class="poly-content">
+                Nuestras tinas incluyen una <strong>base metálica de soporte</strong> que facilita la nivelación. Aunque se pueden empotrar, la estructura interna reforzada con madera de 8mm y fibra de vidrio permite una instalación firme y estable.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Cómo se realiza el mantenimiento de los jets?</h3>
+<div class="poly-content">
+                El mantenimiento es sencillo: se recomienda hacer circular agua con un desinfectante suave una vez al mes para limpiar las tuberías internas. El metacrilato sanitizado evita la acumulación de hongos y bacterias en la superficie.
+            </div>
+</div>
+</div>
+</div>
+<style>
+    .poly-faq-wrapper { margin: 50px 0; font-family: sans-serif; clear: both; }
+    .poly-main-title { color: #333; margin-bottom: 25px; font-size: 26px; text-align: center; font-weight: 700; }
+    .poly-accordion { border: 1px solid #ddd; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    
+    .poly-item { border-bottom: 1px solid #eee; transition: all 0.3s ease; border-left: 0 solid #00a0df; }
+    .poly-item:last-child { border-bottom: none; }
+    
+    .poly-header { padding: 20px 25px; cursor: pointer; background: #fff; font-weight: 600; color: #444; position: relative; transition: 0.3s; font-size: 16px; display: flex; align-items: center; justify-content: space-between; margin: 0; }
+    .poly-header:hover { background: #f9f9f9; color: #00a0df; }
+    .poly-header::after { content: '+'; color: #00a0df; font-size: 22px; transition: 0.3s; margin-left: 10px; }
+    
+    .poly-item.active { border-left: 4px solid #00a0df; }
+    .poly-item.active .poly-header { background: #f0f9ff; color: #00a0df; padding-left: 21px; }
+    .poly-item.active .poly-header::after { content: '-'; transform: rotate(180deg); }
+    
+    .poly-content { padding: 0 25px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; color: #555; line-height: 1.6; font-size: 15px; }
+    .poly-item.active .poly-content { padding: 10px 25px 25px; max-height: 400px; }
+</style>
+<script>
+    /* Solo se activa si no existe previamente la función */
+    if (typeof togglePolyFaq !== 'function') {
+        window.togglePolyFaq = function(element) {
+            const item = element.parentElement;
+            item.classList.toggle('active');
+        }
+    }
+</script>

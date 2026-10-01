@@ -1,0 +1,122 @@
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #1a2e4a;
+    --orange: #f26522;
+    --white: #ffffff;
+    --gray-bg: #f5f5f3;
+    --gray-border: #ddd;
+    --gray-text: #555;
+    --font-main: 'Barlow', sans-serif;
+    --font-display: 'Barlow Condensed', sans-serif;
+  }
+  body { font-family: var(--font-main); background: var(--gray-bg); color: var(--navy); }
+
+  main { max-width: 860px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+  .notice {
+    background: var(--white);
+    border-left: 4px solid var(--orange);
+    border-radius: 0 8px 8px 0;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .notice-icon {
+    flex-shrink: 0; width: 32px; height: 32px;
+    background: var(--orange); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 2px;
+  }
+  .notice p { font-size: 14px; color: var(--gray-text); line-height: 1.65; }
+  .notice strong { color: var(--navy); }
+
+  .section { background: var(--white); border-radius: 8px; margin-bottom: 2rem; overflow: hidden; border: 1px solid var(--gray-border); }
+  .section-header { background: var(--navy); padding: 1rem 1.5rem; display: flex; align-items: center; gap: 12px; }
+  .section-header .tag {
+    background: var(--orange); color: var(--white);
+    font-family: var(--font-display); font-weight: 700;
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 2px;
+  }
+  .section-header h2 {
+    font-family: var(--font-display); font-weight: 700; font-size: 20px;
+    color: var(--white); text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .section-body { padding: 1.75rem 1.5rem; }
+
+  .rule { display: flex; gap: 1rem; padding: 1.1rem 0; border-bottom: 1px solid #f0f0ee; align-items: flex-start; }
+  .rule:last-child { border-bottom: none; }
+  .rule-num {
+    flex-shrink: 0; width: 28px; height: 28px;
+    background: var(--navy); color: var(--white);
+    font-family: var(--font-display); font-weight: 700; font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 2px; margin-top: 1px;
+  }
+  .rule-content p { font-size: 15px; color: #444; line-height: 1.65; }
+  .rule-content strong { color: var(--navy); font-weight: 600; }
+
+  .highlight {
+    background: #fff8f4; border: 1.5px solid var(--orange);
+    border-radius: 6px; padding: 1.1rem 1.25rem;
+    margin: 1.25rem 0 0.25rem; display: flex; gap: 10px; align-items: flex-start;
+  }
+  .highlight-label {
+    flex-shrink: 0; background: var(--orange); color: var(--white);
+    font-family: var(--font-display); font-weight: 700; font-size: 13px;
+    text-transform: uppercase; padding: 3px 8px; border-radius: 2px;
+    white-space: nowrap; margin-top: 1px;
+  }
+  .highlight p { font-size: 14px; color: #5a3010; line-height: 1.6; }
+
+  .conditions { margin-top: 1.25rem; }
+  .conditions-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--gray-text); margin-bottom: 0.6rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { display: flex; align-items: center; gap: 6px; background: var(--gray-bg); border: 1px solid var(--gray-border); border-radius: 20px; padding: 5px 12px 5px 8px; font-size: 13px; color: var(--navy); font-weight: 500; }
+  .chip-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); flex-shrink: 0; }
+
+  @media (max-width: 600px) { main { padding: 2rem 1rem 4rem; } }
+</style>
+<main>
+<div class="notice">
+<div class="notice-icon">
+<svg fill="none" height="16" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="16"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>
+</div>
+<p><strong>Importante:</strong> Recomendamos leer atentamente estas condiciones antes de recibir su pedido. La aceptación de la entrega implica conformidad con el estado del producto, salvo las excepciones indicadas a continuación.</p>
+</div>
+<div class="section">
+<div class="section-header">
+<div class="tag">Producto</div>
+<h2>Acrílicos — Planchas</h2>
+</div>
+<div class="section-body">
+<div class="rule">
+<div class="rule-num">1</div>
+<div class="rule-content">
+<p>Es <strong>deber del cliente revisar el estado y contar las planchas</strong> en el momento de la recepción. Una vez firmada la recepción o compra, no se aceptarán reclamos por diferencias en cantidad ni por daños que pudieran haberse constatado al momento de la entrega.</p>
+</div>
+</div>
+<div class="rule">
+<div class="rule-num">2</div>
+<div class="rule-content">
+<p>Para planchas <strong>enteras que lleguen trizadas o rayadas</strong>, el cliente dispone de un plazo máximo de <strong>72 horas</strong> desde la recepción para notificar el defecto y gestionar la devolución.</p>
+<div class="highlight">
+<div class="highlight-label">Plazo</div>
+<p>El reclamo por planchas trizadas o rayadas debe realizarse dentro de las <strong>72 horas</strong> siguientes a la recepción del pedido.</p>
+</div>
+<div class="conditions">
+<div class="conditions-title">Requisitos para aceptar la devolución</div>
+<div class="chips">
+<div class="chip"><div class="chip-dot"></div>Plancha en buen estado general</div>
+<div class="chip"><div class="chip-dot"></div>Revestimiento original (polietileno) intacto</div>
+<div class="chip"><div class="chip-dot"></div>Notificación dentro de las 72 horas</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>

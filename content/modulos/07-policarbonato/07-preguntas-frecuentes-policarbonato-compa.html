@@ -1,0 +1,66 @@
+<div class="poly-faq-wrapper">
+<h2 class="poly-main-title">Preguntas Frecuentes: Policarbonato Compacto</h2>
+<div class="poly-accordion">
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Qué diferencia al policarbonato compacto del alveolar?</h3>
+<div class="poly-content">
+                El policarbonato compacto es una <strong>lámina sólida y totalmente lisa</strong>, similar al vidrio en transparencia pero mucho más resistente. A diferencia del alveolar, no tiene celdas internas, lo que ofrece una visibilidad cristalina y máxima elegancia.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Qué tan resistente es frente a un golpe o granizo?</h3>
+<div class="poly-content">
+                Es prácticamente irrompible. El policarbonato compacto es hasta <strong>250 veces más resistente que el vidrio</strong> y 30 veces más que el acrílico, soportando impactos críticos y granizadas severas sin quebrarse.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿El material mantiene su transparencia con el sol?</h3>
+<div class="poly-content">
+                Sí. Nuestras planchas cuentan con una <strong>capa de protección UV de alta calidad</strong> que evita el amarillamiento y la degradación, garantizando que el material permanezca impecable bajo el sol de Chile.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Se puede curvar para proyectos de diseño?</h3>
+<div class="poly-content">
+                ¡Sí! Una de sus mayores ventajas es que permite el <strong>curvado en frío</strong> directamente en la estructura. Es ideal para cubiertas curvas, túneles y cúpulas sin necesidad de procesos térmicos complejos.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Es seguro en caso de incendios?</h3>
+<div class="poly-content">
+                Absolutamente. El policarbonato es un material <strong>autoextinguible</strong>. No propaga la llama y cumple con altos estándares de seguridad para construcción industrial y residencial.
+            </div>
+</div>
+</div>
+</div>
+<style>
+    .poly-faq-wrapper { margin: 50px 0; font-family: sans-serif; clear: both; }
+    .poly-main-title { color: #333; margin-bottom: 25px; font-size: 26px; text-align: center; font-weight: 700; }
+    .poly-accordion { border: 1px solid #ddd; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    
+    /* Color cambiado a Azul (#00a0df) */
+    .poly-item { border-bottom: 1px solid #eee; transition: all 0.3s ease; border-left: 0 solid #00a0df; }
+    .poly-item:last-child { border-bottom: none; }
+    
+    .poly-header { padding: 20px 25px; cursor: pointer; background: #fff; font-weight: 600; color: #444; position: relative; transition: 0.3s; font-size: 16px; display: flex; align-items: center; justify-content: space-between; margin: 0; }
+    
+    /* Efectos en Azul */
+    .poly-header:hover { background: #f9f9f9; color: #00a0df; }
+    .poly-header::after { content: '+'; color: #00a0df; font-size: 22px; transition: 0.3s; margin-left: 10px; }
+    
+    /* Estado Activo en Azul */
+    .poly-item.active { border-left: 4px solid #00a0df; }
+    .poly-item.active .poly-header { background: #f0f9ff; color: #00a0df; padding-left: 21px; }
+    .poly-item.active .poly-header::after { content: '-'; transform: rotate(180deg); }
+    
+    .poly-content { padding: 0 25px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; color: #555; line-height: 1.6; font-size: 15px; }
+    .poly-item.active .poly-content { padding: 10px 25px 25px; max-height: 400px; }
+</style>
+<script>
+    if (typeof togglePolyFaq !== 'function') {
+        window.togglePolyFaq = function(element) {
+            const item = element.parentElement;
+            item.classList.toggle('active');
+        }
+    }
+</script>

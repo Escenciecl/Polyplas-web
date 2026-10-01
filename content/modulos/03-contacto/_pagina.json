@@ -1,0 +1,23 @@
+{
+  "url": "/contacto/",
+  "tipo": "page",
+  "titulo": "Contacto y cotizaciones | Polyplas Chile",
+  "descripcion": "Cotiza planchas de acrílico, PET, PETG, policarbonato, cúpulas, receptáculos y tinas de hidromasaje. Escríbenos o llámanos: atención a personas y empresas en todo Chile.",
+  "robots": "max-image-preview:large",
+  "canonical": "/contacto/",
+  "og": {
+    "type": "article",
+    "title": "Polyplas Chile: Acrílicos y Tinas de Hidromasaje",
+    "description": "¿Tienes un proyecto en mente? Contacta a Polyplas. Cotiza planchas de acrílico a medida, tinas de hidromasaje y cúpulas con envíos a todo Chile aquí.",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+  },
+  "publicado": "2022-07-04T19:29:51+00:00",
+  "modificado": "2026-08-27T00:59:36+00:00",
+  "css": [],
+  "datosGoogle": [
+    "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/contacto\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/contacto\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/contacto\\/#listItem\",\"position\":2,\"name\":\"Contacto\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/contacto\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/contacto\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/contacto\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/contacto\\/\",\"name\":\"Polyplas Chile: Acr\\u00edlicos y Tinas de Hidromasaje\",\"description\":\"\\u00bfTienes un proyecto en mente? Contacta a Polyplas. Cotiza planchas de acr\\u00edlico a medida, tinas de hidromasaje y c\\u00fapulas con env\\u00edos a todo Chile aqu\\u00ed.\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/contacto\\/#breadcrumblist\"},\"datePublished\":\"2022-07-04T15:29:51-04:00\",\"dateModified\":\"2026-08-26T20:59:36-04:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "var dataLayer_content = {\"pageTitle\":\"Polyplas Chile: Acrílicos y Tinas de Hidromasaje\",\"pagePostType\":\"page\",\"pagePostType2\":\"single-page\",\"pagePostAuthorID\":9,\"pagePostAuthor\":\"Fredy Arriagada Cuevas\",\"postID\":43,\"customerTotalOrders\":0,\"customerTotalOrderValue\":0,\"customerFirstName\":\"Fredy\",\"customerLastName\":\"Arriagada Cuevas\",\"customerBillingFirstName\":\"Fredy\",\"customerBillingLastName\":\"Arriagada Cuevas\",\"customerBillingCompany\":\"\",\"customerBillingAddress1\":\"\",\"customerBillingAddress2\":\"\",\"customerBillingCity\":\"\",\"customerBillingState\":\"\",\"customerBillingPostcode\":\"\",\"customerBillingCountry\":\"\",\"customerBillingEmail\":\"farriagada@polyplas.cl\",\"customerBillingEmailHash\":\"c667f7e2a6849d02a848012f739bb0ff7779c600626974034747e784131967cd\",\"customerBillingPhone\":\"\",\"customerShippingFirstName\":\"\",\"customerShippingLastName\":\"\",\"customerShippingCompany\":\"\",\"customerShippingAddress1\":\"\",\"customerShippingAddress2\":\"\",\"customerShippingCity\":\"\",\"customerShippingState\":\"CL:CL-VS\",\"customerShippingPostcode\":\"\",\"customerShippingCountry\":\"\",\"cartContent\":{\"totals\":{\"applied_coupons\":[],\"discount_total\":0,\"subtotal\":0,\"total\":0},\"items\":[]}};\n\tdataLayer.push( dataLayer_content );"
+}

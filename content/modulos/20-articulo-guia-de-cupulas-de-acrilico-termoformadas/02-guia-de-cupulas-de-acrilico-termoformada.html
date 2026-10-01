@@ -1,0 +1,586 @@
+<style>
+.poly-dual-cta-wrapper {
+    margin: 25px 0;
+    font-family: 'Montserrat', 'Segoe UI', sans-serif;
+}
+.poly-dual-cta-btns {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.poly-dcta-btn {
+    flex: 1;
+    min-width: 220px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 16px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.poly-dcta-comprar {
+    background-color: #FF6600;
+    color: #ffffff !important;
+}
+.poly-dcta-comprar:hover {
+    background-color: #e55c00;
+    transform: translateY(-2px);
+}
+.poly-dcta-llamamos {
+    background-color: #003366;
+    color: #ffffff !important;
+}
+.poly-dcta-llamamos:hover {
+    background-color: #002244;
+    transform: translateY(-2px);
+}
+.poly-llamamos-panel {
+    margin-top: 15px;
+    background: #f4f7fa;
+    border: 1px solid #d1e2f2;
+    border-radius: 8px;
+    padding: 20px;
+}
+.poly-llamamos-sub {
+    margin: 0 0 15px 0;
+    font-size: 14px;
+    color: #333;
+}
+.poly-llamamos-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+.poly-llamamos-group {
+    flex: 1;
+    min-width: 180px;
+}
+.poly-llamamos-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #003366;
+}
+.poly-llamamos-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.poly-llamamos-footer {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+.poly-llamamos-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #004a99;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.poly-llamamos-submit:hover {
+    background: #003366;
+}
+.poly-llamamos-legal {
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+}
+</style>
+<div class="poly-premium-header">
+<span class="poly-kicker">Academia Técnica Polyplas</span>
+<h1 class="poly-main-title pp-was-h2">Guía de Cúpulas de Acrílico Termoformadas: Medidas e Instalación</h1>
+<p class="poly-main-desc">Aprende a elegir e instalar cúpulas de acrílico virgen de 4mm en Chile. Soluciones termoformadas de alta resistencia, con protección UV integrada, excelente iluminación natural y control solar para techos y tragaluces.</p>
+<div class="poly-dual-cta-wrapper" style="max-width: 650px; margin: 30px auto 0 auto;">
+<div class="poly-dual-cta-btns">
+<a class="poly-dcta-btn poly-dcta-comprar" href="/categoria-producto/cupulas/">
+<svg aria-hidden="true" fill="currentColor" height="20" viewbox="0 0 24 24" width="20"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-9.5-4h10.7c.75 0 1.41-.41 1.75-1.03l3.66-6.64A1 1 0 0 0 22.73 5H5.21L4.27 3H1v2h2l3.6 7.59L5.25 15c-.16.28-.25.61-.25.95C5 17.1 5.9 18 7 18h13v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63z"></path></svg>
+<span>Comprar Online</span>
+</a>
+<button aria-expanded="false" class="poly-dcta-btn poly-dcta-llamamos" onclick="polyToggleLlamamos('hdrPanel', this)">
+<svg aria-hidden="true" fill="currentColor" height="20" viewbox="0 0 24 24" width="20"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+<span>Te llamamos</span>
+</button>
+</div>
+<div class="poly-llamamos-panel" id="hdrPanel" style="display:none; text-align: left;">
+<p class="poly-llamamos-sub">Déjanos tus datos y te contactamos en horario de oficina.</p>
+<form action="https://formspree.io/f/xljdbznj" class="poly-llamamos-fields" method="POST">
+<input name="Consulta" type="hidden" value="Guía de Cúpulas"/>
+<div class="poly-llamamos-row">
+<div class="poly-llamamos-group">
+<label class="poly-llamamos-label">Nombre</label>
+<input autocomplete="name" class="poly-llamamos-input" name="nombre" placeholder="Tu nombre completo" required="" type="text"/>
+</div>
+<div class="poly-llamamos-group">
+<label class="poly-llamamos-label">Teléfono</label>
+<input autocomplete="tel" class="poly-llamamos-input" name="telefono" placeholder="+56 9 XXXX XXXX" required="" type="tel"/>
+</div>
+<div class="poly-llamamos-group">
+<label class="poly-llamamos-label">Correo</label>
+<input autocomplete="email" class="poly-llamamos-input" name="correo" placeholder="tu@correo.com" required="" type="email"/>
+</div>
+</div>
+<div class="poly-llamamos-footer">
+<button class="poly-llamamos-submit" type="submit">
+<svg aria-hidden="true" fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+<span>Solicitar llamada</span>
+</button>
+<p class="poly-llamamos-legal">Solo te contactaremos para asesorarte. Sin spam.</p>
+</div>
+</form>
+</div>
+</div>
+</div>
+<style>
+.poly-premium-header {
+    background: linear-gradient(135deg, #001F42 0%, #003366 100%);
+    padding: 50px 40px;
+    border-radius: 16px;
+    border-bottom: 5px solid #FF6600;
+    margin: 30px auto;
+    box-shadow: 0 10px 30px rgba(0, 51, 102, 0.08);
+}
+.poly-kicker {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    color: #FF6600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 12px;
+    text-align: center;
+}
+.poly-main-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 36px;
+    color: #ffffff;
+    line-height: 1.25;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.5px;
+    text-align: center;
+}
+@media (max-width: 768px) {
+    .poly-premium-header { padding: 35px 24px; }
+    .poly-main-title { font-size: 26px; }
+}
+.poly-main-desc {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    color: #D1E2F2;
+    line-height: 1.65;
+    margin: 0 auto;
+    max-width: 750px;
+    text-align: center;
+}
+</style>
+<div class="poly-grid">
+<div class="poly-brand-card">
+<div class="poly-card-icon-wrap"></div>
+<h3 class="poly-brand-card-title-sub">Cúpula Transparente (4mm)</h3>
+<p class="poly-card-text">Máxima luminosidad interior (&gt;92% de transmisión lumínica). Fabricada en acrílico virgen con protección UV integrada para evitar el amarillamiento solar.</p>
+<div class="poly-brand-card-footer"><strong>Aplicaciones:</strong> Pasillos, bodegas, salas de estar, baños y tragaluces que buscan entrada directa de luz.</div>
+</div>
+<div class="poly-brand-card">
+<div class="poly-card-icon-wrap"></div>
+<h3 class="poly-brand-card-title-sub">Cúpula Bronce (4mm)</h3>
+<p class="poly-card-text">Ofrece control solar y mayor privacidad. Su tonalidad ahumada atenúa el deslumbramiento y disminuye la radiación térmica directa sin perder estética.</p>
+<div class="poly-brand-card-footer"><strong>Aplicaciones:</strong> Oficinas, dormitorios, zonas expuestas a alto sol e interiorismo.</div>
+</div>
+</div>
+<style>
+.poly-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin: 40px 0;
+}
+.poly-brand-card {
+    background: #F0F4F8;
+    border: 1px solid #E1E8ED;
+    border-radius: 12px;
+    padding: 28px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+}
+.poly-brand-card:hover {
+    background: #ffffff;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 51, 102, 0.06);
+    border-color: #003366;
+}
+.poly-card-icon-wrap {
+    font-size: 26px;
+    margin-bottom: 14px;
+}
+.poly-brand-card-title-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #003366;
+    margin: 0 0 12px 0;
+}
+.poly-card-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #4A5568;
+    line-height: 1.6;
+    margin: 0 0 20px 0;
+    flex-grow: 1;
+}
+.poly-brand-card-footer {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    color: #003366;
+    border-top: 1px solid #E1E8ED;
+    padding-top: 14px;
+}
+.poly-brand-card-footer strong {
+    color: #FF6600;
+}
+</style>
+<div class="poly-table-container">
+<table class="poly-market-table">
+<thead>
+<tr>
+<th>Medida Disponible</th>
+<th>Acabado y Color</th>
+<th>Pestaña de Anclaje</th>
+<th>Uso Recomendado Polyplas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="poly-td-bold">54 × 54 cm</td>
+<td>Transparente</td>
+<td>50mm a 60mm</td>
+<td>Tragaluz compacto para baños, shafts de ventilación e iluminación puntual.</td>
+</tr>
+<tr>
+<td class="poly-td-bold">68 × 68 cm</td>
+<td>Transparente</td>
+<td>50mm a 60mm</td>
+<td>Formato mediano ideal para pasillos, cocinas y renovaciones estándar.</td>
+</tr>
+<tr>
+<td class="poly-td-bold">80 × 80 cm</td>
+<td>Transparente / Bronce</td>
+<td>50mm a 60mm</td>
+<td>Máxima entrada de luz para salas de estar, oficinas y cubiertas de alto impacto.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<style>
+.poly-table-container {
+    overflow-x: auto;
+    margin: 35px 0;
+    border: 1px solid #D6E4F0;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,31,66,0.02);
+}
+.poly-market-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    background: #ffffff;
+}
+.poly-market-table th {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: #ffffff;
+    background-color: #003366;
+    padding: 18px 20px;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.poly-market-table td {
+    padding: 18px 20px;
+    border-bottom: 1px solid #E6EFF5;
+    color: #4A5568;
+    line-height: 1.6;
+}
+.poly-market-table tr:nth-child(even) {
+    background-color: #F7FAFC;
+}
+.poly-market-table tr:last-child td {
+    border-bottom: none;
+}
+.poly-td-bold {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #003366;
+    white-space: nowrap;
+}
+</style>
+<div class="poly-notice-box">
+<div class="poly-notice-content">
+<span class="poly-notice-tag">Estándar de Material y Garantía</span>
+<p class="poly-notice-text">Nuestras cúpulas están fabricadas exclusivamente con <strong>Acrílico Virgen de alto peso molecular</strong> (4mm de espesor nominal). Cuentan con pestañas perimetrales de anclaje de 50mm a 60mm compatibles con sistemas de techación en Zinc, Pizarreño y Teja, entregando estanqueidad absoluta y domo auto-limpiante por pendiente natural.</p>
+</div>
+</div>
+<style>
+.poly-notice-box {
+    background: #EBF3F9;
+    border-left: 5px solid #003366;
+    border-radius: 0 12px 12px 0;
+    margin: 40px 0;
+}
+.poly-notice-content {
+    padding: 22px 26px;
+}
+.poly-notice-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    color: #FF6600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 6px;
+}
+.poly-notice-text {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #1A202C;
+    line-height: 1.6;
+}
+</style>
+<h2 class="poly-section-title">Instalación de Cúpulas: Guía Técnica de Montaje</h2>
+<p class="poly-section-intro">Sigue estos pasos profesionales para lograr una instalación hermética y libre de filtraciones en tu techumbre:</p>
+<div class="poly-process-flow">
+<div class="poly-flow-item">
+<div class="poly-flow-number">01</div>
+<div class="poly-flow-content">
+<h4 class="poly-flow-title">Verificación del Murete y Vano</h4>
+<p class="poly-flow-text">Confirma que la abertura del techo corresponda a la medida interior de la cúpula. La pestaña de anclaje de 50mm a 60mm debe posar completamente plana sobre la base o murete de apoyo.</p>
+</div>
+</div>
+<div class="poly-flow-item">
+<div class="poly-flow-number">02</div>
+<div class="poly-flow-content">
+<h4 class="poly-flow-title">Pendiente para Auto-Limpieza</h4>
+<p class="poly-flow-text">El diseño en domo facilita el escurrimiento. Asegúrate de que el murete tenga una leve inclinación hacia el sentido del agua para aprovechar la propiedad auto-limpiante con la lluvia.</p>
+</div>
+</div>
+<div class="poly-flow-item">
+<div class="poly-flow-number">03</div>
+<div class="poly-flow-content">
+<h4 class="poly-flow-title">Fijación Mecánica Segura</h4>
+<p class="poly-flow-text">Fija la pestaña utilizando tornillos con golillas de goma EPDM. Realiza perforaciones 2mm más anchas que el tornillo para absorber la dilatación térmica del acrílico sin fisurar la pieza.</p>
+</div>
+</div>
+<div class="poly-flow-item">
+<div class="poly-flow-number">04</div>
+<div class="poly-flow-content">
+<h4 class="poly-flow-title">Sello de Protección UV y Estanqueidad</h4>
+<p class="poly-flow-text">Utiliza siempre <strong>silicona de curado neutro</strong> en todo el contorno. Evita siliconas acéticas para mantener intacta la claridad óptica y la durabilidad del acrílico virgen.</p>
+</div>
+</div>
+</div>
+<style>
+.poly-section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 26px;
+    color: #003366;
+    margin: 40px 0 12px 0;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+.poly-section-intro {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    color: #555555;
+    line-height: 1.6;
+    margin-bottom: 35px;
+}
+.poly-process-flow {
+    max-width: 850px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.poly-flow-item {
+    display: flex;
+    align-items: flex-start;
+    background: #F0F4F8;
+    border: 1px solid #E1E8ED;
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+.poly-flow-item:hover {
+    background: #ffffff;
+    border-color: #003366;
+    box-shadow: 0 10px 25px rgba(0, 51, 102, 0.05);
+    transform: translateX(4px);
+}
+.poly-flow-number {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    color: #FF6600;
+    background: #FFE6D5;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-right: 20px;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+.poly-flow-content {
+    flex-grow: 1;
+}
+.poly-flow-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #003366;
+    margin: 0 0 8px 0;
+}
+.poly-flow-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #4A5568;
+    line-height: 1.6;
+    margin: 0;
+    text-align: justify;
+}
+@media (max-width: 600px) {
+    .poly-flow-item {
+        flex-direction: column;
+        padding: 20px;
+    }
+    .poly-flow-number {
+        margin-bottom: 14px;
+        display: inline-block;
+    }
+}
+</style>
+<div class="poly-internal-links">
+<p class="poly-internal-tag" style="text-align: center;">Ver productos en tienda</p>
+<p class="poly-internal-text" style="text-align: center; margin-bottom: 20px;">
+        Encuentra stock disponible para retiro inmediato o despacho en nuestra 
+        <a class="poly-internal-link" href="/categoria-producto/cupulas/">sección de cúpulas de acrílico</a>.
+        También disponemos de 
+        <a class="poly-internal-link" href="/categoria-producto/planchas-acrilico/">planchas de acrílico transparentes</a> 
+        y 
+        <a class="poly-internal-link" href="/categoria-producto/policarbonato-compacto/">policarbonato compacto</a>.
+    </p>
+<div class="poly-dual-cta-wrapper" style="max-width: 650px; margin: 20px auto 0 auto;">
+<div class="poly-dual-cta-btns">
+<a class="poly-dcta-btn poly-dcta-comprar" href="/categoria-producto/cupulas/">
+<svg aria-hidden="true" fill="currentColor" height="20" viewbox="0 0 24 24" width="20"><path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-9.5-4h10.7c.75 0 1.41-.41 1.75-1.03l3.66-6.64A1 1 0 0 0 22.73 5H5.21L4.27 3H1v2h2l3.6 7.59L5.25 15c-.16.28-.25.61-.25.95C5 17.1 5.9 18 7 18h13v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63z"></path></svg>
+<span>Comprar Online</span>
+</a>
+<button aria-expanded="false" class="poly-dcta-btn poly-dcta-llamamos" onclick="polyToggleLlamamos('footerPanel', this)">
+<svg aria-hidden="true" fill="currentColor" height="20" viewbox="0 0 24 24" width="20"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+<span>Te llamamos</span>
+</button>
+</div>
+<div class="poly-llamamos-panel" id="footerPanel" style="display:none; text-align: left;">
+<p class="poly-llamamos-sub">Déjanos tus datos y te contactamos en horario de oficina.</p>
+<form action="https://formspree.io/f/xljdbznj" class="poly-llamamos-fields" method="POST">
+<input name="Consulta" type="hidden" value="Guía de Cúpulas"/>
+<div class="poly-llamamos-row">
+<div class="poly-llamamos-group">
+<label class="poly-llamamos-label">Nombre</label>
+<input autocomplete="name" class="poly-llamamos-input" name="nombre" placeholder="Tu nombre completo" required="" type="text"/>
+</div>
+<div class="poly-llamamos-group">
+<label class="poly-llamamos-label">Teléfono</label>
+<input autocomplete="tel" class="poly-llamamos-input" name="telefono" placeholder="+56 9 XXXX XXXX" required="" type="tel"/>
+</div>
+<div class="poly-llamamos-group">
+<label class="poly-llamamos-label">Correo</label>
+<input autocomplete="email" class="poly-llamamos-input" name="correo" placeholder="tu@correo.com" required="" type="email"/>
+</div>
+</div>
+<div class="poly-llamamos-footer">
+<button class="poly-llamamos-submit" type="submit">
+<svg aria-hidden="true" fill="currentColor" height="18" viewbox="0 0 24 24" width="18"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg>
+<span>Solicitar llamada</span>
+</button>
+<p class="poly-llamamos-legal">Solo te contactaremos para asesorarte. Sin spam.</p>
+</div>
+</form>
+</div>
+</div>
+</div>
+<style>
+.poly-internal-links {
+    background: #EBF3F9;
+    border-left: 4px solid #003366;
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 40px 0;
+}
+.poly-internal-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    color: #FF6600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 8px 0;
+}
+.poly-internal-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #1A202C;
+    line-height: 1.6;
+    margin: 0;
+}
+.poly-internal-link {
+    color: #003366;
+    font-weight: 700;
+    text-decoration: underline;
+}
+.poly-internal-link:hover {
+    color: #FF6600;
+}
+</style>
+<script>
+function polyToggleLlamamos(panelId, btn) {
+    var panel = document.getElementById(panelId);
+    if (panel.style.display === 'none' || panel.style.display === '') {
+        panel.style.display = 'block';
+        btn.setAttribute('aria-expanded', 'true');
+    } else {
+        panel.style.display = 'none';
+        btn.setAttribute('aria-expanded', 'false');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var nextInputs = document.querySelectorAll('.llNextUrl');
+    nextInputs.forEach(function(input) {
+        input.value = window.location.href;
+    });
+});
+</script>

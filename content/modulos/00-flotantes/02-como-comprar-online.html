@@ -1,0 +1,271 @@
+<style>
+  #pp-cb [hidden] { display: none !important; }
+  #pp-cb *, #pp-cb *::before, #pp-cb *::after {
+    box-sizing: border-box; margin: 0; padding: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+
+  /* ── Pestaña ── */
+  #pp-cb #pp-cb-tab {
+    position: fixed; right: 0; top: 0; z-index: 2147483644;
+    width: 44px; padding: 14px 0 !important;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    border: 0 !important; border-radius: 12px 0 0 12px !important;
+    background: linear-gradient(180deg, #881337 0%, #9f1239 100%) !important;
+    color: #fff !important; cursor: pointer;
+    box-shadow: -3px 4px 18px rgba(136,19,55,.32);
+    opacity: 0; visibility: hidden;
+    transition: opacity .25s ease, visibility 0s linear .25s, filter .15s ease;
+    -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  }
+  #pp-cb.pp-listo.pp-tab-on #pp-cb-tab { opacity: 1; visibility: visible; transition-delay: 0s; }
+  #pp-cb #pp-cb-tab:hover, #pp-cb #pp-cb-tab:focus {
+    filter: brightness(1.1); color: #fff !important;
+    background: linear-gradient(180deg, #881337 0%, #9f1239 100%) !important;
+  }
+  #pp-cb #pp-cb-tab:focus-visible { outline: 3px solid #f5b800; outline-offset: -3px; }
+  #pp-cb .pp-cb-tab-ico { width: 18px; height: 18px; flex-shrink: 0; }
+  #pp-cb .pp-cb-tab-txt {
+    writing-mode: vertical-rl; transform: rotate(180deg);
+    white-space: nowrap; font-size: 13px; font-weight: 700;
+    letter-spacing: .09em; text-transform: uppercase; color: #fff;
+  }
+
+  /* ── Panel (escritorio: cajón a la izquierda de la pestaña) ── */
+  #pp-cb #pp-cb-panel {
+    position: fixed; right: 56px; top: 0; z-index: 2147483644;
+    width: 340px; max-width: calc(100vw - 72px);
+    padding: 22px 20px 18px;
+    background: #fff; color: #1a1f2b;
+    border: 1px solid rgba(0,0,0,.06); border-top: 4px solid #881337;
+    border-radius: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.04), 0 12px 28px rgba(0,0,0,.12), 0 32px 60px rgba(136,19,55,.14);
+    opacity: 0; visibility: hidden; transform: translateX(12px);
+    transition: opacity .22s ease, transform .22s cubic-bezier(.22,1,.36,1), visibility 0s linear .22s;
+  }
+  #pp-cb.pp-abierto #pp-cb-panel { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+
+  #pp-cb .pp-cb-close {
+    position: absolute; top: 10px; right: 10px; width: 28px; height: 28px;
+    border: 0 !important; border-radius: 8px !important; background: #f1f3f8 !important;
+    color: #5b6473 !important; font-size: 18px; line-height: 1; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #pp-cb .pp-cb-close:hover { background: #e4e8f1 !important; }
+  #pp-cb h2 { font-size: 16px; font-weight: 700; line-height: 1.3; padding-right: 30px; color: #1a1f2b; }
+  #pp-cb .pp-cb-sub { margin-top: 6px; font-size: 13px; line-height: 1.5; color: #525b6b; }
+  #pp-cb a.pp-cb-wsp {
+    display: flex !important; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; height: 50px; margin-top: 14px;
+    border: 0 !important; border-radius: 12px !important;
+    background: linear-gradient(135deg, #16a34a 0%, #15803d 100%) !important;
+    color: #fff !important; font-size: 15px; font-weight: 700; letter-spacing: .2px;
+    text-decoration: none !important; cursor: pointer;
+    box-shadow: 0 2px 12px rgba(22,163,74,.35);
+    transition: filter .15s, transform .1s;
+  }
+  #pp-cb a.pp-cb-wsp:hover { filter: brightness(1.08); transform: translateY(-1px); color: #fff !important; }
+  #pp-cb a.pp-cb-wsp svg { width: 20px; height: 20px; flex-shrink: 0; }
+  #pp-cb #pp-cb-close:focus-visible { outline: 3px solid #f5b800; outline-offset: 2px; }
+
+  /* ── Móvil (≤480px): tarjeta centrada arriba, con fondo oscuro; se ubica sobre el botón de chat ── */
+  #pp-cb-bk { display: none; }
+  #pp-cb.pp-mov #pp-cb-bk {
+    display: block; position: fixed; inset: 0; z-index: 2147483646; background: rgba(15,23,42,.45);
+    opacity: 0; visibility: hidden; transition: opacity .2s, visibility 0s linear .2s;
+  }
+  #pp-cb.pp-mov.pp-abierto #pp-cb-bk { opacity: 1; visibility: visible; transition-delay: 0s; }
+  #pp-cb.pp-mov #pp-cb-panel {
+    z-index: 2147483647; right: auto; left: 50%; top: max(12px, 6vh);
+    width: min(360px, calc(100vw - 24px)); max-width: none;
+    max-height: calc(100vh - 24px); overflow-y: auto;
+    transform: translate(-50%, 12px);
+  }
+  #pp-cb.pp-mov.pp-abierto #pp-cb-panel { transform: translate(-50%, 0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    #pp-cb #pp-cb-tab, #pp-cb #pp-cb-panel, #pp-cb-bk { transition: none !important; }
+  }
+
+  /* ── Móvil: pestaña compacta solo con ícono ── */
+  @media (max-width: 480px) {
+    #pp-cb #pp-cb-tab .pp-cb-tab-txt { display: none; }
+    #pp-cb #pp-cb-tab {
+      width: 36px;
+      padding: 10px 0 !important;
+      border-radius: 10px 0 0 10px !important;
+    }
+  }
+
+  /* ── Ocultar flotantes cuando un modal/checkout está abierto ── */
+  body.pp-modal-active #polyplas-fab {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity .15s, visibility 0s linear .15s !important;
+  }
+  body.pp-modal-active #pp-cb #pp-cb-tab {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+</style>
+<div id="pp-cb">
+<button aria-controls="pp-cb-panel" aria-expanded="false" id="pp-cb-tab" type="button">
+<svg aria-hidden="true" class="pp-cb-tab-ico" fill="currentColor" viewbox="0 0 24 24"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.6 21 3 13.4 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.3.2 2.5.57 3.6a1 1 0 0 1-.25 1l-2.2 2.2z"></path></svg>
+<span class="pp-cb-tab-txt">Cómo comprar online</span>
+</button>
+<div id="pp-cb-bk"></div>
+<div aria-hidden="true" aria-labelledby="pp-cb-h" id="pp-cb-panel" role="dialog">
+<button aria-label="Cerrar" class="pp-cb-close" id="pp-cb-close" type="button">×</button>
+<div id="pp-cb-form-view">
+<h2 id="pp-cb-h">¿No sabes cómo comprar online?</h2>
+<p class="pp-cb-sub">Te guiamos paso a paso para que hagas tu pedido sin complicaciones.</p>
+<a class="pp-cb-wsp" href="https://wa.me/56930997983?text=necesito%20asistencia%20para%20comprar%20online" rel="noopener" target="_blank">
+<svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"></path><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.548 4.107 1.509 5.843L.057 23.25a.75.75 0 0 0 .918.943l5.444-1.428A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 2.25A9.75 9.75 0 0 1 21.75 12 9.75 9.75 0 0 1 12 21.75a9.714 9.714 0 0 1-4.892-1.315l-.346-.202-3.578.939.966-3.497-.215-.353A9.714 9.714 0 0 1 2.25 12 9.75 9.75 0 0 1 12 2.25z"></path></svg>
+        Escríbenos por WhatsApp
+      </a>
+</div>
+</div>
+</div>
+<script data-no-optimize="1">
+(function () {
+  var CFG = { SEPARACION: 10, REINTENTOS: 20 };
+  var $ = function (id) { return document.getElementById(id); };
+
+  var root = $('pp-cb');
+  if (!root) return;
+  var tab = $('pp-cb-tab'), panel = $('pp-cb-panel'), bk = $('pp-cb-bk');
+  var fab = null, win = null, abierto = false, agendado = false, intentos = 0;
+
+  /* ── Abrir / cerrar ── */
+  function abrir() {
+    if (abierto) return;
+    abierto = true;
+    root.classList.add('pp-abierto');
+    tab.setAttribute('aria-expanded', 'true');
+    panel.setAttribute('aria-hidden', 'false');
+    pedir();
+  }
+  function cerrar(sinFoco) {
+    if (!abierto) return;
+    abierto = false;
+    root.classList.remove('pp-abierto');
+    tab.setAttribute('aria-expanded', 'false');
+    panel.setAttribute('aria-hidden', 'true');
+    if (!sinFoco) { try { tab.focus({ preventScroll: true }); } catch (e) {} }
+  }
+  tab.addEventListener('click', function () { abierto ? cerrar() : abrir(); });
+  $('pp-cb-close').addEventListener('click', function () { cerrar(); });
+  bk.addEventListener('click', function () { cerrar(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') cerrar(); });
+
+  /* ── Posición: convivir con el chat sin pisarse ── */
+  function cruza(a, b, pad) {
+    pad = pad || 0;
+    return a.left < b.right + pad && a.right > b.left - pad && a.top < b.bottom + pad && a.bottom > b.top - pad;
+  }
+
+  function acomodar() {
+    var vw = window.innerWidth, vh = window.innerHeight, movil = vw <= 480;
+    root.classList.toggle('pp-mov', movil);
+
+    var tw = tab.offsetWidth, th = tab.offsetHeight;
+    var fr = fab ? fab.getBoundingClientRect() : null;
+    if (fr && !fr.width) fr = null;
+
+    // A media altura en escritorio; algo más arriba en móvil (ahí el botón de chat va al centro)
+    var top = vh * (movil ? 0.3 : 0.5) - th / 2;
+    if (fr && cruza({ left: vw - tw, right: vw, top: top, bottom: top + th }, fr, 8)) {
+      top = fr.top - CFG.SEPARACION - th;              // se sube sobre el botón de chat
+      if (top < 8) top = fr.bottom + CFG.SEPARACION;   // o se baja si no hay espacio
+    }
+    top = Math.max(8, Math.min(vh - th - 8, top));
+    tab.style.transform = 'translateY(' + Math.round(top) + 'px)';
+
+    // Si la ventana del chat se abre y tocaría la pestaña, la pestaña se esconde y el panel se cierra
+    var chatAbierto = win && win.classList.contains('open');
+    var tapada = false;
+    if (chatAbierto) {
+      tapada = cruza({ left: vw - tw, right: vw, top: top, bottom: top + th }, win.getBoundingClientRect(), 0);
+      if (abierto) cerrar(true);
+    }
+    root.classList.toggle('pp-tab-on', !tapada);
+
+    // Panel de escritorio: centrado con la pestaña y siempre por encima del botón de chat
+    if (!movil) {
+      var ph = panel.offsetHeight;
+      var ptop = top + th / 2 - ph / 2;
+      var maxBottom = fr ? fr.top - 12 : vh - 8;
+      ptop = Math.max(8, Math.min(ptop, maxBottom - ph));
+      panel.style.top = Math.round(ptop) + 'px';
+    } else {
+      panel.style.top = '';
+    }
+    root.classList.add('pp-listo');
+  }
+
+  function pedir() {
+    if (agendado) return;
+    agendado = true;
+    requestAnimationFrame(function () { agendado = false; acomodar(); });
+  }
+
+  function enlazar() {
+    fab = $('polyplas-fab'); win = $('polyplas-window');
+    if (!fab) return false;
+    if (window.ResizeObserver) new ResizeObserver(pedir).observe(fab);
+    if (window.MutationObserver) {
+      var mo = new MutationObserver(pedir);
+      mo.observe(fab, { attributes: true, attributeFilter: ['style'] });                 // botón arrastrado (móvil)
+      if (win) mo.observe(win, { attributes: true, attributeFilter: ['class'] });        // chat abierto/cerrado
+    }
+    pedir();
+    return true;
+  }
+
+  // Oculta el chat FAB y la pestaña cuando el configurador, checkout o carrito están abiertos
+  var modalesEnlazados = false;
+  function watchModals() {
+    var ids = ['configuratorModal', 'checkoutModal', 'cartDrawer'];
+    var targets = ids.map(function(id) { return document.getElementById(id); }).filter(Boolean);
+    if (!targets.length) return false;
+
+    function sync() {
+      var anyOpen = targets.some(function(el) { return el.classList.contains('open'); });
+      document.body.classList.toggle('pp-modal-active', anyOpen);
+      // Si el chat estaba abierto, cerrarlo para que no quede huérfano
+      if (anyOpen && win && win.classList.contains('open')) {
+        win.classList.remove('open');
+        win.style.height = '';
+      }
+    }
+
+    if (window.MutationObserver) {
+      var mo = new MutationObserver(sync);
+      targets.forEach(function(el) {
+        mo.observe(el, { attributes: true, attributeFilter: ['class'] });
+      });
+    }
+    sync();
+    return true;
+  }
+
+  function iniciar() {
+    pedir();                                    // la pestaña aparece aunque el chat aún no cargue
+    if (!modalesEnlazados && watchModals()) modalesEnlazados = true;
+    if (enlazar()) return;
+    if (++intentos < CFG.REINTENTOS) setTimeout(iniciar, 500);
+  }
+
+  window.addEventListener('resize', pedir, { passive: true });
+
+  // Arranca cuando el navegador está libre, para no competir con la carga de la página
+  function arrancar() {
+    if (window.requestIdleCallback) window.requestIdleCallback(iniciar, { timeout: 3000 });
+    else setTimeout(iniciar, 1500);
+  }
+  if (document.readyState === 'complete') arrancar();
+  else window.addEventListener('load', arrancar, { once: true });
+})();
+</script>

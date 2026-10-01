@@ -1,0 +1,84 @@
+<div class="poly-faq-wrapper">
+<h2 class="poly-main-title">Preguntas Frecuentes: Cúpulas Polyplas</h2>
+<div class="poly-accordion">
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿De qué material son las cúpulas?</h3>
+<div class="poly-content">
+                Nuestras cúpulas están fabricadas en <strong>acrílico virgen de 4mm de espesor</strong>, de alta resistencia con protección UV para evitar el amarillamiento.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Cómo funciona el envío en Chile y sus condiciones?</h3>
+<div class="poly-content">
+                Para todas nuestras entregas en Chile, aplicamos las siguientes condiciones:
+                <ul style="margin-top:10px; padding-left:20px;">
+<li><strong>Embalaje:</strong> Se cobra un valor por embalaje especial para proteger el producto.</li>
+<li><strong>Entrega en Santiago:</strong> Se entrega en Stgo al flete que indique el cliente.</li>
+<li><strong>Costo de Flete:</strong> El flete es pagado íntegramente por el cliente.</li>
+<li style="margin-top:8px; color: #00a0df;"><strong>Sugerencia:</strong> Elija sus planchas cortadas gratuitamente para disminuir costos en su flete.</li>
+</ul>
+</div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Diferencia entre cúpula Transparente y Bronce?</h3>
+<div class="poly-content">
+                La cúpula <strong>Transparente</strong> permite una transmisión de luz máxima (92%), ideal para espacios que requieren mucha claridad. La <strong>Bronce</strong> reduce el resplandor y ofrece un control térmico ligero, ideal para zonas con sol directo.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Son resistentes al clima?</h3>
+<div class="poly-content">
+                Sí. El espesor de 4mm y la calidad virgen del acrílico aseguran una alta resistencia ante granizos y lluvias fuertes, manteniendo su forma y transparencia sin deformarse por el calor.
+            </div>
+</div>
+</div>
+</div>
+<style>
+    .poly-faq-wrapper { margin: 50px 0; font-family: 'Inter', sans-serif; clear: both; }
+    .poly-main-title { color: #1a202c; margin-bottom: 25px; font-size: 26px; text-align: center; font-weight: 700; }
+    .poly-accordion { border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    .poly-item { border-bottom: 1px solid #edf2f7; }
+    .poly-item:last-child { border-bottom: none; }
+    
+    .poly-header { 
+        padding: 20px 25px; 
+        cursor: pointer; 
+        background: #fff; 
+        font-weight: 600; 
+        color: #2d3748; 
+        position: relative; 
+        transition: 0.3s; 
+        font-size: 17px; 
+        margin: 0; 
+        display: block;
+    }
+    
+    /* Cambio de verde a azul celeste en Hover */
+    .poly-header:hover { background: #f0f9ff; color: #00a0df; }
+    
+    /* Icono + / - en azul celeste */
+    .poly-header::after { content: '+'; position: absolute; right: 25px; color: #00a0df; font-size: 24px; top: 50%; transform: translateY(-50%); }
+    
+    /* Estado Activo en azul celeste */
+    .poly-item.active .poly-header { background: #f0f9ff; color: #00a0df; }
+    .poly-item.active .poly-header::after { content: '−'; }
+    
+    .poly-content { padding: 0 25px; max-height: 0; overflow: hidden; transition: all 0.3s ease-out; color: #4a5568; line-height: 1.7; font-size: 15px; }
+    .poly-item.active .poly-content { padding: 15px 25px 25px; max-height: 500px; }
+    
+    strong { color: #1a202c; }
+</style>
+<script>
+    function togglePolyFaq(element) {
+        const item = element.parentElement;
+        const isActive = item.classList.contains('active');
+        
+        // Cerrar otros items abiertos para un efecto acordeón limpio
+        document.querySelectorAll('.poly-item').forEach(el => el.classList.remove('active'));
+        
+        // Abrir el actual si no estaba activo
+        if (!isActive) {
+            item.classList.add('active');
+        }
+    }
+</script>

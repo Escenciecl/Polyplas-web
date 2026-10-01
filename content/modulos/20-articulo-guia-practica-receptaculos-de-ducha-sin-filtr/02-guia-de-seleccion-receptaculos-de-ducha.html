@@ -1,0 +1,461 @@
+<style>
+    .poly-container * {
+        box-sizing: border-box !important;
+    }
+
+    .poly-container {
+        max-width: 1100px !important;
+        margin: 0 auto !important;
+        padding: 10px 0 !important;
+        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif !important;
+        color: #2C3E50 !important;
+        line-height: 1.6 !important;
+    }
+
+    /* BANNER AZUL SUPERIOR (INLINE SAFE) */
+    .poly-hero-banner {
+        background: #0A3B71 !important;
+        background: linear-gradient(135deg, #0A3B71 0%, #002247 100%) !important;
+        color: #FFFFFF !important;
+        padding: 45px 30px !important;
+        border-radius: 12px !important;
+        text-align: center !important;
+        margin-bottom: 35px !important;
+        box-shadow: 0 10px 25px rgba(10, 59, 113, 0.15) !important;
+        display: block !important;
+        width: 100% !important;
+    }
+
+    .poly-hero-banner .banner-title {
+        color: #FFFFFF !important;
+        font-size: 2.2rem !important;
+        font-weight: 700 !important;
+        margin: 0 0 15px 0 !important;
+        letter-spacing: -0.5px !important;
+        line-height: 1.2 !important;
+    }
+
+    .poly-hero-banner p {
+        font-size: 1.15rem !important;
+        color: #E2E8F0 !important;
+        max-width: 800px !important;
+        margin: 0 auto 25px auto !important;
+    }
+
+    /* BOTONES SUPERIORES */
+    .poly-hero-actions {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 15px !important;
+        max-width: 600px !important;
+        margin: 0 auto !important;
+        flex-wrap: wrap !important;
+    }
+
+    .poly-hero-actions .poly-btn {
+        flex: 1 !important;
+        min-width: 200px !important;
+    }
+
+    .poly-btn {
+        display: inline-block !important;
+        width: 100% !important;
+        padding: 12px 20px !important;
+        border-radius: 6px !important;
+        font-weight: 600 !important;
+        text-align: center !important;
+        text-decoration: none !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        font-size: 0.95rem !important;
+        border: 2px solid transparent !important;
+        box-sizing: border-box !important;
+    }
+
+    .poly-btn-primary {
+        background-color: #FF6600 !important;
+        color: #FFFFFF !important;
+        border-color: #FF6600 !important;
+    }
+
+    .poly-btn-primary:hover {
+        background-color: #e05500 !important;
+        border-color: #e05500 !important;
+    }
+
+    .poly-btn-call {
+        background-color: #FFFFFF !important;
+        color: #0A3B71 !important;
+        border-color: #FFFFFF !important;
+        font-weight: 700 !important;
+    }
+
+    .poly-btn-call:hover {
+        background-color: #E2E8F0 !important;
+        border-color: #E2E8F0 !important;
+    }
+
+    /* TARJETAS PROBLEMA / SOLUCIÓN */
+    .poly-solution-card {
+        background-color: #FFFFFF !important;
+        border: 1px solid #E1E8ED !important;
+        border-left: 6px solid #FF6600 !important;
+        border-radius: 8px !important;
+        padding: 30px !important;
+        margin-bottom: 30px !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03) !important;
+    }
+
+    .poly-solution-card h3 {
+        color: #0A3B71 !important;
+        font-size: 1.4rem !important;
+        margin: 0 0 12px 0 !important;
+    }
+
+    .poly-solution-card p {
+        margin-bottom: 12px !important;
+        color: #2C3E50 !important;
+    }
+
+    .poly-highlight-box {
+        background-color: #F4F6F9 !important;
+        border-radius: 6px !important;
+        padding: 15px 20px !important;
+        margin-top: 15px !important;
+        border: 1px solid #E2E8F0 !important;
+    }
+
+    /* ESTÁNDAR TÉCNICO */
+    .poly-tech-summary {
+        background-color: #F4F6F9 !important;
+        border-radius: 12px !important;
+        padding: 30px !important;
+        margin-bottom: 40px !important;
+        border: 1px solid #E1E8ED !important;
+    }
+
+    .poly-tech-summary h3 {
+        color: #0A3B71 !important;
+        font-size: 1.5rem !important;
+        margin-bottom: 15px !important;
+        text-align: center !important;
+    }
+
+    .poly-spec-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
+        gap: 20px !important;
+        margin-top: 20px !important;
+    }
+
+    .poly-spec-item {
+        background: #FFFFFF !important;
+        padding: 18px !important;
+        border-radius: 8px !important;
+        border: 1px solid #E1E8ED !important;
+    }
+
+    .poly-spec-item h4 {
+        color: #0A3B71 !important;
+        font-size: 1rem !important;
+        margin: 0 0 6px 0 !important;
+    }
+
+    .poly-spec-item p {
+        font-size: 0.92rem !important;
+        color: #606F7B !important;
+        margin: 0 !important;
+    }
+
+    /* CATÁLOGO */
+    .poly-section-title {
+        text-align: center !important;
+        color: #0A3B71 !important;
+        font-size: 1.8rem !important;
+        margin-bottom: 10px !important;
+    }
+
+    .poly-section-subtitle {
+        text-align: center !important;
+        color: #606F7B !important;
+        margin-bottom: 35px !important;
+    }
+
+    .poly-products-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+        gap: 25px !important;
+        margin-bottom: 40px !important;
+    }
+
+    .poly-product-card {
+        background: #FFFFFF !important;
+        border: 1px solid #E1E8ED !important;
+        border-radius: 12px !important;
+        padding: 25px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .poly-tag-badge {
+        background-color: #FF6600 !important;
+        color: #FFFFFF !important;
+        font-size: 0.75rem !important;
+        font-weight: 700 !important;
+        padding: 4px 12px !important;
+        border-radius: 20px !important;
+        text-transform: uppercase !important;
+        display: inline-block !important;
+        margin-bottom: 12px !important;
+    }
+
+    .poly-product-title {
+        color: #0A3B71 !important;
+        font-size: 1.3rem !important;
+        margin: 0 0 10px 0 !important;
+    }
+
+    .poly-product-list {
+        list-style: none !important;
+        margin: 20px 0 !important;
+        padding: 0 !important;
+    }
+
+    .poly-product-list li {
+        font-size: 0.95rem !important;
+        margin-bottom: 10px !important;
+        padding-left: 22px !important;
+        position: relative !important;
+    }
+
+    .poly-product-list li::before {
+        content: "✓" !important;
+        color: #FF6600 !important;
+        font-weight: bold !important;
+        position: absolute !important;
+        left: 0 !important;
+    }
+
+    .poly-final-cta {
+        background-color: #F4F6F9 !important;
+        border: 1px solid #E1E8ED !important;
+        border-radius: 12px !important;
+        padding: 40px 20px !important;
+        text-align: center !important;
+        margin-top: 40px !important;
+    }
+
+    /* MODAL POPUP */
+    .poly-modal-overlay {
+        display: none;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background-color: rgba(10, 59, 113, 0.6) !important;
+        z-index: 999999 !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .poly-modal-content {
+        background-color: #FFFFFF !important;
+        padding: 30px !important;
+        border-radius: 12px !important;
+        max-width: 450px !important;
+        width: 90% !important;
+        position: relative !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
+    }
+
+    .poly-close-btn {
+        position: absolute !important;
+        top: 15px !important;
+        right: 20px !important;
+        font-size: 1.6rem !important;
+        cursor: pointer !important;
+        color: #606F7B !important;
+    }
+
+    .poly-form-group {
+        margin-bottom: 15px !important;
+        text-align: left !important;
+    }
+
+    .poly-form-group label {
+        display: block !important;
+        margin-bottom: 5px !important;
+        font-weight: 600 !important;
+        font-size: 0.9rem !important;
+        color: #0A3B71 !important;
+    }
+
+    .poly-form-group input {
+        width: 100 !important;
+        padding: 10px 12px !important;
+        border: 1px solid #E1E8ED !important;
+        border-radius: 6px !important;
+        font-size: 1rem !important;
+        box-sizing: border-box !important;
+    }
+</style>
+<div class="poly-container">
+<div class="poly-hero-banner">
+<h1 class="banner-title pp-was-h2">Guía de Selección: Receptáculos de Ducha Polyplas</h1>
+<p>Aprende a resolver los 2 problemas más frecuentes al comprar un receptáculo. Descubre cómo la combinación de acrílico sanitario y fibra de vidrio garantiza una base sólida, higiénica y libre de filtraciones.</p>
+<div class="poly-hero-actions">
+<a class="poly-btn poly-btn-primary" href="/categoria-producto/receptaculos/" target="_blank">Ver Catálogo Completo</a>
+<button class="poly-btn poly-btn-call" onclick="openPolyModal('Guía de Receptáculos')" type="button">Te llamamos</button>
+</div>
+</div>
+<div class="poly-solution-card">
+<h3>⚠️ Problema 1: Receptáculos que se deforman, crujen o sufren filtraciones</h3>
+<p><strong>El problema:</strong> Gran parte de los receptáculos convencionales están fabricados con capas plásticas delgadas sin soporte estructural. Al recibir el peso diario del usuario y el agua caliente, el material se flecta y genera microfisuras en la base o en el sello de la pared, provocando filtraciones invisibles hacia la estructura del piso.</p>
+<div class="poly-highlight-box">
+<p><strong>La solución Polyplas:</strong> Fabricación en <strong>Acrílico Sanitario reforzado con Fibra de Vidrio</strong>. Esta estructura multicapa otorga alta rigidez a la base y sus bordes reforzados evitan cualquier tipo de deformación, manteniendo una pisada firme y asegurando una barrera impermeable permanente.</p>
+</div>
+</div>
+<div class="poly-solution-card">
+<h3>⚠️ Problema 2: Acumulación de agua y desagües de baja durabilidad</h3>
+<p><strong>El problema:</strong> Frecuentemente los receptáculos incluyen desagües plásticos de corta vida útil o perforaciones con medidas no estandarizadas, dificultando la instalación del sifón y generando un flujo de agua lento que se rebalsa con facilidad.</p>
+<div class="poly-highlight-box">
+<p><strong>La solución Polyplas:</strong> Orificio estándar compatible con la mayoría de válvulas y sifones. Todos nuestros modelos incluyen un <strong>desagüe metálico de alta durabilidad con tapón Push-Up</strong> (apertura y cierre al tacto), diseñado para evacuaciones fluidas y una estética limpia e higiénica.</p>
+</div>
+</div>
+<div class="poly-tech-summary">
+<h3>Estándar Técnico y de Seguridad Polyplas</h3>
+<div class="poly-spec-grid">
+<div class="poly-spec-item">
+<h4>Estructura Reforzada</h4>
+<p>Acrílico sanitario de gran resistencia térmica con resina y fibra de vidrio posterior.</p>
+</div>
+<div class="poly-spec-item">
+<h4>Altura de 13,5 cm</h4>
+<p>Perfil bajo y elegante que facilita el acceso seguro y retiene el flujo de agua.</p>
+</div>
+<div class="poly-spec-item">
+<h4>Seguridad e Higiene</h4>
+<p>Textura antideslizante integrada y propiedades antibacterianas de fácil limpieza.</p>
+</div>
+<div class="poly-spec-item">
+<h4>Kit Desagüe Incluido</h4>
+<p>Incluye desagüe metálico resistente y tapón con sistema push-up al tacto.</p>
+</div>
+</div>
+</div>
+<h3 class="poly-section-title">Modelos Disponibles</h3>
+<p class="poly-section-subtitle">Selecciona el formato ideal para la distribución de tu baño:</p>
+<div class="poly-products-grid">
+<div class="poly-product-card">
+<div>
+<span class="poly-tag-badge">CUADRADO</span>
+<h4 class="poly-product-title">Receptáculo Cuadrado 80 × 80 cm</h4>
+<p style="font-size: 0.9rem; color: #606F7B;">Optimización perfecta para baños secundarios o espacios reducidos.</p>
+<ul class="poly-product-list">
+<li>Dimensiones: 80 × 80 cm</li>
+<li>Altura: 13,5 cm</li>
+<li>Acrílico reciclable de alta resistencia</li>
+<li>Desagüe metálico + Tapón Push-Up incluido</li>
+<li>Textura antideslizante y antibacteriana</li>
+</ul>
+</div>
+<a class="poly-btn poly-btn-primary" href="/categoria-producto/receptaculos/" target="_blank">COMPRA RÁPIDA</a>
+</div>
+<div class="poly-product-card">
+<div>
+<span class="poly-tag-badge">CUADRADO</span>
+<h4 class="poly-product-title">Receptáculo Cuadrado 90 × 90 cm</h4>
+<p style="font-size: 0.9rem; color: #606F7B;">Amplitud y confort para duchas de formato estándar o principal.</p>
+<ul class="poly-product-list">
+<li>Dimensiones: 90 × 90 cm</li>
+<li>Altura: 13,5 cm</li>
+<li>Acrílico sanitario + Fibra de vidrio</li>
+<li>Bordes reforzados que evitan deformación</li>
+<li>Desagüe metálico + Tapón Push-Up incluido</li>
+</ul>
+</div>
+<a class="poly-btn poly-btn-primary" href="/categoria-producto/receptaculos/" target="_blank">COMPRA RÁPIDA</a>
+</div>
+<div class="poly-product-card">
+<div>
+<span class="poly-tag-badge">ESQUINERO</span>
+<h4 class="poly-product-title">Receptáculo Esquinero 90 × 90 cm</h4>
+<p style="font-size: 0.9rem; color: #606F7B;">Diseño curvo que maximiza la libre circulación en el cuarto de baño.</p>
+<ul class="poly-product-list">
+<li>Dimensiones: 90 × 90 cm (Curvo Esquinero)</li>
+<li>Altura: 13,5 cm</li>
+<li>Acrílico sanitario + Refuerzo de fibra de vidrio</li>
+<li>Desagüe metálico de alta durabilidad</li>
+<li>Tapón Push-Up de apertura al tacto</li>
+</ul>
+</div>
+<a class="poly-btn poly-btn-primary" href="/categoria-producto/receptaculos/" target="_blank">COMPRA RÁPIDA</a>
+</div>
+</div>
+<div class="poly-final-cta">
+<h3 style="color: #0A3B71; font-size: 1.5rem; margin-bottom: 10px;">¿Necesitas asesoría para elegir el modelo correcto?</h3>
+<p style="color: #606F7B; margin-bottom: 25px;">Revisa la disponibilidad en nuestro sitio web o déjanos tu número y un especialista técnico te orientará en tu proyecto.</p>
+<div style="max-width: 300px; margin: 0 auto;">
+<a class="poly-btn poly-btn-primary" href="/categoria-producto/receptaculos/" target="_blank">Ver Catálogo de Receptáculos</a>
+</div>
+</div>
+</div>
+<div class="poly-modal-overlay" id="polyCallModal">
+<div class="poly-modal-content">
+<span class="poly-close-btn" onclick="closePolyModal()">×</span>
+<h3 style="color: #0A3B71; margin-bottom: 8px;">Te llamamos</h3>
+<p style="font-size: 0.9rem; color: #606F7B; margin-bottom: 20px;">Ingresa tus datos y te contactaremos para resolver tus consultas sobre receptáculos de ducha Polyplas.</p>
+<form action="https://formspree.io/f/xljdbznj" id="polyContactForm" method="POST">
+<div class="poly-form-group">
+<label for="poly-modal-product">Consulta</label>
+<input id="poly-modal-product" name="Consulta" readonly="" style="background-color: #F4F6F9;" type="text"/>
+</div>
+<div class="poly-form-group">
+<label for="poly-modal-name">Nombre Completo</label>
+<input id="poly-modal-name" name="Nombre" placeholder="Ej: Marcela Pérez" required="" type="text"/>
+</div>
+<div class="poly-form-group">
+<label for="poly-modal-phone">Teléfono de Contacto</label>
+<input id="poly-modal-phone" name="Teléfono" placeholder="+56 9 1234 5678" required="" type="tel"/>
+</div>
+<button class="poly-btn poly-btn-primary" style="margin-top: 10px;" type="submit">Solicitar Llamada</button>
+</form>
+</div>
+</div>
+<script>
+    function openPolyModal(productName) {
+        document.getElementById('poly-modal-product').value = productName;
+        document.getElementById('polyCallModal').style.display = 'flex';
+    }
+
+    function closePolyModal() {
+        document.getElementById('polyCallModal').style.display = 'none';
+    }
+
+    function handlePolyFormSubmit(event) {
+        event.preventDefault();
+        const form = document.getElementById('polyContactForm');
+        const data = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            body: data,
+            headers: { 'Accept': 'application/json' }
+        }).then(res => {
+            if (res.ok) {
+                alert('¡Gracias! Te contactaremos a la brevedad.');
+                form.reset();
+                closePolyModal();
+            } else {
+                alert('Hubo un error al enviar. Por favor intenta de nuevo.');
+            }
+        }).catch(() => {
+            alert('Hubo un error al enviar. Por favor intenta de nuevo.');
+        });
+    }
+</script>

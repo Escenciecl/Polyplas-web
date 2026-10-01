@@ -1,0 +1,186 @@
+<style>
+    /* Estilo Minimalista Polyplas */
+    .poly-wrap {
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        color: #333;
+        line-height: 1.6;
+        max-width: 1200px;
+        margin: 0 auto;
+        background: #fff;
+    }
+
+    /* Contenedor Principal con Foto Visible y Lazy Load */
+    .poly-hero-split {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0;
+        margin-bottom: 60px;
+        border: 1px solid #eee;
+    }
+
+    .poly-hero-img {
+        flex: 1;
+        min-width: 350px;
+        line-height: 0;
+    }
+
+    .poly-hero-img img {
+        width: 100%;
+        height: auto;
+        display: block;
+        object-fit: cover;
+    }
+
+    .poly-hero-txt {
+        flex: 1;
+        min-width: 350px;
+        padding: 50px;
+    }
+
+    .poly-accent-title {
+        color: #1e73be;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .poly-h1 {
+        font-size: 36px;
+        margin: 0 0 20px 0;
+        color: #111;
+        font-weight: 800;
+    }
+
+    /* Secciones de Información General */
+    .poly-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 40px;
+        padding: 0 20px 60px 20px;
+    }
+
+    .poly-box h3 {
+        color: #1e73be;
+        border-bottom: 2px solid #1e73be;
+        display: inline-block;
+        padding-bottom: 5px;
+        margin-bottom: 15px;
+    }
+
+    /* SECCIÓN DE COMPROMISO REESTRUCTURADA */
+    .poly-full-width {
+        background: #f9f9f9;
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    /* Nueva Grilla Flexible Centrada */
+    .poly-cards-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 30px;
+    }
+
+    .poly-cards {
+        display: grid;
+        /* auto-fit calcula cuántas columnas caben y fill-available estira las tarjetas */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        width: 100%;
+        max-width: 1100px;
+        justify-items: center; /* Centra los items si hay huecos */
+    }
+
+    .poly-card-item {
+        background: #fff;
+        padding: 30px;
+        border-radius: 4px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        border-top: 4px solid #1e73be;
+        width: 100%;
+        max-width: 350px; /* Ancho máximo de cada tarjeta */
+        box-sizing: border-box;
+    }
+
+    .poly-card-item strong {
+        display: block;
+        margin-bottom: 12px;
+        color: #111;
+        font-size: 18px;
+    }
+
+    .poly-card-item p {
+        font-size: 15px;
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .poly-hero-txt { padding: 30px; }
+        .poly-h1 { font-size: 28px; }
+        .poly-cards { grid-template-columns: 1fr; }
+        .poly-card-item { max-width: 100%; }
+    }
+</style>
+<div class="poly-wrap">
+<div class="poly-hero-split">
+<div class="poly-hero-img">
+<img alt="Instalaciones Polyplas Acrílicos de Alta Calidad" decoding="async" height="600" loading="lazy" src="/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg" width="800"/>
+</div>
+<div class="poly-hero-txt">
+<span class="poly-accent-title">Desde 1996</span>
+<h1 class="poly-h1">Nosotros</h1>
+<p>En <strong>Polyplas</strong> somos una empresa con 29 años de trayectoria en el mercado, dedicada a la importación y comercialización de acrílicos de alta calidad. Hemos trabajado con un propósito claro: entregar a nuestros clientes materiales confiables, modernos y versátiles que aporten valor a proyectos de arquitectura, diseño, publicidad, construcción y decoración.</p>
+<p>Nos hemos consolidado como un referente gracias a la calidad internacional de nuestros productos y un servicio cercano y personalizado.</p>
+</div>
+</div>
+<div class="poly-grid">
+<div class="poly-box">
+<h3>Nuestra Historia</h3>
+<p>Polyplas nació en 1996 con la misión de convertirse en un socio estratégico para empresas y profesionales. Gracias a la confianza de nuestros clientes y sólidas alianzas internacionales, hoy mantenemos nuestra vocación de servicio con los más altos estándares de resistencia y durabilidad.</p>
+</div>
+<div class="poly-box">
+<h3>Qué Hacemos</h3>
+<p>Nos especializamos en la importación, distribución y venta de acrílicos en variedad de formatos y colores. Contamos con un stock siempre actualizado y brindamos asesoría experta para que cada cliente encuentre la solución ideal para sus proyectos.</p>
+</div>
+</div>
+<div class="poly-full-width">
+<h2 style="margin-top:0; font-size: 32px; font-weight: 800;">Nuestro Compromiso</h2>
+<div class="poly-cards-container">
+<div class="poly-cards">
+<div class="poly-card-item">
+<strong>Calidad internacional</strong>
+<p>Trabajamos con proveedores de prestigio y materiales certificados.</p>
+</div>
+<div class="poly-card-item">
+<strong>Trayectoria comprobada</strong>
+<p>29 años de experiencia avalan nuestro trabajo diario.</p>
+</div>
+<div class="poly-card-item">
+<strong>Variedad y disponibilidad</strong>
+<p>Amplio stock para responder de manera rápida y efectiva.</p>
+</div>
+<div class="poly-card-item">
+<strong>Cercanía y confianza</strong>
+<p>Relaciones a largo plazo basadas en seriedad y transparencia.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="poly-grid" style="margin-top:60px;">
+<div class="poly-box">
+<h3>Nuestro Equipo</h3>
+<p>Conformado por profesionales comprometidos con la excelencia. Priorizamos la atención personalizada y la búsqueda de soluciones adaptadas a cada requerimiento.</p>
+</div>
+<div class="poly-box">
+<h3>Mirando al Futuro</h3>
+<p>Nuestro objetivo es continuar liderando el mercado de acrílicos importados, expandiendo nuestro catálogo y fortaleciendo la confianza en cada proyecto.</p>
+</div>
+</div>
+</div>

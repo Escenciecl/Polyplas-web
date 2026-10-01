@@ -1,0 +1,355 @@
+<style>
+  :root {
+    --pp-azul:       #1557A0;
+    --pp-azul-light: #E8F0FB;
+    --pp-amarillo:   #F59E0B;
+    --pp-texto:      #1a1a2e;
+    --pp-gris:       #6b7280;
+    --pp-borde:      #e5e7eb;
+    --pp-fondo:      #f9fafb;
+    --pp-font:       'DM Sans', sans-serif;
+    --pp-radio:      12px;
+  }
+
+  .pp-testi *, .pp-testi *::before, .pp-testi *::after {
+    box-sizing: border-box; margin: 0; padding: 0;
+  }
+
+  /* ── Sección wrapper ── */
+  .pp-testi {
+    font-family: var(--pp-font);
+    padding: 48px 0;
+    margin-bottom: 16px;
+  }
+
+  /* ── Encabezado ── */
+  .pp-testi-head {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  .pp-testi-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--pp-azul);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .pp-testi-head h2 {
+    font-family: var(--pp-font);
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 600;
+    color: var(--pp-texto);
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .pp-testi-head p {
+    font-size: 14px;
+    color: var(--pp-gris);
+  }
+
+  /* ── Rating global (Google) ── */
+  .pp-testi-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 36px;
+  }
+  .pp-rating-stars {
+    display: flex;
+    gap: 3px;
+  }
+  .pp-rating-stars svg {
+    width: 20px; height: 20px;
+    fill: var(--pp-amarillo);
+  }
+  .pp-rating-num {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--pp-texto);
+    letter-spacing: -0.03em;
+  }
+  .pp-rating-source {
+    font-size: 12px;
+    color: var(--pp-gris);
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .pp-rating-source strong { color: var(--pp-texto); font-size: 13px; }
+
+  /* ── Grid de tarjetas ── */
+  .pp-testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .pp-testi-card {
+    background: #fff;
+    border: 1px solid var(--pp-borde);
+    border-radius: var(--pp-radio);
+    padding: 22px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: box-shadow 0.2s, transform 0.15s;
+    position: relative;
+  }
+  .pp-testi-card:hover {
+    box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+    transform: translateY(-2px);
+  }
+
+  /* Comilla decorativa */
+  .pp-testi-card::before {
+    content: '"';
+    position: absolute;
+    top: 14px; right: 18px;
+    font-size: 52px;
+    line-height: 1;
+    color: var(--pp-borde);
+    font-family: Georgia, serif;
+    pointer-events: none;
+  }
+
+  /* Estrellas */
+  .pp-card-stars {
+    display: flex;
+    gap: 2px;
+  }
+  .pp-card-stars svg {
+    width: 15px; height: 15px;
+    fill: var(--pp-amarillo);
+  }
+
+  /* Texto */
+  .pp-card-text {
+    font-size: 14px;
+    color: #374151;
+    line-height: 1.65;
+    font-style: italic;
+    flex: 1;
+  }
+
+  /* Categoría del testimonio */
+  .pp-card-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 9px;
+    border-radius: 99px;
+    width: fit-content;
+  }
+  .pp-card-tag.servicio  { background: #EAF3DE; color: #2E7D32; }
+  .pp-card-tag.producto  { background: var(--pp-azul-light); color: var(--pp-azul); }
+  .pp-card-tag.despacho  { background: #FEF3C7; color: #B45309; }
+
+  /* Autor */
+  .pp-card-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 12px;
+    border-top: 1px solid var(--pp-borde);
+    margin-top: auto;
+  }
+  .pp-author-avatar {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .pp-author-info {}
+  .pp-author-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--pp-texto);
+    line-height: 1.2;
+  }
+  .pp-author-meta {
+    font-size: 11px;
+    color: var(--pp-gris);
+  }
+
+  /* ── CTA hacia Google Reviews ── */
+  .pp-testi-footer {
+    text-align: center;
+    margin-top: 32px;
+  }
+  .pp-testi-footer p {
+    font-size: 13px;
+    color: var(--pp-gris);
+    margin-bottom: 14px;
+  }
+  .pp-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--pp-font);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--pp-azul);
+    background: #fff;
+    border: 1.5px solid var(--pp-azul);
+    border-radius: 99px;
+    padding: 9px 22px;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.12s;
+  }
+  .pp-btn-outline:hover {
+    background: var(--pp-azul-light);
+    transform: translateY(-1px);
+  }
+  .pp-btn-outline svg { width: 15px; height: 15px; }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .pp-testi-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 580px) {
+    .pp-testi-grid { grid-template-columns: 1fr; }
+    .pp-testi { padding: 32px 0; }
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Planchas de Acrílico Polyplas",
+  "description": "Planchas de acrílico de alta calidad, disponibles en espejo, flúor y formatos grandes de hasta 3x2m. Resistentes a rayos UV.",
+  "brand": { "@type": "Brand", "name": "Polyplas" },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "87",
+    "bestRating": "5"
+  },
+  "review": [
+    {
+      "@type": "Review",
+      "author": { "@type": "Person", "name": "Carlos M." },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5" },
+      "reviewBody": "Excelente atención. El corte a medida gratuito me ahorró muchísimo tiempo en la instalación de las vitrinas para mi local.",
+      "datePublished": "2025-03-15"
+    },
+    {
+      "@type": "Review",
+      "author": { "@type": "Person", "name": "Marcela T." },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5" },
+      "reviewBody": "Compré acrílico espejo dorado para un proyecto de decoración y la calidad del brillo es impecable. Muy recomendable.",
+      "datePublished": "2025-04-02"
+    },
+    {
+      "@type": "Review",
+      "author": { "@type": "Person", "name": "Diego R." },
+      "reviewRating": { "@type": "Rating", "ratingValue": "5" },
+      "reviewBody": "Excelente despacho, llegó perfecto hasta Antofagasta. El material estaba bien protegido y las medidas exactas.",
+      "datePublished": "2025-05-10"
+    }
+  ]
+}
+</script>
+<section aria-labelledby="pp-testi-titulo" class="pp-testi">
+<div class="pp-testi-head">
+<div class="pp-testi-eyebrow">Reseñas verificadas</div>
+<h2 id="pp-testi-titulo">Lo que dicen nuestros clientes</h2>
+<p>Más de 1.000 proyectos entregados a lo largo de todo Chile</p>
+</div>
+<div aria-label="Calificación promedio 4.9 de 5 basada en 87 reseñas de Google" class="pp-testi-rating">
+<div aria-hidden="true" class="pp-rating-stars">
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+</div>
+<span class="pp-rating-num">4.9</span>
+<div class="pp-rating-source">
+<strong>87 reseñas</strong>
+<span>en Google</span>
+</div>
+</div>
+<div class="pp-testi-grid">
+<article class="pp-testi-card">
+<div aria-label="5 de 5 estrellas" class="pp-card-stars">
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+</div>
+<span class="pp-card-tag servicio">✓ Servicio</span>
+<p class="pp-card-text">
+        "Excelente atención. El corte a medida gratuito me ahorró muchísimo tiempo
+        en la instalación de las vitrinas para mi local. Llegó todo perfecto."
+      </p>
+<div class="pp-card-author">
+<div aria-hidden="true" class="pp-author-avatar" style="background:#EAF3DE;color:#2E7D32">CM</div>
+<div class="pp-author-info">
+<div class="pp-author-name">Carlos M.</div>
+<div class="pp-author-meta">Santiago · Vitrina comercial</div>
+</div>
+</div>
+</article>
+<article class="pp-testi-card">
+<div aria-label="5 de 5 estrellas" class="pp-card-stars">
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+</div>
+<span class="pp-card-tag producto">✓ Producto</span>
+<p class="pp-card-text">
+        "Compré acrílico espejo dorado para un proyecto de decoración de interiores
+        y la calidad del brillo es impecable. No se ve nada artificial, parece espejo real."
+      </p>
+<div class="pp-card-author">
+<div aria-hidden="true" class="pp-author-avatar" style="background:var(--pp-azul-light);color:var(--pp-azul)">MT</div>
+<div class="pp-author-info">
+<div class="pp-author-name">Marcela T.</div>
+<div class="pp-author-meta">Concepción · Decoración</div>
+</div>
+</div>
+</article>
+<article class="pp-testi-card">
+<div aria-label="5 de 5 estrellas" class="pp-card-stars">
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+<svg viewbox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+</div>
+<span class="pp-card-tag despacho">✓ Despacho</span>
+<p class="pp-card-text">
+        "Excelente despacho a regiones, llegó perfecto hasta Antofagasta.
+        El material estaba muy bien protegido y las medidas de corte exactas. 100% recomendado."
+      </p>
+<div class="pp-card-author">
+<div aria-hidden="true" class="pp-author-avatar" style="background:#FEF3C7;color:#B45309">DR</div>
+<div class="pp-author-info">
+<div class="pp-author-name">Diego R.</div>
+<div class="pp-author-meta">Antofagasta · Proyecto industrial</div>
+</div>
+</div>
+</article>
+</div>
+<div class="pp-testi-footer">
+<p>¿Ya compraste con nosotros? Tu opinión nos ayuda a crecer.</p>
+<a aria-label="Dejar reseña en Google (se abre en nueva pestaña)" class="pp-btn-outline" href="https://www.google.com/search?sca_esv=a3f4bc3cdf2f2a50&amp;si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOcV0GeMq3QW4Y670puy_TLh9hMy9VayY9PSpWKqFkLTmg-HKrqbkCNmPg9SVFC-fseJ_SrlpL-diJUJHaCSzfdgri3bR&amp;q=Polyplas+Ltda+Opiniones&amp;sa=X" rel="noopener noreferrer" target="_blank">
+<svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path>
+<path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+</svg>
+      Dejar una reseña en Google
+    </a>
+</div>
+</section>

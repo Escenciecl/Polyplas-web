@@ -1,0 +1,145 @@
+<section class="poly-trust-compact">
+<div class="poly-header-sm">
+<p class="poly-title-visual">Tu Proyecto, Nuestra Prioridad</p>
+<p>Más de 29 años liderando el mercado en soluciones de acrílico y bienestar en Chile.</p>
+</div>
+<div class="poly-grid-sm">
+<div class="poly-card-sm">
+<div class="poly-icon-sm">
+<i class="fa-solid fa-truck-fast"></i>
+</div>
+<div class="poly-info-sm">
+<div class="poly-card-title">ENVÍO A TODO CHILE</div>
+<p>Despachos seguros y rastreables de Arica a Punta Arenas.</p>
+<details class="poly-envio-details">
+<summary>Ver condiciones</summary>
+<div class="poly-envio-content">
+<ul class="lista-condiciones">
+<li>Se cobra embalaje.</li>
+<li>Se entrega en Stgo al flete que indica el cliente.</li>
+<li>El flete es pagado por el cliente.</li>
+<li class="sugerencia-bullet"><strong>Sugerencia:</strong> elija sus planchas cortadas gratuitamente para disminuir costos en su flete.</li>
+</ul>
+</div>
+</details>
+</div>
+</div>
+<div class="poly-card-sm">
+<div class="poly-icon-sm">
+<i class="fa-solid fa-credit-card"></i>
+</div>
+<div class="poly-info-sm">
+<div class="poly-card-title">PAGA EN 6 Y 12 CUOTAS</div>
+<p>Hasta 12 cuotas sin interés según tu banco con TransBank.</p>
+</div>
+</div>
+<div class="poly-card-sm">
+<div class="poly-icon-sm">
+<i class="fa-solid fa-user-gear"></i>
+</div>
+<div class="poly-info-sm">
+<div class="poly-card-title">ASESORÍA Y GARANTÍA</div>
+<p>Importadora directa con soporte experto post-venta.</p>
+</div>
+</div>
+</div>
+</section>
+<style>
+    .poly-trust-compact {
+        padding: 40px 20px;
+        background-color: #f1f4f8; 
+        text-align: center;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    /* Ajuste para mantener el estilo del H2 original */
+    .poly-title-visual {
+        color: #004a99;
+        font-size: 24px;
+        font-weight: 800;
+        margin-bottom: 8px !important;
+        text-transform: uppercase;
+        line-height: 1.2;
+        display: block;
+    }
+
+    .poly-header-sm p:not(.poly-title-visual) {
+        color: #555;
+        font-size: 15px;
+        margin-bottom: 30px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .poly-grid-sm {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .poly-card-sm {
+        background: #ffffff;
+        border: 1px solid #d1d9e2;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        text-align: left;
+        gap: 15px;
+        box-shadow: 0 4px 15px rgba(0, 74, 153, 0.05);
+        transition: transform 0.3s ease;
+    }
+
+    .poly-card-sm:hover {
+        transform: translateY(-5px);
+    }
+
+    .poly-icon-sm {
+        font-size: 28px;
+        color: #004a99;
+        flex-shrink: 0;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1f4f8;
+        border-radius: 50%;
+    }
+
+    /* Ajuste para mantener el estilo del H3 original */
+    .poly-card-title {
+        color: #222;
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0 0 4px 0;
+        text-transform: uppercase;
+        font-family: inherit;
+    }
+
+    .poly-info-sm p {
+        color: #666;
+        font-size: 13px;
+        line-height: 1.4;
+        margin: 0;
+    }
+
+    /* ... Resto de tu CSS original ... */
+    .poly-envio-details { margin-top: 10px; }
+    .poly-envio-details summary { font-size: 12px; color: #004a99; font-weight: 700; cursor: pointer; text-decoration: underline; outline: none; list-style: none; }
+    .poly-envio-content { font-size: 12px; color: #444; background: #fdfdfd; padding: 12px; border-radius: 8px; margin-top: 8px; border: 1px dashed #d1d9e2; }
+    .lista-condiciones { list-style: none; padding: 0; margin: 0; }
+    .lista-condiciones li { margin-bottom: 6px; position: relative; padding-left: 15px; line-height: 1.4; }
+    .lista-condiciones li::before { content: "•"; color: #004a99; font-weight: bold; position: absolute; left: 0; }
+    .sugerencia-bullet { margin-top: 10px !important; border-top: 1px solid #eee; padding-top: 8px !important; color: #2a9d8f !important; }
+    .sugerencia-bullet::before { content: "💡" !important; left: -5px !important; }
+
+    @media (max-width: 480px) {
+        .poly-card-sm { flex-direction: column; text-align: center; }
+        .poly-icon-sm { margin: 0 auto 10px; }
+        .poly-envio-content { text-align: left; }
+    }
+</style>

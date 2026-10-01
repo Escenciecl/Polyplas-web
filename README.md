@@ -25,8 +25,8 @@ app/
   legacy/*.css            Estilos del tema y de Elementor (limpiados)
 components/               LegacyHtml, LegacyScripts, BlogList, JsonLd
 content/
-  pages.json              Título, descripción, canonical, schema y scripts de cada URL
-  html/*.html             Contenido de cada página (lo que se diseñó en Elementor)
+  modulos/                UNA CARPETA POR PÁGINA, un archivo .html por módulo (ver LEEME.md)
+  sitio.json              Google Tag Manager y datos del negocio para Google
   blog/*.md               Artículos nuevos del blog (Markdown)
   redirects.json          Redirecciones 301 de URLs antiguas
 lib/                      Lectura de contenido, metadatos SEO, orden de scripts
@@ -44,8 +44,9 @@ public/
 
 ## Editar una página existente
 
-El contenido está en `content/html/<página>.html` y los metadatos (title, description) en
-`content/pages.json`. Para mejoras puntuales de títulos existe `META_OVERRIDES` en `lib/content.ts`.
+Todo el contenido está en **`content/modulos/`**: una carpeta por página y un archivo por módulo
+(ver `content/modulos/LEEME.md`). El título y la descripción para Google están en `_pagina.json`
+de cada carpeta. `scripts/modulos.mjs` arma las páginas en cada build.
 
 ## Cloudflare Pages (configuración)
 

@@ -1,0 +1,520 @@
+<div class="poly-back-container">
+<a class="poly-back-link" href="/" title="Volver al inicio de Polyplas">
+<svg class="poly-back-icon" height="16" viewbox="0 0 24 24" width="16">
+<path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="currentColor"></path>
+</svg>
+<span class="poly-back-text">Volver al home polyplas.cl</span>
+</a>
+</div>
+<style>
+    .poly-back-container {
+        width: 100%;
+        padding: 15px 0;
+        display: flex;
+        justify-content: flex-start;
+        font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    }
+    .poly-back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: #004a99;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s ease-in-out;
+        padding: 6px 12px;
+        border-radius: 4px;
+    }
+    .poly-back-link:hover {
+        color: #003366;
+        background-color: rgba(0, 74, 153, 0.05);
+    }
+    .poly-back-link:hover .poly-back-icon {
+        transform: translateX(-4px);
+    }
+    .poly-back-icon {
+        display: block;
+        transition: transform 0.2s ease-in-out;
+    }
+    @media (max-width: 480px) {
+        .poly-back-link {
+            font-size: 13px;
+            padding: 4px 8px;
+        }
+    }
+</style>
+<div class="poly-premium-header">
+<span class="poly-kicker">Academia Técnica Polyplas</span>
+<h1 class="poly-main-title pp-was-h2">Guía del Acrílico: Tipos, Usos y Cómo Elegir la Plancha Perfecta</h1>
+<p class="poly-main-desc">Aprende a diferenciar las propiedades, espesores y aplicaciones del PMMA en Chile. Una solución inteligente, ligera y resistente diseñada para transformar tus proyectos de arquitectura, publicidad e interiorismo.</p>
+<div style="margin-top: 24px; display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+<a class="poly-cta-orange" href="/categoria-producto/planchas-acrilico/" title="Compra acrílico transparente aquí">Compra acrílico transparente aquí</a>
+<button class="poly-cta-orange" onclick="openAcrilicoPrincipalModal()" style="background:#004a99; border:none; cursor:pointer;">¿Necesitas asesoría? Te llamamos</button>
+</div>
+</div>
+<style>
+.poly-premium-header {
+    background: linear-gradient(135deg, #001F42 0%, #003366 100%);
+    padding: 50px 40px;
+    border-radius: 16px;
+    border-bottom: 5px solid #FF6600;
+    margin: 30px auto;
+    box-shadow: 0 10px 30px rgba(0, 51, 102, 0.08);
+}
+.poly-kicker {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    color: #FF6600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+    margin-bottom: 12px;
+    text-align: center;
+}
+.poly-main-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 36px;
+    color: #ffffff;
+    line-height: 1.25;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.5px;
+    text-align: center;
+}
+@media (max-width: 768px) {
+    .poly-premium-header { padding: 35px 24px; }
+    .poly-main-title { font-size: 26px; }
+}
+.poly-main-desc {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    color: #D1E2F2;
+    line-height: 1.65;
+    margin: 0 auto;
+    max-width: 750px;
+    text-align: center;
+}
+.poly-cta-orange {
+    display: inline-block;
+    background-color: #FF6600;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(255, 102, 0, 0.3);
+}
+.poly-cta-orange:hover {
+    background-color: #e55c00;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+</style>
+<div class="poly-grid">
+<div class="poly-brand-card">
+<div class="poly-card-icon-wrap"></div>
+<h3 class="poly-brand-card-title-sub">Acrílico Transparente</h3>
+<p class="poly-card-text">Máxima pureza óptica (92% de transmisión de luz). Reemplaza al vidrio en zonas que exigen seguridad e inmunidad total al amarillamiento solar.</p>
+<div class="poly-brand-card-footer"><strong>Aplicaciones:</strong> Vitrinas, protecciones y claraboyas.</div>
+</div>
+<div class="poly-brand-card">
+<div class="poly-card-icon-wrap"></div>
+<h3 class="poly-brand-card-title-sub">Acrílico Espejo</h3>
+<p class="poly-card-text">Reflexión nítida idéntica al cristal pero 50% más ligero. No se astilla ante impactos, ideal para espacios públicos, colegios y decoración comercial.</p>
+<div class="poly-brand-card-footer"><strong>Aplicaciones:</strong> Interiorismo de lujo, gimnasios y eventos.</div>
+</div>
+<div class="poly-brand-card">
+<div class="poly-card-icon-wrap"></div>
+<h3 class="poly-brand-card-title-sub">Colores y Línea Flúor</h3>
+<p class="poly-card-text">Variedades opacas, translúcidas y neón. La línea flúor captura la luz ambiental y hace brillar los bordes mecánicamente sin electricidad.</p>
+<div class="poly-brand-card-footer"><strong>Aplicaciones:</strong> Letras volumétricas, stands y cartelería POP.</div>
+</div>
+</div>
+<style>
+.poly-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+    margin: 40px 0;
+}
+.poly-brand-card {
+    background: #F0F4F8;
+    border: 1px solid #E1E8ED;
+    border-radius: 12px;
+    padding: 28px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+}
+.poly-brand-card:hover {
+    background: #ffffff;
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 51, 102, 0.06);
+    border-color: #003366;
+}
+.poly-card-icon-wrap {
+    font-size: 26px;
+    margin-bottom: 14px;
+}
+.poly-brand-card-title-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #003366;
+    margin: 0 0 12px 0;
+}
+.poly-card-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #4A5568;
+    line-height: 1.6;
+    margin: 0 0 20px 0;
+    flex-grow: 1;
+}
+.poly-brand-card-footer {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    color: #003366;
+    border-top: 1px solid #E1E8ED;
+    padding-top: 14px;
+}
+.poly-brand-card-footer strong {
+    color: #FF6600;
+}
+</style>
+<div class="poly-table-container">
+<table class="poly-market-table">
+<thead>
+<tr>
+<th>Rango de Espesor</th>
+<th>Comportamiento Mecánico</th>
+<th>Aplicaciones Sugeridas Polyplas</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="poly-td-bold">2mm a 3mm</td>
+<td>Ultra ligero, flexibilidad controlada, ideal para troquelados precisos.</td>
+<td>Portarretratos, tómbolas pequeñas, maquetas académicas e interiorismo sutil.</td>
+</tr>
+<tr>
+<td class="poly-td-bold">4mm a 6mm</td>
+<td>Rigidez intermedia equilibrada, excelente estabilidad estructural al pandeo.</td>
+<td>Señalética corporativa, vitrinas comerciales independientes, letras volumétricas.</td>
+</tr>
+<tr>
+<td class="poly-td-bold">8mm a 10mm+</td>
+<td>Máxima resistencia estructural para soporte de altas cargas mecánicas.</td>
+<td>Mamparas arquitectónicas, claraboyas fijas, acuarios y cubiertas de mesas.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<style>
+.poly-table-container {
+    overflow-x: auto;
+    margin: 35px 0;
+    border: 1px solid #D6E4F0;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,31,66,0.02);
+}
+.poly-market-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    background: #ffffff;
+}
+.poly-market-table th {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: #ffffff;
+    background-color: #003366;
+    padding: 18px 20px;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.poly-market-table td {
+    padding: 18px 20px;
+    border-bottom: 1px solid #E6EFF5;
+    color: #4A5568;
+    line-height: 1.6;
+}
+.poly-market-table tr:nth-child(even) {
+    background-color: #F7FAFC;
+}
+.poly-market-table tr:last-child td {
+    border-bottom: none;
+}
+.poly-td-bold {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #003366;
+    white-space: nowrap;
+}
+</style>
+<div class="poly-notice-box">
+<div class="poly-notice-content">
+<span class="poly-notice-tag">Servicio Técnico Especializado</span>
+<p class="poly-notice-text">¿Sabías que no requieres herramientas industriales para ajustar tus piezas? En Polyplas incluimos el <strong>servicio de corte a medida gratuito</strong> en cuadraturas estándar. Nota: Si necesitas múltiples cortes optimizados con medidas totalmente diferentes entre sí, se aplica un ajuste del 10% sobre la plancha para cubrir mermas de taller.</p>
+</div>
+</div>
+<style>
+.poly-notice-box {
+    background: #EBF3F9;
+    border-left: 5px solid #003366;
+    border-radius: 0 12px 12px 0;
+    margin: 40px 0;
+}
+.poly-notice-content {
+    padding: 22px 26px;
+}
+.poly-notice-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    color: #FF6600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 6px;
+}
+.poly-notice-text {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #1A202C;
+    line-height: 1.6;
+}
+</style>
+<h2 class="poly-section-title">Cómo Trabajar el Acrílico: Guía de Manipulación</h2>
+<p class="poly-section-intro">El acrílico es un material noble para trabajar, pero requiere respetar ciertas reglas físicas para evitar trizaduras o pérdida de material. Sigue estas recomendaciones profesionales paso a paso:</p>
+<div class="poly-process-flow">
+<div class="poly-flow-item">
+<div class="poly-flow-number">01</div>
+<div class="poly-flow-content">
+<h4 class="poly-flow-title">Técnicas de Corte Mecánico</h4>
+<p class="poly-flow-text">Las planchas delgadas de 2mm a 3mm pueden ser dimensionadas manualmente usando un cortador tipo garras para acrílico, realizando un trazado profundo y aplicando presión firme en el borde de una mesa. Para espesores mayores (4mm a 10mm), se utilizan herramientas mecánicas como sierras circulares o de banco con dientes finos especiales para plástico, asegurando un avance constante para obtener bordes rectos y limpios.</p>
+</div>
+</div>
+<div class="poly-flow-item">
+<div class="poly-flow-number">02</div>
+<div class="poly-flow-content">
+<h4 class="poly-flow-title">Perforado Sin Trizaduras</h4>
+<p class="poly-flow-text">Si vas a instalar señalética con distanciadores, usa brocas para metal bien afiladas a revoluciones bajas. No ejerzas presión desmedida, especialmente al momento de traspasar el fondo de la plancha, que es cuando el material es más vulnerable a fisuras.</p>
+</div>
+</div>
+<div class="poly-flow-item">
+<div class="poly-flow-number">03</div>
+<div class="poly-flow-content">
+<h4 class="poly-flow-title">Termoformado y Doblez</h4>
+<p class="poly-flow-text">Al ser un termoplástico, puedes doblarlo aplicando calor local controlado (entre 140°C y 160°C) con una pistola de calor o resistencia eléctrica. Una vez enfriado, mantendrá la nueva forma con total rigidez estructural.</p>
+</div>
+</div>
+<div class="poly-flow-item">
+<div class="poly-flow-number">04</div>
+<div class="poly-flow-content">
+<h4 class="poly-flow-title">El Secreto del Pegado Invisible</h4>
+<p class="poly-flow-text">Nunca utilices adhesivos comunes o cianocrilato (tipo gotita), ya que cristalizan y manchan el material dejándolo blanco. El acrílico se une mediante <strong>soldadura química capilar</strong> (cloruro de metileno), fundiendo ambas piezas en una sola unión cristalina.</p>
+</div>
+</div>
+</div>
+<style>
+.poly-section-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 26px;
+    color: #003366;
+    margin: 40px 0 12px 0;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+.poly-section-intro {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    color: #555555;
+    line-height: 1.6;
+    margin-bottom: 35px;
+}
+.poly-process-flow {
+    max-width: 850px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.poly-flow-item {
+    display: flex;
+    align-items: flex-start;
+    background: #F0F4F8;
+    border: 1px solid #E1E8ED;
+    border-radius: 12px;
+    padding: 24px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+.poly-flow-item:hover {
+    background: #ffffff;
+    border-color: #003366;
+    box-shadow: 0 10px 25px rgba(0, 51, 102, 0.05);
+    transform: translateX(4px);
+}
+.poly-flow-number {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    color: #FF6600;
+    background: #FFE6D5;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-right: 20px;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+.poly-flow-content {
+    flex-grow: 1;
+}
+.poly-flow-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #003366;
+    margin: 0 0 8px 0;
+}
+.poly-flow-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #4A5568;
+    line-height: 1.6;
+    margin: 0;
+    text-align: justify;
+}
+@media (max-width: 600px) {
+    .poly-flow-item {
+        flex-direction: column;
+        padding: 20px;
+    }
+    .poly-flow-number {
+        margin-bottom: 14px;
+        display: inline-block;
+    }
+}
+</style>
+<div class="poly-internal-links">
+<p class="poly-internal-tag" style="text-align: center;">Ver productos relacionados</p>
+<p class="poly-internal-text" style="text-align: center; margin-bottom: 20px;">
+        Encuentra todas las medidas y espesores en nuestra 
+        <a class="poly-internal-link" href="/categoria-producto/planchas-acrilico/">tienda de planchas de acrílico</a>.
+        También tenemos 
+        <a class="poly-internal-link" href="/categoria-producto/policarbonato-compacto/">policarbonato</a> 
+        y 
+        <a class="poly-internal-link" href="/categoria-producto/planchas-pet/">PET</a> 
+        si necesitas alternativas para tu proyecto.
+    </p>
+<div style="text-align: center; display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+<a class="poly-cta-orange" href="/categoria-producto/planchas-acrilico/">Ver Catálogo de Planchas de Acrílico →</a>
+<button class="poly-cta-orange" onclick="openAcrilicoPrincipalModal()" style="background:#004a99; border:none; cursor:pointer;">¿Necesitas asesoría? Te llamamos</button>
+</div>
+</div>
+<div id="acrilicoPrincipalModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
+<div style="background:#fff; border-radius:12px; padding:30px; max-width:420px; width:90%; position:relative; box-shadow:0 10px 40px rgba(0,0,0,0.2);">
+<button onclick="closeAcrilicoPrincipalModal()" style="position:absolute; top:12px; right:16px; background:none; border:none; font-size:22px; cursor:pointer; color:#666;">×</button>
+<h3 style="color:#0A3B71; margin-bottom:8px;">Te llamamos</h3>
+<p style="font-size:0.9rem; color:#606F7B; margin-bottom:20px;">Ingresa tus datos y te contactaremos para asesorarte sobre planchas de acrílico.</p>
+<form action="https://formspree.io/f/xljdbznj" id="acrilicoPrincipalForm" method="POST">
+<input name="Consulta" type="hidden" value="Guía Acrílico Principal"/>
+<div style="margin-bottom:14px;">
+<label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:5px; color:#333;">Nombre Completo</label>
+<input name="Nombre" placeholder="Ej: Marcela Pérez" required="" style="width:100%; padding:10px 12px; border:1px solid #cdd5df; border-radius:8px; font-size:15px; box-sizing:border-box;" type="text"/>
+</div>
+<div style="margin-bottom:14px;">
+<label style="display:block; font-size:0.85rem; font-weight:600; margin-bottom:5px; color:#333;">Teléfono de Contacto</label>
+<input name="Teléfono" placeholder="+56 9 1234 5678" required="" style="width:100%; padding:10px 12px; border:1px solid #cdd5df; border-radius:8px; font-size:15px; box-sizing:border-box;" type="tel"/>
+</div>
+<button style="width:100%; padding:12px; background:#004a99; color:#fff; border:none; border-radius:50px; font-size:16px; font-weight:700; cursor:pointer; margin-top:6px;" type="submit">Solicitar Llamada</button>
+</form>
+</div>
+</div>
+<script>
+    function openAcrilicoPrincipalModal() {
+        document.getElementById('acrilicoPrincipalModal').style.display = 'flex';
+    }
+    function closeAcrilicoPrincipalModal() {
+        document.getElementById('acrilicoPrincipalModal').style.display = 'none';
+    }
+    document.getElementById('acrilicoPrincipalForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        fetch(this.action, {
+            method: 'POST',
+            body: new FormData(this),
+            headers: { 'Accept': 'application/json' }
+        }).then(res => {
+            if (res.ok) {
+                alert('¡Gracias! Te contactaremos a la brevedad.');
+                this.reset();
+                closeAcrilicoPrincipalModal();
+            } else {
+                alert('Hubo un error al enviar. Por favor intenta de nuevo.');
+            }
+        }).catch(() => {
+            alert('Hubo un error al enviar. Por favor intenta de nuevo.');
+        });
+    });
+</script>
+<style>
+.poly-internal-links {
+    background: #EBF3F9;
+    border-left: 4px solid #003366;
+    border-radius: 0 8px 8px 0;
+    padding: 20px 24px;
+    margin: 40px 0;
+}
+.poly-internal-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    color: #FF6600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 8px 0;
+}
+.poly-internal-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: #1A202C;
+    line-height: 1.6;
+    margin: 0;
+}
+.poly-internal-link {
+    color: #003366;
+    font-weight: 700;
+    text-decoration: underline;
+}
+.poly-internal-link:hover {
+    color: #FF6600;
+}
+.poly-cta-orange {
+    display: inline-block;
+    background-color: #FF6600;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(255, 102, 0, 0.3);
+}
+.poly-cta-orange:hover {
+    background-color: #e55c00;
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+</style>

@@ -1,0 +1,72 @@
+<div class="poly-faq-wrapper">
+<h2 class="poly-main-title">Preguntas Frecuentes: Especificaciones de Planchas PET</h2>
+<div class="poly-accordion">
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Qué es el PETG y en qué se diferencia del PET común?</h3>
+<div class="poly-content">
+                El PETG es un copoliéster que incorpora glicol a la estructura del PET. Esto lo hace mucho más <strong>resistente al impacto</strong>, evita que el material se vuelva quebradizo y permite que sea más fácil de termoformar sin que se blanquee.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Es el PETG apto para contacto con alimentos?</h3>
+<div class="poly-content">
+                Sí, el PETG es un material de <strong>grado alimenticio</strong> certificado por la FDA. Es ideal para la fabricación de envases, moldes para chocolates y protecciones en la industria gastronómica, ya que no transmite olores ni sabores.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Se puede termoformar o doblar fácilmente?</h3>
+<div class="poly-content">
+                ¡Es el mejor material para ello! El PETG es el estándar para el <strong>termoformado de alta precisión</strong> porque tiene un punto de fusión bajo y no requiere pre-secado. Además, se puede <strong>doblar en frío</strong> en espesores delgados sin agrietarse.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Qué tan resistente es a los químicos y la limpieza?</h3>
+<div class="poly-content">
+                Posee una <strong>excelente resistencia química</strong> a ácidos, alcoholes y limpiadores industriales. Esto lo hace perfecto para protectores de maquinaria, mamparas de protección médica y viseras de seguridad.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Ofrecen cortes a medida en PETG?</h3>
+<div class="poly-content">
+                Al igual que en todos nuestros productos, en Polyplas ofrecemos el <strong>servicio de dimensionado gratuito</strong>. Puedes solicitarnos las piezas en las medidas exactas que necesites para tu proyecto.
+            </div>
+</div>
+</div>
+</div>
+<style>
+    .poly-faq-wrapper { margin: 50px 0; font-family: sans-serif; clear: both; }
+    .poly-main-title { color: #333; margin-bottom: 25px; font-size: 26px; text-align: center; font-weight: 700; }
+    .poly-accordion { border: 1px solid #ddd; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    
+    /* Color cambiado a Azul Celeste (#00a0df) */
+    .poly-item { border-bottom: 1px solid #eee; transition: all 0.3s ease; border-left: 0 solid #00a0df; }
+    .poly-item:last-child { border-bottom: none; }
+    
+    .poly-header { padding: 20px 25px; cursor: pointer; background: #fff; font-weight: 600; color: #444; position: relative; transition: 0.3s; font-size: 16px; display: flex; align-items: center; justify-content: space-between; margin: 0; }
+    
+    /* Hover y flecha en Azul Celeste */
+    .poly-header:hover { background: #f9f9f9; color: #00a0df; }
+    .poly-header::after { content: '+'; color: #00a0df; font-size: 22px; transition: 0.3s; }
+    
+    /* Estado activo en Azul Celeste */
+    .poly-item.active { border-left: 4px solid #00a0df; }
+    .poly-item.active .poly-header { background: #f0f9ff; color: #00a0df; }
+    .poly-item.active .poly-header::after { content: '-'; transform: rotate(180deg); }
+    
+    .poly-content { padding: 0 25px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; color: #555; line-height: 1.6; font-size: 15px; }
+    .poly-item.active .poly-content { padding: 10px 25px 25px; max-height: 500px; }
+</style>
+<script>
+    if (typeof togglePolyFaq !== 'function') {
+        window.togglePolyFaq = function(element) {
+            const item = element.parentElement;
+            const isActive = item.classList.contains('active');
+            
+            if (!isActive) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        }
+    }
+</script>

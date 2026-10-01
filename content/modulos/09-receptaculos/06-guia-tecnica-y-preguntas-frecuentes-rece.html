@@ -1,0 +1,65 @@
+<div class="poly-faq-wrapper">
+<h2 class="poly-main-title">Guía Técnica y Preguntas Frecuentes: Receptáculos</h2>
+<div class="poly-accordion">
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿De qué material están fabricados los receptáculos?</h3>
+<div class="poly-content">
+                Nuestros receptáculos están fabricados en <strong>acrílico sanitario reforzado con fibra de vidrio</strong>. Esta combinación garantiza una superficie lisa, fácil de limpiar y una estructura rígida de alta durabilidad.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Incluyen el kit de desagüe o descarga?</h3>
+<div class="poly-content">
+                Sí, la mayoría de nuestros modelos de receptáculos <strong>vienen equipados con su respectivo kit de descarga</strong>, asegurando una instalación rápida y una compatibilidad perfecta con el sistema de drenaje.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Son resistentes al peso y al uso diario?</h3>
+<div class="poly-content">
+                Absolutamente. Al ser reforzados, soportan el peso sin flectarse. Además, el acrílico sanitario tiene una <strong>alta resistencia al impacto y a los productos químicos</strong> de limpieza comunes, manteniendo su brillo por años.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿La superficie es antideslizante?</h3>
+<div class="poly-content">
+                Sí, el diseño de nuestros receptáculos incorpora una <strong>textura antideslizante en la base</strong> para garantizar la seguridad del usuario, reduciendo el riesgo de resbalones en zonas húmedas.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Realizan envíos a regiones de este producto?</h3>
+<div class="poly-content">
+                Sí, enviamos a <strong>todo Chile</strong>. Los receptáculos se embalan con protecciones especiales para asegurar que lleguen en perfectas condiciones a tu domicilio u obra, desde Arica hasta Punta Arenas.
+            </div>
+</div>
+</div>
+</div>
+<style>
+    .poly-faq-wrapper { margin: 50px 0; font-family: sans-serif; clear: both; }
+    .poly-main-title { color: #333; margin-bottom: 25px; font-size: 26px; text-align: center; font-weight: 700; }
+    .poly-accordion { border: 1px solid #ddd; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    
+    /* Cambios a Color Azul (#00a0df) */
+    .poly-item { border-bottom: 1px solid #eee; transition: all 0.3s ease; border-left: 0 solid #00a0df; }
+    .poly-item:last-child { border-bottom: none; }
+    
+    .poly-header { padding: 20px 25px; cursor: pointer; background: #fff; font-weight: 600; color: #444; position: relative; transition: 0.3s; font-size: 16px; display: flex; align-items: center; justify-content: space-between; margin: 0; }
+    
+    .poly-header:hover { background: #f9f9f9; color: #00a0df; }
+    .poly-header::after { content: '+'; color: #00a0df; font-size: 22px; transition: 0.3s; margin-left: 10px; }
+    
+    /* Estado activo en Azul */
+    .poly-item.active { border-left: 4px solid #00a0df; }
+    .poly-item.active .poly-header { background: #f0f9ff; color: #00a0df; padding-left: 21px; }
+    .poly-item.active .poly-header::after { content: '-'; transform: rotate(180deg); }
+    
+    .poly-content { padding: 0 25px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; color: #555; line-height: 1.6; font-size: 15px; }
+    .poly-item.active .poly-content { padding: 10px 25px 25px; max-height: 400px; }
+</style>
+<script>
+    if (typeof togglePolyFaq !== 'function') {
+        window.togglePolyFaq = function(element) {
+            const item = element.parentElement;
+            item.classList.toggle('active');
+        }
+    }
+</script>

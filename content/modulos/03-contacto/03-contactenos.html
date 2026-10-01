@@ -1,0 +1,472 @@
+<div class="poly-ui-container" id="polyFormContainer">
+<div class="poly-layout-wrapper" id="formWrapper">
+<div class="poly-contact-info">
+<h1 class="pp-was-h2">Contáctenos</h1>
+<p class="poly-subtitle">Te ayudaremos en cada momento de tu compra o si tienes dudas generales.</p>
+<div class="poly-contact-item poly-highlight">
+<div class="poly-icon-wrapper">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M3 18v-6a9 9 0 0 1 18 0v6"></path><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg>
+</div>
+<div class="poly-item-text">
+<span>¿Tienes alguna pregunta?</span>
+<strong>+56 9 4208 6751</strong>
+</div>
+</div>
+<div class="poly-contact-details">
+<p class="poly-phone-secondary">(02) 2544 1315</p>
+<p><strong>Envíanos un correo a:</strong> <a href="mailto:contacto@polypas.cl">contacto@polyplas.cl</a></p>
+<p><strong>Ubícanos en:</strong> Santiago Concha 1525 y 1565 Santiago de Chile.</p>
+</div>
+<div class="poly-social-icons">
+<a aria-label="Facebook" class="poly-social-btn" href="https://www.facebook.com/polyplas.ltda" rel="noopener noreferrer" target="_blank">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+</a>
+<a aria-label="Instagram" class="poly-social-btn" href="https://www.instagram.com/polyplaschile/" rel="noopener noreferrer" target="_blank">
+<svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><rect height="20" rx="5" ry="5" width="20" x="2" y="2"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+</a>
+</div>
+</div>
+<div class="poly-form-box">
+<div id="formContent">
+<div class="poly-ui-header">
+<h2>Formulario de Contacto</h2>
+<p>Escríbenos y un ejecutivo responderá a tus inquietudes de forma inmediata en tu correo y WhatsApp.</p>
+</div>
+<form action="https://api.web3forms.com/submit" class="poly-ui-form" id="polyForm" method="POST">
+<input name="access_key" type="hidden" value="5f4f9a20-91c4-4a65-9dd5-d7412aa58bd9"/>
+<input name="from_name" type="hidden" value="Polyplas Contacto"/>
+<input name="subject" type="hidden" value="Nueva Consulta desde Página de Contacto"/>
+<input name="botcheck" style="display: none;" type="checkbox"/>
+<div class="poly-ui-row">
+<div class="poly-ui-field">
+<label>Nombre Completo</label>
+<div class="input-wrapper">
+<input name="name" placeholder="Ej: Juan Pérez" required="" type="text"/>
+</div>
+</div>
+<div class="poly-ui-field">
+<label>WhatsApp</label>
+<div class="input-wrapper">
+<input name="whatsapp" placeholder="+569 1234 5678" required="" type="tel"/>
+</div>
+</div>
+</div>
+<div class="poly-ui-field">
+<label>Correo Electrónico</label>
+<div class="input-wrapper">
+<input name="email" placeholder="ejemplo@correo.com" required="" type="email"/>
+</div>
+</div>
+<div class="poly-ui-field">
+<label>Mensaje o Consulta</label>
+<div class="input-wrapper">
+<textarea name="message" placeholder="Escribe aquí tus dudas, preguntas comerciales o requerimientos..." required="" rows="4"></textarea>
+</div>
+</div>
+<button class="poly-ui-btn" type="submit">
+            Enviar Mensaje
+            <svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+<line x1="5" x2="19" y1="12" y2="12"></line>
+<polyline points="12 5 19 12 12 19"></polyline>
+</svg>
+</button>
+<div class="poly-ui-footer">
+<p>🔒 Conexión segura. Tus datos están protegidos.</p>
+</div>
+</form>
+</div>
+<div id="successMessage" style="display: none; text-align: center; padding: 40px 0;">
+<div class="success-icon">
+<svg height="80" viewbox="0 0 24 24" width="80">
+<circle cx="12" cy="12" fill="rgba(0, 74, 153, 0.1)" r="11" stroke="#004a99" stroke-width="1"></circle>
+<path d="M7 13l3 3 7-7" fill="none" stroke="#004a99" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<h2 style="color: #1a1a1a; margin-top: 20px;">¡Mensaje Enviado!</h2>
+<p style="color: #666; line-height: 1.6;">Hemos recibido tu consulta con éxito. En breve nos pondremos en contacto contigo.</p>
+<button class="poly-ui-btn" onclick="location.reload()" style="width: auto; padding: 12px 30px; margin-top: 25px; font-size: 14px; background: #1a1a1a; color: white;">Enviar otro mensaje</button>
+</div>
+</div>
+</div>
+</div>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
+  .poly-ui-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 50px 20px;
+    font-family: 'Inter', sans-serif;
+    background-color: #fafafa;
+    box-sizing: border-box;
+  }
+
+  .poly-layout-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 50px;
+    box-sizing: border-box;
+  }
+
+  /* --- COLUMNA IZQUIERDA: TEXTOS --- */
+  .poly-contact-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #1a1a1a;
+  }
+
+  .poly-contact-info h2 ,
+
+  .poly-contact-info h1.pp-was-h2 {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 800;
+    margin: 0 0 20px 0;
+    letter-spacing: -1px;
+  }
+
+  .poly-subtitle {
+    font-size: 18px;
+    line-height: 1.5;
+    color: #4a4a4a;
+    margin: 0 0 35px 0;
+  }
+
+  .poly-contact-item.poly-highlight {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+
+  .poly-icon-wrapper {
+    background-color: #004a99;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .poly-item-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .poly-item-text span {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+
+  .poly-item-text strong {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1a1a1a;
+  }
+
+  .poly-contact-details {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #1a1a1a;
+    margin-bottom: 30px;
+  }
+
+  .poly-phone-secondary {
+    font-size: 18px;
+    margin: 0 0 15px 0;
+  }
+
+  .poly-contact-details a {
+    color: #004a99;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .poly-social-icons {
+    display: flex;
+    gap: 12px;
+  }
+
+  .poly-social-btn {
+    background-color: #004a99;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background-color 0.2s;
+    text-decoration: none;
+  }
+
+  .poly-social-btn:hover {
+    transform: scale(1.05);
+    background-color: #002d5c;
+  }
+
+  /* --- COLUMNA DERECHA: FORMULARIO --- */
+  .poly-form-box {
+    background: #ffffff;
+    padding: 40px;
+    border: 1px dashed #cccccc;
+    box-sizing: border-box;
+  }
+
+  .poly-ui-header {
+    text-align: center;
+    margin-bottom: 35px;
+  }
+
+  .poly-ui-header h2 ,
+
+  .poly-ui-header h1.pp-was-h2 {
+    color: #1a1a1a;
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 800;
+    margin: 0 0 10px 0;
+    letter-spacing: -0.5px;
+  }
+
+  .poly-ui-header p {
+    color: #555555;
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .poly-ui-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .poly-ui-field {
+    margin-bottom: 20px;
+    text-align: left;
+  }
+
+  .poly-ui-field label {
+    display: block;
+    color: #1a1a1a;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .input-wrapper input,
+  .input-wrapper textarea {
+    width: 100%;
+    padding: 14px 16px;
+    background: #f2f2f2;
+    border: 1px solid transparent;
+    color: #1a1a1a;
+    font-size: 16px;
+    box-sizing: border-box;
+    font-family: inherit;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .input-wrapper textarea {
+    resize: vertical;
+  }
+
+  .input-wrapper input:focus,
+  .input-wrapper textarea:focus {
+    outline: none;
+    border-color: #004a99;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(0, 74, 153, 0.1);
+  }
+
+  .poly-ui-btn {
+    width: 100%;
+    background: #004a99;
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 10px;
+    font-size: 17px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    margin-top: 10px;
+  }
+
+  .poly-ui-btn:hover {
+    background: #002d5c;
+    transform: translateY(-2px);
+  }
+
+  .poly-ui-footer p {
+    color: #999999;
+    font-size: 13px;
+    margin-top: 25px;
+    text-align: center;
+  }
+
+  .success-icon {
+    animation: scaleIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+
+  @keyframes scaleIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  /* --- RESPONSIVO --- */
+  @media (max-width: 900px) {
+    .poly-layout-wrapper {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .poly-form-box {
+      padding: 30px 20px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .poly-ui-row {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+  }
+</style>
+<script>
+  var SB_URL = 'https://gdrkscedvkjtcvexnhzg.supabase.co';
+  var SB_KEY = 'sb_publishable_qT9WuJK5Wi6VghgMvcYIMw_IGBtn1Tc';
+  var SHEET_URL = 'https://script.google.com/macros/s/AKfycbw4WkE3slUjbDIUrbYVZD-aL1nB6WWJeyj6XG6rpFNz9p3pSFfdmUd3FjY_hV-QQJNkKA/exec';
+
+  function genUUID() {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0,
+        v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  function saveToSheet(convId, data) {
+    var shortId = 'PP-' + convId.split('-').pop().substring(0, 5).toUpperCase();
+    
+    fetch(SHEET_URL + '?' + new URLSearchParams({
+      accion: 'nuevo_lead',
+      idRef: shortId,
+      producto: window.location.href,
+      gclid: 'Formulario web'
+    }).toString(), {
+      mode: 'no-cors'
+    });
+    
+    setTimeout(function() {
+      fetch(SHEET_URL + '?' + new URLSearchParams({
+        accion: 'form_datos',
+        idRef: shortId,
+        nombre: data.name,
+        email: data.email,
+        telefono: data.whatsapp
+      }).toString(), {
+        mode: 'no-cors'
+      });
+    }, 2000);
+  }
+
+  function saveToSupabase(data) {
+    var convId = genUUID();
+    var now = new Date().toISOString();
+    fetch(SB_URL + '/rest/v1/conversations', {
+      method: 'POST',
+      headers: {
+        'apikey': SB_KEY,
+        'Authorization': 'Bearer ' + SB_KEY,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        id: convId,
+        client_name: data.name,
+        client_email: data.email,
+        unread_count: 1,
+        last_message_at: now,
+        metadata: {
+          phone: data.whatsapp,
+          phone_type: 'mobile',
+          query: data.message,
+          intent: 'contacto', // Cambiado a intención de contacto
+          source: 'form_contacto',
+          productoUrl: window.location.href
+        }
+      })
+    }).then(function(res) {
+      if (!res.ok) return;
+      fetch(SB_URL + '/rest/v1/messages', {
+        method: 'POST',
+        headers: {
+          'apikey': SB_KEY,
+          'Authorization': 'Bearer ' + SB_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({
+          conversation_id: convId,
+          sender: 'client',
+          content: data.message,
+          created_at: now
+        })
+      });
+      saveToSheet(convId, data);
+    }).catch(function(e) {
+      console.warn('Supabase error:', e);
+    });
+  }
+
+  const form = document.getElementById('polyForm');
+  const formContent = document.getElementById('formContent');
+  const successMessage = document.getElementById('successMessage');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+
+    form.querySelector('button').innerHTML = "Enviando...";
+
+    fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: json
+      })
+      .then(async (response) => {
+        if (response.status == 200) {
+          saveToSupabase(object);
+          formContent.style.display = "none";
+          successMessage.style.display = "block";
+        } else {
+          alert("Algo salió mal. Por favor intenta de nuevo.");
+          form.querySelector('button').innerHTML = "Enviar Mensaje";
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        alert("Error de conexión.");
+        form.querySelector('button').innerHTML = "Enviar Mensaje";
+      });
+  });
+</script>

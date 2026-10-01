@@ -1,0 +1,88 @@
+<style>
+    .poly-trust-bar-clean {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin: 15px 0 35px 0;
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+        width: 100%;
+        clear: both;
+    }
+
+    .poly-trust-item {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        position: relative;
+    }
+
+    /* Líneas divisorias entre items (solo en desktop) */
+    .poly-trust-item:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        right: -10px;
+        top: 10%;
+        height: 80%;
+        width: 1px;
+        background-color: #e2e8f0;
+    }
+
+    .poly-trust-label {
+        font-family: 'Inter', sans-serif;
+        color: #00a0df; /* Azul Celeste Corporativo */
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 4px;
+    }
+
+    .poly-trust-desc {
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        color: #475569;
+        line-height: 1.3;
+        font-weight: 400;
+    }
+
+    .poly-h2-seo {
+        font-family: 'Inter', sans-serif;
+        color: #1a202c;
+        font-size: 20px;
+        font-weight: 800;
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    @media (max-width: 768px) {
+        .poly-trust-bar-clean {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15px;
+        }
+        .poly-trust-item:not(:last-child)::after {
+            display: none;
+        }
+        .poly-trust-item {
+            margin-bottom: 15px;
+        }
+    }
+</style>
+<div class="poly-trust-bar-clean">
+<div class="poly-trust-item">
+<span class="poly-trust-label">Eficiencia en Costos</span>
+<span class="poly-trust-desc">La alternativa más rentable para proyectos de alto volumen.</span>
+</div>
+<div class="poly-trust-item">
+<span class="poly-trust-label">Fácil Manipulación</span>
+<span class="poly-trust-desc">Permite corte, remachado y doblado en frío con precisión.</span>
+</div>
+<div class="poly-trust-item">
+<span class="poly-trust-label">Resistencia Superior</span>
+<span class="poly-trust-desc">Excelente durabilidad ante impactos y barrera de humedad.</span>
+</div>
+</div>

@@ -1,0 +1,68 @@
+<div class="poly-container-fijo">
+<div class="poly-wrapper-fijo">
+<div class="poly-slide-fijo active-fijo">
+<img alt="Planchas de acrílico y productos Polyplas" class="poly-bg-fijo" decoding="async" fetchpriority="high" height="110" loading="eager" src="/wp-content/uploads/2026/08/tinahidromasajescaled-1.webp" width="1200"/>
+<div aria-hidden="true" class="poly-overlay-fijo"></div>
+<div class="poly-content-fijo">
+<h1 class="poly-title-fijo">
+                    Venta de Planchas de Acrílico, Cúpulas, Tinas de Hidromasaje y Receptáculos en Chile
+                </h1>
+</div>
+</div>
+<div class="poly-slide-fijo">
+<img alt="Cúpulas de acrílico y planchas resistentes" class="poly-bg-fijo" decoding="async" height="110" loading="lazy" src="/wp-content/uploads/2026/08/tinahidromasajescaled-1.webp" width="1200"/>
+<div aria-hidden="true" class="poly-overlay-fijo"></div>
+<div class="poly-content-fijo">
+<h2 class="poly-title-fijo">
+                    Fabricación de Cúpulas Acrílicas y Planchas de Policarbonato de Alta Resistencia
+                </h2>
+</div>
+</div>
+<div class="poly-slide-fijo">
+<img alt="Tinas de hidromasaje y receptáculos de ducha" class="poly-bg-fijo" decoding="async" height="110" loading="lazy" src="/wp-content/uploads/2026/08/tinahidromasajescaled-1.webp" width="1200"/>
+<div aria-hidden="true" class="poly-overlay-fijo"></div>
+<div class="poly-content-fijo">
+<h2 class="poly-title-fijo">
+                    Línea Sanitaria: Tinas de Hidromasaje y Receptáculos con Despacho a todo Chile
+                </h2>
+</div>
+</div>
+</div>
+</div>
+<style>
+.poly-container-fijo{width:100%!important;max-width:1200px!important;margin:10px auto!important;padding:0 15px!important;box-sizing:border-box!important;display:block!important;clear:both!important}
+.poly-wrapper-fijo{position:relative!important;width:100%!important;height:110px!important;background:#111!important;border-radius:8px!important;overflow:hidden!important;display:block!important}
+.poly-slide-fijo{display:none!important;position:absolute!important;inset:0!important;align-items:center!important;justify-content:center!important;box-sizing:border-box!important;padding:5px 20px!important}
+.poly-slide-fijo.active-fijo{display:flex!important}
+.poly-bg-fijo{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;z-index:1!important}
+.poly-overlay-fijo{position:absolute!important;inset:0!important;background:linear-gradient(to bottom,rgba(0,0,0,.45),rgba(0,0,0,.75))!important;z-index:2!important}
+.poly-content-fijo{position:relative!important;z-index:3!important;width:100%!important;max-width:1000px!important;text-align:center!important}
+.poly-title-fijo{color:#fff!important;font-family:'Segoe UI',Roboto,sans-serif!important;font-size:clamp(.9rem,1.8vw,1.35rem)!important;font-weight:700!important;line-height:1.25!important;margin:0!important;text-shadow:0 2px 8px rgba(0,0,0,.85)!important}
+@media(max-width:768px){
+  .poly-wrapper-fijo{height:90px!important}
+  .poly-slide-fijo{padding:5px 10px!important}
+}
+</style>
+<script>
+(function(){
+  const contenedor=document.querySelector('.poly-wrapper-fijo');
+  if(!contenedor)return;
+  const slides=contenedor.querySelectorAll('.poly-slide-fijo');
+  if(slides.length<2)return;
+  let idx=0,timer=null;
+
+  const avanzar=()=>{
+    slides[idx].classList.remove('active-fijo');
+    idx=(idx+1)%slides.length;
+    slides[idx].classList.add('active-fijo');
+  };
+  const iniciar=()=>{if(!timer)timer=setInterval(avanzar,4500);};
+  const pausar=()=>{clearInterval(timer);timer=null;};
+
+  document.addEventListener('visibilitychange',()=>{
+    document.hidden?pausar():iniciar();
+  });
+
+  iniciar();
+})();
+</script>

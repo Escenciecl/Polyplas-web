@@ -1,0 +1,127 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+    .polyplas-specs-section {
+        font-family: 'Inter', sans-serif;
+        padding: 60px 0;
+        background-color: #fcfdfe;
+    }
+    
+    .polyplas-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 25px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .polyplas-card {
+        background: #ffffff;
+        border-top: 4px solid #00a0df; /* Azul celeste corporativo */
+        border-right: 1px solid #e2e8f0;
+        border-bottom: 1px solid #e2e8f0;
+        border-left: 1px solid #e2e8f0;
+        padding: 40px;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+
+    .polyplas-card:hover {
+        box-shadow: 0 15px 30px rgba(0, 160, 223, 0.08);
+        transform: translateY(-5px);
+    }
+
+    .polyplas-icon {
+        width: 45px;
+        height: 45px;
+        margin-bottom: 25px;
+        color: #00a0df;
+    }
+
+    .polyplas-card h3 {
+        color: #1a202c;
+        font-size: 1.3rem;
+        margin-bottom: 18px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .polyplas-card p {
+        font-size: 0.95rem;
+        color: #4a5568;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .polyplas-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        border-top: 1px solid #edf2f7;
+        padding-top: 20px;
+    }
+
+    .polyplas-list li {
+        font-size: 0.85rem;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        color: #2d3748;
+        font-weight: 600;
+    }
+
+    .polyplas-list li::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        background-color: #00a0df;
+        margin-right: 12px;
+        border-radius: 50%;
+    }
+
+    @media (max-width: 768px) {
+        .polyplas-grid { padding: 0 20px; }
+        .polyplas-specs-section { padding: 40px 0; }
+    }
+</style>
+<div class="polyplas-specs-section">
+<div class="polyplas-grid">
+<div class="polyplas-card">
+<div class="polyplas-icon">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+</div>
+<h3>Estándar de Material</h3>
+<p>Fabricación exclusiva con <b>Acrílico Virgen de alto peso molecular</b>. Este estándar técnico garantiza estabilidad dimensional superior y una transparencia que no se degrada ante radiación solar extrema.</p>
+<ul class="polyplas-list">
+<li>Espesor nominal verificado: 4mm.</li>
+<li>Transmisión lumínica certificada &gt; 92%.</li>
+<li>Protección UV integrada en composición.</li>
+</ul>
+</div>
+<div class="polyplas-card">
+<div class="polyplas-icon">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+</div>
+<h3>Integración Técnica</h3>
+<p>Geometría optimizada para la evacuación eficiente de aguas lluvias y resistencia a cargas de viento. Su pestaña perimetral permite una estanqueidad absoluta en diversos sistemas constructivos.</p>
+<ul class="polyplas-list">
+<li>Compatible con Zinc, Pizarreño y Teja.</li>
+<li>Pestañas de anclaje de 50mm a 60mm.</li>
+<li>Domo auto-limpiante por pendiente natural.</li>
+</ul>
+</div>
+<div class="polyplas-card">
+<div class="polyplas-icon">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect><line x1="9" x2="9" y1="3" y2="21"></line></svg>
+</div>
+<h3>Protocolo de Entrega</h3>
+<p>Cada unidad es sometida a un riguroso control de calidad óptico y protegida con <b>film de polietileno coextruido</b> para asegurar que el material llegue a obra sin micro-rayas o contaminantes.</p>
+<ul class="polyplas-list">
+<li>Resistencia al impacto testeada.</li>
+<li>Bordes pulidos para montaje seguro.</li>
+<li>Terminación de alto brillo persistente.</li>
+</ul>
+</div>
+</div>
+</div>

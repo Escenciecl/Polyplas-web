@@ -1,0 +1,276 @@
+<div class="polyplas-banner-fix">
+<div class="polyplas-banner-wrapper">
+<div class="polyplas-banner-text">
+<span class="polyplas-badge-vende">STOCK DISPONIBLE</span>
+<div class="polyplas-text-group">
+<span class="polyplas-main-txt">Venta de Cúpulas de  acrílico</span>
+<div class="polyplas-logistics-line">
+<span>Emitimos factura electrónica (Natural/Empresa)</span>
+<span class="polyplas-bullet">•</span>
+<span>Retiro el mismo día y despacho en 24 hrs</span>
+<span class="polyplas-bullet">•</span>
+<div class="polyplas-tooltip-container">
+<span class="polyplas-tooltip-trigger">⏰ Ver Horarios y Retiros</span>
+<div class="polyplas-tooltip-content">
+<strong>Horarios de Atención:</strong>
+<ul class="polyplas-hours-list">
+<li><span>Lunes a Jueves:</span> 09:00 a 18:00 hrs</li>
+<li><span>Viernes:</span> 09:00 a 17:00 hrs</li>
+<li class="polyplas-closed"><span>Sáb, Dom y Festivos:</span> Cerrado</li>
+</ul>
+<strong>Tiempos de Retiro Online:</strong>
+<div class="polyplas-tooltip-footer">
+                                📌 <strong>Lun a Vie (Antes 14:00 hrs):</strong> Retiro el mismo día.<br/>
+                                📌 <strong>Lun a Jue (Después 14:00 hrs):</strong> Retiro el próximo día en la mañana.<br/>
+                                📌 <strong>Fin de semana / Festivos:</strong> Retiro el lunes por la tarde.
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="polyplas-banner-payment">
+<div class="polyplas-secure-label">
+<svg class="polyplas-icon-lock" fill="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z" fill-rule="evenodd"></path>
+</svg>
+<span>Pago Seguro</span>
+</div>
+<div class="polyplas-logo-container">
+<img alt="Transbank Webpay" class="polyplas-img-transbank" src="/wp-content/uploads/2022/07/icon-transbank-1.svg"/>
+</div>
+</div>
+</div>
+</div>
+<style>
+/* Contenedor Principal */
+.polyplas-banner-fix {
+    width: 100%;
+    background-color: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 14px 20px;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.polyplas-banner-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Lado Izquierdo */
+.polyplas-banner-text {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.polyplas-badge-vende {
+    background-color: #f0fdf4;
+    color: #166534;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.polyplas-text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.polyplas-main-txt {
+    color: #1e293b;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.polyplas-logistics-line {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    color: #475569;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.polyplas-bullet {
+    color: #cbd5e1;
+    font-weight: bold;
+}
+
+/* --- ESTILOS DEL TOOLTIP (CSS Puro ampliado) --- */
+.polyplas-tooltip-container {
+    position: relative;
+    display: inline-block;
+}
+
+.polyplas-tooltip-trigger {
+    color: #0284c7;
+    font-weight: 600;
+    text-decoration: underline dotted;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.polyplas-tooltip-content {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 130%; /* Despliega hacia arriba */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #1e293b;
+    color: #ffffff;
+    padding: 16px;
+    border-radius: 8px;
+    width: 320px; /* Un poco más ancho para albergar el texto cómodamente */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    z-index: 99999;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    font-size: 11px;
+    line-height: 1.5;
+    text-align: left;
+}
+
+/* Flecha del tooltip */
+.polyplas-tooltip-content::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: #1e293b transparent transparent transparent;
+}
+
+/* Mostrar Tooltip al hacer Hover */
+.polyplas-tooltip-container:hover .polyplas-tooltip-content {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Estilos internos del Tooltip */
+.polyplas-tooltip-content strong {
+    font-size: 12px;
+    display: block;
+    margin-bottom: 6px;
+    color: #bae6fd;
+}
+
+.polyplas-hours-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px 0;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 8px;
+}
+
+.polyplas-hours-list li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.polyplas-hours-list li span {
+    color: #94a3b8;
+}
+
+.polyplas-closed span {
+    color: #f87171 !important;
+}
+
+.polyplas-tooltip-footer {
+    background-color: #334155;
+    padding: 10px;
+    border-radius: 6px;
+    color: #f1f5f9;
+}
+
+/* Lado Derecho (Pagos) */
+.polyplas-banner-payment {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.polyplas-secure-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+}
+
+.polyplas-icon-lock {
+    width: 13px;
+    height: 13px;
+    color: #10b981;
+}
+
+.polyplas-logo-container {
+    width: 130px;
+    display: flex;
+    align-items: center;
+}
+
+.polyplas-img-transbank {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Responsivo para Tablet y Móviles */
+@media (max-width: 950px) {
+    .polyplas-banner-wrapper {
+        flex-direction: column;
+        gap: 14px;
+        text-align: center;
+    }
+    .polyplas-banner-text {
+        flex-direction: column;
+        gap: 8px;
+    }
+    .polyplas-logistics-line {
+        justify-content: center;
+    }
+    .polyplas-banner-payment {
+        justify-content: center;
+    }
+    .polyplas-tooltip-content {
+        bottom: auto;
+        top: 130%; /* En móviles abre hacia abajo */
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .polyplas-tooltip-content::after {
+        top: auto;
+        bottom: 100%;
+        border-color: transparent transparent #1e293b transparent;
+    }
+}
+
+@media (max-width: 650px) {
+    .polyplas-logistics-line {
+        flex-direction: column;
+        gap: 6px;
+    }
+    .polyplas-bullet {
+        display: none;
+    }
+}
+</style>

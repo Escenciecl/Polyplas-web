@@ -1,0 +1,25 @@
+{
+  "url": "/nosotros/",
+  "tipo": "page",
+  "titulo": "Nosotros | Polyplas, importadora de acrílicos y tinas en Chile",
+  "descripcion": "SOBRE NOSOTROS CÚPULAS PLANCHAS DE ACRÍLICO Planchas de Acrílico Planchas PET Planchas PETG Planchas de Policarbonato RECEPTÁCULOS TINAS DE HIDROMASAJE BLOG CONTACTO Desde 1996 Nosotros En Polyplas somos una empresa con 29 años de trayectoria en el mercado, dedicada a la importación y comercialización de acrílicos de alta calidad. Hemos trabajado con un propósito claro:",
+  "robots": "max-image-preview:large",
+  "canonical": "/nosotros/",
+  "og": {
+    "type": "article",
+    "title": "Nosotros - polyplas",
+    "description": "SOBRE NOSOTROS CÚPULAS PLANCHAS DE ACRÍLICO Planchas de Acrílico Planchas PET Planchas PETG Planchas de Policarbonato RECEPTÁCULOS TINAS DE HIDROMASAJE BLOG CONTACTO Desde 1996 Nosotros En Polyplas somos una empresa con 29 años de trayectoria en el mercado, dedicada a la importación y comercialización de acrílicos de alta calidad. Hemos trabajado con un propósito claro:",
+    "image": "https://polyplas.cl/wp-content/uploads/2025/08/92c0b8c9-f2d8-4b7f-bc3f-73e4ed072bbc.jpg",
+    "image:width": "570",
+    "image:height": "422"
+  },
+  "publicado": "2022-07-04T19:27:35+00:00",
+  "modificado": "2026-08-27T01:01:43+00:00",
+  "css": [
+    "/wp-content/uploads/elementor/css/post-41.css"
+  ],
+  "datosGoogle": [
+    "{\"@context\":\"https:\\/\\/schema.org\",\"@graph\":[{\"@type\":\"BreadcrumbList\",\"@id\":\"https:\\/\\/polyplas.cl\\/nosotros\\/#breadcrumblist\",\"itemListElement\":[{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/#listItem\",\"position\":1,\"name\":\"Home\",\"item\":\"https:\\/\\/polyplas.cl\\/\",\"nextItem\":\"https:\\/\\/polyplas.cl\\/nosotros\\/#listItem\"},{\"@type\":\"ListItem\",\"@id\":\"https:\\/\\/polyplas.cl\\/nosotros\\/#listItem\",\"position\":2,\"name\":\"Nosotros\",\"previousItem\":\"https:\\/\\/polyplas.cl\\/#listItem\"}]},{\"@type\":\"Organization\",\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\",\"name\":\"polyplas\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"telephone\":\"+56225441315\",\"logo\":{\"@type\":\"ImageObject\",\"url\":\"https:\\/\\/polyplas.cl\\/wp-content\\/uploads\\/2022\\/07\\/img-rrss-seo-1.webp\",\"@id\":\"https:\\/\\/polyplas.cl\\/nosotros\\/#organizationLogo\",\"width\":1200,\"height\":630},\"image\":{\"@id\":\"https:\\/\\/polyplas.cl\\/nosotros\\/#organizationLogo\"},\"sameAs\":[\"https:\\/\\/www.facebook.com\\/polyplas.ltda\",\"https:\\/\\/www.instagram.com\\/polyplas_tinashidromasajes\\/\"]},{\"@type\":\"WebPage\",\"@id\":\"https:\\/\\/polyplas.cl\\/nosotros\\/#webpage\",\"url\":\"https:\\/\\/polyplas.cl\\/nosotros\\/\",\"name\":\"Nosotros - polyplas\",\"description\":\"SOBRE NOSOTROS C\\u00daPULAS PLANCHAS DE ACR\\u00cdLICO Planchas de Acr\\u00edlico Planchas PET Planchas PETG Planchas de Policarbonato RECEPT\\u00c1CULOS TINAS DE HIDROMASAJE BLOG CONTACTO Desde 1996 Nosotros En Polyplas somos una empresa con 29 a\\u00f1os de trayectoria en el mercado, dedicada a la importaci\\u00f3n y comercializaci\\u00f3n de acr\\u00edlicos de alta calidad. Hemos trabajado con un prop\\u00f3sito claro:\",\"inLanguage\":\"es-ES\",\"isPartOf\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#website\"},\"breadcrumb\":{\"@id\":\"https:\\/\\/polyplas.cl\\/nosotros\\/#breadcrumblist\"},\"datePublished\":\"2022-07-04T15:27:35-04:00\",\"dateModified\":\"2026-08-26T21:01:43-04:00\"},{\"@type\":\"WebSite\",\"@id\":\"https:\\/\\/polyplas.cl\\/#website\",\"url\":\"https:\\/\\/polyplas.cl\\/\",\"name\":\"polyplas\",\"inLanguage\":\"es-ES\",\"publisher\":{\"@id\":\"https:\\/\\/polyplas.cl\\/#organization\"}}]}"
+  ],
+  "dataLayer": "var dataLayer_content = {\"pageTitle\":\"Nosotros - polyplas\",\"pagePostType\":\"page\",\"pagePostType2\":\"single-page\",\"pagePostAuthorID\":9,\"pagePostAuthor\":\"Fredy Arriagada Cuevas\",\"postID\":41,\"customerTotalOrders\":0,\"customerTotalOrderValue\":0,\"customerFirstName\":\"Fredy\",\"customerLastName\":\"Arriagada Cuevas\",\"customerBillingFirstName\":\"Fredy\",\"customerBillingLastName\":\"Arriagada Cuevas\",\"customerBillingCompany\":\"\",\"customerBillingAddress1\":\"\",\"customerBillingAddress2\":\"\",\"customerBillingCity\":\"\",\"customerBillingState\":\"\",\"customerBillingPostcode\":\"\",\"customerBillingCountry\":\"\",\"customerBillingEmail\":\"farriagada@polyplas.cl\",\"customerBillingEmailHash\":\"c667f7e2a6849d02a848012f739bb0ff7779c600626974034747e784131967cd\",\"customerBillingPhone\":\"\",\"customerShippingFirstName\":\"\",\"customerShippingLastName\":\"\",\"customerShippingCompany\":\"\",\"customerShippingAddress1\":\"\",\"customerShippingAddress2\":\"\",\"customerShippingCity\":\"\",\"customerShippingState\":\"CL:CL-VS\",\"customerShippingPostcode\":\"\",\"customerShippingCountry\":\"\",\"cartContent\":{\"totals\":{\"applied_coupons\":[],\"discount_total\":0,\"subtotal\":0,\"total\":0},\"items\":[]}};\n\tdataLayer.push( dataLayer_content );"
+}

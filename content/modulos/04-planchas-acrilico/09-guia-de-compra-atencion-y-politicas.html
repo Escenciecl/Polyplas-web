@@ -1,0 +1,133 @@
+<style>
+  :root {
+    --pp-azul:       #1557A0;
+    --pp-azul-dark:  #0D3F75;
+    --pp-azul-light: #E8F0FB;
+    --pp-texto:      #1a1a2e;
+    --pp-gris:       #6b7280;
+    --pp-borde:      #e5e7eb;
+    --pp-fondo:      #f9fafb;
+    --pp-font:       'DM Sans', sans-serif;
+    --pp-radio:      12px;
+  }
+
+  .pp-faq *, .pp-faq *::before, .pp-faq *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .pp-faq { font-family: var(--pp-font); padding: 48px 0; margin-bottom: 16px; }
+  .pp-faq-head { margin-bottom: 32px; }
+  .pp-faq-eyebrow { font-size: 11px; font-weight: 600; color: var(--pp-azul); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .pp-faq-head h2 { font-family: var(--pp-font); font-size: clamp(20px, 3vw, 26px); font-weight: 600; color: var(--pp-texto); letter-spacing: -0.02em; }
+  .pp-faq-list { display: flex; flex-direction: column; gap: 8px; }
+  .pp-faq-item { background: #fff; border: 1px solid var(--pp-borde); border-radius: var(--pp-radio); overflow: hidden; transition: border-color 0.15s; }
+  .pp-faq-item:hover { border-color: #c3d9f5; }
+  .pp-faq-item.open { border-color: var(--pp-azul); }
+  .pp-faq-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 22px; background: none; border: none; cursor: pointer; font-family: var(--pp-font); font-size: 15px; font-weight: 600; color: var(--pp-texto); text-align: left; line-height: 1.4; }
+  .pp-faq-btn:hover { color: var(--pp-azul); }
+  .pp-faq-item.open .pp-faq-btn { color: var(--pp-azul); }
+  .pp-faq-icon { width: 28px; height: 28px; border-radius: 50%; background: var(--pp-fondo); border: 1px solid var(--pp-borde); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.15s, border-color 0.15s, transform 0.25s; }
+  .pp-faq-icon svg { width: 14px; height: 14px; stroke: var(--pp-gris); transition: stroke 0.15s, transform 0.25s; }
+  .pp-faq-item.open .pp-faq-icon { background: var(--pp-azul-light); border-color: var(--pp-azul); transform: rotate(45deg); }
+  .pp-faq-item.open .pp-faq-icon svg { stroke: var(--pp-azul); }
+  .pp-faq-panel { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
+  .pp-faq-item.open .pp-faq-panel { max-height: 1300px; }
+  .pp-faq-answer { padding: 0 22px 20px; font-size: 14px; color: #4b5563; line-height: 1.75; border-top: 1px solid var(--pp-borde); padding-top: 16px; }
+  .pp-faq-answer strong { color: var(--pp-texto); }
+  .pp-faq-cat { display: inline-flex; align-items: center; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 8px; border-radius: 99px; white-space: nowrap; margin-left: 8px; vertical-align: middle; }
+  .pp-faq-cat.corte { background: #EAF3DE; color: #2E7D32; }
+  .pp-faq-cat.producto { background: var(--pp-azul-light); color: var(--pp-azul); }
+  .pp-faq-cat.pago { background: #F3E8FF; color: #7E22CE; }
+  .pp-faq-cat.ubicacion { background: #fff7ed; color: #c2410c; }
+  .pp-faq-cat.politica { background: #fee2e2; color: #b91c1c; }
+  @media (max-width: 640px) { .pp-faq { padding: 32px 0; } .pp-faq-btn { font-size: 14px; padding: 15px 16px; } .pp-faq-answer { padding: 0 16px 16px; padding-top: 14px; } }
+</style>
+<section aria-labelledby="pp-faq-titulo" class="pp-faq">
+<div class="pp-faq-head">
+<div class="pp-faq-eyebrow">Preguntas frecuentes</div>
+<h2 id="pp-faq-titulo">Guía de compra, atención y políticas</h2>
+</div>
+<div class="pp-faq-list" role="list">
+<div class="pp-faq-item" role="listitem">
+<button aria-controls="pp-faq-a0" aria-expanded="false" class="pp-faq-btn" id="pp-faq-q0">
+<span>¿Dónde están ubicados y cuál es su horario? <span class="pp-faq-cat ubicacion">Ubicación</span></span>
+<span aria-hidden="true" class="pp-faq-icon"><svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></svg></span>
+</button>
+<div aria-labelledby="pp-faq-q0" class="pp-faq-panel" id="pp-faq-a0" role="region">
+<div class="pp-faq-answer">
+<strong>Dirección:</strong> Santiago Concha 1525, Santiago.
+          <br/><br/><strong>Horarios de atención:</strong>
+<br/>• Lunes a Jueves: 09:00 - 17:45 hrs.
+          <br/>• Viernes: 09:00 - 16:45 hrs.
+          <br/>• <em>Nota: Cerrado por colación de 13:30 a 14:15 hrs.</em>
+<br/><br/>Puedes comprar en nuestra <strong>página web las 24 horas del día, los 7 días de la semana</strong>.
+        </div>
+</div>
+</div>
+<div class="pp-faq-item" role="listitem">
+<button aria-controls="pp-faq-a1" aria-expanded="false" class="pp-faq-btn" id="pp-faq-q1">
+<span>¿Venden acrílico a medida en las planchas? <span class="pp-faq-cat corte">Corte</span></span>
+<span aria-hidden="true" class="pp-faq-icon"><svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></svg></span>
+</button>
+<div aria-labelledby="pp-faq-q1" class="pp-faq-panel" id="pp-faq-a1" role="region">
+<div class="pp-faq-answer">
+          ¡Sí! Ofrecemos servicio de <strong>corte dimensionado con sierra a pared para tener el acrílico a medida solicitada</strong>. 
+          <br/>• Realizamos <strong>exclusivamente cortes rectos</strong>. No efectuamos cortes circulares ni formas especiales.
+          <br/>• Vendemos <strong>planchas completas</strong>; no comercializamos trozos ni retazos de material.
+          <br/><br/><strong>Nota:</strong> Si todos los cortes solicitados tienen medidas diferentes entre sí, aplica un recargo del 10% sobre el total.
+        </div>
+</div>
+</div>
+<div class="pp-faq-item" role="listitem">
+<button aria-controls="pp-faq-a3" aria-expanded="false" class="pp-faq-btn" id="pp-faq-q3">
+<span>Pagos, facturación y envíos <span class="pp-faq-cat pago">Pago y envío</span></span>
+<span aria-hidden="true" class="pp-faq-icon"><svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></svg></span>
+</button>
+<div aria-labelledby="pp-faq-q3" class="pp-faq-panel" id="pp-faq-a3" role="region">
+<div class="pp-faq-answer">
+<strong>Métodos de Pago:</strong>
+<br/>• <strong>Online:</strong> Webpay (3 a 6 cuotas sin interés según banco).
+          <br/>• <strong>Vía Chat:</strong> Transferencia o link de pago (enviar comprobante para validar).
+          <br/>• <strong>Presencial:</strong> Transbank (máquina) o transferencia.
+          
+          <br/><br/><strong>Envíos y Retiro:</strong>
+<br/>• <strong>Envío Gratis:</strong> En Santiago por compras superiores a <strong>$350.000</strong> (verifica las comunas disponibles en el checkout).
+          <br/>• <strong>Retiro en Tienda:</strong> Antes de las 14:00 hrs (mismo día, sujeto a volumen); después de las 14:00 hrs (día siguiente hábil).
+          
+          <br/><br/><strong>Facturación:</strong>
+<br/>Todas nuestras ventas son facturadas (personas naturales o empresas).
+        </div>
+</div>
+</div>
+<div class="pp-faq-item" role="listitem">
+<button aria-controls="pp-faq-a4" aria-expanded="false" class="pp-faq-btn" id="pp-faq-q4">
+<span>Política de recepción y devoluciones <span class="pp-faq-cat politica">Importante</span></span>
+<span aria-hidden="true" class="pp-faq-icon"><svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></svg></span>
+</button>
+<div aria-labelledby="pp-faq-q4" class="pp-faq-panel" id="pp-faq-a4" role="region">
+<div class="pp-faq-answer">
+<strong>IMPORTANTE:</strong> La aceptación de la entrega implica conformidad con el estado del producto.
+          <br/><br/>1. <strong>Revisión:</strong> Es deber del cliente revisar y contar las planchas en la entrega. No se aceptarán reclamos por cantidad o daños superficiales una vez firmada la recepción.
+          <br/>2. <strong>Plazo de Reclamo:</strong> Para planchas trizadas o rayadas, dispones de <strong>72 horas</strong> para notificar el defecto.
+          <br/>3. <strong>Requisitos:</strong> Plancha en buen estado, <strong>revestimiento original intacto</strong> y notificación dentro del plazo.
+        </div>
+</div>
+</div>
+</div>
+</section>
+<script>
+(function () {
+  var items = document.querySelectorAll('.pp-faq-item');
+  items.forEach(function (item) {
+    var btn = item.querySelector('.pp-faq-btn');
+    btn.addEventListener('click', function () {
+      var esAbierto = item.classList.contains('open');
+      items.forEach(function (i) {
+        i.classList.remove('open');
+        i.querySelector('.pp-faq-btn').setAttribute('aria-expanded', 'false');
+      });
+      if (!esAbierto) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+})();
+</script>

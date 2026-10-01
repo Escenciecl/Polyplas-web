@@ -2,8 +2,6 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 import { marked } from "marked";
-import pagesJson from "@/content/pages.json";
-import siteJson from "@/content/site.json";
 import cardsJson from "@/content/blog-cards.json";
 
 export const SITE_URL = "https://polyplas.cl";
@@ -31,6 +29,14 @@ export interface PageEntry {
   h1: string[];
 }
 
+const CONTENT_DIR = path.join(process.cwd(), "content");
+const GEN_DIR = path.join(CONTENT_DIR, "_generado");
+const readGen = (f: string) => JSON.parse(fs.readFileSync(path.join(GEN_DIR, f), "utf8"));
+
+/* Generados por scripts/modulos.mjs a partir de content/modulos/ (npm run build / npm run dev) */
+const pagesJson = readGen("pages.json");
+const siteJson = readGen("site.json");
+
 export const site = siteJson as {
   gtmId: string | null;
   headScripts: string[];
@@ -40,37 +46,10 @@ export const site = siteJson as {
   businessJsonLd: string | null;
 };
 
-/**
- * Mejoras de SEO sobre los metadatos que venían de WordPress (AIOSEO).
- * Todo lo que no está aquí se conserva exactamente igual que en el sitio actual.
- */
-const META_OVERRIDES: Record<string, Partial<PageMeta>> = {
-  "/nosotros/": {
-    title: "Nosotros | Polyplas, importadora de acrílicos y tinas en Chile",
-  },
-  "/contacto/": {
-    title: "Contacto y cotizaciones | Polyplas Chile",
-    description:
-      "Cotiza planchas de acrílico, PET, PETG, policarbonato, cúpulas, receptáculos y tinas de hidromasaje. Escríbenos o llámanos: atención a personas y empresas en todo Chile.",
-  },
-  "/politica-de-privacidad-de-datos/": {
-    title: "Política de privacidad de datos | Polyplas",
-  },
-  "/categoria-producto/politica-de-devolucion/": {
-    title: "Política de devolución | Polyplas",
-  },
-};
-
 const NOT_FOUND_PATH = "/esta-pagina-no-existe-404/";
-const CONTENT_DIR = path.join(process.cwd(), "content");
 const MD_DIR = path.join(CONTENT_DIR, "blog");
 
-const legacyPages: Record<string, PageEntry> = Object.fromEntries(
-  Object.entries(pagesJson as unknown as Record<string, PageEntry>).map(([p, e]) => [
-    p,
-    { ...e, meta: { ...e.meta, ...(META_OVERRIDES[p] ?? {}) } },
-  ]),
-);
+const legacyPages = pagesJson as Record<string, PageEntry>;
 
 /* ------------------------------------------------------------------ Markdown */
 export interface MarkdownPost {
@@ -120,7 +99,7 @@ export function getNotFoundPage(): PageEntry {
 }
 
 export function readHtml(key: string): string {
-  return fs.readFileSync(path.join(CONTENT_DIR, "html", `${key}.html`), "utf8");
+  return fs.readFileSync(path.join(GEN_DIR, "html", `${key}.html`), "utf8");
 }
 
 export interface BlogCard {
