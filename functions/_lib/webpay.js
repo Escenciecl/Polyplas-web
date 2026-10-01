@@ -1,3 +1,4 @@
+import { diagramasCorte, pdfCortes, bytesToB64 } from "./corte.js";
 /**
  * Utilidades compartidas para Webpay Plus (Transbank), correo y Supabase.
  * Port directo de las funciones que estaban en functions.php de WordPress.
@@ -6,7 +7,8 @@
  *   TBK_COMMERCE_CODE  (texto)   código de comercio Webpay Plus
  *   TBK_SECRET         (secreto) llave secreta Transbank  ← la ingresa la dueña, nunca va en el código
  *   TBK_API_BASE       (texto, opcional) por defecto producción v1.3
- *   RESEND_API_KEY     (secreto) para enviar correos
+ *   BREVO_API_KEY      (secreto) para enviar correos con Brevo (recomendado; dominio ya verificado)
+ *   RESEND_API_KEY     (secreto) alternativa a Brevo
  *   MAIL_FROM          (texto, opcional) por defecto "Polyplas <ventas@polyplas.cl>"
  *   MAIL_SALES         (texto, opcional) por defecto "ventas@polyplas.cl"
  * Binding KV: ORDERS  (guarda el pedido 30 minutos mientras el cliente paga)
@@ -148,22 +150,8 @@ function corteHtml(item) {
   return `<div style="margin-top:8px;padding:8px 10px;background:${bg};border-left:3px solid ${accent};border-radius:0 5px 5px 0;"><div style="font-size:9px;font-weight:800;color:${accent};text-transform:uppercase;letter-spacing:1px;${mb}">${label}</div>${body}</div>`;
 }
 
-/** Diagramas de corte que ya genera el navegador (PNG en base64) */
-export function cortePngs(items) {
-  const out = [];
-  for (const it of items || []) {
-    if (!it || !it.corteMode) continue;
-    const arr = (it.calcInfo && Array.isArray(it.calcInfo.pngsB64) && it.calcInfo.pngsB64) || [];
-    for (const b of arr) {
-      if (typeof b !== "string" || !b) continue;
-      out.push(b.replace(/^data:image\/png;base64,/, ""));
-    }
-  }
-  return out;
-}
-
 /* ------------------------------------------------------------------ comprobante */
-export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, entrega, nSheets, inlineCid }) {
+export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, entrega, nSheets, inlineCid, imgUrl }) {
   const c = client || {};
   const tipo = c.tipo || "Persona Natural";
   const empresa = tipo === "Empresa";
@@ -197,10 +185,13 @@ export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, ent
   const saludo = empresa ? `Estimados ${esc(nombre)}` : `Hola ${esc(nombre)}`;
 
   let imgs = "";
-  if (inlineCid) {
-    imgs = `<img src="cid:${esc(inlineCid)}" style="max-width:100%;height:auto;display:block;${nSheets > 1 ? "margin-bottom:12px;" : ""}" alt="Diagrama de corte plancha 1">`;
+  if (imgUrl || inlineCid) {
+    const src = imgUrl ? esc(imgUrl) : `cid:${esc(inlineCid)}`;
+    imgs = `<img src="${src}" style="max-width:100%;height:auto;display:block;${nSheets > 1 ? "margin-bottom:12px;" : ""}" alt="Diagrama de corte plancha 1">`;
     if (nSheets > 1)
-      imgs += `<p style="margin:0;font-size:0.8rem;color:#555;line-height:1.5;">Los diagramas de las ${nSheets} planchas van adjuntos a este correo.</p>`;
+      imgs += `<p style="margin:0;font-size:0.8rem;color:#555;line-height:1.5;">Diagramas de las ${nSheets} planchas incluidos en el PDF adjunto (<strong>diagrama-cortes.pdf</strong>).</p>`;
+  } else if (nSheets > 0) {
+    imgs = `<p style="margin:0;font-size:0.8rem;color:#555;line-height:1.5;">${nSheets > 1 ? `Diagramas de las ${nSheets} planchas incluidos` : "Diagrama de corte incluido"} en el PDF adjunto (<strong>diagrama-cortes.pdf</strong>).</p>`;
   }
 
   return `<!DOCTYPE html>
@@ -304,14 +295,39 @@ export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, ent
 </html>`;
 }
 
-/** Envía el comprobante al cliente y a ventas usando Resend (plan gratis: 3.000 correos/mes). */
+/** Envía el comprobante al cliente y a ventas con Brevo (o Resend si es lo que está configurado). */
 export async function enviarComprobante(env, order, tbk) {
-  if (!env.RESEND_API_KEY) {
-    console.log("[Polyplas] RESEND_API_KEY no configurada: no se envía correo", order.buy_order);
+  const brevoKey = (env.BREVO_API_KEY || "").trim();
+  const resendKey = (env.RESEND_API_KEY || "").trim();
+  if (!brevoKey && !resendKey) {
+    console.log("[Polyplas] Sin BREVO_API_KEY ni RESEND_API_KEY: no se envía correo", order.buy_order);
     return;
   }
-  const pngs = cortePngs(order.items_full || order.items);
-  const cid = pngs.length ? `corte-plancha-1-${tbk.buy_order}` : null;
+  const useBrevo = !!brevoKey;
+  const site = (env.SITE_URL || "https://polyplas.cl").replace(/\/$/, "");
+
+  // Diagramas de corte: PNG del navegador o dibujados aquí + PDF con todas las planchas
+  let pngs = [];
+  let pdf = null;
+  try {
+    pngs = await diagramasCorte(order.items_full || order.items);
+    if (pngs.length) pdf = await pdfCortes(pngs);
+  } catch (e) {
+    console.log("[Polyplas] Error generando diagramas (el correo igual se envía)", String(e));
+  }
+
+  // Primera plancha visible en el cuerpo del correo: se publica como imagen (Brevo no admite CID)
+  let imgUrl = null;
+  if (pngs.length && env.ORDERS) {
+    try {
+      const id = crypto.randomUUID().replace(/-/g, "");
+      await env.ORDERS.put(`img:${id}`, pngs[0], { expirationTtl: 60 * 60 * 24 * 365 });
+      imgUrl = `${site}/diagrama/${id}.png`;
+    } catch (e) {
+      console.log("[Polyplas] No se pudo publicar el diagrama", String(e));
+    }
+  }
+
   const html = buildComprobanteHtml({
     buyOrder: tbk.buy_order,
     monto: tbk.amount,
@@ -320,15 +336,17 @@ export async function enviarComprobante(env, order, tbk) {
     items: order.items,
     entrega: order.entrega,
     nSheets: pngs.length,
-    inlineCid: cid,
+    imgUrl,
   });
-  const attachments = pngs.map((content, i) => ({
-    filename: `diagrama-corte-plancha-${i + 1}.png`,
-    content,
-    ...(i === 0 ? { content_id: cid } : {}),
-  }));
-  const from = env.MAIL_FROM || "Polyplas <ventas@polyplas.cl>";
-  const sales = env.MAIL_SALES || "ventas@polyplas.cl";
+
+  // Adjuntos iguales a WordPress: comprobante HTML + diagrama-cortes.pdf
+  const safeOrder = String(tbk.buy_order).replace(/[^A-Za-z0-9_-]/g, "");
+  const adjuntos = [{ name: `comprobante-${safeOrder}.html`, content: bytesToB64(new TextEncoder().encode(html)) }];
+  if (pdf) adjuntos.push({ name: "diagrama-cortes.pdf", content: bytesToB64(pdf) });
+
+  const fromEmail = (env.MAIL_FROM_EMAIL || "ventas@polyplas.cl").trim();
+  const fromName = (env.MAIL_FROM_NAME || "Polyplas").trim();
+  const sales = (env.MAIL_SALES || "ventas@polyplas.cl").trim();
   const asunto = `Comprobante de compra Polyplas - ${tbk.buy_order}`;
 
   // Aviso interno si el total pagado no coincide con la suma de productos
@@ -343,19 +361,43 @@ export async function enviarComprobante(env, order, tbk) {
     ? `<p style="background:#fef2f2;border:2px solid #dc2626;color:#991b1b;padding:12px;font:14px Arial;margin:0 0 12px;">⚠ REVISAR ANTES DE DESPACHAR: el monto pagado (${clp(tbk.amount)}) no calza con la suma de productos (${clp(suma)}).</p>`
     : "";
 
-  const send = (to, subject, body) =>
-    fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from, to: [to], subject, html: body, attachments, reply_to: sales }),
-    }).then(async (r) => {
-      if (!r.ok) console.log("[Polyplas] Error correo", to, r.status, await r.text());
+  const send = (to, subject, body) => {
+    const req = useBrevo
+      ? fetch("https://api.brevo.com/v3/smtp/email", {
+          method: "POST",
+          headers: { "api-key": brevoKey, "Content-Type": "application/json", accept: "application/json" },
+          body: JSON.stringify({
+            sender: { name: fromName, email: fromEmail },
+            to: [{ email: to }],
+            replyTo: { email: sales },
+            subject,
+            htmlContent: body,
+            attachment: adjuntos,
+          }),
+        })
+      : fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            from: `${fromName} <${fromEmail}>`,
+            to: [to],
+            subject,
+            html: body,
+            reply_to: sales,
+            attachments: adjuntos.map((x) => ({ filename: x.name, content: x.content })),
+          }),
+        });
+    return req.then(async (r) => {
+      const txt = await r.text();
+      if (!r.ok) console.log("[Polyplas] Error correo", to, r.status, txt);
+      return { to, ok: r.ok, status: r.status, detail: r.ok ? "" : txt.slice(0, 200) };
     });
+  };
 
   const tasks = [send(sales, `[VENTA] ${asunto}`, alerta + html)];
   const email = order.client && order.client.email;
   if (email && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) tasks.push(send(email, asunto, html));
-  await Promise.allSettled(tasks);
+  return Promise.allSettled(tasks);
 }
 
 /** Registra el pedido en el CRM de Supabase (igual que pp_registrar_en_supabase). */
