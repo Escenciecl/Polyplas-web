@@ -43,7 +43,9 @@ export async function onRequestPost({ request, env }) {
 
   if (result._error || !result.token) {
     console.log("[Polyplas Webpay] Error al crear transaccion", JSON.stringify(result));
-    return json({ code: "tbk_error", message: "Error Transbank" }, 502);
+    // Detalle sin datos sensibles (Transbank solo devuelve un mensaje de error)
+    const detail = String(result._error || result.error_message || "sin token").slice(0, 200);
+    return json({ code: "tbk_error", message: "Error Transbank", status: result._status || null, detail }, 400);
   }
 
   const items = Array.isArray(p.items) ? p.items : [];

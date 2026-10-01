@@ -71,7 +71,9 @@ export async function tbkRequest(env, method, path, body) {
   });
   const text = await res.text();
   try {
-    return JSON.parse(text);
+    const data = JSON.parse(text);
+    if (!res.ok && data && typeof data === "object") data._status = res.status;
+    return data;
   } catch {
     return { _error: `HTTP ${res.status}: ${text.slice(0, 300)}` };
   }
