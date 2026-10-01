@@ -82,3 +82,25 @@ El contenido está en `content/html/<página>.html` y los metadatos (title, desc
 - Sin jQuery, WooCommerce, Elementor JS ni 50+ scripts del tema: carga mucho más liviana.
 - Títulos mejorados en Nosotros, Contacto y políticas.
 - Imágenes y fuentes con caché de 1 año.
+
+## Pagos Webpay Plus y correos (Cloudflare Pages Functions)
+
+Reemplazan el código que estaba en `functions.php` de WordPress, en **las mismas direcciones**:
+
+- `functions/wp-json/polyplas/v1/webpay-init.js`: crea la transacción en Transbank.
+- `functions/wp-json/polyplas/v1/webpay-return.js`: confirma el pago, envía el comprobante
+  (cliente + ventas@polyplas.cl) y registra el pedido en Supabase; redirige a `/gracias/`.
+- `functions/_lib/webpay.js`: plantilla del correo, Supabase y helpers.
+
+Configuración en Cloudflare Pages → Settings:
+
+| Tipo | Nombre | Valor |
+|---|---|---|
+| Texto | `TBK_COMMERCE_CODE` | código de comercio Webpay Plus |
+| **Secreto** | `TBK_SECRET` | llave secreta de Transbank (la ingresa la dueña) |
+| **Secreto** | `RESEND_API_KEY` | API key de resend.com (correos, plan gratis) |
+| KV binding | `ORDERS` | namespace `polyplas-orders` |
+
+> **Nota de seguridad:** el monto a cobrar lo calcula el navegador (igual que en WordPress).
+> Si el total pagado no calza con la suma de productos, el correo a ventas llega con un aviso
+> rojo "REVISAR ANTES DE DESPACHAR". Mejora pendiente: validar precios en el servidor.
