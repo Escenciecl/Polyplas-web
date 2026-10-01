@@ -37,7 +37,7 @@ export function buildMetadata(path: string, e: PageEntry): Metadata {
     robots: parseRobots(m.robots),
     openGraph: {
       type: isArticle ? "article" : "website",
-      locale: "es_ES",
+      locale: "es_CL",
       siteName: "Polyplas",
       url: SITE_URL + (m.canonical ?? path),
       title: og.title ?? m.title,
@@ -63,7 +63,7 @@ export function markdownMetadata(md: MarkdownPost): Metadata {
     alternates: { canonical: md.path },
     openGraph: {
       type: "article",
-      locale: "es_ES",
+      locale: "es_CL",
       siteName: "Polyplas",
       url: SITE_URL + md.path,
       title: md.title,

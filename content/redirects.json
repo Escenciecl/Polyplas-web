@@ -238,5 +238,37 @@
  {
   "source": "/producto/tina-queilen-basica/",
   "destination": "/categoria-producto/tinas-de-hidromasaje/"
+ },
+ {
+  "source": "/categoria-producto/acrilicos/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/categoria-producto/compra-planchas-de-acrilico-online/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/plancha-policarbonato-uso-correcto/",
+  "destination": "/planchas-de-policarbonato-uso-en-terraza/"
+ },
+ {
+  "source": "/tina-de-hidromasaje-coinco-guia-completa/",
+  "destination": "/guia-para-comprar-tina-de-hidromasaje-en-chile/"
+ },
+ {
+  "source": "/category/cupulas/",
+  "destination": "/categoria-producto/cupulas/"
+ },
+ {
+  "source": "/category/tinas-hidromasajes/",
+  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+ },
+ {
+  "source": "/category/planchas-materiales-plasticos/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/elementor-3176/",
+  "destination": "/"
  }
 ]

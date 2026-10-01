@@ -24,6 +24,12 @@ const generic = [
   "/finalizar-compra/ / 301",
   "/mi-cuenta/ /contacto/ 301",
   "/producto/* / 301",
+  // paginación y etiquetas antiguas de WordPress
+  "/blog/page/* /blog/ 301",
+  "/page/* / 301",
+  "/categoria-producto/:slug/page/* /categoria-producto/:slug/ 301",
+  "/tag/* /blog/ 301",
+  "/sitemap.rss /sitemap.xml 301",
   "/etiqueta-producto/* / 301",
   "/:slug/feed/ /:slug/ 301",
   // accesos antiguos a cPanel y correo (ahora en sus subdominios)
