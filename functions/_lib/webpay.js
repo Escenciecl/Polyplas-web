@@ -402,7 +402,7 @@ export async function enviarComprobante(env, order, tbk) {
     const body = alerta + html;
     if (env.SMTP_PASS) {
       try {
-        await smtpSend(env, { from: (env.SMTP_USER || fromEmail).trim(), fromName, to: sales, replyTo: sales, subject, html: body, attachments: adjuntos });
+        await smtpSend(env, { from: fromEmail, fromName, to: sales, replyTo: sales, subject, html: body, attachments: adjuntos });
         return { to: sales, ok: true, status: 250, detail: "smtp" };
       } catch (e) {
         console.log("[Polyplas] SMTP cPanel falló, se intenta por Brevo", String(e));

@@ -103,7 +103,7 @@ export async function smtpSend(env, msg) {
     await expect("AUTH LOGIN", [334], "AUTH");
     await expect(btoa(user), [334], "usuario");
     await expect(btoa(pass), [235], "contraseña");
-    await expect(`MAIL FROM:<${msg.from}>`, [250], "MAIL FROM");
+    await expect(`MAIL FROM:<${msg.envelopeFrom || user}>`, [250], "MAIL FROM");
     await expect(`RCPT TO:<${msg.to}>`, [250, 251], "RCPT TO");
     await expect("DATA", [354], "DATA");
     await writer.write(enc.encode(buildMime(msg) + "\r\n.\r\n"));
