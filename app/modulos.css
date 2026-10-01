@@ -102,7 +102,7 @@ html body #contenido h3 {
 }
 
 /* 14. Portada del inicio: título proporcionado al banner */
-html body #contenido .poly-title-fijo { font-size: clamp(1.5rem, 1.6vw + 0.9rem, 2.2rem) !important; padding: 24px 16px !important; margin: 0 !important; }
+html body #contenido .poly-title-fijo { font-size: clamp(1rem, 0.6vw + 0.8rem, 1.35rem) !important; padding: 0 16px !important; margin: 0 !important; }
 
 /* 15. Bajadas bajo los títulos ("Elige medida · espesor · …"): texto pequeño y sobrio */
 html body #contenido :is(.pp-bajada, .poly-h2-seo-sub, .poly-brand-card-title-sub) {
