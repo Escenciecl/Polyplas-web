@@ -3,11 +3,12 @@
  * Misma dirección y mismo formato que tenía WordPress, así las páginas no cambian.
  * Crea la transacción en Transbank y guarda el pedido 30 minutos en KV.
  */
-import { json, randomOrder, tbkRequest } from "../../../_lib/webpay.js";
+import { json, randomOrder, tbkRequest, tbkMissing } from "../../../_lib/webpay.js";
 
 export async function onRequestPost({ request, env }) {
-  if (!env.TBK_COMMERCE_CODE || !env.TBK_SECRET || !env.ORDERS) {
-    return json({ code: "config", message: "Pagos no configurados" }, 503);
+  const missing = tbkMissing(env);
+  if (missing.length) {
+    return json({ code: "config", message: "Pagos no configurados", missing }, 503);
   }
 
   let p;

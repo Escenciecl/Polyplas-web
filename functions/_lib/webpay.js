@@ -26,13 +26,45 @@ export function json(data, status = 200) {
   });
 }
 
+/** Lee la configuración de Transbank aceptando variantes de nombre (con o sin "PP_", espacios). */
+export function tbkConfig(env) {
+  const pick = (...names) => {
+    for (const n of names) {
+      const v = env[n];
+      if (typeof v === "string" && v.trim()) return v.trim();
+    }
+    // nombres guardados con espacios u otra forma (ej. "TBK_SECRET ")
+    for (const k of Object.keys(env)) {
+      const norm = k.trim().toUpperCase().replace(/^PP_/, "");
+      if (names.includes(norm) && typeof env[k] === "string" && env[k].trim()) return env[k].trim();
+    }
+    return "";
+  };
+  return {
+    base: pick("TBK_API_BASE", "PP_TBK_API_BASE") || TBK_DEFAULT_BASE,
+    code: pick("TBK_COMMERCE_CODE", "PP_TBK_COMMERCE_CODE", "TBK_CODE", "PP_TBK_CODE"),
+    secret: pick("TBK_SECRET", "PP_TBK_SECRET", "TBK_API_KEY_SECRET"),
+  };
+}
+
+/** Lista qué falta (solo nombres, nunca valores) para diagnosticar. */
+export function tbkMissing(env) {
+  const c = tbkConfig(env);
+  const m = [];
+  if (!c.code) m.push("TBK_COMMERCE_CODE");
+  if (!c.secret) m.push("TBK_SECRET");
+  if (!env.ORDERS) m.push("ORDERS (KV)");
+  return m;
+}
+
 export async function tbkRequest(env, method, path, body) {
-  const base = env.TBK_API_BASE || TBK_DEFAULT_BASE;
+  const cfg = tbkConfig(env);
+  const base = cfg.base;
   const res = await fetch(base + path, {
     method,
     headers: {
-      "Tbk-Api-Key-Id": env.TBK_COMMERCE_CODE,
-      "Tbk-Api-Key-Secret": env.TBK_SECRET,
+      "Tbk-Api-Key-Id": cfg.code,
+      "Tbk-Api-Key-Secret": cfg.secret,
       "Content-Type": "application/json",
     },
     body: body ? JSON.stringify(body) : undefined,
