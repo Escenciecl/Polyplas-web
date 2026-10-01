@@ -6,8 +6,6 @@ Los módulos se muestran en orden según el número del nombre (01, 02, 03…).
 
 | Carpeta | Página |
 |---|---|
-| `00-cabecera` | Logo, buscador y menú (todas las páginas) |
-| `00-pie-de-pagina` | Pie de página (todas las páginas) |
 | `00-flotantes` | Chat de Maca, "Cómo comprar online", cookies y carrito (todas las páginas) |
 | `01-inicio` | polyplas.cl |
 | `02-nosotros` | /nosotros/ |
@@ -19,6 +17,12 @@ Los módulos se muestran en orden según el número del nombre (01, 02, 03…).
 | `30-gracias` | Página después de pagar |
 | `31-…`, `32-…` | Políticas |
 | `99-pagina-404` | Página "no encontrada" |
+
+## Menú, cabecera y pie de página
+
+Ya no son módulos: están hechos en React y sus textos se cambian en
+`content/sitio/navegacion.json` (barra superior, menú, teléfono, WhatsApp, botón "Cotizar")
+y `content/sitio/pie.json` (columnas, contacto, horarios, redes). Cambia solo el texto entre comillas.
 
 ## Cambiar un módulo
 

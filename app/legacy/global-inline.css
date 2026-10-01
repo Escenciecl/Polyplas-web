@@ -13,44 +13,7 @@ body.elementor-page{--e-global-color-primary: #e52727;}.th-logo--desktop .th-par
 
 /* estilos del chat: ver content/modulos/00-flotantes/01-chat-maca.html */
 
-/* 1. OCULTAR TODO EL HEADER ORIGINAL DE LA PLANTILLA */
-/* Usamos selectores que NO afecten a nuestra clase .poly-main-header */
-header:not(.poly-main-header), 
-#masthead, 
-.site-header, 
-.header-wrapper, 
-.header-main,
-.top-bar,
-.header-top,
-.header-bottom {
-    display: none !important;
-    height: 0 !important;
-    visibility: hidden !important;
-}
-
-/* 2. ELIMINAR ESPECÍFICAMENTE LA BARRA BLANCA ZOMBI (LISTA Y LUPA) */
-div[class*="search"]:not(.poly-search-box):not(.dgwt-wcas-search-wrapp),
-section[class*="search"],
-.search-expand,
-.mobile-search-form,
-.m-nav-search {
-    display: none !important;
-}
-
-/* 3. PROTEGER TU DISEÑO DE WPCODE */
-header.poly-main-header {
-    display: block !important;
-    visibility: visible !important;
-    height: auto !important;
-}
-
-.poly-top-bar {
-    display: flex !important;
-}
-
-.poly-nav-bar {
-    display: block !important;
-}
+/* (reglas antiguas para ocultar la cabecera de WordPress: eliminadas, la cabecera ahora es React) */
 
 /* 4. QUITAR EL MARGEN SUPERIOR QUE SOBRA */
 html, body {

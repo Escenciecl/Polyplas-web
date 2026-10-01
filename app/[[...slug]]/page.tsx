@@ -4,6 +4,7 @@ import LegacyHtml from "@/components/LegacyHtml";
 import LegacyScripts from "@/components/LegacyScripts";
 import { blogListHtml } from "@/components/BlogList";
 import JsonLd from "@/components/JsonLd";
+import Breadcrumbs from "@/components/site/Breadcrumbs";
 import {
   getAllPaths,
   getBlogCards,
@@ -90,6 +91,9 @@ export default async function Page({ params }: { params: Promise<Params> }) {
       {entry.jsonLd.map((ld, i) => (
         <JsonLd key={i} data={ld} />
       ))}
+      {entry.type === "post" && (
+        <Breadcrumbs items={[{ texto: "Inicio", enlace: "/" }, { texto: "Blog", enlace: "/blog/" }, { texto: entry.h1[0] ?? entry.meta.title }]} />
+      )}
       <LegacyHtml html={html} />
       <LegacyScripts scripts={scriptsFor(entry)} />
     </>

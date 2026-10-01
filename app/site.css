@@ -1,0 +1,218 @@
+/* ===========================================================================
+   Sistema de diseño Polyplas (colores corporativos) + cabecera y pie en React
+   =========================================================================== */
+:root {
+  --pp-blue: #004a99;        /* azul Polyplas (principal) */
+  --pp-blue-700: #003366;    /* azul oscuro */
+  --pp-blue-900: #04213f;    /* fondo del pie */
+  --pp-blue-50: #eef3fc;     /* fondos suaves */
+  --pp-blue-100: #dde4ef;
+  --pp-cyan: #00a0df;        /* acento */
+  --pp-orange: #ff6600;      /* llamados a la acción secundarios */
+  --pp-green: #25d366;       /* WhatsApp */
+  --pp-ink: #1a1a2e;         /* texto */
+  --pp-muted: #5b6475;
+  --pp-line: #e2e8f0;
+  --pp-white: #ffffff;
+  --pp-radius: 12px;
+  --pp-radius-sm: 8px;
+  --pp-shadow: 0 1px 2px rgba(4, 33, 63, 0.06), 0 8px 24px rgba(4, 33, 63, 0.08);
+  --pp-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --pp-container: 1240px;
+  --pp-topbar-h: 36px;
+}
+
+body { font-family: var(--pp-font); color: var(--pp-ink); -webkit-font-smoothing: antialiased; }
+html.pp-no-scroll { overflow: hidden; }
+
+.pp-container { width: 100%; max-width: var(--pp-container); margin: 0 auto; padding: 0 20px; box-sizing: border-box; }
+
+/* Botones -------------------------------------------------------------- */
+.pp-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 44px; padding: 0 20px; border-radius: 999px; border: 1.5px solid transparent;
+  font: 600 15px/1 var(--pp-font); text-decoration: none !important; cursor: pointer; white-space: nowrap;
+  transition: background-color .15s, color .15s, border-color .15s, box-shadow .15s, transform .15s;
+}
+.pp-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.pp-btn--primary { background: var(--pp-blue); color: #fff !important; box-shadow: 0 4px 14px rgba(0, 74, 153, .25); }
+.pp-btn--primary:hover { background: var(--pp-blue-700); transform: translateY(-1px); }
+.pp-btn--ghost { background: #fff; color: var(--pp-blue) !important; border-color: var(--pp-blue-100); }
+.pp-btn--ghost:hover { border-color: var(--pp-blue); background: var(--pp-blue-50); }
+.pp-btn--whatsapp { background: var(--pp-green); color: #063b1f !important; }
+.pp-btn--whatsapp:hover { filter: brightness(.95); }
+.pp-btn:focus-visible, .pp-header a:focus-visible, .pp-header button:focus-visible, .pp-footer a:focus-visible {
+  outline: 3px solid var(--pp-cyan); outline-offset: 2px;
+}
+
+/* Cabecera --------------------------------------------------------------- */
+.pp-header { position: sticky; top: calc(-1 * var(--pp-topbar-h)); z-index: 1000; background: #fff; font-family: var(--pp-font); transition: box-shadow .2s; }
+.pp-header.is-scrolled { box-shadow: 0 6px 20px rgba(4, 33, 63, .10); }
+.pp-header ul { list-style: none; margin: 0; padding: 0; }
+.pp-header a { text-decoration: none; }
+
+.pp-topbar { background: var(--pp-blue-700); color: #dbe7f7; font-size: 13px; height: var(--pp-topbar-h); }
+.pp-topbar__in { display: flex; align-items: center; justify-content: space-between; height: 100%; gap: 16px; }
+.pp-topbar__msgs { display: flex; gap: 22px; overflow: hidden; }
+.pp-topbar__msgs li { display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+.pp-topbar svg { width: 16px; height: 16px; fill: none; stroke: #8fc2ff; stroke-width: 1.7; flex: none; }
+.pp-topbar__contact { display: flex; gap: 18px; }
+.pp-topbar__contact a { display: inline-flex; align-items: center; gap: 6px; color: #fff; font-weight: 600; }
+.pp-topbar__contact a:hover { color: #8fc2ff; }
+
+.pp-mainbar { border-bottom: 1px solid var(--pp-line); }
+.pp-mainbar__in { display: flex; align-items: center; gap: 28px; height: 84px; }
+.pp-logo img { display: block; height: 56px; width: auto; }
+.pp-mainbar__actions { display: flex; gap: 10px; margin-left: auto; }
+
+.pp-search { position: relative; flex: 1; max-width: 560px; display: flex; align-items: center; margin: 0; }
+.pp-search input {
+  width: 100%; height: 48px; margin: 0; padding: 0 52px 0 20px; box-sizing: border-box;
+  border: 1.5px solid var(--pp-blue-100); border-radius: 999px; background: var(--pp-blue-50);
+  font: 400 15px var(--pp-font); color: var(--pp-ink); outline: none; transition: border-color .15s, background .15s, box-shadow .15s;
+}
+.pp-search input::placeholder { color: #7d8799; }
+.pp-search input:focus { background: #fff; border-color: var(--pp-blue); box-shadow: 0 0 0 4px rgba(0, 74, 153, .12); }
+.pp-search > button {
+  position: absolute; right: 5px; width: 38px; height: 38px; border-radius: 50%; border: 0; padding: 0;
+  background: var(--pp-blue); display: grid; place-items: center; cursor: pointer;
+}
+.pp-search > button svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2.2; }
+.pp-search__list {
+  position: absolute; top: calc(100% + 8px); left: 0; right: 0; background: #fff; border: 1px solid var(--pp-line);
+  border-radius: var(--pp-radius); box-shadow: var(--pp-shadow); padding: 6px !important; z-index: 20; max-height: 360px; overflow: auto;
+}
+.pp-search__list button {
+  width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 12px;
+  border: 0; background: none; border-radius: var(--pp-radius-sm); cursor: pointer; text-align: left;
+  font: 500 14.5px var(--pp-font); color: var(--pp-ink);
+}
+.pp-search__list button:hover, .pp-search__list button.is-active { background: var(--pp-blue-50); color: var(--pp-blue); }
+.pp-search__list small { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--pp-muted); }
+
+.pp-nav { background: #fff; border-bottom: 1px solid var(--pp-line); }
+.pp-nav__in { display: flex; align-items: center; height: 52px; }
+.pp-nav__list { display: flex; gap: 4px; height: 100%; }
+.pp-nav__item { position: relative; display: flex; align-items: center; }
+.pp-nav__link {
+  display: inline-flex; align-items: center; gap: 4px; height: 38px; padding: 0 14px; border-radius: var(--pp-radius-sm);
+  font: 600 14.5px var(--pp-font); color: var(--pp-ink) !important; transition: background .15s, color .15s;
+}
+.pp-nav__link:hover, .pp-nav__item:focus-within > .pp-nav__link { background: var(--pp-blue-50); color: var(--pp-blue) !important; }
+.pp-nav__item.is-current > .pp-nav__link { color: var(--pp-blue) !important; box-shadow: inset 0 -3px 0 var(--pp-blue); border-radius: 0; }
+.pp-caret { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform .15s; }
+.pp-nav__item:hover .pp-caret { transform: rotate(180deg); }
+.pp-mega {
+  position: absolute; top: 100%; left: 0; min-width: 300px; padding-top: 6px;
+  opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity .15s, transform .15s, visibility .15s;
+}
+.pp-nav__item:hover .pp-mega, .pp-nav__item:focus-within .pp-mega { opacity: 1; visibility: visible; transform: none; }
+.pp-mega ul { background: #fff; border: 1px solid var(--pp-line); border-radius: var(--pp-radius); box-shadow: var(--pp-shadow); padding: 8px !important; }
+.pp-mega a { display: block; padding: 10px 12px; border-radius: var(--pp-radius-sm); color: var(--pp-ink) !important; }
+.pp-mega a:hover, .pp-mega a.is-current { background: var(--pp-blue-50); }
+.pp-mega strong { display: block; font: 600 14.5px var(--pp-font); color: var(--pp-blue); }
+.pp-mega span { display: block; font: 400 13px var(--pp-font); color: var(--pp-muted); margin-top: 2px; }
+
+.pp-burger { display: none; align-items: center; gap: 10px; height: 40px; padding: 0 14px; border: 1.5px solid var(--pp-blue-100); border-radius: var(--pp-radius-sm); background: #fff; cursor: pointer; }
+.pp-burger__icon { display: flex; flex-direction: column; gap: 4px; }
+.pp-burger__icon span { display: block; width: 18px; height: 2px; background: var(--pp-blue); border-radius: 2px; }
+.pp-burger em { font: 600 14px var(--pp-font); font-style: normal; color: var(--pp-blue); }
+
+/* Menú móvil */
+.pp-drawer { position: fixed; inset: 0; z-index: 2000; pointer-events: none; }
+.pp-drawer__bg { position: absolute; inset: 0; background: rgba(4, 33, 63, .45); opacity: 0; transition: opacity .2s; }
+.pp-drawer__panel {
+  position: absolute; top: 0; left: 0; bottom: 0; width: min(86vw, 360px); background: #fff; display: flex; flex-direction: column;
+  transform: translateX(-100%); transition: transform .25s ease; box-shadow: var(--pp-shadow);
+}
+.pp-drawer.is-open { pointer-events: auto; }
+.pp-drawer.is-open .pp-drawer__bg { opacity: 1; }
+.pp-drawer.is-open .pp-drawer__panel { transform: none; }
+.pp-drawer__head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--pp-line); }
+.pp-drawer__head img { height: 40px; width: auto; }
+.pp-drawer__head button { width: 40px; height: 40px; border: 0; background: var(--pp-blue-50); border-radius: 50%; font-size: 26px; line-height: 1; color: var(--pp-blue); cursor: pointer; }
+.pp-drawer__list { flex: 1; overflow: auto; padding: 8px 8px !important; }
+.pp-drawer__list a, .pp-drawer__toggle {
+  display: flex; width: 100%; align-items: center; justify-content: space-between; padding: 14px 12px; border: 0; background: none;
+  border-radius: var(--pp-radius-sm); font: 600 16px var(--pp-font); color: var(--pp-ink) !important; text-align: left; cursor: pointer;
+}
+.pp-drawer__list a.is-current { color: var(--pp-blue) !important; background: var(--pp-blue-50); }
+.pp-drawer__toggle svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; transition: transform .15s; }
+.pp-drawer__toggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+.pp-drawer__list ul { padding: 0 0 6px 12px !important; }
+.pp-drawer__list ul a { font-weight: 500; font-size: 15px; padding: 10px 12px; color: var(--pp-muted) !important; }
+.pp-drawer__foot { display: grid; gap: 10px; padding: 16px; border-top: 1px solid var(--pp-line); }
+.pp-drawer__foot .pp-btn { width: 100%; }
+
+@media (max-width: 1100px) {
+  .pp-nav__link { padding: 0 10px; font-size: 14px; }
+}
+@media (max-width: 960px) {
+  :root { --pp-topbar-h: 34px; }
+  .pp-topbar__msgs li:not(:first-child) { display: none; }
+  .pp-mainbar__in { height: auto; flex-wrap: wrap; padding-top: 10px; padding-bottom: 10px; gap: 10px 14px; }
+  .pp-logo img { height: 44px; }
+  .pp-search { order: 3; flex-basis: 100%; max-width: none; }
+  .pp-search input { height: 44px; }
+  .pp-nav__list { display: none; }
+  .pp-burger { display: inline-flex; }
+  .pp-nav__in { height: 50px; }
+  .pp-hide-sm { display: none !important; }
+}
+@media (max-width: 520px) {
+  .pp-topbar__contact a:first-child { display: none; }
+  .pp-btn { height: 40px; padding: 0 16px; font-size: 14px; }
+}
+
+/* Pie de página ---------------------------------------------------------- */
+.pp-footer { background: var(--pp-blue-900); color: #c2d1e6; font-family: var(--pp-font); margin-top: 64px; }
+.pp-footer a { color: #e7eef8; text-decoration: none; }
+.pp-footer a:hover { color: #8fc2ff; }
+.pp-footer ul { list-style: none; margin: 0; padding: 0; }
+.pp-footer__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.3fr; gap: 40px; padding-top: 56px; padding-bottom: 40px; }
+.pp-footer__logo { display: inline-block; background: #fff; padding: 10px 14px; border-radius: var(--pp-radius); }
+.pp-footer__logo img { display: block; height: 44px; width: auto; }
+.pp-footer__brand p { margin: 18px 0 20px; font-size: 14.5px; line-height: 1.65; max-width: 340px; }
+.pp-footer__social { display: flex; gap: 10px; }
+.pp-footer__social a { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, .08); transition: background .15s; }
+.pp-footer__social a:hover { background: var(--pp-blue); }
+.pp-footer__social svg { width: 19px; height: 19px; fill: none; stroke: #fff; stroke-width: 1.7; }
+.pp-footer__col h2 { margin: 6px 0 16px; font: 700 13px var(--pp-font); letter-spacing: .1em; text-transform: uppercase; color: #fff; }
+.pp-footer__col li { margin-bottom: 10px; font-size: 14.5px; line-height: 1.45; }
+.pp-footer__contact li { margin-bottom: 14px; }
+.pp-footer__contact span { display: block; font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: #7f98b8; margin-bottom: 2px; }
+.pp-footer__pay { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-top: 22px; padding-bottom: 22px; border-top: 1px solid rgba(255, 255, 255, .1); }
+.pp-footer__pay strong { color: #fff; font-size: 15px; }
+.pp-footer__pay p { margin: 4px 0 0; font-size: 14px; }
+.pp-footer__pay img { height: 40px; width: auto; background: #fff; border-radius: var(--pp-radius-sm); padding: 6px 10px; }
+.pp-footer__bottom { background: rgba(0, 0, 0, .2); font-size: 13px; color: #8ea6c4; }
+.pp-footer__bottom .pp-container { padding-top: 16px; padding-bottom: 16px; }
+@media (max-width: 960px) {
+  .pp-footer__grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+  .pp-footer__brand { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  .pp-footer__grid { grid-template-columns: 1fr; padding-top: 40px; }
+  .pp-footer__pay { flex-direction: column; align-items: flex-start; }
+}
+
+/* Migas de pan (artículos) ------------------------------------------------- */
+.pp-crumbs { font: 500 13.5px var(--pp-font); color: var(--pp-muted); padding-top: 18px; padding-bottom: 4px; }
+.pp-crumbs ol { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; }
+.pp-crumbs li + li::before { content: "›"; margin-right: 6px; color: #9aa5b8; }
+.pp-crumbs a { color: var(--pp-blue); text-decoration: none; }
+.pp-crumbs a:hover { text-decoration: underline; }
+.pp-crumbs [aria-current] { color: var(--pp-muted); }
+
+/* El tema antiguo fijaba body{height:100%}: eso impedía que la cabecera quedara fija al bajar */
+html, body { height: auto !important; min-height: 100%; }
+
+/* Menú móvil por encima del chat y del botón "Cómo comprar" */
+.pp-drawer { z-index: 2147483646; }
+
+/* Chat: en móvil, botón compacto abajo a la derecha (antes quedaba al medio de la pantalla) */
+@media (max-width: 768px) {
+  #polyplas-fab { top: auto !important; bottom: calc(16px + env(safe-area-inset-bottom, 0px)) !important; transform: none !important; }
+  #polyplas-fab .pp-fab-label { display: none !important; }
+  .pp-crumbs li:last-child { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}

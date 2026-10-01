@@ -1,0 +1,38 @@
+{
+  "_ayuda": "Menú, barra superior y datos de contacto de la cabecera. Cambia solo los textos entre comillas.",
+  "barraSuperior": [
+    "Despacho a todo Chile",
+    "Hasta 12 cuotas sin interés con Webpay",
+    "Corte a medida gratis"
+  ],
+  "telefono": { "texto": "+56 9 4208 6751", "enlace": "tel:+56942086751" },
+  "whatsapp": { "texto": "WhatsApp", "enlace": "https://wa.me/56942086751?text=Hola%20Polyplas%2C%20quiero%20cotizar" },
+  "botonPrincipal": { "texto": "Cotizar", "enlace": "/contacto/" },
+  "buscador": { "placeholder": "¿Qué buscas? Acrílico, tinas, cúpulas…" },
+  "menu": [
+    {
+      "texto": "Planchas",
+      "enlace": "/categoria-producto/planchas-acrilico/",
+      "submenu": [
+        { "texto": "Planchas de acrílico", "enlace": "/categoria-producto/planchas-acrilico/", "detalle": "Transparente, colores y espejo" },
+        { "texto": "Planchas PET", "enlace": "/categoria-producto/planchas-pet/", "detalle": "Económicas y rígidas" },
+        { "texto": "Planchas PETG", "enlace": "/categoria-producto/planchas-petg/", "detalle": "Grado alimenticio, termoformables" },
+        { "texto": "Policarbonato compacto", "enlace": "/categoria-producto/policarbonato-compacto/", "detalle": "Alta resistencia al impacto" }
+      ]
+    },
+    { "texto": "Cúpulas", "enlace": "/categoria-producto/cupulas/" },
+    { "texto": "Receptáculos", "enlace": "/categoria-producto/receptaculos/" },
+    { "texto": "Tinas de hidromasaje", "enlace": "/categoria-producto/tinas-de-hidromasaje/" },
+    {
+      "texto": "Guías",
+      "enlace": "/blog/",
+      "submenu": [
+        { "texto": "Guía de acrílicos", "enlace": "/guia-de-acrilicos/", "detalle": "Tipos, espesores y usos" },
+        { "texto": "Guía para comprar tu tina", "enlace": "/guia-para-comprar-tina-de-hidromasaje-en-chile/", "detalle": "Medidas, motores y jets" },
+        { "texto": "Blog técnico", "enlace": "/blog/", "detalle": "Instalación, corte y mantención" }
+      ]
+    },
+    { "texto": "Nosotros", "enlace": "/nosotros/" },
+    { "texto": "Contacto", "enlace": "/contacto/" }
+  ]
+}

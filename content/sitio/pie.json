@@ -1,0 +1,52 @@
+{
+  "_ayuda": "Textos del pie de página. Cambia solo los textos entre comillas.",
+  "descripcion": "Importadora con más de 29 años en Chile. Planchas de acrílico, PET, PETG, policarbonato, cúpulas, receptáculos y tinas de hidromasaje para personas y empresas.",
+  "redes": [
+    { "red": "facebook", "enlace": "https://facebook.com/polyplas.cl" },
+    { "red": "instagram", "enlace": "https://www.instagram.com/polyplaschile/" }
+  ],
+  "columnas": [
+    {
+      "titulo": "Productos",
+      "enlaces": [
+        { "texto": "Planchas de acrílico", "enlace": "/categoria-producto/planchas-acrilico/" },
+        { "texto": "Planchas PET", "enlace": "/categoria-producto/planchas-pet/" },
+        { "texto": "Planchas PETG", "enlace": "/categoria-producto/planchas-petg/" },
+        { "texto": "Policarbonato compacto", "enlace": "/categoria-producto/policarbonato-compacto/" },
+        { "texto": "Cúpulas de acrílico", "enlace": "/categoria-producto/cupulas/" },
+        { "texto": "Receptáculos de ducha", "enlace": "/categoria-producto/receptaculos/" },
+        { "texto": "Tinas de hidromasaje", "enlace": "/categoria-producto/tinas-de-hidromasaje/" }
+      ]
+    },
+    {
+      "titulo": "Información",
+      "enlaces": [
+        { "texto": "Sobre nosotros", "enlace": "/nosotros/" },
+        { "texto": "Guía de acrílicos", "enlace": "/guia-de-acrilicos/" },
+        { "texto": "Guía de tinas de hidromasaje", "enlace": "/guia-para-comprar-tina-de-hidromasaje-en-chile/" },
+        { "texto": "Blog técnico", "enlace": "/blog/" },
+        { "texto": "Devolución y garantía", "enlace": "/categoria-producto/politica-de-devolucion/" },
+        { "texto": "Política de privacidad", "enlace": "/politica-de-privacidad-de-datos/" }
+      ]
+    }
+  ],
+  "contacto": {
+    "titulo": "Contacto",
+    "whatsapp": { "texto": "+56 9 4208 6751", "enlace": "https://wa.me/56942086751" },
+    "oficina": { "texto": "(02) 2544 1315", "enlace": "tel:0225441315" },
+    "email": "contacto@polyplas.cl",
+    "direccion": "Santiago Concha 1525 y 1565, Santiago de Chile",
+    "mapa": "https://maps.google.com/?q=Santiago+Concha+1525+Santiago+Chile",
+    "horarios": [
+      "Lunes a jueves: 9:00 a 18:00",
+      "Viernes: 9:00 a 17:00",
+      "Colación: 13:30 a 14:15"
+    ]
+  },
+  "pagos": {
+    "titulo": "Compra segura",
+    "texto": "Paga con Webpay: débito, crédito y hasta 12 cuotas sin interés.",
+    "imagen": "/wp-content/uploads/2022/07/icon-transbank-1.svg"
+  },
+  "copyright": "Polyplas.cl · Todos los derechos reservados"
+}

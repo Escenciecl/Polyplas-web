@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import LegacyHtml from "@/components/LegacyHtml";
+import Header from "@/components/site/Header";
+import Footer from "@/components/site/Footer";
 import JsonLd from "@/components/JsonLd";
 import { readHtml, site, SITE_URL } from "@/lib/content";
 
@@ -34,6 +36,7 @@ import "@fontsource/cormorant-garamond/600.css";
 import "./legacy/vendor.css";
 import "./legacy/global-inline.css";
 import "./globals.css";
+import "./site.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -54,8 +57,6 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-const header = readHtml("_header");
-const footer = readHtml("_footer");
 const widgets = readHtml("_widgets");
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -77,9 +78,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </noscript>
         )}
         <LegacyHtml html={widgets} />
-        <LegacyHtml html={header} />
+        <a className="pp-skip" href="#contenido">Saltar al contenido</a>
+        <Header />
         <main id="contenido">{children}</main>
-        <LegacyHtml html={footer} />
+        <Footer />
       </body>
     </html>
   );
