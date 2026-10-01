@@ -6876,7 +6876,7 @@ function goToStep2() {
   const rawRut = rutEl ? rutEl.value.replace(/[^0-9kK]/g, "").toUpperCase() : "";
   const rutDv  = rawRut.slice(-1);
   const rutCuerpo = rawRut.slice(0, -1);
-  const rutOk = rutCuerpo.length === 8 && /^[0-9K]$/.test(rutDv);
+  const rutOk = rutCuerpo.length >= 7 && rutCuerpo.length <= 8 && /^[0-9K]$/.test(rutDv);
   if (!rutOk) {
     if (rutErrId) document.getElementById(rutErrId).style.display = "block";
     rutEl.classList.add("pp-input-error");

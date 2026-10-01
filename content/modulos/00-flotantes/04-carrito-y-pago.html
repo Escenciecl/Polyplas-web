@@ -990,7 +990,7 @@
     var errMap = {ppgc_rut:'ppgc_rut_err', ppgc_emp_rut:'ppgc_emp_rut_err'};
     if (errMap[input.id]) {
       var digits = cuerpo.replace(/\./g,'');
-      var valid = digits.length===8 && /^[0-9K]$/.test(dv);
+      var valid = digits.length>=7 && digits.length<=8 && /^[0-9K]$/.test(dv);
       var errEl = gEl(errMap[input.id]);
       if (errEl) errEl.style.display = (v.length>0 && !valid) ? 'block' : 'none';
       input.classList.toggle('ppGC-input-error', v.length>0 && !valid);
@@ -1181,7 +1181,7 @@
     var rutErrId=gcClientType==='PN'?'ppgc_rut_err':'ppgc_emp_rut_err';
 
     var rutEl=gEl(rutId), rawRut=rutEl?rutEl.value.replace(/[^0-9kK]/g,'').toUpperCase():'';
-    var rutOk=rawRut.slice(0,-1).length===8 && /^[0-9K]$/.test(rawRut.slice(-1));
+    var rutOk=rawRut.slice(0,-1).length>=7 && rawRut.slice(0,-1).length<=8 && /^[0-9K]$/.test(rawRut.slice(-1));
     if (!rutOk) { var re=gEl(rutErrId); if(re) re.style.display='block'; if(rutEl){rutEl.classList.add('ppGC-input-error');rutEl.scrollIntoView({behavior:'smooth',block:'center'});} return; }
     if (!ppGCEmailIsValid(emailId)) { var ee=gEl(emailId+'_err'); if(ee) ee.style.display='block'; var eEl=gEl(emailId); if(eEl){eEl.classList.add('ppGC-input-error');eEl.scrollIntoView({behavior:'smooth',block:'center'});} return; }
     if (!ppGCTelIsValid(telId)) { var te=gEl(telId+'_err'); if(te) te.style.display='block'; var tEl=gEl(telId); if(tEl){tEl.classList.add('ppGC-input-error');tEl.scrollIntoView({behavior:'smooth',block:'center'});} return; }
