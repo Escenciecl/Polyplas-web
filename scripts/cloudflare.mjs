@@ -26,6 +26,15 @@ const generic = [
   "/producto/* / 301",
   "/etiqueta-producto/* / 301",
   "/:slug/feed/ /:slug/ 301",
+  // accesos antiguos a cPanel y correo (ahora en sus subdominios)
+  "/webmail https://webmail.polyplas.cl/ 302",
+  "/webmail/* https://webmail.polyplas.cl/ 302",
+  "/cpanel https://cpanel.polyplas.cl/ 302",
+  "/cpanel/* https://cpanel.polyplas.cl/ 302",
+  "/whm https://whm.polyplas.cl/ 302",
+  "/wp-admin https://cpanel.polyplas.cl/ 302",
+  "/wp-admin/* https://cpanel.polyplas.cl/ 302",
+  "/wp-login.php https://cpanel.polyplas.cl/ 302",
   // sitemaps antiguos de AIOSEO / WordPress -> sitemap nuevo
   "/sitemap_index.xml /sitemap.xml 301",
   "/post-sitemap.xml /sitemap.xml 301",
