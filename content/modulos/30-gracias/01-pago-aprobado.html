@@ -130,10 +130,15 @@
 </svg>
 </div>
 <h2>Pago no completado</h2>
-<p id="ppG-fail-msg">El pago fue rechazado o cancelado.<br/>Puedes intentarlo nuevamente.</p>
-<button class="ppG-btn ppG-btn--solid" onclick="window.history.back()">
-        Volver e intentar de nuevo
+<p id="ppG-fail-msg">El pago fue rechazado o cancelado.<br/>Puedes intentarlo nuevamente con otra tarjeta o contactar a tu banco.</p>
+<div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
+<button class="ppG-btn ppG-btn--solid" id="ppG-btn-retry" onclick="window.location.href='/'">
+        Volver a la tienda e intentar de nuevo
       </button>
+<a href="https://wa.me/56942086751" style="text-decoration:none;display:block;">
+<button class="ppG-btn ppG-btn--outline" style="width:100%">Contactar por WhatsApp</button>
+</a>
+</div>
 </div>
 </div>
 </div>
@@ -256,6 +261,28 @@
         document.getElementById('ppG-fail-msg').textContent =
           'Cancelaste el proceso de pago. Puedes volver a intentarlo cuando quieras.';
       }
+      // Detectar la página de producto desde sessionStorage para redirigir correctamente
+      var retryUrl = '/';
+      var ssKeys = ['pp_acrilico_order_data','pp_pet_order_data','pp_petg_order_data',
+                    'pp_tinas_order_data','pp_cupulas_order_data','pp_recep_order_data','pp_pc_order_data'];
+      var moduleToUrl = {
+        acrilico: '/categoria-producto/planchas-acrilico/',
+        pet:      '/categoria-producto/planchas-pet/',
+        petg:     '/categoria-producto/planchas-petg/',
+        pc:       '/categoria-producto/policarbonato-compacto/',
+        tinas:    '/categoria-producto/tinas-de-hidromasaje/',
+        cupulas:  '/categoria-producto/cupulas/',
+        recep:    '/categoria-producto/receptaculos/'
+      };
+      for (var _k of ssKeys) {
+        if (sessionStorage.getItem(_k)) {
+          var _mod = _k.replace('pp_','').replace('_order_data','');
+          retryUrl = moduleToUrl[_mod] || '/';
+          break;
+        }
+      }
+      var retryBtn = document.getElementById('ppG-btn-retry');
+      if (retryBtn) retryBtn.onclick = function() { window.location.href = retryUrl; };
       window.history.replaceState({}, '', window.location.pathname);
     }
   }

@@ -50,7 +50,7 @@ export async function onRequest({ request, env, waitUntil }) {
 
   const result = await tbkRequest(env, "PUT", `/transactions/${encodeURIComponent(tokenWs)}`);
 
-  if (result.response_code === 0 && result.status === "AUTHORIZED") {
+  if (Number(result.response_code) === 0 && result.status === "AUTHORIZED") {
     const tbk = {
       buy_order: result.buy_order || "",
       amount: Math.trunc(Number(result.amount) || 0),
