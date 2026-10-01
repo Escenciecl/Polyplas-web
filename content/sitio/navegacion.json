@@ -1,9 +1,8 @@
 {
   "_ayuda": "Menú, barra superior y datos de contacto de la cabecera. Cambia solo los textos entre comillas.",
   "barraSuperior": [
-    "Despacho a todo Chile",
-    "Hasta 12 cuotas sin interés con Webpay",
-    "Corte a medida gratis"
+    "Retiro rápido en tienda · Concha 1525, Stgo Centro",
+    "Hasta 12 cuotas sin interés con Webpay"
   ],
   "telefono": { "texto": "+56 9 4208 6751", "enlace": "tel:+56942086751" },
   "whatsapp": { "texto": "WhatsApp", "enlace": "https://wa.me/56942086751?text=Hola%20Polyplas%2C%20quiero%20cotizar" },
