@@ -418,6 +418,65 @@ export async function enviarComprobante(env, order, tbk) {
   return Promise.allSettled(tasks);
 }
 
+/** Registra un pago rechazado en Supabase para monitoreo. */
+export async function registrarRechazoEnSupabase(order, result) {
+  const c = order.client || {};
+  const nombre = c.nombre || c.razon || "";
+  const convId = crypto.randomUUID();
+  const headers = {
+    apikey: SUPABASE_KEY,
+    Authorization: `Bearer ${SUPABASE_KEY}`,
+    "Content-Type": "application/json",
+    Prefer: "return=minimal",
+  };
+  const metadata = {
+    source: "order_rechazado",
+    nombre,
+    rut: c.rut || "",
+    email: c.email || "",
+    phone: c.tel || "",
+    items: order.items,
+    total: order.total || 0,
+    tbk_response_code: result.response_code,
+    tbk_status: result.status || "",
+    tbk_buy_order: result.buy_order || "",
+  };
+  const r = await fetch(`${SUPABASE_URL}/conversations`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      id: convId,
+      client_name: nombre || "Sin datos",
+      client_email: c.email || "",
+      unread_count: 1,
+      last_message_at: new Date().toISOString(),
+      metadata,
+    }),
+  });
+  if (!r.ok) {
+    console.log("[Polyplas Supabase] Error al registrar rechazo", r.status, await r.text());
+    return;
+  }
+  const lineas = (order.items || []).map(
+    (it) => `• ${it.tipo || it.nombre || ""} · ${it.dim || ""} · ${it.color || ""} · ${it.espesor || ""} × ${parseInt(it.qty ?? 1, 10) || 1}`,
+  );
+  const msg =
+    "❌ PAGO RECHAZADO\n─────────────────\n" +
+    `Código Transbank: ${result.response_code}   Estado: ${result.status || "—"}\n` +
+    (result.buy_order ? `Orden TBK: ${result.buy_order}\n` : "") +
+    "─────────────────\n" +
+    (lineas.length ? lineas.join("\n") + "\n─────────────────\n" : "") +
+    `Total intentado: ${clp(order.total || 0)}\n` +
+    "─────────────────\n" +
+    `Cliente: ${nombre}  RUT: ${c.rut || ""}\n` +
+    `Email: ${c.email || ""}  Tel: ${c.tel || ""}`;
+  await fetch(`${SUPABASE_URL}/messages`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ conversation_id: convId, sender: "client", content: msg }),
+  });
+}
+
 /** Registra el pedido en el CRM de Supabase (igual que pp_registrar_en_supabase). */
 export async function registrarEnSupabase(order, tbk) {
   const c = order.client || {};

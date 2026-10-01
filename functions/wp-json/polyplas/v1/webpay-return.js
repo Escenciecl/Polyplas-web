@@ -4,7 +4,7 @@
  * se registra en Supabase y se redirige a /gracias/ con los mismos parámetros que WordPress:
  *   ?pp_pago=aprobado&orden=...&monto=...&auth=...   |   ?pp_pago=rechazado   |   ?pp_pago=cancelado
  */
-import { enviarComprobante, registrarEnSupabase, tbkRequest } from "../../../_lib/webpay.js";
+import { enviarComprobante, registrarEnSupabase, registrarRechazoEnSupabase, tbkRequest } from "../../../_lib/webpay.js";
 
 async function readParams(request) {
   const url = new URL(request.url);
@@ -66,5 +66,10 @@ export async function onRequest({ request, env, waitUntil }) {
   }
 
   console.log("[Polyplas Webpay] Pago rechazado", JSON.stringify(result));
+  waitUntil(
+    registrarRechazoEnSupabase(order, result).catch((e) =>
+      console.log("[Polyplas] error registrando rechazo", e),
+    ),
+  );
   return redirect(returnPage, { pp_pago: "rechazado" });
 }
