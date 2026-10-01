@@ -1,0 +1,28 @@
+name: Aplicar cambios (cambios.zip)
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  aplicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Descomprimir cambios.zip y borrar archivos obsoletos
+        run: |
+          if [ ! -f cambios.zip ]; then echo "No hay cambios.zip"; exit 0; fi
+          unzip -q -o cambios.zip -d /tmp/c
+          rm -rf /tmp/c/polyplas-next/.git
+          git rm -q cambios.zip
+          if [ -f /tmp/c/polyplas-next/_borrar.txt ]; then
+            while read -r p; do [ -n "$p" ] && git rm -r -q --ignore-unmatch "$p"; done < /tmp/c/polyplas-next/_borrar.txt
+            rm /tmp/c/polyplas-next/_borrar.txt
+          fi
+          cp -a /tmp/c/polyplas-next/. .
+          git config user.name "github-actions[bot]"
+          git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Aplicar cambios" || echo "sin cambios"
+          git push
