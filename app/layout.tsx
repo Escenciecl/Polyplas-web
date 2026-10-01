@@ -37,6 +37,7 @@ import "./legacy/vendor.css";
 import "./legacy/global-inline.css";
 import "./globals.css";
 import "./site.css";
+import "./modulos.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

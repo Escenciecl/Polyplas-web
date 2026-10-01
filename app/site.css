@@ -18,14 +18,17 @@
   --pp-radius-sm: 8px;
   --pp-shadow: 0 1px 2px rgba(4, 33, 63, 0.06), 0 8px 24px rgba(4, 33, 63, 0.08);
   --pp-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  --pp-container: 1240px;
+  --pp-content: 1280px;      /* ancho del contenido */
+  --pp-gutter: 20px;         /* margen lateral */
+  --pp-container: calc(var(--pp-content) + 2 * var(--pp-gutter));
   --pp-topbar-h: 36px;
 }
 
 body { font-family: var(--pp-font); color: var(--pp-ink); -webkit-font-smoothing: antialiased; }
 html.pp-no-scroll { overflow: hidden; }
 
-.pp-container { width: 100%; max-width: var(--pp-container); margin: 0 auto; padding: 0 20px; box-sizing: border-box; }
+.pp-container { width: 100%; max-width: var(--pp-container); margin: 0 auto; padding: 0 var(--pp-gutter); box-sizing: border-box; }
+@media (max-width: 767px) { :root { --pp-gutter: 16px; } }
 
 /* Botones -------------------------------------------------------------- */
 .pp-btn {
@@ -184,7 +187,7 @@ html.pp-no-scroll { overflow: hidden; }
 .pp-footer__pay { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-top: 22px; padding-bottom: 22px; border-top: 1px solid rgba(255, 255, 255, .1); }
 .pp-footer__pay strong { color: #fff; font-size: 15px; }
 .pp-footer__pay p { margin: 4px 0 0; font-size: 14px; }
-.pp-footer__pay img { height: 40px; width: auto; background: #fff; border-radius: var(--pp-radius-sm); padding: 6px 10px; }
+.pp-footer__pay img { height: 40px; width: auto; }
 .pp-footer__bottom { background: rgba(0, 0, 0, .2); font-size: 13px; color: #8ea6c4; }
 .pp-footer__bottom .pp-container { padding-top: 16px; padding-bottom: 16px; }
 @media (max-width: 960px) {

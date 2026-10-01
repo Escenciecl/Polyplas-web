@@ -1,0 +1,115 @@
+/* ===========================================================================
+   Normalización de módulos: misma tipografía, misma escala de títulos y
+   mismos anchos en todas las páginas (los módulos venían de Elementor, cada
+   uno con su propia letra y medidas). No cambia textos ni funcionalidad.
+   =========================================================================== */
+
+/* 1. Una sola tipografía en todo el sitio (contenido + elementos flotantes) */
+#contenido,
+#contenido :is(h1, h2, h3, h4, h5, h6, p, li, a, span, strong, em, b, small, label, td, th, div, blockquote, figcaption, dt, dd, button, input, select, textarea, summary):not([class*="fa-"]):not(.fa):not(.fas):not(.far):not(.fab):not([class*="icon"]):not([class*="dashicons"]),
+:is(#polyplas-widget, #pp-cb, #ppGC-cart-modal, #ppGC-co-modal, #ppGC-fab) :is(*:not(svg):not(path):not(circle):not(rect):not(line):not(polyline)) {
+  font-family: var(--pp-font) !important;
+}
+
+/* 2. Escala de títulos coherente (sin mayúsculas forzadas ni letras espaciadas) */
+html body #contenido h1 {
+  font-size: clamp(1.85rem, 2.6vw + 0.6rem, 2.6rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.02em !important;
+  text-transform: none !important;
+}
+html body #contenido h2 {
+  font-size: clamp(1.45rem, 1.6vw + 0.75rem, 2.05rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.22 !important;
+  letter-spacing: -0.015em !important;
+  text-transform: none !important;
+}
+html body #contenido h3 {
+  font-size: clamp(1.08rem, 0.5vw + 0.95rem, 1.3rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+  letter-spacing: -0.005em !important;
+  text-transform: none !important;
+}
+#contenido :is(h4, h5, h6) {
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.35 !important;
+}
+/* Títulos de portadas/banners: un poco más grandes */
+#contenido :is([class*="hero"], [class*="banner"], [class*="portada"]) :is(h1, h2) {
+  font-size: clamp(1.9rem, 2.8vw + 0.6rem, 2.9rem) !important;
+}
+/* Palabras destacadas dentro de títulos: mismo peso, solo color */
+#contenido :is(h1, h2, h3) :is(span, strong, em, b) { font-weight: inherit !important; letter-spacing: inherit !important; text-transform: none !important; font-style: normal !important; }
+
+/* 3. Texto corrido legible */
+#contenido p { line-height: 1.65; }
+#contenido :is(p, li) { text-wrap: pretty; }
+#contenido :is(h1, h2, h3) { text-wrap: balance; }
+
+/* 4. Precios con números alineados */
+#contenido [class*="price"], #contenido [class*="precio"] { font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+
+/* 5. Botones de los módulos: misma letra y forma que los del sitio */
+#contenido :is(button, .btn, [class*="btn"], [class*="-cta"], [class*="boton"]):not(.pp-btn) {
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+}
+
+/* 6. Mismo ancho y márgenes laterales que la cabecera y el pie */
+#contenido .elementor-section.elementor-section-boxed > .elementor-container { max-width: var(--pp-content) !important; }
+#contenido .polyplas-seo-container { max-width: var(--pp-content) !important; }
+#contenido .elementor-top-section { padding-left: var(--pp-gutter) !important; padding-right: var(--pp-gutter) !important; }
+#contenido .elementor-top-section > .elementor-container > .elementor-column > .elementor-widget-wrap { padding-left: 0 !important; padding-right: 0 !important; }
+
+/* 7. Ritmo vertical entre módulos */
+#contenido .elementor-top-section + .elementor-top-section { margin-top: 0 !important; }
+#contenido .elementor-widget:not(:last-child) { margin-bottom: 0 !important; }
+
+/* 8. Imágenes nunca más anchas que su caja */
+#contenido img { max-width: 100%; height: auto; }
+
+/* 9. Carruseles de productos: sin tarjetas cortadas en los bordes */
+#contenido [class*="carousel"], #contenido [class*="slider"], #contenido [class*="vitrina"], #contenido [class*="scroll-track"] {
+  scroll-padding-inline: 4px;
+}
+
+/* 10. Tinas: en computador, todas las tinas a la vista en una grilla ordenada (en celular sigue el carrusel) */
+@media (min-width: 1024px) {
+  #contenido .pp-tinas-grid { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px !important; overflow: visible !important; }
+  #contenido .pp-tinas-grid .pp-tina-card { flex: none !important; width: auto !important; max-width: none !important; }
+  #contenido .pp-tinas-carousel :is(.pp-carousel-arr, .pp-carousel-arrow) { display: none !important; }
+}
+
+/* 11. Planchas (acrílico, PET, PETG, policarbonato): en computador la vitrina se muestra completa en grilla */
+@media (min-width: 1024px) {
+  #contenido .pp-product-grid { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)) !important; gap: 20px !important; overflow: visible !important; }
+  #contenido .pp-product-grid .pp-product-card { flex: none !important; width: auto !important; max-width: none !important; }
+  #contenido .pp-vitrine-nav { display: none !important; }
+}
+
+/* 12. Títulos que eran párrafos en mayúsculas */
+#contenido .poly-title-visual { text-transform: none !important; font-size: clamp(1.45rem, 1.6vw + 0.75rem, 2.05rem) !important; letter-spacing: -0.015em !important; font-weight: 700 !important; }
+
+/* 13. Todos los bloques alineados al mismo ancho que la cabecera */
+#contenido :is(.pp-home-section, .poly-tray-inner, .poly-reviews-wrapper, .poly-main-container-unique, .poly-container-fijo) {
+  max-width: var(--pp-content) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* 14. Portada del inicio: título proporcionado al banner */
+html body #contenido .poly-title-fijo { font-size: clamp(1.5rem, 1.6vw + 0.9rem, 2.2rem) !important; padding: 24px 16px !important; margin: 0 !important; }
+
+/* 15. Bajadas bajo los títulos ("Elige medida · espesor · …"): texto pequeño y sobrio */
+html body #contenido :is(.pp-bajada, .poly-h2-seo-sub, .poly-brand-card-title-sub) {
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  line-height: 1.5 !important;
+  color: var(--pp-muted) !important;
+}

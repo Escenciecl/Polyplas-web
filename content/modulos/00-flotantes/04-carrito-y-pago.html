@@ -444,21 +444,21 @@
 <div class="ppGC-modal-box">
 <div id="ppGC-cart-header">
 <h3>Tu carrito — <span id="ppGC-cart-count">0</span> producto(s)</h3>
-<button class="ppGC-close-btn" onclick="ppGCCloseCart()" style="position:static;background:rgba(255,255,255,.15);">✕</button>
+<button class="ppGC-close-btn" onclick="ppGCCloseCart()" style="position:static;background:rgba(255,255,255,.15)">✕</button>
 </div>
 <div id="ppGC-cart-body">
 <div id="ppGC-cart-items"></div>
-<div class="ppGC-cart-total-row" id="ppGC-cart-total-row" style="display:none;">
+<div class="ppGC-cart-total-row" id="ppGC-cart-total-row" style="display:none">
 <span>Total</span>
 <strong id="ppGC-cart-total-val">$ 0</strong>
 </div>
-<div class="ppGC-shipping-bar" id="ppGC-shipping-bar" style="display:none;">
+<div class="ppGC-shipping-bar" id="ppGC-shipping-bar" style="display:none">
 <div class="ppGC-shipping-track">
 <div class="ppGC-shipping-fill" id="ppGC-shipping-fill" style="width:0%"></div>
 </div>
 <span class="ppGC-shipping-label" id="ppGC-shipping-label"></span>
 </div>
-<div class="ppGC-cart-actions" id="ppGC-cart-actions" style="display:none;">
+<div class="ppGC-cart-actions" id="ppGC-cart-actions" style="display:none">
 <button class="ppGC-btn-checkout-go" onclick="ppGCOpenCheckout()">
           Ir al pago
           <svg fill="none" height="16" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" width="16"><polyline points="9 18 15 12 9 6"></polyline></svg>
@@ -473,7 +473,7 @@
 <div class="ppGC-modal-wrap" id="ppGC-co-modal">
 <div class="ppGC-modal-box">
 <div id="ppGC-co-header">
-<div style="display:flex;align-items:center;justify-content:space-between;">
+<div style="display:flex;align-items:center;justify-content:space-between">
 <h3>Finalizar pedido</h3>
 <button class="ppGC-close-btn" onclick="ppGCCloseCheckout()">✕</button>
 </div>
@@ -554,7 +554,7 @@
 </div>
 </div>
 <!-- Empresa -->
-<div class="ppGC-form-grid" id="ppGC-fieldsEMP" style="display:none;">
+<div class="ppGC-form-grid" id="ppGC-fieldsEMP" style="display:none">
 <div class="ppGC-field">
 <label>RUT Empresa *</label>
 <input id="ppgc_emp_rut" onblur="ppGCValidateField(this)" oninput="ppGCFormatRut(this)" placeholder="76.543.210-K" type="text"/>
@@ -612,18 +612,18 @@
 <button class="ppGC-btn-back-link" onclick="ppGCBackToCart()">← Volver al carrito</button>
 </div>
 <!-- ══ PASO 2: Entrega y pago ══ -->
-<div id="ppGC-s2" style="display:none;">
+<div id="ppGC-s2" style="display:none">
 <div class="ppGC-section-divider">Resumen del pedido</div>
 <div class="ppGC-order-box">
 <div class="ppGC-order-box-title">Tu pedido</div>
 <div id="ppGC-order-items"></div>
 </div>
 <div class="ppGC-section-divider">Entrega</div>
-<div id="ppGC-regionCheck" style="display:none;margin-bottom:18px;">
-<div style="font-size:0.8rem;color:#666;margin-bottom:10px;padding:10px 14px;background:#f0f4fb;border-radius:8px;border-left:3px solid #004a99;">
+<div id="ppGC-regionCheck" style="display:none;margin-bottom:18px">
+<div style="font-size:0.8rem;color:#666;margin-bottom:10px;padding:10px 14px;background:#f0f4fb;border-radius:8px;border-left:3px solid #004a99">
             Tu pedido califica para <strong>despacho gratuito</strong> en comunas de la RM. Indica tu región para ver opciones.
           </div>
-<div class="ppGC-entrega-title" style="margin-bottom:8px;">¿En qué región estás?</div>
+<div class="ppGC-entrega-title" style="margin-bottom:8px">¿En qué región estás?</div>
 <select id="ppGC-regionPreCheck" onchange="ppGCOnRegionPreCheck()" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-family:inherit;font-size:0.88rem;outline:none;-webkit-appearance:none;appearance:none;">
 <option value="">Selecciona tu región...</option>
 <option value="RM">Región Metropolitana</option>
@@ -636,41 +636,41 @@
 <option value="X">Los Lagos</option><option value="XI">Aysén</option>
 <option value="XII">Magallanes</option>
 </select>
-<div id="ppGC-regionNoDespachoMsg" style="display:none;margin-top:10px;padding:10px 14px;background:#fff3cd;border-left:3px solid #f59e0b;border-radius:6px;font-size:0.78rem;color:#856404;line-height:1.5;">
+<div id="ppGC-regionNoDespachoMsg" style="display:none;margin-top:10px;padding:10px 14px;background:#fff3cd;border-left:3px solid #f59e0b;border-radius:6px;font-size:0.78rem;color:#856404;line-height:1.5">
             El despacho gratis aplica solo para la Región Metropolitana. Fuera de RM: retiro en tienda o envío propio.
           </div>
-<div id="ppGC-comunaCheck" style="display:none;margin-top:12px;">
-<div class="ppGC-entrega-title" style="margin-bottom:8px;">¿En qué comuna?</div>
+<div id="ppGC-comunaCheck" style="display:none;margin-top:12px">
+<div class="ppGC-entrega-title" style="margin-bottom:8px">¿En qué comuna?</div>
 <select id="ppGC-comunaPreCheck" onchange="ppGCOnComunaPreCheck()" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-family:inherit;font-size:0.88rem;outline:none;-webkit-appearance:none;appearance:none;">
 <option value="">Selecciona tu comuna...</option>
 </select>
-<div id="ppGC-comunaExcluidaMsg" style="display:none;margin-top:10px;padding:10px 14px;background:#fff3cd;border-left:3px solid #f59e0b;border-radius:6px;font-size:0.78rem;color:#856404;">
+<div id="ppGC-comunaExcluidaMsg" style="display:none;margin-top:10px;padding:10px 14px;background:#fff3cd;border-left:3px solid #f59e0b;border-radius:6px;font-size:0.78rem;color:#856404">
               Tu comuna no tiene despacho gratis. Retira en tienda o usa envío propio.
             </div>
 </div>
 </div>
-<div class="ppGC-entrega-title" id="ppGC-entregaTitulo" style="display:none;">¿Cómo recibes tu pedido?</div>
+<div class="ppGC-entrega-title" id="ppGC-entregaTitulo" style="display:none">¿Cómo recibes tu pedido?</div>
 <div class="ppGC-entrega-options" id="ppGC-entregaOptions"></div>
-<div id="ppGC-retiroInfo" style="display:none;margin-top:14px;background:#f0f4fb;border-radius:12px;padding:16px 18px;border:1px solid #ccd8ee;">
-<div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin-bottom:10px;">Dirección de retiro</div>
-<div style="font-size:0.88rem;color:#1a1a2e;line-height:2;">
+<div id="ppGC-retiroInfo" style="display:none;margin-top:14px;background:#f0f4fb;border-radius:12px;padding:16px 18px;border:1px solid #ccd8ee">
+<div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin-bottom:10px">Dirección de retiro</div>
+<div style="font-size:0.88rem;color:#1a1a2e;line-height:2">
 <div><strong>Santiago Concha 1525, Santiago</strong></div>
 <div>Lunes a jueves · 9:00 a 18:00 hrs</div>
 <div>Viernes · 9:00 a 17:00 hrs</div>
-<div style="margin-top:8px;font-size:0.78rem;color:#666;">Coordina al +56 9 4208 6751</div>
+<div style="margin-top:8px;font-size:0.78rem;color:#666">Coordina al +56 9 4208 6751</div>
 </div>
 </div>
-<div id="ppGC-envioInfo" style="display:none;margin-top:14px;background:#fffbeb;border-radius:12px;padding:16px 18px;border:1px solid #fde68a;">
-<div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#92400e;font-weight:700;margin-bottom:10px;">Envío gestionado por ti</div>
-<div style="font-size:0.85rem;color:#1a1a2e;line-height:2;">
+<div id="ppGC-envioInfo" style="display:none;margin-top:14px;background:#fffbeb;border-radius:12px;padding:16px 18px;border:1px solid #fde68a">
+<div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#92400e;font-weight:700;margin-bottom:10px">Envío gestionado por ti</div>
+<div style="font-size:0.85rem;color:#1a1a2e;line-height:2">
 <div>Tu transportista retira desde:</div>
-<div style="margin-left:16px;"><strong>Santiago Concha 1525, Santiago</strong></div>
-<div style="margin-left:16px;">Lun–Jue 9:00–18:00 · Vie 9:00–17:00</div>
-<div style="margin-top:8px;font-size:0.78rem;color:#666;">Coordina vía WhatsApp al +56 9 4208 6751.</div>
+<div style="margin-left:16px"><strong>Santiago Concha 1525, Santiago</strong></div>
+<div style="margin-left:16px">Lun–Jue 9:00–18:00 · Vie 9:00–17:00</div>
+<div style="margin-top:8px;font-size:0.78rem;color:#666">Coordina vía WhatsApp al +56 9 4208 6751.</div>
 </div>
 </div>
-<div id="ppGC-addressSection" style="display:none;">
-<div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin:16px 0 10px;">Dirección de despacho</div>
+<div id="ppGC-addressSection" style="display:none">
+<div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin:16px 0 10px">Dirección de despacho</div>
 <div class="ppGC-form-grid">
 <div class="ppGC-field">
 <label>Región *</label>
@@ -703,9 +703,9 @@
 <div class="ppGC-form-error" id="ppGC-s2-err">Elige una modalidad de entrega para continuar.</div>
 <div class="ppGC-modal-total">
 <span>Total a pagar</span>
-<div style="text-align:right;">
+<div style="text-align:right">
 <strong id="ppGC-modal-total">$ 0</strong>
-<div style="font-size:0.68rem;color:rgba(255,255,255,0.8);font-weight:700;margin-top:2px;">IVA incluido</div>
+<div style="font-size:0.68rem;color:rgba(255,255,255,0.8);font-weight:700;margin-top:2px">IVA incluido</div>
 </div>
 </div>
 <button class="ppGC-btn-webpay" disabled="" id="ppGC-btn-wp" onclick="ppGCSubmitCheckout()">
@@ -856,7 +856,7 @@
           '<div class="ppGC-cart-item-name">' + (item.nombre || '') + '</div>' +
           '<div class="ppGC-cart-item-qty">Cantidad: ' + item.qty + '</div>' +
         '</div>' +
-        '<div style="display:flex;align-items:center;gap:10px;">' +
+        '<div style="display:flex;align-items:center;gap:10px">' +
           '<span class="ppGC-cart-item-price">' + fmt(item.subtotal) + '</span>' +
           '<button class="ppGC-cart-item-remove" onclick="window.ppGlobalCartRemove(\'' + item.gid + '\')" title="Eliminar">×</button>' +
         '</div>' +
@@ -1043,7 +1043,7 @@
     if (!gcItems.length) { el.innerHTML='El carrito está vacío.'; return; }
     el.innerHTML = gcItems.map(function(item){
       var mod = MOD_LABELS[item.module]||item.module||'';
-      return '<div style="margin-bottom:4px;">'+(mod?'<span style="font-size:0.72em;color:#888;text-transform:uppercase;">'+mod+'</span><br>':'')+item.nombre+' × '+item.qty+'<br><strong style="color:#004a99;">'+fmt(item.subtotal)+'</strong></div>';
+      return '<div style="margin-bottom:4px">'+(mod?'<span style="font-size:0.72em;color:#888;text-transform:uppercase">'+mod+'</span><br>':'')+item.nombre+' × '+item.qty+'<br><strong style="color:#004a99">'+fmt(item.subtotal)+'</strong></div>';
     }).join('');
     if (total) total.textContent = fmt(gcTotal());
   }

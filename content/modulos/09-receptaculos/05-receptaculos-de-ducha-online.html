@@ -1063,8 +1063,8 @@
 <img alt="" class="pp-recep-detail-img" id="recepDetailImg"/>
 <div class="pp-recep-detail-price-row">
 <div class="pp-recep-detail-price" id="recepDetailPrice"></div>
-<div class="pp-recep-detail-price-old" id="recepDetailPriceOld" style="display:none;"></div>
-<div class="pp-recep-detail-ahorro" id="recepDetailAhorro" style="display:none;"></div>
+<div class="pp-recep-detail-price-old" id="recepDetailPriceOld" style="display:none"></div>
+<div class="pp-recep-detail-ahorro" id="recepDetailAhorro" style="display:none"></div>
 </div>
 <table class="pp-recep-detail-specs-table" id="recepDetailSpecs"></table>
 <div id="recepDetailDesc"></div>
@@ -1091,7 +1091,7 @@
 </div>
 </div>
 <div id="recepStep1">
-<div class="pp-recep-modal-order" style="margin-bottom:20px;">
+<div class="pp-recep-modal-order" style="margin-bottom:20px">
 <div class="pp-recep-modal-order-title">Tu pedido</div>
 <div id="recepStep1OrderItems"></div>
 </div>
@@ -1141,7 +1141,7 @@
 <input id="rec_pn_dir" placeholder="Calle Ejemplo 123, depto 4" type="text"/>
 </div>
 </div>
-<div class="pp-recep-form-grid" id="recepFieldsEMP" style="display:none;">
+<div class="pp-recep-form-grid" id="recepFieldsEMP" style="display:none">
 <div class="pp-recep-field">
 <label>RUT Empresa *</label>
 <input id="rec_emp_rut" oninput="receptFormatRut(this)" placeholder="76.543.210-K" type="text"/>
@@ -1201,7 +1201,7 @@
           <svg fill="none" height="16" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" width="16"><polyline points="9 18 15 12 9 6"></polyline></svg>
 </button>
 </div>
-<div id="recepStep2" style="display:none;">
+<div id="recepStep2" style="display:none">
 <div class="pp-recep-section-divider">Resumen del pedido</div>
 <div class="pp-recep-modal-order">
 <div class="pp-recep-modal-order-title">Tu pedido</div>
@@ -1212,13 +1212,13 @@
 <strong id="recepStep2Total"></strong>
 </div>
 <div class="pp-recep-section-divider">¿Cómo recibes tu pedido?</div>
-<div id="recepEntregaOptions" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;"></div>
-<div id="recepRetiroInfo" style="display:none;margin-top:14px;background:#f0f4fb;border-radius:12px;padding:16px 18px;border:1px solid #ccd8ee;"><div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin-bottom:10px;">Dirección de retiro</div><div style="font-size:0.88rem;color:#1a1a2e;line-height:2;"><div><strong>Santiago Concha 1525, Santiago</strong></div><div>Lunes a jueves · 9:00 a 18:00 hrs</div><div>Viernes · 9:00 a 17:00 hrs</div><div style="margin-top:8px;font-size:0.78rem;color:#666;">Contáctanos al +56 9 4208 6751 para coordinar el retiro.</div></div></div>
-<div id="recepEnvioInfo" style="display:none;margin-top:14px;background:#fffbeb;border-radius:12px;padding:16px 18px;border:1px solid #fde68a;"><div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#92400e;font-weight:700;margin-bottom:10px;">Envío gestionado por ti</div><div style="font-size:0.85rem;color:#1a1a2e;line-height:2;"><div>Tu contratas y coordinas el transporte.</div><div>Tu transportista retira desde: <strong>Santiago Concha 1525, Santiago</strong></div><div style="margin-top:8px;font-size:0.78rem;color:#666;">Coordina enviando tu comprobante por WhatsApp al +56 9 4208 6751.</div></div></div>
-<div id="recepAddressSection" style="display:none;margin-top:14px;"><div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin-bottom:10px;">Dirección de despacho</div><div style="display:grid;gap:10px;"><div><label style="font-size:0.78rem;font-weight:600;display:block;margin-bottom:4px;">Región *</label><select id="recep_despacho_region" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-size:0.88rem;outline:none;"><option value="">Selecciona tu región...</option><option value="RM">Región Metropolitana</option><option value="XV">Arica y Parinacota</option><option value="I">Tarapacá</option><option value="II">Antofagasta</option><option value="III">Atacama</option><option value="IV">Coquimbo</option><option value="V">Valparaíso</option><option value="VI">O'Higgins</option><option value="VII">Maule</option><option value="XVI">Ñuble</option><option value="VIII">Biobío</option><option value="IX">La Araucanía</option><option value="XIV">Los Ríos</option><option value="X">Los Lagos</option><option value="XI">Aysén</option><option value="XII">Magallanes</option></select></div><div><label style="font-size:0.78rem;font-weight:600;display:block;margin-bottom:4px;">Comuna *</label><input id="recep_despacho_comuna" placeholder="Ej: Providencia" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-size:0.88rem;outline:none;box-sizing:border-box;" type="text"/></div><div><label style="font-size:0.78rem;font-weight:600;display:block;margin-bottom:4px;">Dirección *</label><input id="recep_despacho_dir" placeholder="Av. Ejemplo 1234, Depto 5" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-size:0.88rem;outline:none;box-sizing:border-box;" type="text"/></div></div></div>
+<div id="recepEntregaOptions" style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px"></div>
+<div id="recepRetiroInfo" style="display:none;margin-top:14px;background:#f0f4fb;border-radius:12px;padding:16px 18px;border:1px solid #ccd8ee"><div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin-bottom:10px">Dirección de retiro</div><div style="font-size:0.88rem;color:#1a1a2e;line-height:2"><div><strong>Santiago Concha 1525, Santiago</strong></div><div>Lunes a jueves · 9:00 a 18:00 hrs</div><div>Viernes · 9:00 a 17:00 hrs</div><div style="margin-top:8px;font-size:0.78rem;color:#666">Contáctanos al +56 9 4208 6751 para coordinar el retiro.</div></div></div>
+<div id="recepEnvioInfo" style="display:none;margin-top:14px;background:#fffbeb;border-radius:12px;padding:16px 18px;border:1px solid #fde68a"><div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#92400e;font-weight:700;margin-bottom:10px">Envío gestionado por ti</div><div style="font-size:0.85rem;color:#1a1a2e;line-height:2"><div>Tu contratas y coordinas el transporte.</div><div>Tu transportista retira desde: <strong>Santiago Concha 1525, Santiago</strong></div><div style="margin-top:8px;font-size:0.78rem;color:#666">Coordina enviando tu comprobante por WhatsApp al +56 9 4208 6751.</div></div></div>
+<div id="recepAddressSection" style="display:none;margin-top:14px"><div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin-bottom:10px">Dirección de despacho</div><div style="display:grid;gap:10px"><div><label style="font-size:0.78rem;font-weight:600;display:block;margin-bottom:4px">Región *</label><select id="recep_despacho_region" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-size:0.88rem;outline:none;"><option value="">Selecciona tu región...</option><option value="RM">Región Metropolitana</option><option value="XV">Arica y Parinacota</option><option value="I">Tarapacá</option><option value="II">Antofagasta</option><option value="III">Atacama</option><option value="IV">Coquimbo</option><option value="V">Valparaíso</option><option value="VI">O'Higgins</option><option value="VII">Maule</option><option value="XVI">Ñuble</option><option value="VIII">Biobío</option><option value="IX">La Araucanía</option><option value="XIV">Los Ríos</option><option value="X">Los Lagos</option><option value="XI">Aysén</option><option value="XII">Magallanes</option></select></div><div><label style="font-size:0.78rem;font-weight:600;display:block;margin-bottom:4px">Comuna *</label><input id="recep_despacho_comuna" placeholder="Ej: Providencia" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-size:0.88rem;outline:none;box-sizing:border-box;" type="text"/></div><div><label style="font-size:0.78rem;font-weight:600;display:block;margin-bottom:4px">Dirección *</label><input id="recep_despacho_dir" placeholder="Av. Ejemplo 1234, Depto 5" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-size:0.88rem;outline:none;box-sizing:border-box;" type="text"/></div></div></div>
 <div class="pp-recep-form-error" id="recepStep2Error"></div>
 <button class="pp-recep-btn-back" onclick="receptGoBackStep1()">← Volver y editar datos</button>
-<button class="pp-recep-btn-webpay" disabled="" id="recepBtnPay" onclick="receptSubmitOrder()" style="opacity:0.5;cursor:not-allowed;">
+<button class="pp-recep-btn-webpay" disabled="" id="recepBtnPay" onclick="receptSubmitOrder()" style="opacity:0.5;cursor:not-allowed">
 <svg fill="none" height="18" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="18"><rect height="16" rx="2" width="22" x="1" y="4"></rect><line x1="1" x2="23" y1="10" y2="10"></line></svg>
           PAGAR CON WEBPAY
         </button>
@@ -1229,30 +1229,30 @@
 </div>
 </div>
 </div>
-<div id="receptPagoResult" style="display:none;">
-<div id="receptResultOk" style="display:none;max-width:480px;width:100%;background:#fff;border-radius:20px;padding:36px 32px;text-align:center;box-shadow:0 24px 64px rgba(0,74,153,0.15);">
-<div style="width:64px;height:64px;background:#e6f4ec;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;">
+<div id="receptPagoResult" style="display:none">
+<div id="receptResultOk" style="display:none;max-width:480px;width:100%;background:#fff;border-radius:20px;padding:36px 32px;text-align:center;box-shadow:0 24px 64px rgba(0,74,153,0.15)">
+<div style="width:64px;height:64px;background:#e6f4ec;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
 <svg fill="none" height="32" stroke="#28a745" stroke-width="2.5" viewbox="0 0 24 24" width="32"><polyline points="20 6 9 17 4 12"></polyline></svg>
 </div>
-<h2 style="font-family:Arial,sans-serif;font-size:1.55rem;letter-spacing:2px;color:#1a1a2e;margin-bottom:8px;">Pago aprobado</h2>
-<p style="color:#666;font-size:0.88rem;margin-bottom:24px;">Tu pedido fue recibido. Te enviamos un comprobante a tu correo electrónico.</p>
-<div style="background:#f0f4fb;border-radius:12px;padding:18px 20px;text-align:left;margin-bottom:24px;font-size:0.84rem;line-height:2.2;font-family:Arial,sans-serif;">
-<div style="display:flex;justify-content:space-between;"><span style="color:#666;">N° de orden</span><strong id="recepOrden" style="color:#004a99;"></strong></div>
-<div style="display:flex;justify-content:space-between;border-top:1px solid #dde4ef;"><span style="color:#666;">Monto pagado</span><strong id="recepMonto" style="color:#28a745;"></strong></div>
-<div style="display:flex;justify-content:space-between;border-top:1px solid #dde4ef;"><span style="color:#666;">Código autorización</span><strong id="recepAuth" style="color:#1a1a2e;"></strong></div>
+<h2 style="color:#1a1a2e;margin-bottom:8px">Pago aprobado</h2>
+<p style="color:#666;font-size:0.88rem;margin-bottom:24px">Tu pedido fue recibido. Te enviamos un comprobante a tu correo electrónico.</p>
+<div style="background:#f0f4fb;border-radius:12px;padding:18px 20px;text-align:left;margin-bottom:24px;font-size:0.84rem;line-height:2.2">
+<div style="display:flex;justify-content:space-between"><span style="color:#666">N° de orden</span><strong id="recepOrden" style="color:#004a99"></strong></div>
+<div style="display:flex;justify-content:space-between;border-top:1px solid #dde4ef"><span style="color:#666">Monto pagado</span><strong id="recepMonto" style="color:#28a745"></strong></div>
+<div style="display:flex;justify-content:space-between;border-top:1px solid #dde4ef"><span style="color:#666">Código autorización</span><strong id="recepAuth" style="color:#1a1a2e"></strong></div>
 </div>
-<p style="font-size:0.78rem;color:#888;">Coordina tu retiro en Concha 1525, Santiago Centro.<br/>Lun–Jue 9:00–18:00 · Vie 9:00–17:00</p>
-<a href="/categoria-producto/receptaculos/" style="display:inline-block;margin-top:20px;padding:12px 28px;background:#004a99;color:#fff;border-radius:10px;font-family:Arial,sans-serif;font-size:0.88rem;font-weight:700;letter-spacing:1px;text-decoration:none;">
+<p style="font-size:0.78rem;color:#888">Coordina tu retiro en Concha 1525, Santiago Centro.<br/>Lun–Jue 9:00–18:00 · Vie 9:00–17:00</p>
+<a href="/categoria-producto/receptaculos/" style="display:inline-block;margin-top:20px;padding:12px 28px;background:#004a99;color:#fff;border-radius:10px;font-size:0.88rem;font-weight:700;letter-spacing:1px;text-decoration:none">
       ← Seguir comprando
     </a>
 </div>
-<div id="receptResultFail" style="display:none;max-width:480px;width:100%;background:#fff;border-radius:20px;padding:36px 32px;text-align:center;box-shadow:0 24px 64px rgba(0,74,153,0.15);">
-<div style="width:64px;height:64px;background:#fde8e8;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;">
+<div id="receptResultFail" style="display:none;max-width:480px;width:100%;background:#fff;border-radius:20px;padding:36px 32px;text-align:center;box-shadow:0 24px 64px rgba(0,74,153,0.15)">
+<div style="width:64px;height:64px;background:#fde8e8;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
 <svg fill="none" height="32" stroke="#c0392b" stroke-width="2.5" viewbox="0 0 24 24" width="32"><line x1="18" x2="6" y1="6" y2="18"></line><line x1="6" x2="18" y1="6" y2="18"></line></svg>
 </div>
-<h2 style="font-family:Arial,sans-serif;font-size:1.55rem;letter-spacing:2px;color:#1a1a2e;margin-bottom:8px;">Pago no completado</h2>
-<p id="recepFailMsg" style="color:#666;font-size:0.88rem;margin-bottom:24px;">Hubo un problema con el pago. Por favor intenta nuevamente.</p>
-<button onclick="window.history.replaceState({},\'\',window.location.pathname);document.getElementById(\'receptPagoResult\').style.display=\'none\';" style="padding:14px 28px;background:#004a99;color:#fff;border:none;border-radius:12px;font-family:Arial,sans-serif;font-size:0.9rem;font-weight:700;cursor:pointer;letter-spacing:1px;">
+<h2 style="color:#1a1a2e;margin-bottom:8px">Pago no completado</h2>
+<p id="recepFailMsg" style="color:#666;font-size:0.88rem;margin-bottom:24px">Hubo un problema con el pago. Por favor intenta nuevamente.</p>
+<button onclick="window.history.replaceState({},\'\',window.location.pathname);document.getElementById(\'receptPagoResult\').style.display=\'none\';" style="padding:14px 28px;background:#004a99;color:#fff;border:none;border-radius:12px;font-size:0.9rem;font-weight:700;cursor:pointer;letter-spacing:1px">
       Volver a intentar
     </button>
 </div>
