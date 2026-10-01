@@ -1,4 +1,5 @@
 import { diagramasCorte, pdfCortes, bytesToB64 } from "./corte.js";
+import { smtpSend } from "./smtp.js";
 /**
  * Utilidades compartidas para Webpay Plus (Transbank), correo y Supabase.
  * Port directo de las funciones que estaban en functions.php de WordPress.
@@ -394,7 +395,24 @@ export async function enviarComprobante(env, order, tbk) {
     });
   };
 
-  const tasks = [send(sales, `[VENTA] ${asunto}`, alerta + html)];
+  // Copia a ventas: por el SMTP de cPanel si está configurado (el antispam del hosting bloquea a Brevo);
+  // si falla, se intenta igual por Brevo.
+  const sendSales = async () => {
+    const subject = `[VENTA] ${asunto}`;
+    const body = alerta + html;
+    if (env.SMTP_PASS) {
+      try {
+        await smtpSend(env, { from: (env.SMTP_USER || fromEmail).trim(), fromName, to: sales, replyTo: sales, subject, html: body, attachments: adjuntos });
+        return { to: sales, ok: true, status: 250, detail: "smtp" };
+      } catch (e) {
+        console.log("[Polyplas] SMTP cPanel falló, se intenta por Brevo", String(e));
+        const r = await send(sales, subject, body);
+        return { ...r, detail: `smtp: ${String(e).slice(0, 200)} | brevo: ${r.ok ? "ok" : r.detail}` };
+      }
+    }
+    return send(sales, subject, body);
+  };
+  const tasks = [sendSales()];
   const email = order.client && order.client.email;
   if (email && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) tasks.push(send(email, asunto, html));
   return Promise.allSettled(tasks);
