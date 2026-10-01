@@ -135,7 +135,7 @@
 <button class="ppG-btn ppG-btn--solid" id="ppG-btn-retry" onclick="window.location.href='/'">
         Volver a la tienda e intentar de nuevo
       </button>
-<a href="https://wa.me/56942086751" style="text-decoration:none;display:block;">
+<a href="https://wa.me/56942086751?text=Hola%2C%20vengo%20de%20la%20web%20de%20Polyplas%20y%20quiero%20hacer%20una%20consulta." id="ppG-wa-link" style="text-decoration:none;display:block;">
 <button class="ppG-btn ppG-btn--outline" style="width:100%">Contactar por WhatsApp</button>
 </a>
 </div>
@@ -283,6 +283,9 @@
       }
       var retryBtn = document.getElementById('ppG-btn-retry');
       if (retryBtn) retryBtn.onclick = function() { window.location.href = retryUrl; };
+      var _waRef = 'PP-' + Math.random().toString(36).slice(2, 7).toUpperCase();
+      var _waLink = document.getElementById('ppG-wa-link');
+      if (_waLink) _waLink.href = 'https://wa.me/56942086751?text=' + encodeURIComponent('Hola, vengo de la web de Polyplas y quiero hacer una consulta. (Ref: ' + _waRef + ')');
       window.history.replaceState({}, '', window.location.pathname);
     }
   }

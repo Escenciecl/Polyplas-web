@@ -7574,9 +7574,7 @@ function _nudgeShow() {
   var montoCart = cart.reduce(function(s, i) { return s + i.price * i.qty; }, 0);
 
   // Actualizar link WhatsApp dinámicamente
-  var waMsg = '¡Hola! Tengo dudas con mi selección de planchas 🪟\n' +
-    'Ref: ' + recovId +
-    (cartSummary ? '\n\nMi selección hasta ahora:\n' + cartSummary : '');
+  var waMsg = 'Hola, vengo de la web de Polyplas y quiero hacer una consulta. (Ref: ' + recovId + ')';
   var waLink = el.querySelector('a[href*="wa.me"]');
   if (waLink) {
     waLink.href = 'https://wa.me/56942086751?text=' + encodeURIComponent(waMsg);
@@ -9381,5 +9379,13 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
   } else {
     setTimeout(tryOpen, 400);
   }
+})();
+</script>
+<script>
+(function(){
+  var _r='PP-'+Math.random().toString(36).slice(2,7).toUpperCase();
+  var _m=encodeURIComponent('Hola, vengo de la web de Polyplas y quiero hacer una consulta. (Ref: '+_r+')');
+  function _upd(){document.querySelectorAll('a[href*="wa.me"],a[href*="whatsapp.com/send"]').forEach(function(a){a.href=a.href.split('?')[0]+'?text='+_m;});}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',_upd);else _upd();
 })();
 </script>

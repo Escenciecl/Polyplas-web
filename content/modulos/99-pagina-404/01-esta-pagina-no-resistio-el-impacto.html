@@ -10,7 +10,7 @@
 <h1>¡Esta página no resistió el impacto!</h1>
 <p>Nuestro acrílico es de alta resistencia, pero este enlace parece que no. No te preocupes, <strong>estamos aquí para ayudarte con tu proyecto.</strong></p>
 <div class="poly-404-actions">
-<a class="btn-poly-primary" href="https://wa.me/56942086751?text=Hola%20Polyplas,%20no%20encontré%20lo%20que%20buscaba%20en%20la%20web,%20¿me%20ayudan?">
+<a class="btn-poly-primary" href="https://wa.me/56942086751?text=Hola%2C%20vengo%20de%20la%20web%20de%20Polyplas%20y%20quiero%20hacer%20una%20consulta.">
                 HABLAR CON UN EXPERTO
             </a>
 <a class="btn-poly-secondary" href="/">
@@ -121,3 +121,11 @@
         .poly-404-container { border-radius: 0; margin: 0; min-height: 100vh; }
     }
 </style>
+<script>
+(function(){
+  var _r='PP-'+Math.random().toString(36).slice(2,7).toUpperCase();
+  var _m=encodeURIComponent('Hola, vengo de la web de Polyplas y quiero hacer una consulta. (Ref: '+_r+')');
+  function _upd(){document.querySelectorAll('a[href*="wa.me"],a[href*="whatsapp.com/send"]').forEach(function(a){a.href=a.href.split('?')[0]+'?text='+_m;});}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',_upd);else _upd();
+})();
+</script>
