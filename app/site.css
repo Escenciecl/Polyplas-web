@@ -252,6 +252,17 @@ i.pp-fa > svg { display: inline-block; height: 1em; width: auto; overflow: visib
   .pp-ficha__price strong { font-size: 28px; }
 }
 
-/* Nombre del producto en las tarjetas de categoría: enlaza a su ficha sin cambiar el diseño */
+/* Nombre del producto en las tarjetas de categoría: enlaza a su ficha.
+   Debajo del nombre se muestra "Ver ficha completa →" para que se note que es un enlace. */
 a.pp-ficha-link { color: inherit; text-decoration: none; }
+a.pp-ficha-link::after {
+  content: "Ver ficha completa \2192";
+  display: block;
+  margin-top: 4px;
+  font: 600 13px/1.3 var(--pp-font, 'Inter', Arial, sans-serif);
+  letter-spacing: 0;
+  text-transform: none;
+  color: #004a99;
+  text-decoration: underline;
+}
 a.pp-ficha-link:hover, a.pp-ficha-link:focus-visible { text-decoration: underline; }
