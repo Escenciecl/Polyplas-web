@@ -1,0 +1,23 @@
+{
+  "url": "/cupula-acrilico-bronce-80x80/",
+  "tipo": "page",
+  "titulo": "Cúpula de Acrílico Bronce 80x80 cm para Techo | Polyplas",
+  "descripcion": "Cúpula de Acrílico Bronce 80x80 cm de 4 mm para tragaluces y claraboyas de techo, con control solar. $75.500 c/IVA. Compra online y retira en Santiago.",
+  "robots": "max-image-preview:large",
+  "canonical": "/cupula-acrilico-bronce-80x80/",
+  "og": {
+    "type": "website",
+    "title": "Cúpula de Acrílico Bronce 80x80 cm para Techo | Polyplas",
+    "description": "Cúpula de Acrílico Bronce 80x80 cm de 4 mm para tragaluces y claraboyas de techo, con control solar. $75.500 c/IVA. Compra online y retira en Santiago.",
+    "image": "https://polyplas.cl/wp-content/uploads/2026/08/cupula_bronce.webp",
+    "image:width": "820",
+    "image:height": "578"
+  },
+  "publicado": "2026-10-02T12:00:00+00:00",
+  "modificado": "2026-10-02T12:00:00+00:00",
+  "css": [],
+  "datosGoogle": [
+    "{\"@context\": \"https://schema.org\", \"@graph\": [{\"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Inicio\", \"item\": \"https://polyplas.cl/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Cúpulas de acrílico\", \"item\": \"https://polyplas.cl/categoria-producto/cupulas/\"}, {\"@type\": \"ListItem\", \"position\": 3, \"name\": \"Cúpula de Acrílico Bronce 80x80 cm\", \"item\": \"https://polyplas.cl/cupula-acrilico-bronce-80x80/\"}]}, {\"@type\": \"Product\", \"name\": \"Cúpula de Acrílico Bronce 80x80 cm\", \"sku\": \"CUP-80X80-BRONCE\", \"description\": \"Cúpula de Acrílico Bronce 80x80 cm de 4 mm para tragaluces y claraboyas de techo, con control solar. $75.500 c/IVA. Compra online y retira en Santiago.\", \"image\": \"https://polyplas.cl/wp-content/uploads/2026/08/cupula_bronce.webp\", \"url\": \"https://polyplas.cl/cupula-acrilico-bronce-80x80/\", \"brand\": {\"@type\": \"Brand\", \"name\": \"Polyplas\"}, \"offers\": {\"@type\": \"Offer\", \"url\": \"https://polyplas.cl/cupula-acrilico-bronce-80x80/\", \"price\": \"75500\", \"priceCurrency\": \"CLP\", \"itemCondition\": \"https://schema.org/NewCondition\", \"seller\": {\"@type\": \"Organization\", \"name\": \"Polyplas\", \"url\": \"https://polyplas.cl\"}}}]}"
+  ],
+  "dataLayer": null
+}

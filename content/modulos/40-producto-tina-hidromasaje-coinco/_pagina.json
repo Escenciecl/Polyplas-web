@@ -1,0 +1,23 @@
+{
+  "url": "/tina-hidromasaje-coinco/",
+  "tipo": "page",
+  "titulo": "Tina de Hidromasaje Coinco 167x92 cm, 1 Persona | Polyplas",
+  "descripcion": "Tina de Hidromasaje Coinco: 167×92×58 cm, para 1 persona, con 6 jets de alto caudal. $499.990 c/IVA en 3 y 6 cuotas sin interés.",
+  "robots": "max-image-preview:large",
+  "canonical": "/tina-hidromasaje-coinco/",
+  "og": {
+    "type": "website",
+    "title": "Tina de Hidromasaje Coinco 167x92 cm, 1 Persona | Polyplas",
+    "description": "Tina de Hidromasaje Coinco: 167×92×58 cm, para 1 persona, con 6 jets de alto caudal. $499.990 c/IVA en 3 y 6 cuotas sin interés.",
+    "image": "https://polyplas.cl/wp-content/uploads/2026/08/coinco.webp",
+    "image:width": "900",
+    "image:height": "593"
+  },
+  "publicado": "2026-10-02T12:00:00+00:00",
+  "modificado": "2026-10-02T12:00:00+00:00",
+  "css": [],
+  "datosGoogle": [
+    "{\"@context\": \"https://schema.org\", \"@graph\": [{\"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Inicio\", \"item\": \"https://polyplas.cl/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Tinas de hidromasaje\", \"item\": \"https://polyplas.cl/categoria-producto/tinas-de-hidromasaje/\"}, {\"@type\": \"ListItem\", \"position\": 3, \"name\": \"Tina de Hidromasaje Coinco\", \"item\": \"https://polyplas.cl/tina-hidromasaje-coinco/\"}]}, {\"@type\": \"Product\", \"name\": \"Tina de Hidromasaje Coinco\", \"sku\": \"TINA-COINCO\", \"description\": \"Tina de Hidromasaje Coinco: 167×92×58 cm, para 1 persona, con 6 jets de alto caudal. $499.990 c/IVA en 3 y 6 cuotas sin interés.\", \"image\": \"https://polyplas.cl/wp-content/uploads/2026/08/coinco.webp\", \"url\": \"https://polyplas.cl/tina-hidromasaje-coinco/\", \"brand\": {\"@type\": \"Brand\", \"name\": \"Polyplas\"}, \"offers\": {\"@type\": \"Offer\", \"url\": \"https://polyplas.cl/tina-hidromasaje-coinco/\", \"price\": \"499990\", \"priceCurrency\": \"CLP\", \"itemCondition\": \"https://schema.org/NewCondition\", \"seller\": {\"@type\": \"Organization\", \"name\": \"Polyplas\", \"url\": \"https://polyplas.cl\"}, \"availability\": \"https://schema.org/InStock\"}}]}"
+  ],
+  "dataLayer": null
+}

@@ -1,0 +1,23 @@
+{
+  "url": "/tina-hidromasaje-queilen/",
+  "tipo": "page",
+  "titulo": "Tina de Hidromasaje Queilen 167x91,5 cm, 1 Persona | Polyplas",
+  "descripcion": "Tina de Hidromasaje Queilen: 167×91,5×51 cm, para 1 persona, con 8 mini jets. $489.490 c/IVA en 3 y 6 cuotas sin interés.",
+  "robots": "max-image-preview:large",
+  "canonical": "/tina-hidromasaje-queilen/",
+  "og": {
+    "type": "website",
+    "title": "Tina de Hidromasaje Queilen 167x91,5 cm, 1 Persona | Polyplas",
+    "description": "Tina de Hidromasaje Queilen: 167×91,5×51 cm, para 1 persona, con 8 mini jets. $489.490 c/IVA en 3 y 6 cuotas sin interés.",
+    "image": "https://polyplas.cl/wp-content/uploads/2026/08/queilen.webp",
+    "image:width": "900",
+    "image:height": "676"
+  },
+  "publicado": "2026-10-02T12:00:00+00:00",
+  "modificado": "2026-10-02T12:00:00+00:00",
+  "css": [],
+  "datosGoogle": [
+    "{\"@context\": \"https://schema.org\", \"@graph\": [{\"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Inicio\", \"item\": \"https://polyplas.cl/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Tinas de hidromasaje\", \"item\": \"https://polyplas.cl/categoria-producto/tinas-de-hidromasaje/\"}, {\"@type\": \"ListItem\", \"position\": 3, \"name\": \"Tina de Hidromasaje Queilen\", \"item\": \"https://polyplas.cl/tina-hidromasaje-queilen/\"}]}, {\"@type\": \"Product\", \"name\": \"Tina de Hidromasaje Queilen\", \"sku\": \"TINA-QUEILEN\", \"description\": \"Tina de Hidromasaje Queilen: 167×91,5×51 cm, para 1 persona, con 8 mini jets. $489.490 c/IVA en 3 y 6 cuotas sin interés.\", \"image\": \"https://polyplas.cl/wp-content/uploads/2026/08/queilen.webp\", \"url\": \"https://polyplas.cl/tina-hidromasaje-queilen/\", \"brand\": {\"@type\": \"Brand\", \"name\": \"Polyplas\"}, \"offers\": {\"@type\": \"Offer\", \"url\": \"https://polyplas.cl/tina-hidromasaje-queilen/\", \"price\": \"489490\", \"priceCurrency\": \"CLP\", \"itemCondition\": \"https://schema.org/NewCondition\", \"seller\": {\"@type\": \"Organization\", \"name\": \"Polyplas\", \"url\": \"https://polyplas.cl\"}, \"availability\": \"https://schema.org/InStock\"}}]}"
+  ],
+  "dataLayer": null
+}

@@ -1,0 +1,12 @@
+<script>
+/* Enlace directo desde las fichas de producto: /categoria-producto/tinas-de-hidromasaje/#tina=vilcun abre esa tina */
+(function () {
+  var m = /(?:^#|&)tina=([a-z0-9_-]+)/i.exec(window.location.hash);
+  if (!m) return;
+  var intentos = 0;
+  (function abrir() {
+    if (typeof window.openTinaDetail === 'function') { window.openTinaDetail(m[1]); return; }
+    if (++intentos < 50) setTimeout(abrir, 200);
+  })();
+})();
+</script>

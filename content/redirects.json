@@ -153,19 +153,19 @@
  },
  {
   "source": "/producto/cupula-acrilico-68-x-68-cm/",
-  "destination": "/categoria-producto/cupulas/"
+  "destination": "/cupula-acrilico-68x68/"
  },
  {
   "source": "/producto/cupula-acrilico-80-x-80-cm/",
-  "destination": "/categoria-producto/cupulas/"
+  "destination": "/cupula-acrilico-80x80/"
  },
  {
   "source": "/producto/cupula-acrilico-bronce-80-x-80-cm/",
-  "destination": "/categoria-producto/cupulas/"
+  "destination": "/cupula-acrilico-bronce-80x80/"
  },
  {
   "source": "/producto/cupula-de-acrilico-54x54-4mm-de-espesor/",
-  "destination": "/categoria-producto/cupulas/"
+  "destination": "/cupula-acrilico-54x54/"
  },
  {
   "source": "/producto/plancha-acrilico-1800-x-1200-3mm-espejo-dorado/",
@@ -213,11 +213,11 @@
  },
  {
   "source": "/producto/receptaculo-de-ducha-acrilico-80x80-ultimas-unidades-25-off/",
-  "destination": "/categoria-producto/receptaculos/"
+  "destination": "/receptaculo-ducha-80x80/"
  },
  {
   "source": "/producto/receptaculo-de-ducha-acrilico-90x90-ultimas-unidades-25-off/",
-  "destination": "/categoria-producto/receptaculos/"
+  "destination": "/receptaculo-ducha-90x90/"
  },
  {
   "source": "/producto/receptaculo-de-ducha-acrilico-esquinero-80x80-ultimas-unidades/",
@@ -225,19 +225,19 @@
  },
  {
   "source": "/producto/tina-coinco-basica/",
-  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+  "destination": "/tina-hidromasaje-coinco/"
  },
  {
   "source": "/producto/tina-de-hidromasaje-kuyen-doble-full/",
-  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+  "destination": "/tina-hidromasaje-kuyen-full/"
  },
  {
   "source": "/producto/tina-hidromasaje-vilcun/",
-  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+  "destination": "/tina-hidromasaje-vilcun/"
  },
  {
   "source": "/producto/tina-queilen-basica/",
-  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+  "destination": "/tina-hidromasaje-queilen/"
  },
  {
   "source": "/categoria-producto/acrilicos/",
@@ -253,7 +253,7 @@
  },
  {
   "source": "/tina-de-hidromasaje-coinco-guia-completa/",
-  "destination": "/guia-para-comprar-tina-de-hidromasaje-en-chile/"
+  "destination": "/tina-hidromasaje-coinco/"
  },
  {
   "source": "/category/cupulas/",
@@ -277,11 +277,11 @@
  },
  {
   "source": "/tina-de-hidromasaje-kuyen-full-guia-completa/",
-  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+  "destination": "/tina-hidromasaje-kuyen-full/"
  },
  {
   "source": "/tina-de-hidromasaje-vilcun-guia-completa/",
-  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+  "destination": "/tina-hidromasaje-vilcun/"
  },
  {
   "source": "/categoria-producto/petg-petg-rigido/",

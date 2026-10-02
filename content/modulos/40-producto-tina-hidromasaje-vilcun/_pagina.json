@@ -1,0 +1,23 @@
+{
+  "url": "/tina-hidromasaje-vilcun/",
+  "tipo": "page",
+  "titulo": "Tina de Hidromasaje Vilcún 170x75 cm, 1 Persona | Polyplas",
+  "descripcion": "Tina de Hidromasaje Vilcún: 170×75×40 cm, para 1 persona, con 8 mini jets. $479.990 c/IVA en 3 y 6 cuotas sin interés.",
+  "robots": "max-image-preview:large",
+  "canonical": "/tina-hidromasaje-vilcun/",
+  "og": {
+    "type": "website",
+    "title": "Tina de Hidromasaje Vilcún 170x75 cm, 1 Persona | Polyplas",
+    "description": "Tina de Hidromasaje Vilcún: 170×75×40 cm, para 1 persona, con 8 mini jets. $479.990 c/IVA en 3 y 6 cuotas sin interés.",
+    "image": "https://polyplas.cl/wp-content/uploads/2026/08/vilcun-.webp",
+    "image:width": "900",
+    "image:height": "1101"
+  },
+  "publicado": "2026-10-02T12:00:00+00:00",
+  "modificado": "2026-10-02T12:00:00+00:00",
+  "css": [],
+  "datosGoogle": [
+    "{\"@context\": \"https://schema.org\", \"@graph\": [{\"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Inicio\", \"item\": \"https://polyplas.cl/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Tinas de hidromasaje\", \"item\": \"https://polyplas.cl/categoria-producto/tinas-de-hidromasaje/\"}, {\"@type\": \"ListItem\", \"position\": 3, \"name\": \"Tina de Hidromasaje Vilcún\", \"item\": \"https://polyplas.cl/tina-hidromasaje-vilcun/\"}]}, {\"@type\": \"Product\", \"name\": \"Tina de Hidromasaje Vilcún\", \"sku\": \"TINA-VILCUN\", \"description\": \"Tina de Hidromasaje Vilcún: 170×75×40 cm, para 1 persona, con 8 mini jets. $479.990 c/IVA en 3 y 6 cuotas sin interés.\", \"image\": \"https://polyplas.cl/wp-content/uploads/2026/08/vilcun-.webp\", \"url\": \"https://polyplas.cl/tina-hidromasaje-vilcun/\", \"brand\": {\"@type\": \"Brand\", \"name\": \"Polyplas\"}, \"offers\": {\"@type\": \"Offer\", \"url\": \"https://polyplas.cl/tina-hidromasaje-vilcun/\", \"price\": \"479990\", \"priceCurrency\": \"CLP\", \"itemCondition\": \"https://schema.org/NewCondition\", \"seller\": {\"@type\": \"Organization\", \"name\": \"Polyplas\", \"url\": \"https://polyplas.cl\"}, \"availability\": \"https://schema.org/InStock\"}}]}"
+  ],
+  "dataLayer": null
+}
