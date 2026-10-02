@@ -102,6 +102,14 @@ export function readHtml(key: string): string {
   return fs.readFileSync(path.join(GEN_DIR, "html", `${key}.html`), "utf8");
 }
 
+/** CSS de un archivo local de /public (o null si es externo, no existe o es muy grande para incrustarlo) */
+export function readPublicCss(href: string): string | null {
+  if (!href.startsWith("/") || href.startsWith("//")) return null;
+  const file = path.join(process.cwd(), "public", href.split("?")[0]);
+  if (!fs.existsSync(file) || fs.statSync(file).size > 20_000) return null;
+  return fs.readFileSync(file, "utf8");
+}
+
 export interface BlogCard {
   path: string;
   title: string;

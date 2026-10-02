@@ -119,24 +119,40 @@ const isFontAwesomeCss = (href) => /font-?awesome/i.test(href);
 /**
  * Fotos de las tarjetas de producto: en el celular se muestran chicas (90-210 px) pero el archivo
  * es de 1024 px. Si existen las versiones reducidas junto al original
- * (foto-320w.webp, foto-480w.webp, foto-640w.webp) se agrega `srcset` para que cada pantalla
+ * (foto-320w.webp, foto-480w.webp, … según la lista RESPONSIVE) y su ancho real está anotado en
+ * content/imagenes-anchos.json, se agrega `srcset` para que cada pantalla
  * descargue solo el tamaño que necesita. El `src` no cambia (el modal sigue usando la foto grande).
- * Para una foto nueva: subir también esas versiones reducidas; si no están, se usa la original.
+ * Para una foto nueva sin versiones reducidas simplemente se usa la original.
  */
-const CARD_SIZES = "(max-width: 600px) 160px, (max-width: 900px) 210px, 280px";
+// [clase de la imagen, anchos de las versiones reducidas, tamaño con que se muestra]
+const RESPONSIVE = [
+  ["pp-product-card-img", [320, 480, 640], "(max-width: 600px) 160px, (max-width: 900px) 210px, 280px"],
+  ["pp-slide", [480, 720], "(max-width: 767px) 92vw, 390px"],
+];
 function responsiveCards(html) {
-  return html.replace(/<img\b[^>]*\bclass="[^"]*\bpp-product-card-img\b[^"]*"[^>]*>/gi, (tag) => {
-    if (/\bsrcset=/i.test(tag)) return tag;
-    const src = tag.match(/\bsrc="(\/wp-content\/[^"]+)\.(webp|jpe?g|png)"/i);
-    if (!src) return tag;
-    const set = [320, 480, 640]
-      .filter((w) => fs.existsSync(path.join(ROOT, "public", `${src[1]}-${w}w.webp`)))
-      .map((w) => `${src[1]}-${w}w.webp ${w}w`);
-    if (!set.length) return tag;
-    const full = tag.match(/\bwidth="(\d+)"/i);
-    if (full) set.push(`${src[1]}.${src[2]} ${full[1]}w`);
-    return tag.replace(/<img\b/i, `<img srcset="${set.join(", ")}" sizes="${CARD_SIZES}"`);
-  });
+  for (const [cls, widths, sizes] of RESPONSIVE) {
+    const re = new RegExp(`<img\\b[^>]*\\bclass="[^"]*\\b${cls}\\b[^"]*"[^>]*>`, "gi");
+    html = html.replace(re, (tag) => {
+      if (/\bsrcset=/i.test(tag)) return tag;
+      const src = tag.match(/\bsrc="(\/wp-content\/[^"]+)\.(webp|jpe?g|png)"/i);
+      if (!src) return tag;
+      const set = widths
+        .filter((w) => fs.existsSync(path.join(ROOT, "public", `${src[1]}-${w}w.webp`)))
+        .map((w) => `${src[1]}-${w}w.webp ${w}w`);
+      if (!set.length) return tag;
+      const full = fullWidth(`${src[1]}.${src[2]}`);
+      if (full) set.push(`${src[1]}.${src[2]} ${full}w`);
+      return tag.replace(/<img\b/i, `<img srcset="${set.join(", ")}" sizes="${sizes}"`);
+    });
+  }
+  return html;
+}
+/** Ancho real de la foto original (lo anota scripts al crear las versiones reducidas) */
+const ANCHOS = fs.existsSync(path.join(ROOT, "content/imagenes-anchos.json"))
+  ? JSON.parse(read(path.join(ROOT, "content/imagenes-anchos.json")))
+  : {};
+function fullWidth(src) {
+  return ANCHOS[src] || null;
 }
 
 function moduleFiles(dir) {

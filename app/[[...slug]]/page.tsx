@@ -11,6 +11,7 @@ import {
   getMarkdownPosts,
   getPage,
   readHtml,
+  readPublicCss,
   SITE_URL,
   type PageEntry,
 } from "@/lib/content";
@@ -36,12 +37,24 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   return md ? markdownMetadata(md) : {};
 }
 
+/**
+ * Estilos propios de la página (los pequeños post-XXXX.css de Elementor).
+ * Si el archivo está en el sitio se escribe dentro del HTML, así no hay una descarga extra
+ * que bloquee el primer pintado; los externos se siguen enlazando.
+ */
 function PageCss({ entry }: { entry: PageEntry }) {
   return (
     <>
-      {entry.css.map((href) => (
-        <link key={href} rel="stylesheet" href={href} precedence="page" />
-      ))}
+      {entry.css.map((href) => {
+        const css = readPublicCss(href);
+        return css !== null ? (
+          <style key={href} href={href} precedence="page">
+            {css}
+          </style>
+        ) : (
+          <link key={href} rel="stylesheet" href={href} precedence="page" />
+        );
+      })}
     </>
   );
 }
