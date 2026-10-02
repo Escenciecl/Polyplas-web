@@ -1780,6 +1780,7 @@ window.removeFromCart = function(idx) {
 
 // ── Modal de cantidad ────────────────────────────────────────
 window.openQtyModal = function(id, nombre, specs, img, tinaIdx) {
+  if (window.ppPaso) window.ppPaso('compra_abre', 'tinas', { item_id: 'TINA_' + id });
   var tina = TINAS.find(function(t){ return t.id === id; }) || TINAS[tinaIdx] || {};
   qtyModalState.tina = tina;
   qtyModalState.qty  = 1;

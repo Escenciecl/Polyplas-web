@@ -1645,6 +1645,7 @@ window.closeCupolasDrawer = function() {
 
 // ── Qty modal ────────────────────────────────────────────────
 window.cupOpenQtyModal = function(id, nombre, specs, img, idx) {
+  if (window.ppPaso) window.ppPaso('compra_abre', 'cupulas', { item_id: 'CUP_' + id });
   var cupola = CUPULAS.find(function(c){ return c.id === id; }) || CUPULAS[idx] || {};
   cupQtyModalState.cupola = cupola;
   cupQtyModalState.qty    = 1;

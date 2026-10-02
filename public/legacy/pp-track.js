@@ -192,6 +192,7 @@
   /* Pasos del carrito y del pago: los informa SOLO el carrito global (origen "gc") */
   var PASOS_CARRITO = { view_cart: 1, begin_checkout: 1, add_shipping_info: 1, add_payment_info: 1 };
   var comprasEnEspera = {};
+  var ESPLANCHA = { acrilico: 1, pet: 1, petg: 1, pc: 1 };
 
   /**
    * @param {string} evento     nombre GA4 (view_item, add_to_cart, purchase…)
@@ -219,6 +220,12 @@
 
       var ids = ec.items.map(function (it) { return it.item_id; }).join(',');
 
+      // Planchas: la vista de producto es abrir el configurador (una por material).
+      // Cada cambio de medida/espesor/color NO es otra vista: esos pasos van como conf_… (ver ppPaso).
+      if (evento === 'view_item' && ESPLANCHA[origen] && ids.indexOf('_') >= 0) {
+        log('DESCARTADO (cambio de variante, no es una vista nueva)', evento, ids);
+        return false;
+      }
       if (evento === 'view_item') {
         if (vistos[ids]) { log('DESCARTADO (ya visto en esta página)', evento, ids); return false; }
         vistos[ids] = 1;
@@ -269,6 +276,60 @@
       return true;
     }
   };
+
+  /* ── Pasos intermedios del embudo (micro-pasos) ───────────────
+   * Eventos propios, uno por paso real y una sola vez por producto y página:
+   *   conf_medida · conf_espesor · conf_color   clic en esa opción del configurador de planchas
+   *   conf_pedido                               llegó al paso 2 "Pedido" del configurador
+   *   conf_corte_si · conf_corte_no             respondió si quiere las planchas cortadas a medida
+   *   compra_abre                               abrió el cuadro de cantidad (tinas, cúpulas, receptáculos)
+   *   pago_datos_ok · pago_datos_error          completó (o no) sus datos en "Finalizar pedido"
+   *   pago_error_webpay                         falló la conexión con Webpay
+   * Cada uno lleva: linea, tipo, item_id y valor (cuando aplica).
+   */
+  var pasosHechos = {};
+  window.ppPaso = function (evento, origen, datos) {
+    try {
+      datos = datos || {};
+      var p = { event: evento, linea: LINEAS[origen] || '', tipo: '', item_id: '', valor: num(datos.valor) || undefined };
+      if (ESPLANCHA[origen]) {
+        // Solo cuenta dentro del configurador abierto (no la selección que viene precargada)
+        var modal = document.getElementById('configuratorModal');
+        if (modal && !/\bopen\b/.test(modal.className)) return false;
+        var mat = datos.material || datos.tipo || '';
+        p.tipo = (window._ppGetMatLabel && mat ? window._ppGetMatLabel(mat) : mat) || '';
+        p.item_id = mat;
+        p.medida = datos.dim || '';
+        p.espesor = datos.esp || '';
+        p.color = datos.color || '';
+      } else if (datos.item_id) {
+        var id = normId(datos.item_id);
+        var cat = CATALOGO[id];
+        p.item_id = id;
+        if (cat) { p.linea = LINEAS[cat.modulo]; p.tipo = cat.tipo; }
+      }
+      var clave = evento + '|' + p.linea + '|' + p.item_id;
+      if (pasosHechos[clave]) { log('DESCARTADO (paso ya informado)', evento, p.item_id); return false; }
+      pasosHechos[clave] = 1;
+      window.dataLayer.push(p);
+      log('ENVIADO', evento, p);
+      return true;
+    } catch (e) { return false; }
+  };
+
+  /* Pregunta "¿Quieres recibir tus planchas cortadas a medida?" del configurador */
+  var RUTA_PLANCHA = [[/planchas-acrilico/, 'acrilico'], [/planchas-petg/, 'petg'], [/planchas-pet/, 'pet'], [/policarbonato/, 'pc']];
+  document.addEventListener('click', function (e) {
+    try {
+      var b = e.target && e.target.closest ? e.target.closest('.pcc-guide-btn--yes, .pcc-guide-btn--no') : null;
+      if (!b) return;
+      var mod = '';
+      RUTA_PLANCHA.some(function (r) { if (r[0].test(location.pathname)) { mod = r[1]; return true; } return false; });
+      if (!mod) return;
+      var si = /pcc-guide-btn--yes/.test(b.className);
+      window.ppPaso(si ? 'conf_corte_si' : 'conf_corte_no', mod, window._ppState || {});
+    } catch (err) {}
+  }, true);
 
   /* ── Fichas de producto: view_item al cargar la página ────── */
   var PREFIJO_FICHA = { tina: 'TINA_', cupula: 'CUP_', receptaculo: 'RECEP_' };

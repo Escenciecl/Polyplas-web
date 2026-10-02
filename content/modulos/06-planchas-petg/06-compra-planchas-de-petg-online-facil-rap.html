@@ -4606,6 +4606,7 @@ function editStep(n) {
 let currentStep = 1;
 
 function renderStep(n) {
+  if (window.ppPaso && n >= 3) window.ppPaso('conf_pedido', 'petg', state);
   currentStep = n;
   const body = document.getElementById("stepperBody");
   if (!body) return;
@@ -4917,6 +4918,7 @@ function buildDimSelector() {
     b.textContent = v.label;
     b.onclick = () => {
       state.dim = k;
+      if (window.ppPaso) window.ppPaso('conf_medida', 'petg', state);
       if (!presetColor) state.color = "";
       state.esp = "";
       document.querySelectorAll("#dimSelector .pp-pill").forEach(x => x.classList.remove("active"));
@@ -4990,6 +4992,7 @@ function buildColorSelector() {
 
     wrap.onclick = () => {
       state.color = k;
+      if (window.ppPaso) window.ppPaso('conf_color', 'petg', state);
       const tt = document.getElementById("colorTooltip");
       if (tt) tt.classList.remove("show");
       goToStep(5);
@@ -5036,6 +5039,7 @@ function buildEspesorSelector() {
     } else {
       b.onclick = () => {
         state.esp = esp;
+        if (window.ppPaso) window.ppPaso('conf_espesor', 'petg', state);
         if (!presetColor) state.color = "";
         document.querySelectorAll("#espesorSelector .pp-esp-btn").forEach(x => x.classList.remove("active"));
         b.classList.add("active");

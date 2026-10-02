@@ -1459,6 +1459,7 @@ window.closeReceptDrawer = function() {
 
 // ── Qty modal ────────────────────────────────────────────────
 window.receptOpenQtyModal = function(id, nombre, specs, img, idx) {
+  if (window.ppPaso) window.ppPaso('compra_abre', 'receptaculos', { item_id: 'RECEP_' + id });
   var prod = RECEPTACULOS.find(function(p){ return p.id === id; }) || RECEPTACULOS[idx] || {};
   receptQtyModalState.producto = prod;
   receptQtyModalState.qty      = 1;

@@ -1178,6 +1178,7 @@
     var isEmpty = function(id){ var el=gEl(id); return !el||!el.value.trim()||el.value.trim()===TEL_PREFIX; };
 
     if (fields.some(isEmpty)) {
+      if (window.ppPaso) window.ppPaso('pago_datos_error', 'gc', { valor: gcCurrentGrand });
       if (errEl) { errEl.textContent='Completa todos los campos obligatorios (*).'; errEl.style.display='block'; }
       fields.forEach(function(id){ var el=gEl(id); if(el&&isEmpty(id)) el.classList.add('ppGC-input-error'); });
       var first=fields.find(isEmpty); if (first) { var fe=gEl(first); if(fe) fe.scrollIntoView({behavior:'smooth',block:'center'}); }
@@ -1227,6 +1228,8 @@
       }
     }
     gcBuildEntregaOptions(gcCurrentGrand, regionForOpts);
+    // Datos del cliente completos: pasa a elegir la entrega
+    if (window.ppPaso) window.ppPaso('pago_datos_ok', 'gc', { valor: gcCurrentGrand });
     gcUpdateModalTotal();
     var box=gEl('ppGC-co-modal'); if (box) { var b=box.querySelector('.ppGC-modal-box'); if(b) b.scrollTop=0; }
   }
@@ -1265,6 +1268,7 @@
       var inp=document.createElement('input'); inp.type='hidden'; inp.name='token_ws'; inp.value=data.token;
       form.appendChild(inp); document.body.appendChild(form); form.submit();
     } catch(e) {
+      if (window.ppPaso) window.ppPaso('pago_error_webpay', 'gc', { valor: total });
       if (e2){e2.textContent='Error al conectar con Webpay. Intenta de nuevo.';e2.style.display='block';}
       if (btn){btn.disabled=false;btn.innerHTML='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> PAGAR CON WEBPAY PLUS';}
     }
