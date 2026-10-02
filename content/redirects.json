@@ -270,5 +270,25 @@
  {
   "source": "/elementor-3176/",
   "destination": "/"
+ },
+ {
+  "source": "/categoria/cupulas/",
+  "destination": "/categoria-producto/cupulas/"
+ },
+ {
+  "source": "/tina-de-hidromasaje-kuyen-full-guia-completa/",
+  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+ },
+ {
+  "source": "/tina-de-hidromasaje-vilcun-guia-completa/",
+  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+ },
+ {
+  "source": "/categoria-producto/petg-petg-rigido/",
+  "destination": "/categoria-producto/planchas-petg/"
+ },
+ {
+  "source": "/wp-content/uploads/2026/06/CARACTERISTICAS-PLANCHAS-ACRILICO.pdf",
+  "destination": "/guia-de-acrilicos/"
  }
 ]

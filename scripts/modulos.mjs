@@ -62,6 +62,19 @@ function extractScripts(html) {
   return [out, scripts];
 }
 
+/**
+ * Algunos módulos traen pegadas etiquetas de cabecera (<meta charset>, <meta viewport>, <title>).
+ * Dentro del cuerpo de la página no sirven y dejan un segundo <title> que confunde a Google:
+ * el título de cada página es el de su _pagina.json. Se quitan al compilar.
+ * (Los <title> de los íconos SVG no se tocan: solo se quita el que viene junto a esos <meta>.)
+ */
+function stripHeadTags(html) {
+  return html.replace(
+    /(?:<meta\b[^>]*\b(?:charset|name=["']viewport["'])[^>]*>\s*)+(?:<title>[^<]*<\/title>\s*)?/gi,
+    "",
+  );
+}
+
 /* ───────────── Optimizaciones de velocidad (PageSpeed) ───────────── */
 
 /**
@@ -162,6 +175,9 @@ function moduleFiles(dir) {
     .sort((a, b) => a.localeCompare(b, "es", { numeric: true }));
 }
 
+/** Lee un módulo; si empieza con un <title> suelto (propio de una página completa), lo quita */
+const readModule = (f) => read(f).replace(/^\s*<title>[^<]*<\/title>\s*/i, "");
+
 /** Une el esqueleto con los módulos de la carpeta */
 function assemble(dir) {
   const files = moduleFiles(dir);
@@ -172,13 +188,13 @@ function assemble(dir) {
     const f = path.join(dir, name.trim());
     if (!fs.existsSync(f)) return ""; // módulo borrado
     used.add(name.trim());
-    return read(f);
+    return readModule(f);
   });
   // Módulos nuevos que no estaban en el esqueleto: van al final, en orden
   const nuevos = files.filter((f) => !used.has(f));
   if (nuevos.length) {
     html += nuevos
-      .map((f) => `\n<div class="pp-modulo" data-modulo="${f}">\n${read(path.join(dir, f))}\n</div>`)
+      .map((f) => `\n<div class="pp-modulo" data-modulo="${f}">\n${readModule(path.join(dir, f))}\n</div>`)
       .join("");
   }
   return html;
@@ -209,7 +225,7 @@ for (const folder of fs.readdirSync(MOD).sort()) {
   }
   const cfg = JSON.parse(read(cfgPath));
   const [rawHtml, scripts] = extractScripts(assemble(dir));
-  const [html, faPendiente] = inlineFontAwesome(responsiveCards(stripGoogleFonts(rawHtml)));
+  const [html, faPendiente] = inlineFontAwesome(responsiveCards(stripGoogleFonts(stripHeadTags(rawHtml))));
   count += moduleFiles(dir).length;
 
   if (cfg.global) {

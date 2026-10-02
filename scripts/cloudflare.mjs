@@ -23,6 +23,14 @@ const generic = [
   "/carrito/ / 301",
   "/finalizar-compra/ / 301",
   "/mi-cuenta/ /contacto/ 301",
+  // filtros antiguos por espesor (aún aparecen en Google)
+  "/espesor/* /categoria-producto/planchas-acrilico/ 301",
+  // fichas de producto antiguas sin regla propia: van a su categoría, no a la portada
+  "/producto/receptaculo* /categoria-producto/receptaculos/ 301",
+  "/producto/cupula* /categoria-producto/cupulas/ 301",
+  "/producto/tina* /categoria-producto/tinas-de-hidromasaje/ 301",
+  "/producto/policarbonato* /categoria-producto/policarbonato-compacto/ 301",
+  "/producto/plancha* /categoria-producto/planchas-acrilico/ 301",
   "/producto/* / 301",
   // paginación y etiquetas antiguas de WordPress
   "/blog/page/* /blog/ 301",
