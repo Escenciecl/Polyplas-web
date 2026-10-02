@@ -2510,6 +2510,8 @@ window.tinaSlide = function(dotEl, idx) {
 // ── Data Layer (GTM / GA4 ecommerce) ─────────────────────────
 window.dataLayer = window.dataLayer || [];
 function dlPushTinas(eventName, ecommerce) {
+  // Marcaje centralizado: public/legacy/pp-track.js
+  if (window.ppTrack) { window.ppTrack(eventName, ecommerce, 'tinas'); return; }
   window.dataLayer.push({ ecommerce: null });
   window.dataLayer.push({ event: eventName, ecommerce: ecommerce });
 }

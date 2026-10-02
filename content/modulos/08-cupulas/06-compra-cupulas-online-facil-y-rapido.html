@@ -2131,6 +2131,8 @@ document.addEventListener('keydown', function(e) {
 // ── DataLayer (GTM / GA4 ecommerce) ──────────────────────────
 window.dataLayer = window.dataLayer || [];
 function dlPushCupulas(eventName, ecommerce) {
+  // Marcaje centralizado: public/legacy/pp-track.js
+  if (window.ppTrack) { window.ppTrack(eventName, ecommerce, 'cupulas'); return; }
   window.dataLayer.push({ ecommerce: null });
   window.dataLayer.push({ event: eventName, ecommerce: ecommerce });
 }

@@ -764,11 +764,15 @@
 
   /* ── GA4 ecommerce ───────────────────────────────────────── */
   function gcDlPush(eventName, ecommerce) {
+    // Marcaje centralizado: public/legacy/pp-track.js
+    if (window.ppTrack) { window.ppTrack(eventName, ecommerce, 'gc'); return; }
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ ecommerce: null });
     window.dataLayer.push({ event: eventName, ecommerce: ecommerce });
   }
   function gcDlItem(item, idx) {
+    // Mismos datos de artículo que en view_item / add_to_cart
+    if (window.ppTrackCartItem) return window.ppTrackCartItem(item, idx);
     return {
       item_id: item.sku || item.gid || '',
       item_name: (MOD_LABELS[item.module] ? MOD_LABELS[item.module] + ' · ' : '') + (item.nombre || ''),
@@ -824,6 +828,8 @@
 
   window.ppGlobalCartRemove = function(gid) {
     gcLoad();
+    var _rm = gcItems.filter(function(i){ return i.gid === gid; })[0];
+    if (_rm) gcDlPush('remove_from_cart', { currency: 'CLP', value: _rm.subtotal || 0, items: [gcDlItem(_rm, 0)] });
     gcItems = gcItems.filter(function(i){ return i.gid !== gid; });
     gcSave();
     gcUpdateBadge();
@@ -889,6 +895,7 @@
 
   function ppGCOpen() {
     gcLoad();
+    if (gcItems.length) gcDlPush('view_cart', { currency: 'CLP', value: gcTotal(), items: gcItems.map(gcDlItem) });
     gcRenderCartItems();
     gEl('ppGC-overlay').style.display = 'block';
     gEl('ppGC-cart-modal').style.display = 'flex';
@@ -903,6 +910,7 @@
 
   function ppGCClearAndClose() {
     gcLoad();
+    if (gcItems.length) gcDlPush('remove_from_cart', { currency: 'CLP', value: gcTotal(), items: gcItems.map(gcDlItem) });
     gcItems.forEach(function(item) {
       document.dispatchEvent(new CustomEvent('ppGCItemRemoved', { detail: { gid: item.gid } }));
     });
@@ -924,6 +932,8 @@
     if (!gcItems.length) return;
     ppGCCloseCart();
     gcCurrentGrand = gcTotal();
+    // Inicio del pago: se abre el formulario "Finalizar pedido"
+    gcDlPush('begin_checkout', { currency: 'CLP', value: gcCurrentGrand, items: gcItems.map(gcDlItem) });
     gcClientType = 'PN';
     ppGCSetClientType('PN');
     gcRenderSummary();
@@ -1217,8 +1227,6 @@
       }
     }
     gcBuildEntregaOptions(gcCurrentGrand, regionForOpts);
-    gcDlPush('begin_checkout', { currency: 'CLP', value: gcCurrentGrand, customer_type: gcClientType, items: gcItems.map(gcDlItem) });
-    gcDlPush('add_payment_info', { currency: 'CLP', value: gcCurrentGrand, payment_type: 'Webpay', customer_type: gcClientType, items: gcItems.map(gcDlItem) });
     gcUpdateModalTotal();
     var box=gEl('ppGC-co-modal'); if (box) { var b=box.querySelector('.ppGC-modal-box'); if(b) b.scrollTop=0; }
   }
@@ -1241,6 +1249,8 @@
       if (!dd||!dd.value||!dr||!dr.value||!dc||!dc.value) { if (e2){e2.textContent='Completa la dirección de despacho.';e2.style.display='block';} return; }
     }
     var client=gcGetClientData(), total=gcCurrentGrand+(gcSelectedEntrega.costo||0);
+    // Clic en "Pagar con Webpay" con los datos completos
+    gcDlPush('add_payment_info', { currency: 'CLP', value: total, payment_type: 'Webpay', shipping_tier: gcSelectedEntrega.id, customer_type: gcClientType, items: gcItems.map(gcDlItem) });
     if (btn) { btn.disabled=true; btn.textContent='Procesando...'; }
     if (e2) e2.style.display='none';
     var convId=(typeof crypto!=='undefined'&&crypto.randomUUID)?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2);

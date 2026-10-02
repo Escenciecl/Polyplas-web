@@ -207,17 +207,21 @@
         sessionStorage.removeItem('pp_recep_total_dl');
         sessionStorage.removeItem('pp_pc_cart_dl');
         sessionStorage.removeItem('pp_pc_total_dl');
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ ecommerce: null });
-        window.dataLayer.push({
-          event:     'purchase',
-          ecommerce: {
-            transaction_id: params.get('orden') || '',
-            currency:       'CLP',
-            value:          _dlTotal || monto,
-            items:          _dlItems
-          }
-        });
+        var _dlCompra = {
+          transaction_id: params.get('orden') || '',
+          currency:       'CLP',
+          value:          _dlTotal || monto,
+          items:          _dlItems
+        };
+        if (window.ppTrack) {
+          // Marcaje centralizado (public/legacy/pp-track.js): una sola compra por orden.
+          // Si el carrito global ya la informó con sus artículos, esta se descarta.
+          window.ppTrack('purchase', _dlCompra, 'gracias');
+        } else {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ ecommerce: null });
+          window.dataLayer.push({ event: 'purchase', ecommerce: _dlCompra });
+        }
       } catch(e) {}
 
       // ── Limpiar sessionStorage (el CRM ya fue registrado por el servidor PHP) ──

@@ -4907,6 +4907,8 @@ function dlItem(item, idx) {
 }
 
 function dlPush(eventName, ecommerce) {
+  // Marcaje centralizado: public/legacy/pp-track.js
+  if (window.ppTrack) { window.ppTrack(eventName, ecommerce, 'acrilico'); return; }
   window.dataLayer.push({ ecommerce: null });
   window.dataLayer.push({ event: eventName, ecommerce: ecommerce });
 }
