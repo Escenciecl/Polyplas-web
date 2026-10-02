@@ -4,20 +4,18 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node scripts/modulos.mjs && node scripts/cloudflare.mjs",
+    "prebuild": "node scripts/modulos.mjs && node scripts/css.mjs && node scripts/cloudflare.mjs",
     "build": "next build",
+    "postbuild": "node scripts/respaldo-html.mjs",
     "start": "npx serve out",
     "lint": "next lint",
-    "predev": "node scripts/modulos.mjs"
+    "predev": "node scripts/modulos.mjs && node scripts/css.mjs"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "^5.3.0",
+    "@fontsource-variable/montserrat": "^5.3.0",
     "@fontsource/archivo-narrow": "^5.3.0",
-    "@fontsource/barlow": "^5.3.0",
-    "@fontsource/barlow-condensed": "^5.3.0",
     "@fontsource/cormorant-garamond": "^5.3.0",
-    "@fontsource/dm-sans": "^5.3.0",
-    "@fontsource/inter": "^5.3.0",
-    "@fontsource/montserrat": "^5.3.0",
     "@fontsource/roboto": "^5.3.0",
     "@fontsource/roboto-slab": "^5.3.0",
     "gray-matter": "^4.0.3",
@@ -28,6 +26,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@fortawesome/fontawesome-free": "^6.7.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

@@ -1,4 +1,4 @@
-<script>
+<script data-pp-inline>
   window.dataLayer = window.dataLayer || [];
   function gtag(){ dataLayer.push(arguments); }
 
@@ -11,8 +11,10 @@
     wait_for_update: 2000
   });
 </script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
+<script data-pp-inline>
+// Corre apenas se lee la página: el aviso aparece junto con el primer pintado
+(function () {
+  var aqui = document.currentScript;
 
   if (localStorage.getItem('cookieConsentimiento')) return;
 
@@ -28,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
       display: flex;
       align-items: center;
       gap: 24px;
-      font-family: 'Archivo Narrow', Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif; /* fuente del sistema: el aviso no "salta" al cargar */
     }
     #cookie-banner .cb-icon { flex-shrink: 0; }
     #cookie-banner .cb-text {
@@ -40,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
     #cookie-banner .cb-btn {
       border-radius: 10px; padding: 12px 22px; font-size: 15px;
       font-weight: 700; cursor: pointer; white-space: nowrap;
-      font-family: 'Archivo Narrow', Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif; /* fuente del sistema: el aviso no "salta" al cargar */
       border: 2px solid #004a99; transition: opacity .15s;
     }
     #cookie-banner .cb-btn:hover { opacity: .85; }
@@ -93,9 +95,11 @@ document.addEventListener('DOMContentLoaded', function () {
       <button class="cb-btn cb-btn-solid"   id="cb-aceptar">Aceptar todo</button>
     </div>
   `;
-  document.body.appendChild(banner);
+  // Se inserta junto a este script (es position:fixed, se ve igual que antes)
+  if (aqui && aqui.parentNode) aqui.parentNode.insertBefore(banner, aqui);
+  else document.body.appendChild(banner);
 
-  document.getElementById('cb-aceptar').addEventListener('click', function () {
+  banner.querySelector('#cb-aceptar').addEventListener('click', function () {
     localStorage.setItem('cookieConsentimiento', 'aceptado');
     gtag('consent', 'update', {
       analytics_storage: 'granted', ad_storage: 'granted',
@@ -104,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
     banner.remove();
   });
 
-  document.getElementById('cb-rechazar').addEventListener('click', function () {
+  banner.querySelector('#cb-rechazar').addEventListener('click', function () {
     localStorage.setItem('cookieConsentimiento', 'rechazado');
     gtag('consent', 'update', {
       analytics_storage: 'denied', ad_storage: 'denied',
@@ -113,5 +117,5 @@ document.addEventListener('DOMContentLoaded', function () {
     banner.remove();
   });
 
-});
+})();
 </script>

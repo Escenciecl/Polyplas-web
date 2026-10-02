@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
@@ -76,7 +75,7 @@ export default function Buscador() {
           <ul>
             {SUGERENCIAS.map((s) => (
               <li key={s.url}>
-                <Link href={s.url}>{s.label}</Link>
+                <a href={s.url}>{s.label}</a>
               </li>
             ))}
           </ul>

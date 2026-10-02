@@ -1,4 +1,3 @@
-import Link from "next/link";
 import pie from "@/content/sitio/pie.json";
 
 const RedIcono = ({ red }: { red: string }) =>
@@ -18,10 +17,10 @@ export default function Footer() {
     <footer className="pp-footer">
       <div className="pp-container pp-footer__grid">
         <div className="pp-footer__brand">
-          <Link href="/" className="pp-footer__logo" aria-label="Polyplas, ir al inicio">
+          <a href="/" className="pp-footer__logo" aria-label="Polyplas, ir al inicio">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/wp-content/uploads/2022/07/marca-polyplas-1.svg" alt="Polyplas" width={170} height={52} loading="lazy" />
-          </Link>
+          </a>
           <p>{pie.descripcion}</p>
           <div className="pp-footer__social">
             {pie.redes.map((r) => (
@@ -38,7 +37,7 @@ export default function Footer() {
             <ul>
               {col.enlaces.map((e) => (
                 <li key={e.enlace}>
-                  <Link href={e.enlace}>{e.texto}</Link>
+                  <a href={e.enlace}>{e.texto}</a>
                 </li>
               ))}
             </ul>

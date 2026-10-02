@@ -384,7 +384,7 @@
   };
 </script>
 <div id="polyplas-widget">
-<button id="polyplas-fab">
+<button id="polyplas-fab" type="button" aria-label="Chat de venta en vivo">
 <span class="pulse"></span>
 <svg fill="none" stroke="currentColor" viewbox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
 <span class="pp-fab-label">Chat de venta en vivo</span>
@@ -396,7 +396,7 @@
 <h3>Maca · Polyplas</h3>
 <p id="polyplas-status">Cargando...</p>
 </div>
-<button class="close" id="polyplas-close">×</button>
+<button class="close" id="polyplas-close" type="button" aria-label="Cerrar chat">×</button>
 </div>
 <!-- Chat -->
 <div id="polyplas-chat">
@@ -424,16 +424,36 @@
 
   try {
 
+  // El SDK de Supabase (pesado) se carga recién cuando el visitante interactúa con la página
+  // (o a los 12 s), para no frenar la carga inicial. En /gracias/ se carga de inmediato
+  // porque ahí se registra el pedido.
   function loadSupabaseAndInit() {
     if (window.supabase) { init(); return; }
-    var s = document.createElement('script');
-    s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
-    s.onload  = function() { init(); };
-    s.onerror = function() {
-      console.error('Polyplas: no se pudo cargar el SDK de Supabase — el chat abrirá sin guardar datos');
+    var started = false, ready = false, pendingClick = false;
+    var fab0 = document.getElementById('polyplas-fab');
+    if (fab0) fab0.addEventListener('click', function() { if (!ready) pendingClick = true; });
+    function done() {
       init();
-    };
-    document.head.appendChild(s);
+      ready = true;
+      if (pendingClick && fab0) { pendingClick = false; fab0.click(); }
+    }
+    function start() {
+      if (started) return;
+      started = true;
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+      s.onload  = done;
+      s.onerror = function() {
+        console.error('Polyplas: no se pudo cargar el SDK de Supabase — el chat abrirá sin guardar datos');
+        done();
+      };
+      document.head.appendChild(s);
+    }
+    if (window.__ppUrgent || /^\/gracias(\/|$)/.test(location.pathname)) { start(); return; }
+    ['pointerdown', 'touchstart', 'keydown', 'scroll', 'mousemove'].forEach(function(ev) {
+      window.addEventListener(ev, start, { once: true, passive: true });
+    });
+    setTimeout(start, 12000);
   }
 
   function init() {

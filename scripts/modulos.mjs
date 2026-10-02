@@ -28,6 +28,7 @@ const JS_DIR = path.join(ROOT, "public/legacy/m");
 
 fs.rmSync(GEN, { recursive: true, force: true });
 fs.rmSync(JS_DIR, { recursive: true, force: true });
+fs.rmSync(path.join(ROOT, "public/legacy/h"), { recursive: true, force: true }); // respaldo de HTML (lo crea el build)
 fs.mkdirSync(path.join(GEN, "html"), { recursive: true });
 fs.mkdirSync(JS_DIR, { recursive: true });
 
@@ -47,6 +48,9 @@ function extractScripts(html) {
   const scripts = [];
   const out = html.replace(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi, (full, attrs, code) => {
     if (/type\s*=\s*["']?application\/ld\+json/i.test(attrs)) return full;
+    // <script data-pp-inline>: se deja dentro del HTML para que corra apenas se lee la página
+    // (solo para cosas mínimas que deben verse desde el primer pintado, como el aviso de cookies)
+    if (/\bdata-pp-inline\b/i.test(attrs)) return full;
     const src = attrs.match(/\bsrc\s*=\s*["']([^"']+)["']/i);
     if (src) {
       scripts.push(src[1].replace(ORIGIN, ""));
@@ -57,6 +61,60 @@ function extractScripts(html) {
   });
   return [out, scripts];
 }
+
+/* ───────────── Optimizaciones de velocidad (PageSpeed) ───────────── */
+
+/**
+ * Las tipografías ya están alojadas en el propio sitio (ver app/layout.tsx), así que los
+ * `@import` / `<link>` a Google Fonts de los módulos solo frenan el primer pintado. Se quitan.
+ */
+function stripGoogleFonts(html) {
+  return html
+    .replace(/@import\s+url\(\s*['"]?https:\/\/fonts\.googleapis\.com[^)]*\)\s*;?/gi, "")
+    .replace(/<link\b[^>]*href=["']https:\/\/fonts\.(googleapis|gstatic)\.com[^>]*>/gi, "");
+}
+
+/**
+ * Font Awesome: en vez de descargar la hoja de estilos y la fuente completa desde un CDN externo
+ * (bloquea el pintado ~1-2 s en móvil), cada <i class="fa-solid fa-xxx"></i> se reemplaza al
+ * compilar por su SVG. Los módulos se siguen escribiendo igual que siempre.
+ */
+const FA_DIR = path.join(ROOT, "node_modules/@fortawesome/fontawesome-free");
+const FA_STYLE = { "fa-solid": "solid", fas: "solid", fa: "solid", "fa-regular": "regular", far: "regular", "fa-brands": "brands", fab: "brands" };
+let faAliases = null;
+function faSvg(style, name) {
+  let file = path.join(FA_DIR, "svgs", style, `${name}.svg`);
+  if (!fs.existsSync(file)) {
+    // nombres antiguos (ej. external-link-alt → up-right-from-square)
+    if (!faAliases) {
+      faAliases = {};
+      const meta = JSON.parse(read(path.join(FA_DIR, "metadata/icon-families.json")));
+      for (const [real, info] of Object.entries(meta)) for (const al of info.aliases?.names || []) faAliases[al] = real;
+    }
+    file = path.join(FA_DIR, "svgs", style, `${faAliases[name]}.svg`);
+    if (!fs.existsSync(file)) return null;
+  }
+  return read(file).trim().replace("<svg ", '<svg aria-hidden="true" focusable="false" ');
+}
+/** Devuelve [html, quedanIconosSinResolver] */
+function inlineFontAwesome(html) {
+  let pendientes = false;
+  const out = html.replace(/<i\b([^>]*\bclass=["']([^"']*)["'][^>]*)>\s*<\/i>/gi, (full, attrs, cls) => {
+    const classes = cls.split(/\s+/);
+    const styleCls = classes.find((c) => c in FA_STYLE);
+    if (!styleCls) return full;
+    const icon = classes.find((c) => c.startsWith("fa-") && !(c in FA_STYLE));
+    const svg = icon && fs.existsSync(FA_DIR) ? faSvg(FA_STYLE[styleCls], icon.slice(3)) : null;
+    if (!svg) {
+      pendientes = true;
+      return full;
+    }
+    const hidden = /aria-hidden/i.test(attrs) ? "" : ' aria-hidden="true"';
+    return `<i${attrs.replace(/class=(["'])/i, "class=$1pp-fa ")}${hidden}>${svg}</i>`;
+  });
+  return [out, pendientes];
+}
+const isFontAwesomeCss = (href) => /font-?awesome/i.test(href);
 
 function moduleFiles(dir) {
   return fs
@@ -111,7 +169,8 @@ for (const folder of fs.readdirSync(MOD).sort()) {
     continue;
   }
   const cfg = JSON.parse(read(cfgPath));
-  const [html, scripts] = extractScripts(assemble(dir));
+  const [rawHtml, scripts] = extractScripts(assemble(dir));
+  const [html, faPendiente] = inlineFontAwesome(stripGoogleFonts(rawHtml));
   count += moduleFiles(dir).length;
 
   if (cfg.global) {
@@ -145,7 +204,8 @@ for (const folder of fs.readdirSync(MOD).sort()) {
     jsonLd: cfg.datosGoogle || [],
     dataLayer: cfg.dataLayer ? saveJs(cfg.dataLayer) : null,
     scripts,
-    css: cfg.css || [],
+    // La hoja de Font Awesome del CDN solo se mantiene si quedó algún ícono sin convertir a SVG
+    css: (cfg.css || []).filter((href) => faPendiente || !isFontAwesomeCss(href)),
     h1,
   };
 }

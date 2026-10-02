@@ -6,35 +6,23 @@ import Footer from "@/components/site/Footer";
 import JsonLd from "@/components/JsonLd";
 import { readHtml, site, SITE_URL } from "@/lib/content";
 
-// Tipografías autoalojadas (antes las servía el plugin OMGF desde WordPress)
-import "@fontsource/roboto/400.css";
-import "@fontsource/roboto/500.css";
-import "@fontsource/roboto/700.css";
-import "@fontsource/roboto-slab/400.css";
-import "@fontsource/montserrat/400.css";
-import "@fontsource/montserrat/600.css";
-import "@fontsource/montserrat/700.css";
-import "@fontsource/inter/400.css";
-import "@fontsource/inter/500.css";
-import "@fontsource/inter/600.css";
-import "@fontsource/inter/700.css";
-import "@fontsource/archivo-narrow/400.css";
-import "@fontsource/archivo-narrow/600.css";
-import "@fontsource/archivo-narrow/700.css";
-import "@fontsource/barlow/400.css";
-import "@fontsource/barlow/600.css";
-import "@fontsource/barlow/700.css";
-import "@fontsource/barlow-condensed/600.css";
-import "@fontsource/barlow-condensed/700.css";
-import "@fontsource/dm-sans/400.css";
-import "@fontsource/dm-sans/500.css";
-import "@fontsource/dm-sans/600.css";
-import "@fontsource/cormorant-garamond/400.css";
-import "@fontsource/cormorant-garamond/600.css";
+// Tipografías autoalojadas. Solo el subconjunto latino (español) y solo las familias que el sitio usa:
+// así el CSS que bloquea el primer pintado pesa mucho menos.
+import "./fonts.css"; // Inter y Montserrat (variables)
+import "@fontsource/roboto/latin-400.css";
+import "@fontsource/roboto/latin-500.css";
+import "@fontsource/roboto/latin-700.css";
+import "@fontsource/roboto-slab/latin-400.css";
+import "@fontsource/archivo-narrow/latin-400.css";
+import "@fontsource/archivo-narrow/latin-600.css";
+import "@fontsource/archivo-narrow/latin-700.css";
+import "@fontsource/cormorant-garamond/latin-400.css";
+import "@fontsource/cormorant-garamond/latin-600.css";
 
 // Estilos heredados del tema + Elementor (limpiados de lo que no se usa) y los del sitio
-import "./legacy/vendor.css";
-import "./legacy/global-inline.css";
+// (se importan las versiones recortadas que genera scripts/css.mjs en cada build)
+import "./legacy/_generado/vendor.css";
+import "./legacy/_generado/global-inline.css";
 import "./globals.css";
 import "./site.css";
 import "./modulos.css";

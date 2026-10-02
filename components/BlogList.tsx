@@ -6,15 +6,16 @@ const esc = (s: string) =>
 /**
  * Listado del blog (antes era el widget "Posts" de Elementor Pro).
  * Usa las mismas clases CSS para verse igual, pero se genera solo con cada artículo nuevo.
+ * Las primeras tarjetas (las visibles al entrar) cargan su imagen de inmediato; el resto, al hacer scroll.
  * Se devuelve como HTML porque va insertado dentro del HTML heredado de Elementor.
  */
 export function blogListHtml(cards: BlogCard[]): string {
   const items = cards
-    .map((c) => {
+    .map((c, i) => {
       const img = c.image
         ? `<a class="elementor-post__thumbnail__link" href="${esc(c.path)}" tabindex="-1"><div class="elementor-post__thumbnail"><img src="${esc(c.image)}"${
             c.srcset ? ` srcset="${esc(c.srcset)}"` : ""
-          } sizes="(max-width: 767px) 100vw, 360px" alt="${esc(c.alt)}" width="300" height="300" loading="lazy" decoding="async"></div></a>`
+          } sizes="(max-width: 767px) 100vw, 360px" alt="${esc(c.alt)}" width="300" height="300" ${i === 0 ? 'loading="eager" fetchpriority="high"' : i < 3 ? 'loading="eager"' : 'loading="lazy"'} decoding="async"></div></a>`
         : "";
       return `<article class="elementor-post elementor-grid-item post type-post has-post-thumbnail" role="listitem"><div class="elementor-post__card">${img}<div class="elementor-post__text"><h3 class="elementor-post__title"><a href="${esc(
         c.path,

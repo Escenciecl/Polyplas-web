@@ -73,7 +73,19 @@ https://:project.pages.dev/*
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
 
-/legacy/*
+# Scripts de los módulos: el nombre incluye un hash del contenido, así que pueden cachearse un año
+/legacy/m/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Copia de respaldo del HTML de cada página (la usa el propio sitio; no debe aparecer en Google)
+/legacy/h/*
+  X-Robots-Tag: noindex
+  Cache-Control: public, max-age=31536000, immutable
+
+/legacy/shim.js
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/legacy/gtm.js
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 `;
 fs.writeFileSync("public/_headers", headers);

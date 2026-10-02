@@ -43,3 +43,5 @@ next-env.d.ts
 # generados desde content/modulos (scripts/modulos.mjs)
 /content/_generado/
 /public/legacy/m/
+/app/legacy/_generado/
+/public/legacy/h/

@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+// Los enlaces internos son <a> normales (carga completa de página): los scripts heredados de cada
+// página esperan partir "de cero", y con el caché del sitio la navegación sigue siendo inmediata.
+import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { norm, resolver, sugerir } from "@/lib/busqueda";
 import type { ItemMenu } from "./Header";
@@ -16,7 +17,6 @@ export function BuscadorCabecera({ placeholder }: { placeholder: string }) {
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const [idx, setIdx] = useState(-1);
-  const router = useRouter();
   const listId = useId();
   const box = useRef<HTMLFormElement>(null);
   const items = sugerir(q);
@@ -33,7 +33,7 @@ export function BuscadorCabecera({ placeholder }: { placeholder: string }) {
     const w = window as unknown as { dataLayer?: unknown[] };
     (w.dataLayer ??= []).push({ event: "busqueda_interna", search_term: norm(q), search_destino: url, search_match: resolver(q) ? "si" : "no" });
     setOpen(false);
-    router.push(url);
+    window.location.assign(url);
   };
 
   return (
@@ -124,21 +124,21 @@ export function HeaderInteractivo({ menu, telefono, whatsapp }: { menu: ItemMenu
           <ul className="pp-nav__list">
             {menu.map((item) => (
               <li key={item.texto} className={`pp-nav__item${item.submenu ? " has-sub" : ""}${activo(path, item) ? " is-current" : ""}`}>
-                <Link href={item.enlace} className="pp-nav__link" aria-haspopup={item.submenu ? "true" : undefined}>
+                <a href={item.enlace} className="pp-nav__link" aria-haspopup={item.submenu ? "true" : undefined}>
                   {item.texto}
                   {item.submenu && (
                     <svg viewBox="0 0 24 24" aria-hidden="true" className="pp-caret"><path d="m6 9 6 6 6-6" /></svg>
                   )}
-                </Link>
+                </a>
                 {item.submenu && (
                   <div className="pp-mega">
                     <ul>
                       {item.submenu.map((s) => (
                         <li key={s.enlace}>
-                          <Link href={s.enlace} className={s.enlace === path ? "is-current" : ""}>
+                          <a href={s.enlace} className={s.enlace === path ? "is-current" : ""}>
                             <strong>{s.texto}</strong>
                             {s.detalle && <span>{s.detalle}</span>}
-                          </Link>
+                          </a>
                         </li>
                       ))}
                     </ul>
@@ -151,7 +151,7 @@ export function HeaderInteractivo({ menu, telefono, whatsapp }: { menu: ItemMenu
       </nav>
 
       {/* Menú móvil */}
-      <div className={`pp-drawer${drawer ? " is-open" : ""}`} aria-hidden={!drawer}>
+      <div className={`pp-drawer${drawer ? " is-open" : ""}`} aria-hidden={!drawer} inert={!drawer}>
         <div className="pp-drawer__bg" onClick={() => setDrawer(false)} />
         <aside className="pp-drawer__panel" role="dialog" aria-label="Menú">
           <div className="pp-drawer__head">
@@ -171,7 +171,7 @@ export function HeaderInteractivo({ menu, telefono, whatsapp }: { menu: ItemMenu
                     <ul>
                       {item.submenu.map((s) => (
                         <li key={s.enlace}>
-                          <Link href={s.enlace}>{s.texto}</Link>
+                          <a href={s.enlace}>{s.texto}</a>
                         </li>
                       ))}
                     </ul>
@@ -179,9 +179,9 @@ export function HeaderInteractivo({ menu, telefono, whatsapp }: { menu: ItemMenu
                 </li>
               ) : (
                 <li key={item.texto}>
-                  <Link href={item.enlace} className={item.enlace === path ? "is-current" : ""}>
+                  <a href={item.enlace} className={item.enlace === path ? "is-current" : ""}>
                     {item.texto}
-                  </Link>
+                  </a>
                 </li>
               ),
             )}

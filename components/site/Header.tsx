@@ -1,4 +1,3 @@
-import Link from "next/link";
 import nav from "@/content/sitio/navegacion.json";
 import { HeaderInteractivo, BuscadorCabecera } from "./HeaderClient";
 
@@ -47,19 +46,19 @@ export default function Header() {
 
       <div className="pp-mainbar">
         <div className="pp-container pp-mainbar__in">
-          <Link href="/" className="pp-logo" aria-label="Polyplas, ir al inicio">
+          <a href="/" className="pp-logo" aria-label="Polyplas, ir al inicio">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/wp-content/uploads/2022/07/marca-polyplas-1.svg" alt="Polyplas" width={180} height={56} />
-          </Link>
+          </a>
           <BuscadorCabecera placeholder={nav.buscador.placeholder} />
           <div className="pp-mainbar__actions">
             <a className="pp-btn pp-btn--ghost pp-hide-sm" href={nav.whatsapp.enlace} target="_blank" rel="noopener">
               {Icono.whatsapp}
               <span>{nav.whatsapp.texto}</span>
             </a>
-            <Link className="pp-btn pp-btn--primary" href={nav.botonPrincipal.enlace}>
+            <a className="pp-btn pp-btn--primary" href={nav.botonPrincipal.enlace}>
               {nav.botonPrincipal.texto}
-            </Link>
+            </a>
           </div>
         </div>
       </div>
