@@ -440,6 +440,15 @@
 .ppGC-emb-txt { flex: 1; min-width: 0; }
 .ppGC-emb-txt strong { display: block; font-size: 0.88rem; color: #1a1a2e; }
 .ppGC-emb-txt span { display: block; font-size: 0.76rem; color: #5a6475; line-height: 1.45; margin-top: 2px; }
+.ppGC-emb-tit { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1.5px; color: #004a99; font-weight: 700; margin-bottom: 8px; }
+.ppGC-emb-line { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding: 8px 0; border-top: 1px solid #d5e0f2; font-size: 0.86rem; color: #1a1a2e; }
+.ppGC-emb-line:first-of-type { border-top: 0; }
+.ppGC-emb-line span { flex: 1; min-width: 0; }
+.ppGC-emb-line small { display: block; font-size: 0.74rem; color: #5a6475; margin-top: 1px; }
+.ppGC-emb-line b { white-space: nowrap; font-weight: 700; }
+.ppGC-emb-line--tot { font-weight: 700; }
+.ppGC-emb-line--tot b { color: #004a99; }
+.ppGC-emb-line--flete b { color: #92400e; font-size: 0.78rem; background: #fef3c7; padding: 2px 8px; border-radius: 999px; }
 .ppGC-emb-precio { font-size: 0.9rem; font-weight: 700; color: #004a99; white-space: nowrap; flex-shrink: 0; }
 /* ── Ubicación de accesorios ── */
 .ppGC-acc label { display: block; font-size: 0.84rem; font-weight: 600; color: #1a1a2e; margin-bottom: 8px; line-height: 1.4; }
@@ -844,7 +853,12 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     if (!gcSelectedEntrega || !costo) { box.style.display = 'none'; box.innerHTML = ''; return; }
     if (gcSelectedEntrega.embOblig) {
       box.className = 'ppGC-emb ppGC-emb--oblig';
-      box.innerHTML = '<div class="ppGC-emb-txt"><strong>Embalaje incluido: + ' + fmt(costo) + '</strong><span>Es obligatorio en los envíos a regiones, para proteger tu producto en el traslado.</span></div>';
+      // Desglose: separa lo que se paga ahora (productos + embalaje) del flete, que se paga al recibir.
+      box.innerHTML = '<div class="ppGC-emb-tit">Qué pagas ahora y qué pagas al recibir</div>' +
+        '<div class="ppGC-emb-line"><span>Productos</span><b>' + fmt(gcCurrentGrand) + '</b></div>' +
+        '<div class="ppGC-emb-line"><span>Embalaje protector<small>Obligatorio en envíos a regiones</small></span><b>+ ' + fmt(costo) + '</b></div>' +
+        '<div class="ppGC-emb-line ppGC-emb-line--tot"><span>Pagas ahora</span><b>' + fmt(gcCurrentGrand + costo) + '</b></div>' +
+        '<div class="ppGC-emb-line ppGC-emb-line--flete"><span>Flete<small>Lo pagas al recibir, a tu empresa de transporte</small></span><b>Por pagar</b></div>';
     } else {
       box.className = 'ppGC-emb' + (gcEmbalajeOpc ? ' checked' : '');
       box.innerHTML = '<div class="ppGC-emb-row" onclick="ppGCToggleEmbalaje()" role="checkbox" tabindex="0" aria-checked="' + (gcEmbalajeOpc ? 'true' : 'false') + '">' +
@@ -1289,9 +1303,9 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
       var _esRegion = !!regionPresel && regionPresel !== 'RM';
       var _emb = _esRegion ? gcEmbalajeCosto() : 0;
       opciones.push({ id:'envio_propio', icon:'📦',
-        label: _esRegion ? 'Envío a regiones (flete por pagar)' : 'Envío propio',
-        desc: (_esRegion ? 'Tú eliges la empresa de transporte y pagas el flete al recibir' : 'Coordinas tú el transporte desde nuestra bodega') + (_emb ? ' · Incluye embalaje obligatorio: + ' + fmt(_emb) : ''),
-        badge:'<span class="ppGC-entrega-badge badge-propio">' + (_esRegion ? 'POR PAGAR' : 'TÚ GESTIONAS') + '</span>', costo:0, embOblig: _emb > 0, needsAddress:false });
+        label: _esRegion ? 'Envío a regiones' : 'Envío propio',
+        desc: _esRegion ? 'El flete no se cobra aquí: lo pagas al recibir, a la empresa de transporte que elijas' : 'Coordinas tú el transporte desde nuestra bodega',
+        badge:'<span class="ppGC-entrega-badge badge-propio">' + (_esRegion ? 'FLETE POR PAGAR' : 'TÚ GESTIONAS') + '</span>', costo:0, embOblig: _emb > 0, needsAddress:false });
     }
     opciones.forEach(function(op) {
       var div=document.createElement('div');
