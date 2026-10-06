@@ -10,6 +10,7 @@ const DESTINOS = {
   pet: "/categoria-producto/planchas-pet/",
   cupulas: "/categoria-producto/cupulas/",
   receptaculos: "/categoria-producto/receptaculos/",
+  cascos: "/categoria-producto/cascos-de-tinas/",
   tinas: "/categoria-producto/tinas-de-hidromasaje/",
   acrilico: "/categoria-producto/planchas-acrilico/",
 } as const;
@@ -20,6 +21,7 @@ const REGLAS: { destino: keyof typeof DESTINOS; keys: string[] }[] = [
   { destino: "pet", keys: ["pet"] },
   { destino: "cupulas", keys: ["cupula", "domo", "claraboya", "cubierta de techo"] },
   { destino: "receptaculos", keys: ["receptaculo", "plato de ducha", "mampara", "base de ducha"] },
+  { destino: "cascos", keys: ["casco"] },
   { destino: "tinas", keys: ["tina", "hidromasaje", "jacuzzi", "jacuzzy", "jacuzy", "spa", "banera"] },
   { destino: "acrilico", keys: ["acrilic", "plancha", "lamina", "pmma", "plexiglas", "metacrilato"] },
 ];
@@ -28,6 +30,7 @@ const SUGERENCIAS = [
   { label: "Planchas de Acrílico", url: DESTINOS.acrilico },
   { label: "Cúpulas de Acrílico", url: DESTINOS.cupulas },
   { label: "Tinas de Hidromasaje", url: DESTINOS.tinas },
+  { label: "Cascos de Tinas", url: DESTINOS.cascos },
   { label: "Receptáculos de Ducha", url: DESTINOS.receptaculos },
   { label: "Policarbonato Compacto", url: DESTINOS.policarbonato },
   { label: "Planchas PET", url: DESTINOS.pet },

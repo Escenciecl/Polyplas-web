@@ -1,0 +1,26 @@
+{
+  "url": "/categoria-producto/cascos-de-tinas/",
+  "tipo": "category",
+  "titulo": "Cascos de Tinas Queilen y Coinco 167 cm | Polyplas",
+  "descripcion": "Cascos de tina Queilen y Coinco de 167 cm a $180.000 c/IVA. Solo el casco, sin motor ni jets. Compra online con Webpay y retira en Santiago.",
+  "robots": "max-image-preview:large",
+  "canonical": "/categoria-producto/cascos-de-tinas/",
+  "og": {
+    "type": "article",
+    "title": "Cascos de Tinas Queilen y Coinco 167 cm | Polyplas",
+    "description": "Cascos de tina Queilen y Coinco de 167 cm a $180.000 c/IVA. Solo el casco, sin motor ni jets. Compra online con Webpay y retira en Santiago.",
+    "image": "https://polyplas.cl/wp-content/uploads/2026/10/casco-tina-queilen.webp",
+    "image:width": "1200",
+    "image:height": "670"
+  },
+  "publicado": null,
+  "modificado": null,
+  "css": [
+    "/wp-content/uploads/elementor/css/post-2413.css"
+  ],
+  "datosGoogle": [
+    "{\"@context\": \"https://schema.org\", \"@graph\": [{\"@type\": \"BreadcrumbList\", \"@id\": \"https://polyplas.cl/categoria-producto/cascos-de-tinas/#breadcrumblist\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Inicio\", \"item\": \"https://polyplas.cl/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Cascos de Tinas\"}]}, {\"@type\": \"CollectionPage\", \"@id\": \"https://polyplas.cl/categoria-producto/cascos-de-tinas/#collectionpage\", \"url\": \"https://polyplas.cl/categoria-producto/cascos-de-tinas/\", \"name\": \"Cascos de Tinas Queilen y Coinco 167 cm | Polyplas\", \"description\": \"Cascos de tina Queilen y Coinco de 167 cm a $180.000 c/IVA. Solo el casco, sin motor ni jets. Compra online con Webpay y retira en Santiago.\", \"inLanguage\": \"es-CL\", \"isPartOf\": {\"@id\": \"https://polyplas.cl/#website\"}, \"breadcrumb\": {\"@id\": \"https://polyplas.cl/categoria-producto/cascos-de-tinas/#breadcrumblist\"}}, {\"@type\": \"WebSite\", \"@id\": \"https://polyplas.cl/#website\", \"url\": \"https://polyplas.cl/\", \"name\": \"Polyplas\", \"inLanguage\": \"es-CL\"}]}",
+    "{\"@context\": \"https://schema.org\", \"@type\": \"FAQPage\", \"mainEntity\": [{\"@type\": \"Question\", \"name\": \"¿Qué es un casco de tina?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Es la bañera sola, sin equipar: la misma tina de nuestra línea de hidromasaje, pero sin motobomba, jets, base metálica ni desagüe. Sirve como tina tradicional o como base para armar tu propio proyecto.\"}}, {\"@type\": \"Question\", \"name\": \"¿Qué incluye y qué no incluye?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Incluye solo el casco. No incluye motobomba, jets, cabecera, base metálica, desagüe ni grifería. Si buscas la tina completa, revisa nuestras tinas de hidromasaje.\"}}, {\"@type\": \"Question\", \"name\": \"¿Qué medidas tienen?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"El casco Queilen mide 167 × 91,5 × 51 cm (interior ovalado) y el casco Coinco mide 167 × 92 × 58 cm (interior rectangular). En cada producto puedes abrir el plano de medidas.\"}}, {\"@type\": \"Question\", \"name\": \"¿Qué necesito para instalarlo?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Una base o estructura de apoyo, desagüe con rebalse y grifería. Recomendamos que la instalación la realice un maestro o gásfiter.\"}}, {\"@type\": \"Question\", \"name\": \"¿Cómo puedo pagar y retirar?\", \"acceptedAnswer\": {\"@type\": \"Answer\", \"text\": \"Compra online con Webpay (débito o crédito) y elige retiro en nuestra tienda de Santiago o despacho al finalizar la compra.\"}}]}"
+  ],
+  "dataLayer": "var dataLayer_content = {\"pageTitle\":\"Cascos de Tinas Queilen y Coinco 167 cm | Polyplas\",\"pagePostType\":\"product\",\"pagePostType2\":\"tax-product\",\"pageCategory\":[],\"customerTotalOrders\":0,\"customerTotalOrderValue\":0,\"customerFirstName\":\"\",\"customerLastName\":\"\",\"customerBillingFirstName\":\"\",\"customerBillingLastName\":\"\",\"customerBillingCompany\":\"\",\"customerBillingAddress1\":\"\",\"customerBillingAddress2\":\"\",\"customerBillingCity\":\"\",\"customerBillingState\":\"\",\"customerBillingPostcode\":\"\",\"customerBillingCountry\":\"\",\"customerBillingEmail\":\"\",\"customerBillingEmailHash\":\"\",\"customerBillingPhone\":\"\",\"customerShippingFirstName\":\"\",\"customerShippingLastName\":\"\",\"customerShippingCompany\":\"\",\"customerShippingAddress1\":\"\",\"customerShippingAddress2\":\"\",\"customerShippingCity\":\"\",\"customerShippingState\":\"\",\"customerShippingPostcode\":\"\",\"customerShippingCountry\":\"\",\"cartContent\":{\"totals\":{\"applied_coupons\":[],\"discount_total\":0,\"subtotal\":0,\"total\":0},\"items\":[]}};\n\tdataLayer.push( dataLayer_content );"
+}

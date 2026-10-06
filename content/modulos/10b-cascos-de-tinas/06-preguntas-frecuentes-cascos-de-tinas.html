@@ -1,0 +1,66 @@
+<div class="poly-faq-wrapper">
+<h2 class="poly-main-title">Preguntas frecuentes: cascos de tinas</h2>
+<div class="poly-accordion">
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Qué es un casco de tina?</h3>
+<div class="poly-content">
+                Es la <strong>bañera sola, sin equipar</strong>: la misma tina de nuestra línea de hidromasaje, pero sin motobomba, jets, base metálica ni desagüe. Sirve como tina tradicional o como base para armar tu propio proyecto.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Qué incluye y qué no incluye?</h3>
+<div class="poly-content">
+                Incluye <strong>solo el casco</strong>. No incluye motobomba, jets, cabecera, base metálica, desagüe ni grifería. Si buscas la tina completa, revisa nuestras <a href="/categoria-producto/tinas-de-hidromasaje/">tinas de hidromasaje</a>.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Qué medidas tienen?</h3>
+<div class="poly-content">
+                El casco <strong>Queilen mide 167 × 91,5 × 51 cm</strong> (interior ovalado) y el casco <strong>Coinco mide 167 × 92 × 58 cm</strong> (interior rectangular). En cada producto puedes abrir el plano de medidas.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Qué necesito para instalarlo?</h3>
+<div class="poly-content">
+                Una base o estructura de apoyo, desagüe con rebalse y grifería. Recomendamos que la instalación la realice un maestro o gásfiter.
+            </div>
+</div>
+<div class="poly-item">
+<h3 class="poly-header" onclick="togglePolyFaq(this)">¿Cómo puedo pagar y retirar?</h3>
+<div class="poly-content">
+                Compra online con <strong>Webpay</strong> (débito o crédito) y elige retiro en nuestra tienda de Santiago o despacho al finalizar la compra.
+            </div>
+</div>
+</div>
+</div>
+<style>
+    .poly-faq-wrapper { margin: 50px 0; font-family: sans-serif; clear: both; }
+    .poly-main-title { color: #333; margin-bottom: 25px; font-size: 26px; text-align: center; font-weight: 700; }
+    .poly-accordion { border: 1px solid #ddd; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    
+    /* Cambios a Color Azul (#00a0df) */
+    .poly-item { border-bottom: 1px solid #eee; transition: all 0.3s ease; border-left: 0 solid #00a0df; }
+    .poly-item:last-child { border-bottom: none; }
+    
+    .poly-header { padding: 20px 25px; cursor: pointer; background: #fff; font-weight: 600; color: #444; position: relative; transition: 0.3s; font-size: 16px; display: flex; align-items: center; justify-content: space-between; margin: 0; }
+    
+    .poly-header:hover { background: #f9f9f9; color: #00a0df; }
+    .poly-header::after { content: '+'; color: #00a0df; font-size: 22px; transition: 0.3s; margin-left: 10px; }
+    
+    /* Estado activo en Azul */
+    .poly-item.active { border-left: 4px solid #00a0df; }
+    .poly-item.active .poly-header { background: #f0f9ff; color: #00a0df; padding-left: 21px; }
+    .poly-item.active .poly-header::after { content: '-'; transform: rotate(180deg); }
+    
+    .poly-content { padding: 0 25px; max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; color: #555; line-height: 1.6; font-size: 15px; }
+    .poly-item.active .poly-content { padding: 10px 25px 25px; max-height: 400px; }
+    .poly-content a { color: #00a0df; font-weight: 600; }
+</style>
+<script>
+    if (typeof togglePolyFaq !== 'function') {
+        window.togglePolyFaq = function(element) {
+            const item = element.parentElement;
+            item.classList.toggle('active');
+        }
+    }
+</script>

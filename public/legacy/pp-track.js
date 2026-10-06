@@ -32,7 +32,8 @@
     pc: 'Planchas Policarbonato Compacto',
     cupulas: 'Cúpulas de Acrílico',
     receptaculos: 'Receptáculos de Ducha',
-    tinas: 'Tinas Hidromasaje'
+    tinas: 'Tinas Hidromasaje',
+    cascos: 'Cascos de Tinas'
   };
   var LINEA_VALORES = Object.keys(LINEAS).map(function (k) { return LINEAS[k]; });
 
@@ -45,6 +46,8 @@
     TINA_coinco:       { nombre: 'Tina Coinco',                   tipo: '1 persona',    modulo: 'tinas' },
     TINA_antuco:       { nombre: 'Tina Antuco',                   tipo: '1 persona',    modulo: 'tinas' },
     TINA_kuyen:        { nombre: 'Tina Kuyen Full',               tipo: '2 personas',   modulo: 'tinas' },
+    CASCO_queilen:     { nombre: 'Casco de Tina Queilen',         tipo: 'Solo casco',   modulo: 'cascos' },
+    CASCO_coinco:      { nombre: 'Casco de Tina Coinco',          tipo: 'Solo casco',   modulo: 'cascos' },
     CUP_54x54:         { nombre: 'Cúpula 54×54 cm',               tipo: 'Transparente', modulo: 'cupulas' },
     CUP_68x68:         { nombre: 'Cúpula 68×68 cm',               tipo: 'Transparente', modulo: 'cupulas' },
     CUP_80x80:         { nombre: 'Cúpula 80×80 cm',               tipo: 'Transparente', modulo: 'cupulas' },
@@ -58,7 +61,7 @@
   var ETIQUETA_A_MODULO = {
     'Acrílico': 'acrilico', 'Acrílico AA': 'acrilico', 'PA · 100% Virgen': 'acrilico',
     'PET': 'pet', 'PETG': 'petg', 'PC': 'pc', 'Policarbonato': 'pc',
-    'Tinas': 'tinas', 'Tinas Hidromasaje': 'tinas',
+    'Tinas': 'tinas', 'Tinas Hidromasaje': 'tinas', 'Cascos de Tinas': 'cascos',
     'Cúpulas': 'cupulas', 'Cúpulas de Acrílico': 'cupulas',
     'Receptáculos': 'receptaculos', 'Receptáculos de Ducha': 'receptaculos'
   };
@@ -84,6 +87,7 @@
     var id = normId(item.item_id);
     if (CATALOGO[id]) return CATALOGO[id].modulo;
     if (/^TINA_/.test(id)) return 'tinas';
+    if (/^CASCO_/.test(id)) return 'cascos';
     if (/^CUP_/.test(id)) return 'cupulas';
     if (/^RECEP_/.test(id)) return 'receptaculos';
     if (LINEAS[origen]) return origen;
@@ -332,14 +336,14 @@
   }, true);
 
   /* ── Fichas de producto: view_item al cargar la página ────── */
-  var PREFIJO_FICHA = { tina: 'TINA_', cupula: 'CUP_', receptaculo: 'RECEP_' };
+  var PREFIJO_FICHA = { tina: 'TINA_', casco: 'CASCO_', cupula: 'CUP_', receptaculo: 'RECEP_' };
   function fichaViewItem() {
     try {
       var ficha = document.querySelector('.pp-ficha');
       if (!ficha || ficha.getAttribute('data-pp-visto')) return;
       var enlace = ficha.querySelector('a.pp-btn--primary[href*="#"]');
       if (!enlace) return;
-      var m = (enlace.getAttribute('href').split('#')[1] || '').match(/^(tina|cupula|receptaculo)=([\w-]+)/);
+      var m = (enlace.getAttribute('href').split('#')[1] || '').match(/^(tina|casco|cupula|receptaculo)=([\w-]+)/);
       if (!m) return;
       var id = PREFIJO_FICHA[m[1]] + m[2];
       var precioEl = ficha.querySelector('.pp-ficha__price strong');

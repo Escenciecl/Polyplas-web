@@ -1,0 +1,2590 @@
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Compra Online Cascos de Tinas</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Cascos de Tinas Polyplas — Compra Online",
+  "description": "Cascos de tina (bañera sin equipar) de 167 cm. Retiro en Santiago y despacho.",
+  "numberOfItems": 2,
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "Product",
+        "name": "Casco de Tina Queilen",
+        "sku": "CASCO-QUEILEN",
+        "description": "Casco de tina Queilen 167×91,5×51 cm, interior ovalado. Solo el casco: no incluye motobomba, jets, base metálica ni desagüe. IVA incluido.",
+        "image": "https://polyplas.cl/wp-content/uploads/2026/10/casco-tina-queilen.webp",
+        "url": "https://polyplas.cl/categoria-producto/cascos-de-tinas/#tina-queilen",
+        "brand": {
+          "@type": "Brand",
+          "name": "Polyplas"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "180000",
+          "priceCurrency": "CLP",
+          "availability": "https://schema.org/InStock",
+          "url": "https://polyplas.cl/categoria-producto/cascos-de-tinas/#tina-queilen",
+          "seller": {
+            "@type": "Organization",
+            "name": "Polyplas"
+          }
+        }
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "Product",
+        "name": "Casco de Tina Coinco",
+        "sku": "CASCO-COINCO",
+        "description": "Casco de tina Coinco 167×92×58 cm, interior rectangular. Solo el casco: no incluye motobomba, jets, base metálica ni desagüe. IVA incluido.",
+        "image": "https://polyplas.cl/wp-content/uploads/2026/10/casco-tina-coinco.webp",
+        "url": "https://polyplas.cl/categoria-producto/cascos-de-tinas/#tina-coinco",
+        "brand": {
+          "@type": "Brand",
+          "name": "Polyplas"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "180000",
+          "priceCurrency": "CLP",
+          "availability": "https://schema.org/InStock",
+          "url": "https://polyplas.cl/categoria-producto/cascos-de-tinas/#tina-coinco",
+          "seller": {
+            "@type": "Organization",
+            "name": "Polyplas"
+          }
+        }
+      }
+    }
+  ]
+}
+</script>
+<style>
+/* ============================================================
+   POLYPLAS TINAS — Elementor HTML Widget
+   ============================================================ */
+:root {
+  --pp-bg: #ffffff;
+  --pp-surface: #f9fbff;
+  --pp-surface2: #f2f4f8;
+  --pp-border: #dde4ef;
+  --pp-accent: #004a99;
+  --pp-accent2: #e52727;
+  --pp-text: #262626;
+  --pp-muted: #5a5a5a;
+  --pp-green: #28a745;
+  --pp-success: #2d7a3a;
+  --pp-radius: 10px;
+}
+
+.pp-tinas * { box-sizing: border-box; margin: 0; padding: 0; }
+
+.pp-tinas {
+  font-family: Arial, sans-serif;
+  background: var(--pp-bg);
+  color: var(--pp-text);
+  padding: 40px 20px 120px;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* ── Header ─────────────────────────────────────────────── */
+.pp-tinas-header { text-align: center; margin-bottom: 40px; }
+.pp-tinas .pp-tinas-header h2 {
+  font-family: Arial, sans-serif !important;
+  font-size: 1.75rem !important;
+  letter-spacing: 2px !important;
+  color: var(--pp-text) !important;
+  line-height: 1.2 !important;
+  text-transform: uppercase !important;
+}
+.pp-tinas .pp-tinas-header h2 span { color: var(--pp-accent) !important; }
+.pp-tinas .pp-tinas-header p {
+  color: var(--pp-muted) !important;
+  font-size: 0.85rem !important;
+  font-weight: 400 !important;
+  margin-top: 10px !important;
+  letter-spacing: 1px !important;
+  text-transform: uppercase !important;
+}
+
+/* ── Grid de cards ─────────────────────────────────────── */
+/* ── Carrusel wrapper ───────────────────────────────────── */
+.pp-tinas-carousel {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.pp-tinas-carousel::after {
+  content: ''; position: absolute; right: 0; top: 0; bottom: 10px;
+  width: 70px; pointer-events: none; z-index: 1;
+  background: linear-gradient(to right, transparent, #fff 85%);
+  transition: opacity 0.25s;
+}
+.pp-tinas-carousel.at-end::after { opacity: 0; }
+
+.pp-tinas-grid {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px;
+  scrollbar-width: thin;
+  scrollbar-color: #dde4ef transparent;
+}
+.pp-tinas-grid::-webkit-scrollbar { height: 5px; }
+.pp-tinas-grid::-webkit-scrollbar-thumb { background: #dde4ef; border-radius: 3px; }
+.pp-tinas-grid > .pp-tina-card {
+  flex: 0 0 calc(25% - 15px);
+  min-width: 240px;
+  scroll-snap-align: start;
+}
+@media(max-width: 1024px) { .pp-tinas-grid > .pp-tina-card { flex: 0 0 calc(50% - 10px); } }
+
+/* ── Mobile: lista vertical, sin carrusel ───────────────── */
+@media(max-width: 680px) {
+  .pp-tinas-carousel::after { display: none; }
+  .pp-tinas-grid {
+    flex-direction: column;
+    overflow-x: visible;
+    scroll-snap-type: none;
+    gap: 16px;
+  }
+  .pp-tinas-grid > .pp-tina-card {
+    flex: 0 0 auto;
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* ── Flechas ────────────────────────────────────────────── */
+.pp-carousel-arrow {
+  position: absolute; top: 140px;
+  width: 50px; height: 50px; border-radius: 50%;
+  background: var(--pp-accent); border: none;
+  box-shadow: 0 6px 22px rgba(0,74,153,0.38);
+  cursor: pointer; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; transition: background .18s, box-shadow .18s, transform .18s, opacity .18s;
+}
+.pp-carousel-arrow:hover:not(:disabled) {
+  background: #003880;
+  box-shadow: 0 8px 28px rgba(0,74,153,0.5);
+  transform: scale(1.1);
+}
+.pp-carousel-arrow:disabled { opacity: 0.18; cursor: not-allowed; transform: none; }
+.pp-carousel-arrow--prev { left: -25px; }
+.pp-carousel-arrow--next { right: -25px; }
+@media(max-width: 680px) { .pp-carousel-arrow { display: none; } }
+
+@keyframes pp-arrow-nudge {
+  0%,100% { transform: translateX(0); }
+  40%      { transform: translateX(7px); }
+  70%      { transform: translateX(3px); }
+}
+.pp-carousel-arrow--next:not(:disabled) {
+  animation: pp-arrow-nudge 0.7s ease 1s 6;
+}
+
+/* ── Hint deslizar (mobile/tablet) ─────────────────────── */
+.pp-swipe-hint {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  margin-top: 14px; font-size: 0.65rem; color: var(--pp-muted);
+  letter-spacing: 1.5px; text-transform: uppercase;
+}
+@media(min-width: 681px) { .pp-swipe-hint { display: none; } }
+@media(max-width: 680px)  { .pp-swipe-hint { display: none; } }
+@keyframes pp-swipe-bounce {
+  0%,100% { transform: translateX(0); opacity: 1; }
+  50%      { transform: translateX(5px); opacity: 0.5; }
+}
+.pp-swipe-hint svg:last-child { animation: pp-swipe-bounce 1.1s ease-in-out infinite; }
+
+/* ── Card ──────────────────────────────────────────────── */
+.pp-tina-card {
+  background: var(--pp-surface);
+  border: 1px solid var(--pp-border);
+  border-radius: var(--pp-radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s, transform 0.2s;
+  cursor: default;
+}
+.pp-tina-card:hover {
+  box-shadow: 0 6px 24px rgba(0,74,153,0.13);
+  transform: translateY(-3px);
+}
+
+/* Imagen */
+.pp-tina-img-wrap {
+  position: relative;
+  background: #f0f4fa;
+  overflow: hidden;
+  width: 100%;
+  height: 260px;
+}
+.pp-tina-slides {
+  display: grid;
+  width: 100%;
+  height: 260px;
+}
+.pp-slide {
+  grid-area: 1 / 1;
+  width: 100% !important;
+  height: 260px !important;
+  max-width: 100% !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  display: block !important;
+  opacity: 0;
+  transition: opacity 0.45s;
+}
+.pp-slide.active { opacity: 1; }
+.pp-tina-dots {
+  position: absolute; bottom: 10px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 6px; z-index: 2;
+}
+.pp-dot {
+  width: 27px; height: 27px; border-radius: 50%;
+  background: transparent; cursor: pointer; border: none; outline: none;
+  display: flex; align-items: center; justify-content: center; padding: 0;
+}
+.pp-dot::before {
+  content: ''; width: 7px; height: 7px; border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  transition: background 0.2s, transform 0.2s; display: block;
+}
+.pp-dot.active::before { background: #fff; transform: scale(1.35); }
+.pp-tina-badge {
+  position: absolute; top: 12px; left: 12px;
+  background: var(--pp-accent);
+  color: #fff; font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 4px;
+}
+
+/* Body */
+.pp-tina-body {
+  padding: 16px 14px 14px;
+  flex: 1; display: flex; flex-direction: column; gap: 8px;
+}
+.pp-tina-label {
+  font-size: 0.58rem; text-transform: uppercase;
+  letter-spacing: 3px; color: var(--pp-accent); font-weight: 700;
+  margin-bottom: 2px;
+}
+.pp-tina-name {
+  font-size: 1.25rem; font-weight: 800;
+  color: var(--pp-text); letter-spacing: 0.5px; text-transform: uppercase;
+  line-height: 1.1;
+}
+.pp-tina-divider { height: 1px; background: var(--pp-border); margin: 2px 0; }
+
+/* Specs */
+.pp-tina-specs { display: flex; flex-direction: column; gap: 2px; margin: 2px 0; }
+.pp-tina-spec-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 7px 10px; border-radius: 8px;
+  font-size: 0.8rem; color: #7a8499; line-height: 1.45;
+  transition: background 0.15s;
+}
+.pp-tina-spec-row:hover { background: rgba(0,74,153,0.05); }
+.pp-tina-spec-row svg {
+  flex-shrink: 0; color: var(--pp-accent);
+  margin-top: 2px;
+  background: rgba(0,74,153,0.08); border-radius: 5px;
+  padding: 3px; width: 20px; height: 20px; box-sizing: content-box;
+}
+.pp-tina-spec-row span { display: block; }
+.pp-tina-spec-row strong { color: #1a1a2e; font-weight: 700; font-size: 0.83rem; }
+
+/* Precio */
+.pp-tina-price-block { margin-top: auto; padding-top: 4px; }
+.pp-tina-price-label {
+  font-size: 0.62rem; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--pp-muted); margin-bottom: 3px;
+}
+.pp-tina-price {
+  font-size: 1.35rem; font-weight: 700; color: var(--pp-accent);
+  font-family: Arial, sans-serif;
+}
+.pp-tina-price-iva {
+  font-size: 0.68rem; color: var(--pp-muted); font-weight: 400; margin-left: 3px;
+}
+.pp-tina-price-old {
+  font-size: 0.78rem; color: var(--pp-muted); text-decoration: line-through; margin-top: 2px;
+}
+.pp-tina-ahorro {
+  display: inline-block; background: #e8f5e9; color: var(--pp-success);
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.5px;
+  border-radius: 4px; padding: 2px 7px; margin-top: 4px;
+}
+
+/* ── CTA ──────────────────────────────────────────────── */
+.pp-tina-cta {
+  display: flex; gap: 8px;
+  padding: 12px 14px;
+  border-top: 1px solid var(--pp-border);
+  background: #fff;
+}
+.pp-tina-btn-buy {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 11px 8px;
+  background: var(--pp-accent); color: #fff;
+  border: none; border-radius: 6px;
+  font-size: 0.78rem; font-weight: 700; font-family: Arial, sans-serif;
+  cursor: pointer; letter-spacing: 1.5px; text-transform: uppercase;
+  transition: background 0.18s, box-shadow 0.18s;
+}
+.pp-tina-btn-buy:hover {
+  background: #003366;
+  box-shadow: 0 4px 14px rgba(0,74,153,0.28);
+}
+.pp-tina-btn-detail {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px;
+  padding: 11px 8px;
+  background: #fff; color: var(--pp-accent);
+  border: 2px solid var(--pp-accent); border-radius: 6px;
+  font-size: 0.78rem; font-weight: 700; font-family: Arial, sans-serif;
+  cursor: pointer; letter-spacing: 1px; text-transform: uppercase;
+  transition: background 0.18s, color 0.18s;
+}
+.pp-tina-btn-detail:hover { background: var(--pp-accent); color: #fff; }
+.pp-tina-btn-wa {
+  display: flex; align-items: center; justify-content: center; padding: 11px 12px;
+  border: 1px solid #25D366; background: transparent;
+  color: #1a7a3a; border-radius: 6px; cursor: pointer;
+  transition: background .18s, color .18s; text-decoration: none;
+}
+.pp-tina-btn-wa:hover { background: #25D366; color: #fff; }
+.pp-tina-btn-video {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 10px 14px; background: #fff5f5;
+  border-top: 1px solid #ffd0d0; border-bottom: 1px solid #ffd0d0;
+  color: #cc0000; text-decoration: none; font-family: Arial, sans-serif;
+  font-size: 0.73rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  transition: background 0.18s;
+}
+.pp-tina-btn-video:hover { background: #ffecec; }
+
+/* ── Carrito flotante ─────────────────────────────────── */
+.pp-floating-cart {
+  position: fixed; top: 28px; right: 28px;
+  z-index: 9000; height: 52px; padding: 0 20px 0 16px;
+  border-radius: 30px; background: var(--pp-success);
+  color: #fff; border: none; cursor: pointer;
+  display: none; align-items: center; gap: 8px;
+  box-shadow: 0 6px 24px rgba(45,122,58,0.45);
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-family: Arial, sans-serif; font-size: 0.82rem;
+  font-weight: 700; letter-spacing: 0.5px;
+}
+.pp-floating-cart:hover { transform: scale(1.08); box-shadow: 0 10px 30px rgba(45,122,58,0.55); }
+.pp-floating-cart-badge {
+  position: absolute; top: -8px !important; right: -8px !important; bottom: auto !important; left: auto !important;
+  background: #e74c3c; color: #fff;
+  font-size: 0.7rem; font-weight: 800; min-width: 20px; height: 20px;
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  padding: 0 5px; border: 2px solid #fff; font-family: Arial, sans-serif;
+}
+
+/* ── Drawer overlay ────────────────────────────────────── */
+.pp-drawer-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.35);
+  z-index: 9001; opacity: 0; pointer-events: none; transition: opacity 0.25s;
+}
+.pp-drawer-overlay.open { opacity: 1; pointer-events: all; }
+
+/* ── Drawer carrito ────────────────────────────────────── */
+.pp-cart-drawer {
+  position: fixed; top: 0; right: 0; bottom: 0;
+  width: 380px; max-width: 100vw; background: #fff;
+  z-index: 9002; display: flex; flex-direction: column;
+  box-shadow: -8px 0 40px rgba(0,0,0,0.18);
+  transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.pp-cart-drawer.open { transform: translateX(0); }
+
+.pp-cart-drawer-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 20px; border-bottom: 1px solid var(--pp-border); flex-shrink: 0;
+}
+.pp-cart-drawer-title {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--pp-accent);
+}
+.pp-cart-drawer-count {
+  background: var(--pp-accent); color: #fff;
+  font-size: 0.65rem; font-weight: 800; padding: 2px 7px; border-radius: 10px;
+}
+.pp-cart-drawer-close {
+  background: none; border: none; font-size: 1.5rem; cursor: pointer;
+  color: var(--pp-muted); line-height: 1; padding: 0 4px; transition: color 0.15s;
+}
+.pp-cart-drawer-close:hover { color: var(--pp-text); }
+
+.pp-cart-drawer-items {
+  flex: 1; overflow-y: auto; padding: 12px 16px;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.pp-drawer-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px; background: #f7f8fa; border-radius: 12px;
+}
+.pp-drawer-item-thumb {
+  width: 52px; height: 52px; border-radius: 8px;
+  object-fit: cover; flex-shrink: 0; background: #e9eaf0;
+}
+.pp-drawer-item-body { flex: 1; min-width: 0; }
+.pp-drawer-item-name { font-size: 0.88rem; font-weight: 700; color: var(--pp-text); margin-bottom: 2px; }
+.pp-drawer-item-sub { font-size: 0.75rem; color: var(--pp-muted); line-height: 1.4; }
+.pp-drawer-item-right { text-align: right; flex-shrink: 0; }
+.pp-drawer-item-price { font-size: 0.94rem; font-weight: 800; color: var(--pp-success); }
+.pp-drawer-item-qty {
+  display: flex; align-items: center; gap: 6px; margin-top: 5px; justify-content: flex-end;
+}
+.pp-drawer-qty-btn {
+  width: 36px; height: 36px; border-radius: 6px; border: 1px solid var(--pp-border);
+  background: var(--pp-surface2); color: var(--pp-text); cursor: pointer;
+  font-size: 0.95rem; display: flex; align-items: center; justify-content: center;
+  font-family: Arial, sans-serif; transition: border-color 0.15s, color 0.15s;
+}
+.pp-drawer-qty-btn:hover { border-color: var(--pp-accent); color: var(--pp-accent); }
+.pp-drawer-qty-val { font-size: 0.85rem; font-weight: 700; min-width: 22px; text-align: center; }
+.pp-drawer-item-remove {
+  display: block; background: none; border: none; cursor: pointer;
+  color: var(--pp-muted); font-size: 0.7rem; margin-top: 4px; padding: 0;
+  transition: color 0.15s; font-family: Arial, sans-serif;
+}
+.pp-drawer-item-remove:hover { color: #c0392b; }
+
+.pp-drawer-empty {
+  text-align: center; padding: 40px 20px; color: var(--pp-muted);
+}
+.pp-drawer-empty-icon { font-size: 2.4rem; margin-bottom: 10px; opacity: 0.5; }
+.pp-drawer-empty-title { font-size: 0.95rem; font-weight: 700; color: var(--pp-text); margin-bottom: 6px; }
+.pp-drawer-empty-sub { font-size: 0.8rem; line-height: 1.6; }
+
+.pp-cart-drawer-footer {
+  padding: 16px 20px; border-top: 1px solid var(--pp-border); flex-shrink: 0;
+}
+.pp-cart-drawer-total-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 4px;
+}
+.pp-cart-drawer-total-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--pp-muted); }
+.pp-cart-drawer-total-val { font-size: 1.6rem; font-weight: 800; color: var(--pp-text); font-family: Arial, sans-serif; letter-spacing: 1px; }
+.pp-cart-drawer-iva { font-size: 0.68rem; color: var(--pp-muted); margin-bottom: 14px; }
+.pp-cart-drawer-checkout {
+  width: 100%; padding: 15px; background: var(--pp-success);
+  color: #fff; border: none; border-radius: 12px;
+  font-family: Arial, sans-serif; font-size: 0.9rem; font-weight: 700;
+  letter-spacing: 2px; cursor: pointer; margin-bottom: 8px; transition: background 0.15s;
+}
+.pp-cart-drawer-checkout:hover { background: #245f2e; }
+.pp-cart-drawer-keep {
+  width: 100%; padding: 10px; background: none;
+  border: 1.5px solid var(--pp-border); border-radius: 10px;
+  font-family: Arial, sans-serif; font-size: 0.82rem; font-weight: 600;
+  color: var(--pp-muted); cursor: pointer; transition: border-color 0.15s, color 0.15s;
+}
+.pp-cart-drawer-keep:hover { border-color: var(--pp-accent); color: var(--pp-accent); }
+
+/* ── Modal de cantidad ─────────────────────────────────── */
+.pp-qty-modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,74,153,0.12); backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 9500; align-items: center; justify-content: center; padding: 20px;
+}
+.pp-qty-modal-overlay.open { display: flex; }
+.pp-qty-modal {
+  background: #fff; border-radius: 20px; width: 100%; max-width: 400px;
+  box-shadow: 0 24px 64px rgba(0,74,153,0.18);
+  animation: tinaFadeIn 0.25s ease;
+  overflow: hidden;
+}
+@keyframes tinaFadeIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.pp-qty-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 22px 16px;
+  background: linear-gradient(135deg, #004a99, #0068cc);
+  border-radius: 20px 20px 0 0;
+}
+.pp-qty-modal-header h3 {
+  font-family: Arial, sans-serif; font-size: 1rem;
+  letter-spacing: 2px; color: #fff; text-transform: uppercase;
+}
+.pp-qty-modal-close {
+  background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+  color: #fff; width: 44px; height: 44px; border-radius: 8px; cursor: pointer;
+  font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s; font-family: Arial, sans-serif;
+}
+.pp-qty-modal-close:hover { background: rgba(255,255,255,0.35); }
+.pp-qty-modal-body { padding: 22px 24px; }
+.pp-qty-modal-product {
+  display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
+  padding: 14px; background: var(--pp-surface2); border-radius: 12px;
+  border: 1px solid var(--pp-border);
+}
+.pp-qty-modal-thumb {
+  width: 62px; height: 62px; border-radius: 10px; object-fit: cover;
+  flex-shrink: 0; background: #e9eaf0; border: 1px solid var(--pp-border);
+}
+.pp-qty-modal-info { flex: 1; min-width: 0; }
+.pp-qty-modal-name { font-size: 0.95rem; font-weight: 700; color: var(--pp-text); margin-bottom: 2px; }
+.pp-qty-modal-sub { font-size: 0.75rem; color: var(--pp-muted); line-height: 1.4; }
+.pp-qty-modal-unit { font-size: 1rem; font-weight: 700; color: var(--pp-accent); font-family: Arial, sans-serif; margin-top: 4px; }
+.pp-qty-modal-label {
+  font-size: 0.68rem; text-transform: uppercase; letter-spacing: 2px;
+  color: var(--pp-accent); font-weight: 700; margin-bottom: 12px;
+}
+.pp-qty-control {
+  display: flex; align-items: center; gap: 14px;
+  justify-content: center; margin-bottom: 20px;
+}
+.pp-qty-ctrl-btn {
+  width: 48px; height: 48px; border-radius: 12px;
+  border: 2px solid var(--pp-border); background: var(--pp-surface2);
+  color: var(--pp-text); font-size: 1.4rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  font-family: Arial, sans-serif;
+}
+.pp-qty-ctrl-btn:hover:not(:disabled) { border-color: var(--pp-accent); color: var(--pp-accent); background: #eef3fc; }
+.pp-qty-ctrl-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.pp-qty-ctrl-num {
+  font-size: 1.6rem; font-weight: 800; color: var(--pp-text);
+  min-width: 48px; text-align: center; font-family: Arial, sans-serif;
+}
+.pp-qty-total-box {
+  background: linear-gradient(135deg, #eef3fc, #ddeaff);
+  border: 1px solid rgba(0,74,153,0.18); border-radius: 12px;
+  padding: 16px 20px; margin-bottom: 20px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.pp-qty-total-label { font-size: 0.75rem; color: var(--pp-muted); text-transform: uppercase; letter-spacing: 1px; }
+.pp-qty-total-val { font-size: 1.5rem; font-weight: 800; color: var(--pp-accent); font-family: Arial, sans-serif; letter-spacing: 1px; }
+.pp-qty-total-iva { font-size: 0.68rem; color: var(--pp-muted); margin-top: 2px; }
+/* Desglose faldón en qty modal */
+.pp-qty-faldon-breakdown {
+  background:#f8faff; border:1px solid #dce8f8; border-radius:10px;
+  padding:12px 16px; margin-bottom:10px;
+}
+.pp-qty-bd-row {
+  display:flex; justify-content:space-between; align-items:center;
+  font-family:Arial,sans-serif; font-size:0.84rem; padding:4px 0;
+}
+.pp-qty-bd-row + .pp-qty-bd-row { border-top:1px dashed #dce8f8; padding-top:8px; margin-top:4px; }
+.pp-qty-bd-label { color:var(--pp-muted); }
+.pp-qty-bd-val { font-weight:700; color:var(--pp-text); }
+.pp-qty-bd-row--faldon .pp-qty-bd-label { color:var(--pp-accent); font-size:0.78rem; }
+.pp-qty-bd-row--faldon .pp-qty-bd-val { color:var(--pp-accent); font-size:0.78rem; }
+.pp-qty-modal-btns { display: flex; flex-direction: column; gap: 8px; }
+.pp-qty-btn-checkout {
+  width: 100%; padding: 15px; border: none; border-radius: 12px;
+  background: var(--pp-accent); color: #fff; font-family: Arial, sans-serif;
+  font-size: 0.95rem; font-weight: 700; letter-spacing: 2px; cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s; box-shadow: 0 4px 16px rgba(0,74,153,0.22);
+}
+.pp-qty-btn-checkout:hover { background: #003366; box-shadow: 0 6px 20px rgba(0,74,153,0.3); }
+.pp-qty-btn-more {
+  width: 100%; padding: 12px; border: 2px solid var(--pp-success);
+  border-radius: 12px; background: #fff; color: var(--pp-success);
+  font-family: Arial, sans-serif; font-size: 0.88rem; font-weight: 700;
+  letter-spacing: 1.5px; cursor: pointer; transition: background 0.18s, color 0.18s;
+}
+.pp-qty-btn-more:hover { background: var(--pp-success); color: #fff; }
+
+/* ── Detail modal enhancements ─────────────────────────── */
+.pp-detail-section-ttl {
+  font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px;
+  color: var(--pp-accent); font-weight: 700; margin-bottom: 10px;
+}
+.pp-dspec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.pp-dspec-card {
+  background: var(--pp-surface2); border: 1px solid var(--pp-border);
+  border-radius: 11px; padding: 11px 13px;
+}
+.pp-dspec-lbl {
+  font-size: 0.62rem; text-transform: uppercase; letter-spacing: 1.2px;
+  color: var(--pp-muted); margin-bottom: 3px;
+}
+.pp-dspec-val { font-size: 0.8rem; font-weight: 700; color: var(--pp-text); line-height: 1.4; }
+.pp-dincluye-list {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px;
+}
+.pp-dincluye-list li {
+  display: flex; align-items: flex-start; gap: 6px;
+  font-size: 0.78rem; color: var(--pp-text); line-height: 1.35;
+}
+.pp-dincluye-list li svg { flex-shrink: 0; margin-top: 1px; }
+.pp-dfaq-list { display: flex; flex-direction: column; gap: 12px; }
+.pp-dfaq-q { font-size: 0.8rem; font-weight: 700; color: var(--pp-text); margin-bottom: 3px; }
+.pp-dfaq-a { font-size: 0.76rem; color: #4a5568; line-height: 1.55; }
+
+/* ── Modal checkout ────────────────────────────────────── */
+.pp-modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,74,153,0.1); backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9800; align-items: center; justify-content: center; padding: 16px;
+}
+.pp-modal-overlay.open { display: flex; }
+.pp-modal {
+  background: #ffffff !important; border-radius: 20px;
+  width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto;
+  animation: tinaFadeIn 0.25s ease;
+  box-shadow: 0 24px 64px rgba(0,74,153,0.15); color: #1a1a2e !important;
+}
+.pp-modal * { box-sizing: border-box; }
+.pp-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 26px 18px;
+  background: linear-gradient(135deg, #004a99, #0068cc);
+  border-radius: 20px 20px 0 0;
+}
+.pp-modal-header h2 {
+  font-family: Arial, sans-serif; font-size: 1.4rem; letter-spacing: 3px; color: #fff;
+}
+.pp-modal-close {
+  background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+  color: #fff; width: 44px; height: 44px; border-radius: 8px;
+  cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s; font-family: Arial, sans-serif;
+}
+.pp-modal-close:hover { background: rgba(255,255,255,0.35); }
+.pp-modal-body { padding: 22px 26px; }
+
+/* Checkout steps indicator */
+.pp-checkout-steps {
+  display: flex; align-items: center; margin-bottom: 22px; gap: 0;
+}
+.pp-checkout-step {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.pp-checkout-step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--pp-surface2); border: 2px solid var(--pp-border);
+  color: var(--pp-muted); font-size: 0.75rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; transition: background .25s, border-color .25s, color .25s, box-shadow .25s;
+}
+.pp-checkout-step.active .pp-checkout-step-num { background: var(--pp-accent); border-color: var(--pp-accent); color: #fff; box-shadow: 0 0 0 3px rgba(0,74,153,0.15); }
+.pp-checkout-step.done   .pp-checkout-step-num { background: var(--pp-green); border-color: var(--pp-green); color: #fff; }
+.pp-checkout-step-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 1px; color: var(--pp-muted); font-weight: 600; }
+.pp-checkout-step.active .pp-checkout-step-label { color: var(--pp-accent); }
+.pp-checkout-step.done   .pp-checkout-step-label { color: var(--pp-green); }
+.pp-checkout-step-line { flex: 1; height: 2px; background: var(--pp-border); margin: 0 8px 18px; transition: background 0.3s; border-radius: 2px; }
+.pp-checkout-step-line.done { background: var(--pp-green); }
+
+/* Client toggle */
+.pp-client-toggle {
+  display: flex; background: #f0f4fb; border-radius: 10px; padding: 4px; margin-bottom: 20px; gap: 4px;
+}
+.pp-client-toggle button {
+  flex: 1; padding: 10px; border-radius: 8px; border: none; background: none;
+  color: #004a99; font-family: Arial, sans-serif; font-size: 0.84rem; font-weight: 600; cursor: pointer; transition: background .18s, color .18s, box-shadow .18s;
+}
+.pp-client-toggle button.active { background: #004a99; color: #fff; box-shadow: 0 2px 10px rgba(0,74,153,0.25); }
+
+/* Form */
+.pp-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.pp-form-grid .full { grid-column: 1 / -1; }
+.pp-field label { display: block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1.5px; color: #004a99; margin-bottom: 5px; font-weight: 700; }
+.pp-field input, .pp-field select {
+  width: 100%; padding: 10px 13px; background: #f7f9fd !important;
+  border: 1.5px solid #ccd8ee !important; border-radius: 8px; color: #1a1a2e !important;
+  font-family: Arial, sans-serif; font-size: 0.88rem; outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s; -webkit-appearance: none; appearance: none;
+}
+.pp-field input:focus, .pp-field select:focus { border-color: #004a99 !important; box-shadow: 0 0 0 3px rgba(0,74,153,0.1) !important; background: #fff !important; }
+.pp-field-error { display: none; font-size: 0.72rem; color: #dc2626; margin-top: 4px; }
+.pp-input-error { border-color: #dc2626 !important; box-shadow: 0 0 0 2px rgba(220,38,38,0.12) !important; }
+.pp-input-valid { border-color: #34a853 !important; background: #f0faf4 !important; }
+
+/* Resumen pedido en modal */
+.pp-modal-order {
+  background: #f0f4fb; border-radius: 12px; padding: 14px 16px;
+  margin-bottom: 16px; border: 1px solid #ccd8ee;
+}
+.pp-modal-order-title { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 2px; color: #004a99; margin-bottom: 10px; font-weight: 700; }
+.pp-modal-order-item {
+  display: flex; justify-content: space-between; font-size: 0.8rem;
+  padding: 6px 0; border-bottom: 1px solid #ccd8ee; gap: 12px;
+}
+.pp-modal-order-item:last-child { border-bottom: none; }
+.pp-modal-order-item .desc { color: #555; flex: 1; }
+.pp-modal-order-item .monto { color: #004a99; white-space: nowrap; font-weight: 600; }
+.pp-modal-total {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 16px; padding: 14px 16px; background: #004a99; border-radius: 12px;
+}
+.pp-modal-total span:first-child { color: rgba(255,255,255,0.8); font-size: 0.82rem; }
+.pp-modal-total strong { font-family: Arial, sans-serif; font-size: 1.9rem; color: #fff; letter-spacing: 2px; }
+
+/* Entrega */
+.pp-section-divider {
+  font-size: 0.63rem; text-transform: uppercase; letter-spacing: 2px;
+  color: var(--pp-accent); font-weight: 700; margin: 20px 0 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.pp-section-divider::after { content: ''; flex: 1; height: 1px; background: var(--pp-border); }
+.pp-entrega-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.pp-entrega-opt {
+  display: flex; align-items: center; gap: 12px; padding: 12px 14px;
+  border: 1.5px solid #ccd8ee; border-radius: 10px; cursor: pointer;
+  transition: border-color .18s, background .18s; background: #f7f9fd;
+}
+.pp-entrega-opt:hover, .pp-entrega-opt.selected { border-color: #004a99; background: #edf2ff; }
+.pp-entrega-opt input[type="radio"] { display: none; }
+.pp-entrega-icon { font-size: 1.3rem; flex-shrink: 0; }
+.pp-entrega-info { flex: 1; }
+.pp-entrega-info strong { display: block; font-size: 0.85rem; color: #1a1a2e; font-weight: 600; }
+.pp-entrega-info span { font-size: 0.75rem; color: #666; }
+.pp-entrega-badge { font-size: 0.65rem; font-weight: 700; letter-spacing: 1px; padding: 3px 8px; border-radius: 20px; white-space: nowrap; }
+.badge-gratis { background: #d4edda; color: #155724; }
+.badge-propio { background: #fff3cd; color: #856404; }
+.badge-extra  { background: #fde8e8; color: #c0392b; font-weight: 700; }
+
+/* Botón pago */
+.pp-btn-next {
+  width: 100%; padding: 15px; border-radius: 12px; border: none;
+  background: var(--pp-accent); color: #fff; font-family: Arial, sans-serif;
+  font-size: 0.95rem; font-weight: 700; cursor: pointer; display: flex;
+  align-items: center; justify-content: center; gap: 8px; letter-spacing: 1px;
+  transition: background 0.2s, box-shadow 0.2s; margin-bottom: 4px;
+  box-shadow: 0 4px 14px rgba(0,74,153,0.22);
+}
+.pp-btn-next:hover { background: #003366; box-shadow: 0 6px 20px rgba(0,74,153,0.3); }
+.pp-btn-back-step {
+  width: 100%; padding: 11px; border-radius: 12px; margin-bottom: 10px;
+  border: 1.5px solid var(--pp-border); background: #fff; color: var(--pp-muted);
+  font-family: Arial, sans-serif; font-size: 0.85rem; font-weight: 600;
+  cursor: pointer; transition: background 0.15s, color 0.15s;
+}
+.pp-btn-back-step:hover { background: #f3f4f6; color: var(--pp-text); }
+.pp-btn-webpay {
+  width: 100%; padding: 16px; border-radius: 12px; border: none;
+  background: #28A745; color: #fff; font-family: Arial, sans-serif; font-size: 1rem; font-weight: 700;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px;
+  transition: background .2s, transform .2s, box-shadow .2s, opacity .2s; letter-spacing: 0.5px; box-shadow: 0 4px 16px rgba(40,167,69,0.35);
+}
+.pp-btn-webpay:hover { background: #218838; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(40,167,69,0.45); }
+.pp-btn-webpay:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+.pp-webpay-note { text-align: center; font-size: 0.72rem; color: #888; margin-top: 10px; }
+.pp-form-error { display: none; margin-bottom: 10px; padding: 10px 14px; background: #fef2f2; border-left: 3px solid #dc2626; border-radius: 8px; font-size: 0.82rem; color: #dc2626; font-weight: 600; }
+
+/* Toast */
+.pp-toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(60px);
+  background: #1a1a2e; color: #fff; padding: 10px 22px;
+  border-radius: 40px; font-size: 0.85rem; font-family: Arial,sans-serif;
+  z-index: 9999; transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s;
+  opacity: 0; pointer-events: none; white-space: nowrap; box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+}
+.pp-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.pp-toast--success { background: #1a7a3a; border-left: 4px solid #4ade80; }
+@media(max-width: 820px) { .pp-toast { bottom: 80px; } }
+@media(max-width: 480px) { .pp-cart-drawer { width: 100vw; } .pp-floating-cart { top: 16px; right: 16px; } }
+
+/* ── Modal detalle producto ─────────────────────────────── */
+.pp-detail-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(10,20,50,0.55); backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 9700; align-items: center; justify-content: center; padding: 16px;
+}
+.pp-detail-overlay.open { display: flex; }
+.pp-detail-modal {
+  background: #fff; border-radius: 22px;
+  width: 100%; max-width: 500px; max-height: 92vh; overflow-y: auto;
+  animation: tinaFadeIn 0.28s ease;
+  box-shadow: 0 32px 80px rgba(0,74,153,0.22);
+}
+.pp-detail-img-wrap {
+  position: relative; width: 100%; height: 260px; overflow: hidden;
+  border-radius: 22px 22px 0 0;
+}
+.pp-detail-img-wrap .pp-tina-slides { border-radius: 22px 22px 0 0; height: 260px; }
+.pp-detail-img-wrap .pp-slide { height: 260px; }
+.pp-detail-img-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.1) 55%, transparent 100%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 20px 22px;
+}
+.pp-detail-img-overlay .pp-detail-label {
+  font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(255,255,255,0.75); font-weight: 700; margin-bottom: 4px;
+}
+.pp-detail-img-overlay .pp-detail-title {
+  font-size: 1.8rem; font-weight: 800; color: #fff; letter-spacing: 1px;
+  text-transform: uppercase; line-height: 1;
+}
+.pp-detail-close {
+  position: absolute; top: 10px; right: 10px;
+  background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.25);
+  color: #fff; width: 44px; height: 44px; border-radius: 50%;
+  cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s; font-family: Arial, sans-serif; z-index: 2;
+}
+.pp-detail-close:hover { background: rgba(0,0,0,0.7); }
+.pp-detail-body { padding: 22px 24px 24px; }
+.pp-detail-desc-block { margin-bottom: 18px; }
+.pp-detail-desc-block h4 {
+  font-size: 0.95rem; font-weight: 700; color: #004a99;
+  margin: 0 0 6px; line-height: 1.3;
+}
+.pp-detail-desc-block p {
+  font-size: 0.83rem; color: #4a5568; line-height: 1.65; margin: 0 0 14px;
+}
+.pp-detail-desc-block p:last-child { margin-bottom: 0; }
+.pp-detail-divider { height: 1px; background: #e8edf5; margin: 18px 0; }
+.pp-detail-price-row {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 16px; flex-wrap: wrap; gap: 8px;
+}
+.pp-detail-price-main {
+  font-size: 1.8rem; font-weight: 800; color: #004a99; line-height: 1;
+  font-family: Arial, sans-serif;
+}
+.pp-detail-price-main span { font-size: 0.85rem; color: #7a8499; font-weight: 500; margin-left: 4px; }
+.pp-detail-price-old { font-size: 0.78rem; color: #9aa5b4; text-decoration: line-through; }
+.pp-detail-ahorro {
+  font-size: 0.75rem; font-weight: 700; color: #1a7a3a;
+  background: #e6f4ec; border-radius: 20px; padding: 4px 10px;
+}
+.pp-detail-btn-buy {
+  width: 100%; padding: 16px; border: none; border-radius: 14px;
+  background: var(--pp-accent); color: #fff;
+  font-family: Arial, sans-serif; font-size: 0.95rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 4px 18px rgba(0,74,153,0.3);
+}
+.pp-detail-btn-buy:hover { background: #003366; box-shadow: 0 6px 24px rgba(0,74,153,0.4); }
+.pp-tina-img-wrap { cursor: pointer; }
+.pp-tina-img-hint {
+  position: absolute; bottom: 46px; right: 10px;
+  background: rgba(0,0,0,0.5); color: #fff; font-size: 0.62rem;
+  font-weight: 700; letter-spacing: 1px; padding: 4px 9px;
+  border-radius: 20px; opacity: 0; transition: opacity 0.2s;
+  pointer-events: none; text-transform: uppercase;
+}
+.pp-tina-card:hover .pp-tina-img-hint { opacity: 1; }
+
+/* ── Lightbox foto ──────────────────────────────────────── */
+.pp-lightbox {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.92); z-index: 10000;
+  align-items: center; justify-content: center;
+  padding: 20px; cursor: zoom-out;
+}
+.pp-lightbox.open { display: flex; }
+.pp-lightbox-img {
+  max-width: 100%; max-height: 90vh;
+  width: auto; height: auto; object-fit: contain;
+  border-radius: 8px; box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+  cursor: default; user-select: none; -webkit-user-select: none;
+  animation: tinaFadeIn 0.22s ease;
+}
+.pp-lightbox-close {
+  position: absolute; top: 16px; right: 16px;
+  background: rgba(255,255,255,0.12); border: 1.5px solid rgba(255,255,255,0.25);
+  color: #fff; width: 44px; height: 44px; border-radius: 50%;
+  cursor: pointer; font-size: 1.4rem; display: flex;
+  align-items: center; justify-content: center;
+  transition: background 0.18s; font-family: Arial, sans-serif; line-height: 1;
+}
+.pp-lightbox-close:hover { background: rgba(255,255,255,0.28); }
+@media (max-width: 560px) {
+  .pp-lightbox { padding: 12px; }
+  .pp-lightbox-close { width: 38px; height: 38px; font-size: 1.15rem; top: 10px; right: 10px; }
+}
+
+/* ── Upsell Faldón Kuyen Full ─────────────────────────────── */
+.pp-upsell-overlay {
+  display:none; position:fixed; inset:0;
+  background:rgba(0,40,100,0.45); backdrop-filter:blur(5px); -webkit-backdrop-filter:blur(5px);
+  z-index:9600; align-items:center; justify-content:center; padding:16px;
+}
+.pp-upsell-overlay.open { display:flex; }
+.pp-upsell-modal {
+  background:#fff; border-radius:20px; width:100%; max-width:400px;
+  max-height:92vh; overflow-y:auto;
+  box-shadow:0 24px 64px rgba(0,40,100,0.22);
+  animation:tinaFadeIn 0.25s ease;
+}
+.pp-upsell-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px 12px;
+  background:linear-gradient(135deg,#004a99,#0068cc);
+  position:sticky; top:0; z-index:1;
+}
+.pp-upsell-header-label {
+  font-size:0.62rem; letter-spacing:2px; text-transform:uppercase;
+  color:rgba(255,255,255,0.88); font-weight:700; font-family:Arial,sans-serif;
+}
+.pp-upsell-close {
+  background:rgba(255,255,255,0.18); border:1px solid rgba(255,255,255,0.3);
+  color:#fff; width:44px; height:44px; border-radius:7px;
+  cursor:pointer; font-size:1.1rem; display:flex; align-items:center; justify-content:center;
+  transition:background 0.15s; font-family:Arial,sans-serif; line-height:1;
+}
+.pp-upsell-close:hover { background:rgba(255,255,255,0.32); }
+.pp-upsell-img {
+  width:100%; height:210px; object-fit:cover; display:block;
+  background:#f0f4fa;
+}
+.pp-upsell-img[src=""] { display:none; }
+.pp-upsell-body { padding:16px 20px 22px; }
+.pp-upsell-tag {
+  display:inline-block; background:#eef3fc; color:var(--pp-accent);
+  font-size:0.6rem; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  padding:3px 9px; border-radius:20px; margin-bottom:9px; font-family:Arial,sans-serif;
+}
+.pp-upsell-name {
+  font-size:1.08rem; font-weight:800; color:var(--pp-text);
+  text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;
+  font-family:Arial,sans-serif;
+}
+.pp-upsell-desc {
+  font-size:0.8rem; color:var(--pp-muted); line-height:1.55;
+  margin-bottom:14px; font-family:Arial,sans-serif;
+}
+.pp-upsell-price-row {
+  display:flex; align-items:baseline; gap:6px; margin-bottom:18px;
+}
+.pp-upsell-price {
+  font-size:1.55rem; font-weight:800; color:var(--pp-accent); font-family:Arial,sans-serif;
+}
+.pp-upsell-price-iva { font-size:0.7rem; color:var(--pp-muted); font-family:Arial,sans-serif; }
+.pp-upsell-btns { display:flex; flex-direction:column; gap:9px; }
+.pp-upsell-btn-yes {
+  width:100%; padding:14px; border:none; border-radius:12px;
+  background:var(--pp-accent); color:#fff; font-family:Arial,sans-serif;
+  font-size:0.88rem; font-weight:700; letter-spacing:1.5px; cursor:pointer;
+  text-transform:uppercase; transition:background 0.18s;
+  box-shadow:0 4px 14px rgba(0,74,153,0.22);
+}
+.pp-upsell-btn-yes:hover { background:#003880; }
+.pp-upsell-btn-no {
+  width:100%; padding:11px; border:1.5px solid var(--pp-border);
+  border-radius:12px; background:#fff; color:var(--pp-muted);
+  font-family:Arial,sans-serif; font-size:0.82rem; font-weight:600;
+  cursor:pointer; transition:border-color 0.15s, color 0.15s;
+}
+.pp-upsell-btn-no:hover { border-color:var(--pp-accent); color:var(--pp-accent); }
+/* Tabla de precios en upsell */
+.pp-upsell-pricing {
+  background:#f8faff; border:1px solid #dce8f8; border-radius:12px;
+  padding:14px 16px; margin-bottom:16px;
+}
+.pp-upsell-pr-row {
+  display:flex; justify-content:space-between; align-items:center;
+  font-family:Arial,sans-serif; padding:4px 0;
+}
+.pp-upsell-pr-lbl { font-size:0.83rem; color:var(--pp-muted); }
+.pp-upsell-pr-val { font-size:0.9rem; font-weight:700; color:var(--pp-text); font-family:Arial,sans-serif; }
+.pp-upsell-pr-row--extra .pp-upsell-pr-lbl { color:#1a7a42; font-weight:700; }
+.pp-upsell-pr-row--extra .pp-upsell-pr-val { color:#1a7a42; }
+.pp-upsell-pr-badge {
+  display:inline-block; background:#e6f7ee; color:#1a7a42;
+  font-size:0.58rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+  padding:2px 6px; border-radius:10px; margin-left:5px; vertical-align:middle;
+}
+.pp-upsell-pr-divider { border:none; border-top:1px dashed #ccd8ee; margin:8px 0; }
+.pp-upsell-pr-row--total .pp-upsell-pr-lbl { font-size:0.75rem; color:var(--pp-muted); font-style:italic; }
+.pp-upsell-pr-row--total .pp-upsell-pr-val { font-size:1rem; color:var(--pp-accent); }
+/* ── Cascos de tinas: solo 2 productos, centrados y sin carrusel ── */
+.pp-tinas-grid { justify-content: center; }
+@media (min-width: 681px) { .pp-tinas-grid > .pp-tina-card { flex: 0 1 380px; } }
+@media (min-width: 1024px) { #contenido #ppTinas .pp-tinas-grid { grid-template-columns: repeat(2, minmax(0, 400px)); justify-content: center; } }
+.pp-tinas-carousel::after, .pp-carousel-arrow { display: none !important; }
+.pp-casco-btn-plano { cursor: pointer; width: 100%; background: #f0f6ff; border: 0; border-top: 1px solid #cfe0f5; border-bottom: 1px solid #cfe0f5; color: #004a99; }
+.pp-casco-btn-plano:hover { background: #e2eefc; }
+.pp-casco-plano { display: block; width: 100%; max-width: 360px; height: auto; margin: 6px auto 4px; border: 1px solid #dde4ef; border-radius: 12px; background: #fff; cursor: zoom-in; }
+.pp-dfaq-a a { color: #004a99; font-weight: 600; }
+.pp-tina-dots .pp-dot::before { background: rgba(0,74,153,0.35); }
+.pp-tina-dots .pp-dot.active::before { background: #004a99; }
+</style>
+<section aria-label="Cascos de Tinas Polyplas" class="pp-tinas" id="ppTinas">
+<div class="pp-tinas-header">
+<h2>Compra Online <span>Cascos de Tinas</span></h2>
+<p>Solo el casco · Sin motor ni jets · Retiro en Santiago</p>
+</div>
+<div class="pp-tinas-carousel" id="tinasCarousel">
+<button aria-label="Ver cascos anteriores" class="pp-carousel-arrow pp-carousel-arrow--prev" disabled="" id="tinasArrowPrev" onclick="tinasCarouselScroll(-1)">
+<svg fill="none" height="18" stroke="currentColor" stroke-width="2.6" viewbox="0 0 9 15" width="11"><polyline points="7.5 1 1.5 7.5 7.5 14"></polyline></svg>
+</button>
+<div class="pp-tinas-grid" id="tinasGrid">
+<div class="pp-tina-card" id="tina-queilen">
+<div class="pp-tina-img-wrap" onclick="openPpLightbox('/wp-content/uploads/2026/10/casco-tina-queilen.webp','Casco de Tina Queilen 167×91,5×51 cm - Polyplas Chile')">
+<div class="pp-tina-slides">
+<img alt="Casco de Tina Queilen 167×91,5×51 cm - Polyplas Chile" class="pp-slide active" decoding="async" height="670" loading="eager" src="/wp-content/uploads/2026/10/casco-tina-queilen.webp" width="1200"/>
+<img alt="Casco de Tina Queilen vista del reverso reforzado - Polyplas Chile" class="pp-slide" data-src="/wp-content/uploads/2026/10/casco-tina-queilen-reverso-720w.webp" decoding="async" height="402" width="720"/>
+</div>
+<div class="pp-tina-dots" onclick="event.stopPropagation()">
+<button aria-label="Ver foto frontal" class="pp-dot active" onclick="tinaSlide(this,0)" type="button"></button>
+<button aria-label="Ver foto del reverso" class="pp-dot" onclick="tinaSlide(this,1)" type="button"></button>
+</div>
+<div class="pp-tina-badge">Solo casco</div>
+<div class="pp-tina-img-hint">Ampliar</div>
+</div>
+<button class="pp-tina-btn-video pp-casco-btn-plano" onclick="openPpLightbox('/wp-content/uploads/2026/10/casco-tina-queilen-medidas.webp','Plano de medidas Casco de Tina Queilen 167×91,5×51 cm')" type="button">
+<svg fill="none" height="12" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="12"><rect height="18" rx="2" width="18" x="3" y="3"></rect><line x1="3" x2="21" y1="9" y2="9"></line><line x1="9" x2="9" y1="21" y2="9"></line></svg>
+        Ver plano de medidas
+      </button>
+<div class="pp-tina-body">
+<div><div class="pp-tina-label">Casco de Tina</div><h3 class="pp-tina-name"><a class="pp-ficha-link" href="/casco-tina-queilen/">Queilen</a></h3></div>
+<div class="pp-tina-divider"></div>
+<div class="pp-tina-specs">
+<div class="pp-tina-spec-row">
+<svg fill="none" height="13" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="13"><rect height="18" rx="2" width="18" x="3" y="3"></rect><line x1="3" x2="21" y1="9" y2="9"></line><line x1="9" x2="9" y1="21" y2="9"></line></svg>
+<span>Medidas: <strong>167×91,5×51 cm</strong></span>
+</div>
+<div class="pp-tina-spec-row">
+<svg fill="none" height="13" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="13"><circle cx="12" cy="7" r="3"></circle><path d="M5 21c0-4 3-7 7-7s7 3 7 7"></path></svg>
+<span>Capacidad: <strong>Para 1 persona</strong></span>
+</div>
+<div class="pp-tina-spec-row">
+<svg fill="none" height="13" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="13"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+<span>Diseño: <strong>Interior ovalado</strong></span>
+</div>
+<div class="pp-tina-spec-row">
+<svg fill="none" height="13" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="13"><circle cx="12" cy="12" r="9"></circle><line x1="5.6" x2="18.4" y1="5.6" y2="18.4"></line></svg>
+<span>No incluye: <strong>Motobomba, jets, base metálica ni desagüe</strong></span>
+</div>
+</div>
+<div class="pp-tina-price-block">
+<div class="pp-tina-price-label">Precio con IVA</div>
+<div class="pp-tina-price" id="price-queilen">$ 180.000<span class="pp-tina-price-iva">c/IVA</span></div>
+<div class="pp-tina-price-old" id="price-old-queilen" style="display:none"></div>
+<div class="pp-tina-ahorro" id="ahorro-queilen" style="display:none"></div>
+</div>
+</div>
+<div class="pp-tina-cta">
+<button aria-label="Ver detalle Casco de Tina Queilen" class="pp-tina-btn-detail" onclick="openTinaDetail('queilen')">Ver detalle</button>
+<button class="pp-tina-btn-buy" onclick="openQtyModal('queilen','Casco de Tina Queilen','167×91,5×51 cm','/wp-content/uploads/2026/10/casco-tina-queilen.webp',0)">
+<svg fill="none" height="14" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="14"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          COMPRAR
+        </button>
+</div>
+</div>
+<div class="pp-tina-card" id="tina-coinco">
+<div class="pp-tina-img-wrap" onclick="openPpLightbox('/wp-content/uploads/2026/10/casco-tina-coinco.webp','Casco de Tina Coinco 167×92×58 cm - Polyplas Chile')">
+<div class="pp-tina-slides">
+<img alt="Casco de Tina Coinco 167×92×58 cm - Polyplas Chile" class="pp-slide active" decoding="async" height="718" loading="lazy" src="/wp-content/uploads/2026/10/casco-tina-coinco.webp" width="1200"/>
+<img alt="Casco de Tina Coinco vista del reverso reforzado - Polyplas Chile" class="pp-slide" data-src="/wp-content/uploads/2026/10/casco-tina-coinco-reverso-720w.webp" decoding="async" height="402" width="720"/>
+</div>
+<div class="pp-tina-dots" onclick="event.stopPropagation()">
+<button aria-label="Ver foto frontal" class="pp-dot active" onclick="tinaSlide(this,0)" type="button"></button>
+<button aria-label="Ver foto del reverso" class="pp-dot" onclick="tinaSlide(this,1)" type="button"></button>
+</div>
+<div class="pp-tina-badge">Solo casco</div>
+<div class="pp-tina-img-hint">Ampliar</div>
+</div>
+<button class="pp-tina-btn-video pp-casco-btn-plano" onclick="openPpLightbox('/wp-content/uploads/2026/10/casco-tina-coinco-medidas.webp','Plano de medidas Casco de Tina Coinco 167×92×58 cm')" type="button">
+<svg fill="none" height="12" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="12"><rect height="18" rx="2" width="18" x="3" y="3"></rect><line x1="3" x2="21" y1="9" y2="9"></line><line x1="9" x2="9" y1="21" y2="9"></line></svg>
+        Ver plano de medidas
+      </button>
+<div class="pp-tina-body">
+<div><div class="pp-tina-label">Casco de Tina</div><h3 class="pp-tina-name"><a class="pp-ficha-link" href="/casco-tina-coinco/">Coinco</a></h3></div>
+<div class="pp-tina-divider"></div>
+<div class="pp-tina-specs">
+<div class="pp-tina-spec-row">
+<svg fill="none" height="13" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="13"><rect height="18" rx="2" width="18" x="3" y="3"></rect><line x1="3" x2="21" y1="9" y2="9"></line><line x1="9" x2="9" y1="21" y2="9"></line></svg>
+<span>Medidas: <strong>167×92×58 cm</strong></span>
+</div>
+<div class="pp-tina-spec-row">
+<svg fill="none" height="13" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="13"><circle cx="12" cy="7" r="3"></circle><path d="M5 21c0-4 3-7 7-7s7 3 7 7"></path></svg>
+<span>Capacidad: <strong>Para 1 persona</strong></span>
+</div>
+<div class="pp-tina-spec-row">
+<svg fill="none" height="13" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="13"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+<span>Diseño: <strong>Interior rectangular</strong></span>
+</div>
+<div class="pp-tina-spec-row">
+<svg fill="none" height="13" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="13"><circle cx="12" cy="12" r="9"></circle><line x1="5.6" x2="18.4" y1="5.6" y2="18.4"></line></svg>
+<span>No incluye: <strong>Motobomba, jets, base metálica ni desagüe</strong></span>
+</div>
+</div>
+<div class="pp-tina-price-block">
+<div class="pp-tina-price-label">Precio con IVA</div>
+<div class="pp-tina-price" id="price-coinco">$ 180.000<span class="pp-tina-price-iva">c/IVA</span></div>
+<div class="pp-tina-price-old" id="price-old-coinco" style="display:none"></div>
+<div class="pp-tina-ahorro" id="ahorro-coinco" style="display:none"></div>
+</div>
+</div>
+<div class="pp-tina-cta">
+<button aria-label="Ver detalle Casco de Tina Coinco" class="pp-tina-btn-detail" onclick="openTinaDetail('coinco')">Ver detalle</button>
+<button class="pp-tina-btn-buy" onclick="openQtyModal('coinco','Casco de Tina Coinco','167×92×58 cm','/wp-content/uploads/2026/10/casco-tina-coinco.webp',1)">
+<svg fill="none" height="14" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="14"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          COMPRAR
+        </button>
+</div>
+</div>
+</div>
+<button aria-label="Ver más cascos" class="pp-carousel-arrow pp-carousel-arrow--next" id="tinasArrowNext" onclick="tinasCarouselScroll(1)">
+<svg fill="none" height="18" stroke="currentColor" stroke-width="2.6" viewbox="0 0 9 15" width="11"><polyline points="1.5 1 7.5 7.5 1.5 14"></polyline></svg>
+</button>
+<p class="pp-swipe-hint">
+<svg fill="none" height="13" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="13"><polyline points="15 18 9 12 15 6"></polyline></svg>
+    Desliza para ver todos los cascos
+    <svg fill="none" height="13" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="13"><polyline points="9 18 15 12 9 6"></polyline></svg>
+</p>
+</div>
+</section>
+<div aria-modal="true" class="pp-detail-overlay" id="tinaDetailModal" role="dialog">
+<div class="pp-detail-modal">
+<div class="pp-detail-img-wrap">
+<div class="pp-tina-slides" id="tinaDetailSlides"></div>
+<div class="pp-tina-dots" id="tinaDetailDots" onclick="event.stopPropagation()" style="bottom:50px"></div>
+<div class="pp-detail-img-overlay">
+<div class="pp-detail-label" id="tinaDetailLabel"></div>
+<div class="pp-detail-title" id="tinaDetailTitle"></div>
+</div>
+<button aria-label="Cerrar" class="pp-detail-close" onclick="closeTinaDetail()">×</button>
+</div>
+<div class="pp-detail-body">
+<div class="pp-detail-desc-block" id="tinaDetailDesc"></div>
+<div class="pp-detail-divider"></div>
+<div class="pp-detail-section-ttl">Especificaciones</div>
+<div class="pp-dspec-grid" id="tinaDetailSpecs"></div>
+<div class="pp-detail-divider"></div>
+<div class="pp-detail-section-ttl">¿Qué incluye?</div>
+<ul class="pp-dincluye-list" id="tinaDetailIncluye"></ul>
+<div class="pp-detail-divider"></div>
+<div class="pp-detail-section-ttl">Preguntas frecuentes</div>
+<div class="pp-dfaq-list" id="tinaDetailFaq"></div>
+<div class="pp-detail-divider"></div>
+<div class="pp-detail-price-row">
+<div>
+<div class="pp-detail-price-main" id="tinaDetailPrice"></div>
+<div class="pp-detail-price-old" id="tinaDetailPriceOld"></div>
+</div>
+<div class="pp-detail-ahorro" id="tinaDetailAhorro"></div>
+</div>
+<button class="pp-detail-btn-buy" id="tinaDetailBtnBuy">
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="16"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        COMPRAR AHORA
+      </button>
+</div>
+</div>
+</div>
+<button aria-label="Ver carrito" class="pp-floating-cart" id="tinaFloatingCart" onclick="toggleTinaDrawer()">
+<svg fill="none" height="20" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="20"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+  Tu carrito
+  <span class="pp-floating-cart-badge" id="tinaCartBadge">0</span>
+</button>
+<div class="pp-drawer-overlay" id="tinaDrawerOverlay" onclick="closeTinaDrawer()"></div>
+<div class="pp-cart-drawer" id="tinaCartDrawer">
+<div class="pp-cart-drawer-header">
+<span class="pp-cart-drawer-title">
+<svg fill="none" height="16" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="16"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+      Tu pedido  <span class="pp-cart-drawer-count" id="tinaDrawerCount"></span>
+</span>
+<button aria-label="Cerrar" class="pp-cart-drawer-close" onclick="closeTinaDrawer()">×</button>
+</div>
+<div class="pp-cart-drawer-items" id="tinaDrawerItems">
+<div class="pp-drawer-empty">
+<div class="pp-drawer-empty-icon">🛁</div>
+<div class="pp-drawer-empty-title">Tu carrito está vacío</div>
+<div class="pp-drawer-empty-sub">Agrega uno o más cascos para continuar.</div>
+</div>
+</div>
+<div class="pp-cart-drawer-footer">
+<div class="pp-cart-drawer-total-row">
+<span class="pp-cart-drawer-total-label">Total pedido</span>
+<span class="pp-cart-drawer-total-val" id="tinaDrawerTotal">$ 0</span>
+</div>
+<div class="pp-cart-drawer-iva">IVA incluido</div>
+<button class="pp-cart-drawer-checkout" onclick="closeTinaDrawer(); openTinaCheckout();">IR AL PAGO →</button>
+<button class="pp-cart-drawer-keep" onclick="closeTinaDrawer()">← Seguir comprando</button>
+</div>
+</div>
+<div class="pp-qty-modal-overlay" id="tinaQtyModal">
+<div class="pp-qty-modal">
+<div class="pp-qty-modal-header">
+<h3>Agregar al carrito</h3>
+<button aria-label="Cerrar" class="pp-qty-modal-close" onclick="closeQtyModal()">×</button>
+</div>
+<div class="pp-qty-modal-body">
+<div class="pp-qty-modal-product">
+<img alt="Imagen del producto seleccionado" class="pp-qty-modal-thumb" id="qtyModalThumb"/>
+<div class="pp-qty-modal-info">
+<div class="pp-qty-modal-name" id="qtyModalName"></div>
+<div class="pp-qty-modal-sub" id="qtyModalSub"></div>
+<div class="pp-qty-modal-unit" id="qtyModalUnit"></div>
+</div>
+</div>
+<div class="pp-qty-modal-label">¿Cuántas unidades necesitas?</div>
+<div class="pp-qty-control">
+<button class="pp-qty-ctrl-btn" disabled="" id="qtyMinus" onclick="changeModalQty(-1)">−</button>
+<div class="pp-qty-ctrl-num" id="qtyDisplay">1</div>
+<button class="pp-qty-ctrl-btn" id="qtyPlus" onclick="changeModalQty(1)">+</button>
+</div>
+<div class="pp-qty-faldon-breakdown" id="qtyFaldonBreakdown" style="display:none">
+<div class="pp-qty-bd-row">
+<span class="pp-qty-bd-label" id="qtyBdTinaLabel">Tina Kuyen Full</span>
+<span class="pp-qty-bd-val" id="qtyBdTinaVal"></span>
+</div>
+<div class="pp-qty-bd-row pp-qty-bd-row--faldon">
+<span class="pp-qty-bd-label">+ Faldón</span>
+<span class="pp-qty-bd-val" id="qtyBdFaldonVal">$ 107.100</span>
+</div>
+</div>
+<div class="pp-qty-total-box">
+<div>
+<div class="pp-qty-total-label">Total</div>
+<div class="pp-qty-total-iva">IVA incluido</div>
+</div>
+<div class="pp-qty-total-val" id="qtyTotalVal"></div>
+</div>
+<div class="pp-qty-modal-btns">
+<button class="pp-qty-btn-checkout" onclick="addToTinaCart(); openTinaCheckout();">
+          IR AL PAGO →
+        </button>
+<button class="pp-qty-btn-more" onclick="addToTinaCart(); closeTinaDrawer();">
+          Agregar al carro y seguir comprando
+        </button>
+</div>
+</div>
+</div>
+</div>
+<div aria-modal="true" class="pp-modal-overlay" id="tinaCheckoutModal" role="dialog">
+<div class="pp-modal">
+<div class="pp-modal-header">
+<h2>Finalizar Compra</h2>
+<button aria-label="Cerrar" class="pp-modal-close" onclick="closeTinaCheckout()">×</button>
+</div>
+<div class="pp-modal-body">
+<div class="pp-checkout-steps">
+<div class="pp-checkout-step active" id="tinaCkStep1">
+<div class="pp-checkout-step-num">1</div>
+<div class="pp-checkout-step-label">Tus datos</div>
+</div>
+<div class="pp-checkout-step-line" id="tinaCkLine"></div>
+<div class="pp-checkout-step" id="tinaCkStep2">
+<div class="pp-checkout-step-num">2</div>
+<div class="pp-checkout-step-label">Entrega y pago</div>
+</div>
+</div>
+<div id="tinaStep1">
+<div class="pp-modal-order" style="margin-bottom:20px">
+<div class="pp-modal-order-title">Tu pedido</div>
+<div id="tinaStep1OrderItems"></div>
+</div>
+<div class="pp-client-toggle">
+<button class="active" id="tinaBtnPN" onclick="tinaSetClient('PN')">Persona Natural</button>
+<button id="tinaBtnEMP" onclick="tinaSetClient('EMP')">Empresa</button>
+</div>
+<div class="pp-form-grid" id="tinaFieldsPN">
+<div class="pp-field full">
+<label>Nombre completo *</label>
+<input id="tina_pn_nombre" placeholder="Juan Pérez González" type="text"/>
+</div>
+<div class="pp-field">
+<label>RUT *</label>
+<input id="tina_pn_rut" oninput="tinaFormatRut(this)" placeholder="12.345.678-9" type="text"/>
+<div class="pp-field-error" id="tina_pn_rut_err">RUT inválido</div>
+</div>
+<div class="pp-field">
+<label>Teléfono *</label>
+<input id="tina_pn_tel" oninput="tinaTelInput(this)" type="tel" value="+56 "/>
+<div class="pp-field-error" id="tina_pn_tel_err">Ingresa 9 dígitos (ej: +56 912345678)</div>
+</div>
+<div class="pp-field full">
+<label>Email *</label>
+<input id="tina_pn_email" placeholder="correo@ejemplo.cl" type="email"/>
+<div class="pp-field-error" id="tina_pn_email_err">Email inválido</div>
+</div>
+<div class="pp-field">
+<label>Región *</label>
+<select id="tina_pn_region">
+<option value="">Selecciona tu región</option>
+<option>Arica y Parinacota</option>
+<option>Tarapacá</option>
+<option>Antofagasta</option>
+<option>Atacama</option>
+<option>Coquimbo</option>
+<option>Valparaíso</option>
+<option>Metropolitana de Santiago</option>
+<option>O'Higgins</option>
+<option>Maule</option>
+<option>Ñuble</option>
+<option>Biobío</option>
+<option>La Araucanía</option>
+<option>Los Ríos</option>
+<option>Los Lagos</option>
+<option>Aysén</option>
+<option>Magallanes</option>
+</select>
+</div>
+<div class="pp-field">
+<label>Comuna *</label>
+<input id="tina_pn_comuna" placeholder="Santiago" type="text"/>
+</div>
+<div class="pp-field full">
+<label>Dirección *</label>
+<input id="tina_pn_direccion" placeholder="Calle Ejemplo 123, depto 4" type="text"/>
+</div>
+</div>
+<div class="pp-form-grid" id="tinaFieldsEMP" style="display:none">
+<div class="pp-field"><label>RUT Empresa *</label><input id="tina_emp_rut" oninput="tinaFormatRut(this)" placeholder="76.543.210-K" type="text"/><div class="pp-field-error" id="tina_emp_rut_err">RUT inválido</div></div>
+<div class="pp-field"><label>Razón Social *</label><input id="tina_emp_razon" placeholder="Empresa Ejemplo SpA" type="text"/></div>
+<div class="pp-field full"><label>Giro *</label><input id="tina_emp_giro" placeholder="Comercio al por mayor" type="text"/></div>
+<div class="pp-field">
+<label>Teléfono *</label>
+<input id="tina_emp_tel" oninput="tinaTelInput(this)" type="tel" value="+56 "/>
+<div class="pp-field-error" id="tina_emp_tel_err">Ingresa 9 dígitos (ej: +56 912345678)</div>
+</div>
+<div class="pp-field">
+<label>Email *</label>
+<input id="tina_emp_email" placeholder="contacto@empresa.cl" type="email"/>
+<div class="pp-field-error" id="tina_emp_email_err">Email inválido</div>
+</div>
+<div class="pp-field">
+<label>Región *</label>
+<select id="tina_emp_region">
+<option value="">Selecciona tu región</option>
+<option>Arica y Parinacota</option>
+<option>Tarapacá</option>
+<option>Antofagasta</option>
+<option>Atacama</option>
+<option>Coquimbo</option>
+<option>Valparaíso</option>
+<option>Metropolitana de Santiago</option>
+<option>O'Higgins</option>
+<option>Maule</option>
+<option>Ñuble</option>
+<option>Biobío</option>
+<option>La Araucanía</option>
+<option>Los Ríos</option>
+<option>Los Lagos</option>
+<option>Aysén</option>
+<option>Magallanes</option>
+</select>
+</div>
+<div class="pp-field">
+<label>Comuna *</label>
+<input id="tina_emp_comuna" placeholder="Santiago" type="text"/>
+</div>
+<div class="pp-field full">
+<label>Dirección *</label>
+<input id="tina_emp_direccion" placeholder="Av. Ejemplo 456, piso 2" type="text"/>
+</div>
+</div>
+<div class="pp-form-error" id="tinaStep1Error"></div>
+<button class="pp-btn-next" onclick="tinaGoStep2()">
+          Continuar — Elegir entrega
+          <svg fill="none" height="16" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" width="16"><polyline points="9 18 15 12 9 6"></polyline></svg>
+</button>
+</div>
+<div id="tinaStep2" style="display:none">
+<div class="pp-section-divider">Resumen del pedido</div>
+<div class="pp-modal-order">
+<div class="pp-modal-order-title">Tu pedido</div>
+<div id="tinaStep2OrderItems"></div>
+</div>
+<div class="pp-modal-total">
+<span>Total con IVA</span>
+<strong id="tinaStep2Total"></strong>
+</div>
+<div class="pp-section-divider">¿Cómo recibes tu pedido?</div>
+<div class="pp-entrega-options" id="tinaEntregaOptions"></div>
+<div id="tinaRetiroInfo" style="display:none;margin-top:14px;background:#f0f4fb;border-radius:12px;padding:16px 18px;border:1px solid #ccd8ee"><div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin-bottom:10px">Dirección de retiro</div><div style="font-size:0.88rem;color:#1a1a2e;line-height:2"><div><strong>Santiago Concha 1525, Santiago</strong></div><div>Lunes a jueves · 9:00 a 18:00 hrs</div><div>Viernes · 9:00 a 17:00 hrs</div><div style="margin-top:8px;font-size:0.78rem;color:#666">Contáctanos al +56 9 4208 6751 para coordinar el retiro.</div></div></div>
+<div id="tinaEnvioInfo" style="display:none;margin-top:14px;background:#fffbeb;border-radius:12px;padding:16px 18px;border:1px solid #fde68a"><div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#92400e;font-weight:700;margin-bottom:10px">Envío gestionado por ti</div><div style="font-size:0.85rem;color:#1a1a2e;line-height:2"><div>Tu contratas y coordinas el transporte.</div><div>Tu transportista retira desde: <strong>Santiago Concha 1525, Santiago</strong></div><div style="margin-top:8px;font-size:0.78rem;color:#666">Coordina enviando tu comprobante por WhatsApp al +56 9 4208 6751.</div></div></div>
+<div id="tinaAddressSection" style="display:none;margin-top:14px"><div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin-bottom:10px">Dirección de despacho</div><div style="display:grid;gap:10px"><div><label style="font-size:0.78rem;font-weight:600;display:block;margin-bottom:4px">Región *</label><select id="tina_despacho_region" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-size:0.88rem;outline:none;"><option value="">Selecciona tu región...</option><option value="RM">Región Metropolitana</option><option value="XV">Arica y Parinacota</option><option value="I">Tarapacá</option><option value="II">Antofagasta</option><option value="III">Atacama</option><option value="IV">Coquimbo</option><option value="V">Valparaíso</option><option value="VI">O'Higgins</option><option value="VII">Maule</option><option value="XVI">Ñuble</option><option value="VIII">Biobío</option><option value="IX">La Araucanía</option><option value="XIV">Los Ríos</option><option value="X">Los Lagos</option><option value="XI">Aysén</option><option value="XII">Magallanes</option></select></div><div><label style="font-size:0.78rem;font-weight:600;display:block;margin-bottom:4px">Comuna *</label><input id="tina_despacho_comuna" placeholder="Ej: Providencia" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-size:0.88rem;outline:none;box-sizing:border-box;" type="text"/></div><div><label style="font-size:0.78rem;font-weight:600;display:block;margin-bottom:4px">Dirección *</label><input id="tina_despacho_dir" placeholder="Av. Ejemplo 1234, Depto 5" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-size:0.88rem;outline:none;box-sizing:border-box;" type="text"/></div></div></div>
+<div class="pp-form-error" id="tinaStep2Error"></div>
+<button class="pp-btn-back-step" onclick="tinaGoBackStep1()">← Volver y editar datos</button>
+<button class="pp-btn-webpay" disabled="" id="tinaBtnPay" onclick="tinaSubmitOrder()" style="opacity:0.5;cursor:not-allowed">
+<svg fill="none" height="18" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="18"><rect height="16" rx="2" width="22" x="1" y="4"></rect><line x1="1" x2="23" y1="10" y2="10"></line></svg>
+          PAGAR CON WEBPAY
+        </button>
+<div class="pp-webpay-note">🔒 Pago 100% seguro · SSL · Transbank · 3 cuotas sin interés según tu banco</div>
+</div>
+</div>
+</div>
+</div>
+<div id="tinaPagoResult" style="display:none">
+<div id="tinaResultOk" style="display:none;max-width:480px;width:100%;background:#fff;border-radius:20px;padding:36px 32px;text-align:center;box-shadow:0 24px 64px rgba(0,74,153,0.15)">
+<div style="width:64px;height:64px;background:#e6f4ec;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
+<svg fill="none" height="32" stroke="#28a745" stroke-width="2.5" viewbox="0 0 24 24" width="32"><polyline points="20 6 9 17 4 12"></polyline></svg>
+</div>
+<h2 style="color:#1a1a2e;margin-bottom:8px">Pago aprobado</h2>
+<p style="color:#666;font-size:0.88rem;margin-bottom:24px">Tu pedido fue recibido. Te enviamos un comprobante a tu correo electrónico.</p>
+<div style="background:#f0f4fb;border-radius:12px;padding:18px 20px;text-align:left;margin-bottom:24px;font-size:0.84rem;line-height:2.2">
+<div style="display:flex;justify-content:space-between"><span style="color:#666">N° de orden</span><strong id="tinaOrden" style="color:#004a99"></strong></div>
+<div style="display:flex;justify-content:space-between;border-top:1px solid #dde4ef"><span style="color:#666">Monto pagado</span><strong id="tinaMonto" style="color:#28a745"></strong></div>
+<div style="display:flex;justify-content:space-between;border-top:1px solid #dde4ef"><span style="color:#666">Código autorización</span><strong id="tinaAuth" style="color:#1a1a2e"></strong></div>
+</div>
+<p style="font-size:0.78rem;color:#888">Coordina tu retiro en Concha 1525, Santiago Centro.<br/>Lun–Jue 9:00–18:00 · Vie 9:00–17:00</p>
+<a href="/categoria-producto/tinas-de-hidromasaje/" style="display:inline-block;margin-top:20px;padding:12px 28px;background:#004a99;color:#fff;border-radius:10px;font-size:0.88rem;font-weight:700;letter-spacing:1px;text-decoration:none">← Seguir comprando</a>
+</div>
+<div id="tinaResultFail" style="display:none;max-width:480px;width:100%;background:#fff;border-radius:20px;padding:36px 32px;text-align:center;box-shadow:0 24px 64px rgba(0,74,153,0.15)">
+<div style="width:64px;height:64px;background:#fde8e8;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
+<svg fill="none" height="32" stroke="#c0392b" stroke-width="2.5" viewbox="0 0 24 24" width="32"><line x1="18" x2="6" y1="6" y2="18"></line><line x1="6" x2="18" y1="6" y2="18"></line></svg>
+</div>
+<h2 style="color:#1a1a2e;margin-bottom:8px">Pago no completado</h2>
+<p id="tinaFailMsg" style="color:#666;font-size:0.88rem;margin-bottom:24px">Hubo un problema con el pago. Por favor intenta nuevamente.</p>
+<button onclick="window.history.replaceState({},\'\',window.location.pathname);document.getElementById(\'tinaPagoResult\').style.display=\'none\';" style="padding:14px 28px;background:#004a99;color:#fff;border:none;border-radius:12px;font-size:0.9rem;font-weight:700;cursor:pointer;letter-spacing:1px">Volver a intentar</button>
+</div>
+</div>
+<div aria-label="Accesorio recomendado para tu Kuyen Full" aria-modal="true" class="pp-upsell-overlay" id="kuyenUpsellModal" lang="es" role="dialog">
+<div class="pp-upsell-modal">
+<div class="pp-upsell-header">
+<div class="pp-upsell-header-label">Accesorio recomendado</div>
+<button aria-label="Cerrar" class="pp-upsell-close" onclick="kuyenUpsellSkip()">×</button>
+</div>
+<img alt="Faldón para tina Kuyen Full - cubre base y estructura metálica - Polyplas Chile" class="pp-upsell-img" decoding="async" height="400" id="kuyenFaldonImg" loading="lazy" src="/wp-content/uploads/2026/08/tina-faldon.webp" width="800"/>
+<div class="pp-upsell-body">
+<div class="pp-upsell-tag">Paso opcional</div>
+<div class="pp-upsell-name">¿Le agregas el Faldón?</div>
+<div class="pp-upsell-desc">Cubre la base metálica con un acabado limpio. El faldón va en L y puede orientarse hacia la derecha o hacia la izquierda según cómo empotres tu tina. Completamente opcional — si no lo necesitas, continúa directo a tu compra.</div>
+<div class="pp-upsell-pricing">
+<div class="pp-upsell-pr-row">
+<span class="pp-upsell-pr-lbl">Tu Tina Kuyen Full</span>
+<span class="pp-upsell-pr-val" id="upsellTinaPrice">$ 979.990</span>
+</div>
+<div class="pp-upsell-pr-row pp-upsell-pr-row--extra">
+<span class="pp-upsell-pr-lbl">+ Faldón <span class="pp-upsell-pr-badge">opcional</span></span>
+<span class="pp-upsell-pr-val">$ 107.100</span>
+</div>
+<hr class="pp-upsell-pr-divider"/>
+<div class="pp-upsell-pr-row pp-upsell-pr-row--total">
+<span class="pp-upsell-pr-lbl">Total si lo agregas</span>
+<span class="pp-upsell-pr-val" id="upsellTotalPrice">$ 1.087.090</span>
+</div>
+</div>
+<div class="pp-upsell-btns">
+<button class="pp-upsell-btn-yes" onclick="kuyenUpsellAccept()">Sí, agregar faldón</button>
+<button class="pp-upsell-btn-no" onclick="kuyenUpsellSkip()">No gracias, solo la tina →</button>
+</div>
+</div>
+</div>
+</div>
+<div aria-label="Ver foto ampliada" aria-modal="true" class="pp-lightbox" id="ppPhotoLightbox" onclick="closePpLightbox()" role="dialog">
+<img alt="Ver imagen ampliada" class="pp-lightbox-img" id="ppLightboxImg" onclick="event.stopPropagation()"/>
+<button aria-label="Cerrar" class="pp-lightbox-close" onclick="closePpLightbox()">×</button>
+</div>
+<div class="pp-toast" id="tinaToast"></div>
+<script>
+(function() {
+'use strict';
+
+// ── Datos de productos ───────────────────────────────────────
+// Para cambiar el precio: edita "precio" aquí y el texto "$ 180.000" de cada tarjeta más arriba.
+var TINAS = window.TINAS = [
+  { id:"queilen", nombre:"Casco de Tina Queilen", specs:"167×91,5×51 cm", precio:180000, img:"/wp-content/uploads/2026/10/casco-tina-queilen.webp" },
+  { id:"coinco", nombre:"Casco de Tina Coinco", specs:"167×92×58 cm", precio:180000, img:"/wp-content/uploads/2026/10/casco-tina-coinco.webp" }
+];
+
+// ── Estado ───────────────────────────────────────────────────
+var cart = [];
+var qtyModalState = { tina: null, qty: 1 };
+var kuyenFaldonPending = false;
+window.FALDON_UPSELL_ACTIVE = true; // controlado desde CRM vía Supabase
+var tinaClientType = 'PN';
+var tinaEntrega = 'retiro';
+
+// ── Utilidades ───────────────────────────────────────────────
+function fmt(n) {
+  return '$ ' + Math.round(n).toLocaleString('es-CL');
+}
+
+function showToast(msg, type) {
+  var el = document.getElementById('tinaToast');
+  el.textContent = msg;
+  el.className = 'pp-toast' + (type ? ' pp-toast--' + type : '');
+  el.classList.add('show');
+  setTimeout(function() { el.classList.remove('show'); }, 3000);
+}
+
+// ── Cart helpers ─────────────────────────────────────────────
+function cartTotal() {
+  return cart.reduce(function(s, i) { return s + i.precio * i.qty; }, 0);
+}
+
+function cartCount() {
+  return cart.reduce(function(s, i) { return s + i.qty; }, 0);
+}
+
+function updateFloatingCart() {
+  var btn = document.getElementById('tinaFloatingCart');
+  var badge = document.getElementById('tinaCartBadge');
+  var count = cartCount();
+  btn.style.display = count > 0 ? 'flex' : 'none';
+  badge.textContent = count;
+}
+
+function renderDrawer() {
+  var container = document.getElementById('tinaDrawerItems');
+  var totalEl   = document.getElementById('tinaDrawerTotal');
+  var countEl   = document.getElementById('tinaDrawerCount');
+
+  if (!cart.length) {
+    container.innerHTML = '<div class="pp-drawer-empty"><div class="pp-drawer-empty-icon">🛁</div><div class="pp-drawer-empty-title">Tu carrito está vacío</div><div class="pp-drawer-empty-sub">Agrega uno o más cascos para continuar.</div></div>';
+    totalEl.textContent = '$ 0';
+    countEl.textContent = '0';
+    return;
+  }
+
+  countEl.textContent = cartCount();
+  totalEl.textContent = fmt(cartTotal());
+
+  container.innerHTML = cart.map(function(item, idx) {
+    return '<div class="pp-drawer-item">' +
+      '<img class="pp-drawer-item-thumb" src="' + item.img + '" alt="' + item.nombre + '" onerror="this.style.background=\'#eef2f8\'">' +
+      '<div class="pp-drawer-item-body">' +
+        '<div class="pp-drawer-item-name">' + item.nombre + '</div>' +
+        '<div class="pp-drawer-item-sub">' + item.specs + '</div>' +
+      '</div>' +
+      '<div class="pp-drawer-item-right">' +
+        '<div class="pp-drawer-item-price">' + fmt(item.precio * item.qty) + '</div>' +
+        '<div class="pp-drawer-item-qty">' +
+          '<button class="pp-drawer-qty-btn" onclick="drawerQty(' + idx + ',-1)">−</button>' +
+          '<span class="pp-drawer-qty-val">' + item.qty + '</span>' +
+          '<button class="pp-drawer-qty-btn" onclick="drawerQty(' + idx + ',1)">+</button>' +
+        '</div>' +
+        '<button class="pp-drawer-item-remove" onclick="removeFromCart(' + idx + ')">Eliminar</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+window.drawerQty = function(idx, delta) {
+  cart[idx].qty = Math.max(1, cart[idx].qty + delta);
+  renderDrawer();
+  updateFloatingCart();
+};
+
+window.removeFromCart = function(idx) {
+  cart.splice(idx, 1);
+  renderDrawer();
+  updateFloatingCart();
+  if (!cart.length) closeTinaDrawer();
+};
+
+// ── Modal de cantidad ────────────────────────────────────────
+window.openQtyModal = function(id, nombre, specs, img, tinaIdx) {
+  if (window.ppPaso) window.ppPaso('compra_abre', 'cascos', { item_id: 'CASCO_' + id });
+  var tina = TINAS.find(function(t){ return t.id === id; }) || TINAS[tinaIdx] || {};
+  qtyModalState.tina = tina;
+  qtyModalState.qty  = 1;
+
+  document.getElementById('qtyModalThumb').src  = tina.img || img;
+  document.getElementById('qtyModalName').textContent = nombre;
+  document.getElementById('qtyModalSub').textContent  = specs;
+  document.getElementById('qtyModalUnit').textContent = tina.precio ? fmt(tina.precio) + ' c/u · IVA incl.' : '$ — · IVA incl.';
+  document.getElementById('qtyDisplay').textContent = '1';
+  document.getElementById('qtyMinus').disabled = true;
+  updateQtyTotal();
+  document.getElementById('tinaQtyModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  dlPushTinas('view_item', {
+    currency: 'CLP',
+    value: tina.precio || 0,
+    items: [{ item_id: 'CASCO_' + tina.id, item_name: tina.nombre || nombre, item_brand: 'Polyplas', item_category: 'Cascos de Tinas', item_variant: tina.specs || specs || '', price: tina.precio || 0, quantity: 1, index: 0 }]
+  });
+};
+
+function updateQtyTotal() {
+  var tina = qtyModalState.tina;
+  var tinaTotal = tina && tina.precio ? tina.precio * qtyModalState.qty : 0;
+  var breakdown = document.getElementById('qtyFaldonBreakdown');
+  if (kuyenFaldonPending && tina && tina.id === 'kuyen') {
+    var faldonPrecio = (typeof FALDON_KUYEN !== 'undefined' && FALDON_KUYEN.precio) ? FALDON_KUYEN.precio : 107100;
+    document.getElementById('qtyBdTinaLabel').textContent = tina.nombre || 'Tina Kuyen Full';
+    document.getElementById('qtyBdTinaVal').textContent = fmt(tinaTotal);
+    document.getElementById('qtyBdFaldonVal').textContent = fmt(faldonPrecio);
+    if (breakdown) breakdown.style.display = 'block';
+    document.getElementById('qtyTotalVal').textContent = fmt(tinaTotal + faldonPrecio);
+  } else {
+    if (breakdown) breakdown.style.display = 'none';
+    document.getElementById('qtyTotalVal').textContent = tinaTotal ? fmt(tinaTotal) : '$ —';
+  }
+}
+
+window.changeModalQty = function(delta) {
+  qtyModalState.qty = Math.max(1, qtyModalState.qty + delta);
+  document.getElementById('qtyDisplay').textContent = qtyModalState.qty;
+  document.getElementById('qtyMinus').disabled = qtyModalState.qty <= 1;
+  updateQtyTotal();
+};
+
+window.closeQtyModal = function() {
+  document.getElementById('tinaQtyModal').classList.remove('open');
+  document.body.style.overflow = '';
+  kuyenFaldonPending = false;
+};
+
+window.addToTinaCart = function() {
+  var tina = qtyModalState.tina;
+  if (!tina) return;
+  // Si el faldón está pendiente (Kuyen Full con upsell aceptado), agregarlo primero
+  if (kuyenFaldonPending && tina.id === 'kuyen' && typeof FALDON_KUYEN !== 'undefined') {
+    var fIdx = cart.findIndex(function(i){ return i.id === FALDON_KUYEN.id; });
+    if (fIdx >= 0) { cart[fIdx].qty += 1; }
+    else { cart.push({ id: FALDON_KUYEN.id, nombre: FALDON_KUYEN.nombre, specs: FALDON_KUYEN.specs, precio: FALDON_KUYEN.precio, img: FALDON_KUYEN.img, qty: 1 }); }
+    kuyenFaldonPending = false;
+  }
+  var idx = cart.findIndex(function(i){ return i.id === tina.id; });
+  if (idx >= 0) {
+    cart[idx].qty += qtyModalState.qty;
+  } else {
+    cart.push({ id: tina.id, nombre: tina.nombre, specs: tina.specs, precio: tina.precio, img: tina.img, qty: qtyModalState.qty });
+  }
+  // Carrito global
+  try {
+    var _gcIdx = idx >= 0 ? idx : cart.length - 1;
+    var _gcItem = cart[_gcIdx];
+    if (!_gcItem._gid) _gcItem._gid = 'gc-' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+    typeof window.ppGlobalCartAdd === 'function' && window.ppGlobalCartAdd({
+      gid: _gcItem._gid, sku: 'CASCO_' + _gcItem.id, module: 'cascos',
+      nombre: _gcItem.nombre + (_gcItem.specs ? ' · ' + _gcItem.specs : ''),
+      qty: _gcItem.qty, precio_unit: _gcItem.precio, corte_costo: 0,
+      subtotal: _gcItem.precio * _gcItem.qty,
+      descripcion: _gcItem.nombre + ' × ' + _gcItem.qty
+    });
+  } catch(e) {}
+  dlPushTinas('add_to_cart', {
+    currency: 'CLP',
+    value: tina.precio * qtyModalState.qty,
+    items: [{ item_id: 'CASCO_' + tina.id, item_name: tina.nombre, item_brand: 'Polyplas', item_category: 'Cascos de Tinas', item_variant: tina.specs || '', price: tina.precio, quantity: qtyModalState.qty, index: 0 }]
+  });
+  closeQtyModal();
+  renderDrawer();
+  updateFloatingCart();
+  showToast('✓ ' + tina.nombre + ' agregado al carrito', 'success');
+};
+
+// ── Drawer ───────────────────────────────────────────────────
+window.toggleTinaDrawer = function() {
+  var drawer = document.getElementById('tinaCartDrawer');
+  if (drawer.classList.contains('open')) closeTinaDrawer();
+  else openTinaDrawer();
+};
+window.openTinaDrawer = function() {
+  if (window.ppGCOpen) { window.ppGCOpen(); return; }
+  renderDrawer();
+  document.getElementById('tinaCartDrawer').classList.add('open');
+  document.getElementById('tinaDrawerOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+};
+window.closeTinaDrawer = function() {
+  document.getElementById('tinaCartDrawer').classList.remove('open');
+  document.getElementById('tinaDrawerOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+};
+
+// ── Modal detalle producto ────────────────────────────────────
+var tinaDetailData = {
+  "queilen": {
+    "label": "Casco de Tina",
+    "title": "Queilen",
+    "imgs": [
+      "/wp-content/uploads/2026/10/casco-tina-queilen.webp",
+      "/wp-content/uploads/2026/10/casco-tina-queilen-reverso.webp"
+    ],
+    "plano": "/wp-content/uploads/2026/10/casco-tina-queilen-medidas.webp",
+    "precio": "$ 180.000",
+    "precioOld": "",
+    "ahorro": "",
+    "desc": [
+      {
+        "h": "La base para armar tu tina a tu medida",
+        "p": "El casco Queilen es la misma tina de nuestra línea de hidromasaje, pero sin equipar: solo la bañera, lista para que la instales como tina tradicional o le sumes tu propio sistema. Su interior ovalado de 167×91,5 cm ofrece un espacio amplio y cómodo para una persona."
+      },
+      {
+        "h": "Ideal para remodelaciones y proyectos",
+        "p": "Pensado para maestros, constructoras e instaladores que ya cuentan con grifería, desagüe o equipos propios. Superficie blanca brillante, fácil de limpiar, y reverso reforzado con fibra de vidrio para darle rigidez."
+      }
+    ],
+    "capacidad": "Para 1 persona",
+    "medidas": "167×91,5×51 cm",
+    "hidromasaje": "Acrílico sanitario reforzado con fibra de vidrio",
+    "sistema": "Empotrada · requiere base o estructura de apoyo",
+    "incluye": [
+      "Casco de tina Queilen 167×91,5×51 cm",
+      "Superficie blanca brillante",
+      "Reverso reforzado con fibra de vidrio",
+      "Perforación para desagüe"
+    ],
+    "modalId": "queilen",
+    "modalNombre": "Casco de Tina Queilen",
+    "modalSpecs": "167×91,5×51 cm",
+    "modalIdx": 0
+  },
+  "coinco": {
+    "label": "Casco de Tina",
+    "title": "Coinco",
+    "imgs": [
+      "/wp-content/uploads/2026/10/casco-tina-coinco.webp",
+      "/wp-content/uploads/2026/10/casco-tina-coinco-reverso.webp"
+    ],
+    "plano": "/wp-content/uploads/2026/10/casco-tina-coinco-medidas.webp",
+    "precio": "$ 180.000",
+    "precioOld": "",
+    "ahorro": "",
+    "desc": [
+      {
+        "h": "Líneas rectas y mayor profundidad",
+        "p": "El casco Coinco es la bañera de nuestra tina Coinco, sin equipar. Su diseño rectangular de líneas rectas y sus 58 cm de altura entregan un baño profundo y un estilo moderno que combina con cualquier baño."
+      },
+      {
+        "h": "Ideal para remodelaciones y proyectos",
+        "p": "Pensado para maestros, constructoras e instaladores que ya cuentan con grifería, desagüe o equipos propios. Superficie blanca brillante, fácil de limpiar, y reverso reforzado con fibra de vidrio para darle rigidez."
+      }
+    ],
+    "capacidad": "Para 1 persona",
+    "medidas": "167×92×58 cm",
+    "hidromasaje": "Acrílico sanitario reforzado con fibra de vidrio",
+    "sistema": "Empotrada · requiere base o estructura de apoyo",
+    "incluye": [
+      "Casco de tina Coinco 167×92×58 cm",
+      "Superficie blanca brillante",
+      "Reverso reforzado con fibra de vidrio",
+      "Perforación para desagüe"
+    ],
+    "modalId": "coinco",
+    "modalNombre": "Casco de Tina Coinco",
+    "modalSpecs": "167×92×58 cm",
+    "modalIdx": 1
+  }
+};
+
+window.openTinaDetail = function(id) {
+  var d = tinaDetailData[id];
+  if (!d) return;
+
+  // Carrusel del modal
+  var slidesEl = document.getElementById('tinaDetailSlides');
+  var dotsEl   = document.getElementById('tinaDetailDots');
+  slidesEl.innerHTML = d.imgs.map(function(url, i) {
+    return i === 0
+      ? '<img src="' + url + '" alt="' + d.modalNombre + '" class="pp-slide active" loading="eager">'
+      : '<img data-src="' + url + '" alt="' + d.modalNombre + '" class="pp-slide">';
+  }).join('');
+  dotsEl.innerHTML = d.imgs.map(function(_, i) {
+    return '<button type="button" class="pp-dot' + (i === 0 ? ' active' : '') + '" onclick="detailSlide(' + i + ')" aria-label="Ver imagen ' + (i + 1) + '"></button>';
+  }).join('');
+  if (window._detailInterval) clearInterval(window._detailInterval);
+  var _di = 0;
+  window._detailInterval = setInterval(function() {
+    _di = (_di + 1) % d.imgs.length;
+    detailSlide(_di);
+  }, 3500);
+
+  document.getElementById('tinaDetailLabel').textContent = d.label;
+  document.getElementById('tinaDetailTitle').textContent = d.title;
+  document.getElementById('tinaDetailPrice').innerHTML = d.precio + '<span>c/IVA</span>';
+  document.getElementById('tinaDetailPriceOld').textContent = d.precioOld || '';
+  document.getElementById('tinaDetailAhorro').textContent = d.ahorro;
+  var descHTML = d.desc.map(function(b) {
+    return '<h4>' + b.h + '</h4><p>' + b.p + '</p>';
+  }).join('');
+  if (d.plano) descHTML += '<h4>Plano de medidas</h4><img class="pp-casco-plano" loading="lazy" src="' + d.plano + '" alt="Plano de medidas ' + d.modalNombre + ' ' + d.medidas + '" onclick="openPpLightbox(this.src,this.alt)">';
+  document.getElementById('tinaDetailDesc').innerHTML = descHTML;
+
+  // Specs grid
+  var specsData = [
+    { lbl: 'Capacidad', val: d.capacidad || '—' },
+    { lbl: 'Medidas', val: d.medidas || '—' },
+    { lbl: 'Material', val: d.hidromasaje || '—' },
+    { lbl: 'Instalación', val: d.sistema || '—' }
+  ];
+  document.getElementById('tinaDetailSpecs').innerHTML = specsData.map(function(s) {
+    return '<div class="pp-dspec-card"><div class="pp-dspec-lbl">' + s.lbl + '</div><div class="pp-dspec-val">' + s.val + '</div></div>';
+  }).join('');
+
+  // Incluye checklist
+  var chk = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1a7a3a" stroke-width="2.8"><polyline points="20 6 9 17 4 12"/></svg>';
+  document.getElementById('tinaDetailIncluye').innerHTML = (d.incluye || []).map(function(item) {
+    return '<li>' + chk + item + '</li>';
+  }).join('');
+
+  // FAQs
+  var faqs = [
+    { q: '¿Qué es un casco de tina?', a: 'Es la bañera sola, sin equipar: la misma tina de nuestra línea de hidromasaje pero sin motobomba, jets, base metálica ni desagüe.' },
+    { q: '¿Trae hidromasaje?', a: 'No. Si buscas la tina completa con motobomba y jets, revisa nuestras <a href="/categoria-producto/tinas-de-hidromasaje/">tinas de hidromasaje</a>.' },
+    { q: '¿Qué necesito para instalarlo?', a: 'Una base o estructura de apoyo, desagüe con rebalse y grifería. Recomendamos que lo instale un maestro o gásfiter.' },
+    { q: '¿Para cuántas personas es?', a: d.capacidad || '—' }
+  ];
+  if (d.sistema && d.sistema.indexOf('Mantenedor') !== -1) {
+    faqs.push({ q: '¿Mantiene el agua caliente?', a: 'Sí. Incluye mantenedor de temperatura que mantiene el agua a la temperatura ideal durante todo el baño.' });
+  }
+  document.getElementById('tinaDetailFaq').innerHTML = faqs.map(function(f) {
+    return '<div><div class="pp-dfaq-q">' + f.q + '</div><div class="pp-dfaq-a">' + f.a + '</div></div>';
+  }).join('');
+  document.getElementById('tinaDetailBtnBuy').onclick = function() {
+    closeTinaDetail();
+    if (id === 'kuyen') { openKuyenUpsell(); }
+    else { openQtyModal(d.modalId, d.modalNombre, d.modalSpecs, d.imgs[0], d.modalIdx); }
+  };
+  var _viTina = TINAS.find(function(t){ return t.id === id; });
+  dlPushTinas('view_item', {
+    currency: 'CLP',
+    value: _viTina ? (_viTina.precio || 0) : 0,
+    items: [{ item_id: 'CASCO_' + id, item_name: d.label + ' ' + d.title, item_brand: 'Polyplas', item_category: 'Cascos de Tinas', item_variant: d.medidas || '', price: _viTina ? (_viTina.precio || 0) : 0, quantity: 1, index: 0 }]
+  });
+  document.getElementById('tinaDetailModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  history.replaceState(null, '', window.location.pathname + window.location.search + '#casco=' + id);
+};
+
+window.detailSlide = function(idx) {
+  var slidesEl = document.getElementById('tinaDetailSlides');
+  var dotsEl   = document.getElementById('tinaDetailDots');
+  slidesEl.querySelectorAll('.pp-slide').forEach(function(s, i) {
+    if (i === idx && s.dataset.src) { s.src = s.dataset.src; delete s.dataset.src; }
+    s.classList.toggle('active', i === idx);
+  });
+  dotsEl.querySelectorAll('.pp-dot').forEach(function(d, i) {
+    d.classList.toggle('active', i === idx);
+  });
+};
+
+window.closeTinaDetail = function() {
+  if (window._detailInterval) { clearInterval(window._detailInterval); window._detailInterval = null; }
+  document.getElementById('tinaDetailModal').classList.remove('open');
+  document.body.style.overflow = '';
+  history.replaceState(null, '', window.location.pathname + window.location.search);
+};
+
+document.getElementById('tinaDetailModal').addEventListener('click', function(e) {
+  if (e.target === this) closeTinaDetail();
+});
+
+// ── Checkout ─────────────────────────────────────────────────
+function buildOrderItemsHTML() {
+  if (!cart.length) return '<div style="color:#888;font-size:0.82rem">Sin productos</div>';
+  return cart.map(function(item) {
+    return '<div class="pp-modal-order-item">' +
+      '<span class="desc">' + item.nombre + ' × ' + item.qty + '</span>' +
+      '<span class="monto">' + fmt(item.precio * item.qty) + '</span>' +
+    '</div>';
+  }).join('');
+}
+
+window.openTinaCheckout = function() {
+  if (!cart.length) { showToast('Agrega un casco primero', ''); return; }
+  dlPushTinas('begin_checkout', { currency: 'CLP', value: cartTotal(), customer_type: tinaClientType, items: cart.map(function(i, idx) { return { item_id: 'CASCO_' + i.id, item_name: i.nombre, item_brand: 'Polyplas', item_category: 'Cascos de Tinas', item_variant: i.specs || '', price: i.precio, quantity: i.qty, index: idx }; }) });
+  if (window.ppGCOpen) { window.ppGCOpen(); return; }
+  // Reset to step 1
+  document.getElementById('tinaStep1').style.display = '';
+  document.getElementById('tinaStep2').style.display = 'none';
+  document.getElementById('tinaCkStep1').className = 'pp-checkout-step active';
+  document.getElementById('tinaCkStep2').className = 'pp-checkout-step';
+  document.getElementById('tinaCkLine').className  = 'pp-checkout-step-line';
+  // Render order summary in step 1
+  document.getElementById('tinaStep1OrderItems').innerHTML = buildOrderItemsHTML();
+  document.getElementById('tinaCheckoutModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+};
+window.closeTinaCheckout = function() {
+  document.getElementById('tinaCheckoutModal').classList.remove('open');
+  document.body.style.overflow = '';
+};
+
+window.tinaSetClient = function(type) {
+  tinaClientType = type;
+  document.getElementById('tinaBtnPN').classList.toggle('active', type === 'PN');
+  document.getElementById('tinaBtnEMP').classList.toggle('active', type === 'EMP');
+  document.getElementById('tinaFieldsPN').style.display  = type === 'PN'  ? '' : 'none';
+  document.getElementById('tinaFieldsEMP').style.display = type === 'EMP' ? '' : 'none';
+};
+
+function tinaValidateRut(rut) {
+  rut = rut.replace(/\./g,'').replace(/-/,'');
+  if (rut.length < 8) return false;
+  var body = rut.slice(0,-1), dv = rut.slice(-1).toUpperCase();
+  var sum = 0, m = 2;
+  for (var i = body.length - 1; i >= 0; i--) {
+    sum += parseInt(body[i]) * m;
+    m = m === 7 ? 2 : m + 1;
+  }
+  var expected = 11 - (sum % 11);
+  var dvCalc = expected === 11 ? '0' : expected === 10 ? 'K' : String(expected);
+  return dv === dvCalc;
+}
+
+window.tinaFormatRut = function(el) {
+  var v = el.value.replace(/[^0-9kK]/g,'');
+  if (v.length > 1) v = v.slice(0,-1).replace(/\B(?=(\d{3})+(?!\d))/g,'.') + '-' + v.slice(-1).toUpperCase();
+  el.value = v;
+};
+
+window.tinaTelInput = function(el) {
+  var v = el.value.replace(/[^+\d\s]/g,'');
+  if (!v.startsWith('+56 ')) v = '+56 ' + v.replace(/^\+56\s?/,'');
+  el.value = v;
+};
+
+window.tinaGoStep2 = function() {
+  var errEl = document.getElementById('tinaStep1Error');
+  errEl.style.display = 'none';
+  var errors = [];
+  if (tinaClientType === 'PN') {
+    if (!document.getElementById('tina_pn_nombre').value.trim()) errors.push('Nombre completo');
+    var rut = document.getElementById('tina_pn_rut').value.trim();
+    if (!rut || !tinaValidateRut(rut)) errors.push('RUT válido');
+    var tel = document.getElementById('tina_pn_tel').value.replace(/\D/g,'');
+    if (tel.length < 11) errors.push('Teléfono');
+    var email = document.getElementById('tina_pn_email').value.trim();
+    if (!email || !email.includes('@') || !email.includes('.')) errors.push('Email');
+    if (!document.getElementById('tina_pn_region').value) errors.push('Región');
+    if (!document.getElementById('tina_pn_comuna').value.trim()) errors.push('Comuna');
+    if (!document.getElementById('tina_pn_direccion').value.trim()) errors.push('Dirección');
+  } else {
+    if (!tinaValidateRut(document.getElementById('tina_emp_rut').value)) errors.push('RUT Empresa');
+    if (!document.getElementById('tina_emp_razon').value.trim()) errors.push('Razón Social');
+    if (!document.getElementById('tina_emp_giro').value.trim()) errors.push('Giro');
+    var empTel = document.getElementById('tina_emp_tel').value.replace(/\D/g,'');
+    if (empTel.length < 11) errors.push('Teléfono');
+    var empEmail = document.getElementById('tina_emp_email').value.trim();
+    if (!empEmail || !empEmail.includes('@') || !empEmail.includes('.')) errors.push('Email');
+    if (!document.getElementById('tina_emp_region').value) errors.push('Región');
+    if (!document.getElementById('tina_emp_comuna').value.trim()) errors.push('Comuna');
+    if (!document.getElementById('tina_emp_direccion').value.trim()) errors.push('Dirección');
+  }
+  if (errors.length) {
+    errEl.textContent = 'Completa los campos: ' + errors.join(', ');
+    errEl.style.display = 'block';
+    return;
+  }
+  // Pasar a paso 2
+  document.getElementById('tinaStep1').style.display = 'none';
+  document.getElementById('tinaStep2').style.display = '';
+  document.getElementById('tinaCkStep1').className = 'pp-checkout-step done';
+  document.getElementById('tinaCkStep2').className = 'pp-checkout-step active';
+  document.getElementById('tinaCkLine').className  = 'pp-checkout-step-line done';
+  document.getElementById('tinaStep2OrderItems').innerHTML = buildOrderItemsHTML();
+  document.getElementById('tinaStep2Total').textContent = fmt(cartTotal());
+  tinaRenderEntregaOptions();
+};
+var tinaSelectedEntrega = null;
+function tinaRenderEntregaOptions() {
+  var el = document.getElementById("tinaEntregaOptions");
+  if (!el) return;
+  el.innerHTML = "";
+  tinaSelectedEntrega = null;
+  ["tinaRetiroInfo","tinaEnvioInfo","tinaAddressSection"].forEach(function(id){
+    var s=document.getElementById(id); if(s) s.style.display="none";
+  });
+  var wb = document.getElementById("tinaBtnPay");
+  if (wb) { wb.disabled=true; wb.style.opacity="0.5"; wb.style.cursor="not-allowed"; }
+  var opciones = [
+    {id:"retiro_tienda",icon:"🏪",label:"Retiro en tienda",desc:"Retira en nuestra bodega en Santiago · Sin costo",badge:"<span class=\"pp-entrega-badge badge-gratis\">GRATIS</span>",needsAddress:false},
+    {id:"despacho",icon:"🚚",label:"Despacho a domicilio",desc:"Gratis para Región Metropolitana · 1 a 3 días hábiles",badge:"<span class=\"pp-entrega-badge badge-gratis\">GRATIS</span>",needsAddress:true},
+    {id:"envio_propio",icon:"📦",label:"Envío propio",desc:"Coordinas tú el transporte desde nuestra bodega en Santiago",badge:"<span class=\"pp-entrega-badge badge-propio\">TÚ GESTIONAS</span>",needsAddress:false}
+  ];
+  opciones.forEach(function(op) {
+    var div=document.createElement("div");
+    div.className="pp-entrega-opt";
+    div.style.cssText="display:flex;align-items:center;gap:12px;padding:14px 16px;border:2px solid #dde4ef;border-radius:12px;cursor:pointer;background:#fff;";
+    div.innerHTML="<span style=\"font-size:1.3rem;flex-shrink:0\">"+op.icon+"</span>"
+      +"<div style=\"flex:1\"><strong style=\"display:block;font-size:0.85rem;color:#1a1a2e;font-weight:600;\">"+op.label+"</strong>"
+      +"<span style=\"font-size:0.75rem;color:#666;\">"+op.desc+"</span></div>"+op.badge;
+    div.addEventListener("click",function() {
+      document.querySelectorAll("#tinaEntregaOptions .pp-entrega-opt").forEach(function(x){
+        x.style.borderColor="#dde4ef"; x.style.background="#fff";
+      });
+      div.style.borderColor="#004a99"; div.style.background="#edf2ff";
+      tinaSelectedEntrega={id:op.id,label:op.label,needsAddress:op.needsAddress,costo:0};
+      dlPushTinas('add_shipping_info', { currency: 'CLP', value: cartTotal(), shipping_tier: op.id, customer_type: tinaClientType, items: cart.map(function(i, idx) { return { item_id: 'CASCO_' + i.id, item_name: i.nombre, item_brand: 'Polyplas', item_category: 'Cascos de Tinas', item_variant: i.specs || '', price: i.precio, quantity: i.qty, index: idx }; }) });
+      var e2=document.getElementById("tinaStep2Error"); if(e2) e2.style.display="none";
+      if(wb){wb.disabled=false;wb.style.opacity="";wb.style.cursor="";}
+      document.getElementById("tinaRetiroInfo").style.display  = op.id==="retiro_tienda"?"block":"none";
+      document.getElementById("tinaEnvioInfo").style.display   = op.id==="envio_propio" ?"block":"none";
+      document.getElementById("tinaAddressSection").style.display = op.id==="despacho"  ?"block":"none";
+    });
+    el.appendChild(div);
+  });
+}
+
+
+window.tinaSelectEntrega = function(type, el) {
+  tinaEntrega = type;
+  document.querySelectorAll('.pp-entrega-opt').forEach(function(o){ o.classList.remove('selected'); });
+  el.classList.add('selected');
+};
+
+function tinaGetCheckoutData() {
+  if (tinaClientType === 'PN') {
+    return {
+      tipo:   'PN',
+      nombre: document.getElementById('tina_pn_nombre').value.trim(),
+      rut:    document.getElementById('tina_pn_rut').value.trim(),
+      tel:    document.getElementById('tina_pn_tel').value.trim(),
+      email:  document.getElementById('tina_pn_email').value.trim(),
+      region: document.getElementById('tina_pn_region').value,
+      ciudad: document.getElementById('tina_pn_comuna').value.trim(),
+      dir:    document.getElementById('tina_pn_direccion').value.trim()
+    };
+  } else {
+    return {
+      tipo:   'EMP',
+      razon:  document.getElementById('tina_emp_razon').value.trim(),
+      rut:    document.getElementById('tina_emp_rut').value.trim(),
+      giro:   document.getElementById('tina_emp_giro').value.trim(),
+      tel:    document.getElementById('tina_emp_tel').value.trim(),
+      email:  document.getElementById('tina_emp_email').value.trim(),
+      region: document.getElementById('tina_emp_region').value,
+      ciudad: document.getElementById('tina_emp_comuna').value.trim(),
+      dir:    document.getElementById('tina_emp_direccion').value.trim()
+    };
+  }
+}
+
+window.tinaGoBackStep1 = function() {
+  tinaSelectedEntrega = null;
+  document.getElementById('tinaStep1').style.display = '';
+  document.getElementById('tinaStep2').style.display = 'none';
+  document.getElementById('tinaCkStep1').className = 'pp-checkout-step active';
+  document.getElementById('tinaCkStep2').className = 'pp-checkout-step';
+  document.getElementById('tinaCkLine').className  = 'pp-checkout-step-line';
+};
+
+window.tinaSubmitOrder = async function() {
+  var btn    = document.getElementById('tinaBtnPay');
+  var errEl  = document.getElementById('tinaStep2Error');
+  var client = tinaGetCheckoutData();
+  if (!tinaSelectedEntrega) {
+    var _e2=document.getElementById("tinaStep2Error");
+    if(_e2){_e2.textContent="Elige una modalidad de entrega para continuar.";_e2.style.display="block";}
+    btn.disabled=false; btn.textContent="PAGAR CON WEBPAY"; return;
+  }
+  var entregaLabel = tinaSelectedEntrega.label;
+  var total  = cartTotal();
+  if (tinaSelectedEntrega.needsAddress) {
+    var _dr=document.getElementById("tina_despacho_region")?.value||"";
+    var _dc=document.getElementById("tina_despacho_comuna")?.value.trim()||"";
+    var _dd=document.getElementById("tina_despacho_dir")?.value.trim()||"";
+    if (!_dr||!_dc||!_dd){
+      var _e2=document.getElementById("tinaStep2Error");
+      if(_e2){_e2.textContent="Completa la dirección de despacho.";_e2.style.display="block";}
+      btn.disabled=false; btn.textContent="PAGAR CON WEBPAY"; return;
+    }
+    client.dir_despacho=_dd; client.region_despacho=_dr; client.ciudad_despacho=_dc;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Procesando…';
+  dlPushTinas('add_payment_info', { currency: 'CLP', value: total, payment_type: 'Webpay', customer_type: tinaClientType, items: cart.map(function(i, idx) { return { item_id: 'CASCO_' + i.id, item_name: i.nombre, item_brand: 'Polyplas', item_category: 'Cascos de Tinas', item_variant: i.specs || '', price: i.precio, quantity: i.qty, index: idx }; }) });
+  if (errEl) errEl.style.display = 'none';
+
+  var convId  = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
+  var shortId = 'PP-CASCOS-' + convId.split('-').pop().substring(0, 5).toUpperCase();
+
+  var orderItems = cart.map(function(i) {
+    return { tipo: i.nombre, dim: i.specs, qty: i.qty, precio: i.precio };
+  });
+  var resumen = cart.map(function(i) {
+    return '• ' + i.nombre + ' · ' + i.specs + ' × ' + i.qty + ' → $' + (i.precio * i.qty).toLocaleString('es-CL');
+  }).join('\n');
+
+  try {
+    var res = await fetch('/wp-json/polyplas/v1/webpay-init', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        total:       Math.round(total),
+        entrega:     entregaLabel,
+        client:      client,
+        return_page: 'https://polyplas.cl/gracias/',
+        items:       cart.map(function(i) {
+          return { tipo: i.nombre, dim: i.specs, qty: i.qty, precio: i.precio };
+        })
+      })
+    });
+
+    var data = await res.json();
+    if (!data.token || !data.url) throw new Error('Respuesta inválida');
+
+    try {
+      var _tinaOrderJson = JSON.stringify({
+        client:       client,
+        orderItems:   orderItems,
+        resumen:      resumen,
+        convId:       convId,
+        shortId:      shortId,
+        entregaLabel: entregaLabel,
+        corteActivo:  false,
+        total:        total
+      });
+      sessionStorage.setItem('pp_tinas_order_data', _tinaOrderJson);
+      sessionStorage.setItem('pp_tinas_cart_dl', JSON.stringify(cart.map(function(i, idx) {
+        return { item_id: 'CASCO_' + i.id, item_name: i.nombre, item_brand: 'Polyplas', item_category: 'Cascos de Tinas', item_variant: i.specs, price: i.precio, quantity: i.qty, index: idx };
+      })));
+      sessionStorage.setItem('pp_tinas_total_dl', String(Math.round(total)));
+      sessionStorage.setItem('pp_tinas_customer_type', tinaClientType);
+    } catch(e) {}
+
+    var form  = document.createElement('form');
+    form.method = 'POST';
+    form.action = data.url;
+    var input = document.createElement('input');
+    input.type  = 'hidden';
+    input.name  = 'token_ws';
+    input.value = data.token;
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+
+  } catch(e) {
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> PAGAR CON WEBPAY';
+    if (errEl) { errEl.textContent = 'Error al conectar con Webpay. Por favor intenta de nuevo.'; errEl.style.display = 'block'; }
+  }
+};
+
+// ── Lightbox de fotos ─────────────────────────────────────
+window.openPpLightbox = function(src, alt) {
+  var img = document.getElementById('ppLightboxImg');
+  img.src = src;
+  img.alt = alt;
+  document.getElementById('ppPhotoLightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+};
+window.closePpLightbox = function() {
+  document.getElementById('ppPhotoLightbox').classList.remove('open');
+  document.body.style.overflow = '';
+};
+
+// ── Upsell Faldón Kuyen Full ──────────────────────────────────
+var FALDON_KUYEN = {
+  id: 'faldon_kuyen',
+  nombre: 'Faldón Kuyen Full',
+  specs: 'Cubre base metálica · Tina Kuyen Full',
+  precio: 107100,
+  img: '/wp-content/uploads/2026/08/tina-faldon.webp'
+};
+
+window.openKuyenUpsell = function() {
+  // Si el faldón está desactivado desde el CRM, ir directo al modal de cantidad
+  if (!window.FALDON_UPSELL_ACTIVE) {
+    kuyenFaldonPending = false;
+    var _k0 = (window.TINAS || []).find(function(t){ return t.id === 'kuyen'; }) || {};
+    openQtyModal('kuyen', _k0.nombre || 'Tina Kuyen Full', _k0.specs || '183×120×65 cm · 300 L', _k0.img || '', 1);
+    return;
+  }
+  var _k = (window.TINAS || []).find(function(t){ return t.id === 'kuyen'; }) || {};
+  var tinaP = _k.precio || 979990;
+  var faldonP = (typeof FALDON_KUYEN !== 'undefined' && FALDON_KUYEN.precio) ? FALDON_KUYEN.precio : 107100;
+  var elTina = document.getElementById('upsellTinaPrice');
+  var elTotal = document.getElementById('upsellTotalPrice');
+  if (elTina) elTina.textContent = fmt(tinaP);
+  if (elTotal) elTotal.textContent = fmt(tinaP + faldonP);
+  document.getElementById('kuyenUpsellModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+};
+window.closeKuyenUpsell = function() {
+  document.getElementById('kuyenUpsellModal').classList.remove('open');
+  document.body.style.overflow = '';
+};
+window.kuyenUpsellAccept = function() {
+  kuyenFaldonPending = true;
+  closeKuyenUpsell();
+  var _k = (window.TINAS || []).find(function(t) { return t.id === 'kuyen'; }) || {};
+  openQtyModal('kuyen', _k.nombre || 'Tina Kuyen Full', _k.specs || '183×120×65 cm · 300 L', _k.img || '', 1);
+};
+window.kuyenUpsellSkip = function() {
+  kuyenFaldonPending = false;
+  closeKuyenUpsell();
+  var _k = (window.TINAS || []).find(function(t) { return t.id === 'kuyen'; }) || {};
+  openQtyModal('kuyen', _k.nombre || 'Tina Kuyen Full', _k.specs || '183×120×65 cm · 300 L', _k.img || '', 1);
+};
+
+// ── Cerrar con ESC ───────────────────────────────────────────
+document.addEventListener('keydown', function(e) {
+  if (e.key !== 'Escape') return;
+  closeKuyenUpsell();
+  closeQtyModal();
+  closeTinaDrawer();
+  closeTinaCheckout();
+  closePpLightbox();
+});
+
+// Accesibilidad teclado en fotos de cards
+(function() {
+  function setup() {
+    document.querySelectorAll('.pp-tina-img-wrap[onclick]').forEach(function(el) {
+      el.setAttribute('role', 'button');
+      el.setAttribute('tabindex', '0');
+      el.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
+      });
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup);
+  else setup();
+})();
+
+})();
+
+// ── Flechas carrusel ─────────────────────────────────────────
+window.tinasCarouselScroll = function(dir) {
+  var grid = document.getElementById('tinasGrid');
+  var card = grid.querySelector('.pp-tina-card');
+  if (!card) return;
+  grid.scrollBy({ left: dir * (card.offsetWidth + 20), behavior: 'smooth' });
+};
+(function initCarouselArrows() {
+  function setup() {
+    var grid = document.getElementById('tinasGrid');
+    var prev = document.getElementById('tinasArrowPrev');
+    var next = document.getElementById('tinasArrowNext');
+    var wrap = document.getElementById('tinasCarousel');
+    if (!grid || !prev || !next) return;
+    function update() {
+      var atStart = grid.scrollLeft <= 2;
+      var atEnd   = grid.scrollLeft >= grid.scrollWidth - grid.clientWidth - 2;
+      prev.disabled = atStart;
+      next.disabled = atEnd;
+      if (wrap) wrap.classList.toggle('at-end', atEnd);
+    }
+    grid.addEventListener('scroll', update, { passive: true });
+    update();
+    // Peek: mueve levemente el carrusel al cargar para mostrar que hay más
+    setTimeout(function() {
+      if (grid.scrollWidth <= grid.clientWidth + 10) return;
+      grid.scrollBy({ left: 100, behavior: 'smooth' });
+      setTimeout(function() { grid.scrollBy({ left: -100, behavior: 'smooth' }); }, 650);
+    }, 1000);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup);
+  else setup();
+})();
+
+// ── Carrusel de imágenes ─────────────────────────────────────
+window.tinaSlide = function(dotEl, idx) {
+  var wrap = dotEl.closest('.pp-tina-img-wrap');
+  wrap.querySelectorAll('.pp-slide').forEach(function(s, i) {
+    if (i === idx && s.dataset.src) { s.src = s.dataset.src; delete s.dataset.src; }
+    s.classList.toggle('active', i === idx);
+  });
+  wrap.querySelectorAll('.pp-dot').forEach(function(d, i) {
+    d.classList.toggle('active', i === idx);
+  });
+};
+
+(function initCarruseles() {
+  function start() {
+    document.querySelectorAll('.pp-tina-img-wrap').forEach(function(wrap) {
+      var idx = 0;
+      setInterval(function() {
+        var dots = wrap.querySelectorAll('.pp-dot');
+        if (!dots.length) return;
+        idx = (idx + 1) % dots.length;
+        window.tinaSlide(dots[idx], idx);
+      }, 3500);
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', start);
+  } else {
+    start();
+  }
+})();
+
+// ── Data Layer (GTM / GA4 ecommerce) ─────────────────────────
+window.dataLayer = window.dataLayer || [];
+function dlPushTinas(eventName, ecommerce) {
+  // Marcaje centralizado: public/legacy/pp-track.js
+  if (window.ppTrack) { window.ppTrack(eventName, ecommerce, 'cascos'); return; }
+  window.dataLayer.push({ ecommerce: null });
+  window.dataLayer.push({ event: eventName, ecommerce: ecommerce });
+}
+
+// ── GA4 view_item_list on page load ──────────────────────────
+(function() {
+  function _fire() {
+    var _items = (window.TINAS || []).map(function(t, i) {
+      return { item_id: 'CASCO_' + t.id, item_name: t.nombre, item_brand: 'Polyplas', item_category: 'Cascos de Tinas', item_variant: t.specs || '', price: t.precio, index: i };
+    });
+    dlPushTinas('view_item_list', { currency: 'CLP', item_list_name: 'Cascos de Tinas', items: _items });
+  }
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', _fire); } else { _fire(); }
+})();
+
+// ── Resultado de pago (retorno desde Webpay) ──────────────────
+function tinaCheckPaymentResult() {
+  var params = new URLSearchParams(window.location.search);
+  var pago   = params.get('pp_pago');
+  if (!pago) return;
+
+  var resultEl = document.getElementById('tinaPagoResult');
+  resultEl.style.cssText = [
+    'position:fixed','inset:0','z-index:999999',
+    'background:#f0f4fb','display:flex',
+    'align-items:center','justify-content:center',
+    'padding:24px','overflow-y:auto'
+  ].join(';');
+
+  if (pago === 'aprobado') {
+    document.getElementById('tinaResultOk').style.display = 'block';
+    document.getElementById('tinaOrden').textContent = params.get('orden') || '—';
+    var monto = parseInt(params.get('monto') || '0');
+    document.getElementById('tinaMonto').textContent = '$ ' + monto.toLocaleString('es-CL');
+    document.getElementById('tinaAuth').textContent  = params.get('auth')  || '—';
+    window.history.replaceState({}, '', window.location.pathname + '#gracias');
+
+    // ── DataLayer purchase (GTM / GA4) ────────────────────────
+    try {
+      var _dlItems = JSON.parse(sessionStorage.getItem('pp_tinas_cart_dl') || '[]');
+      var _dlTotal = parseInt(sessionStorage.getItem('pp_tinas_total_dl') || String(monto));
+      var _dlCustomerType = sessionStorage.getItem('pp_tinas_customer_type') || 'PN';
+      sessionStorage.removeItem('pp_tinas_cart_dl');
+      sessionStorage.removeItem('pp_tinas_total_dl');
+      sessionStorage.removeItem('pp_tinas_customer_type');
+      dlPushTinas('purchase', {
+        transaction_id: params.get('orden') || '',
+        currency:       'CLP',
+        value:          _dlTotal || monto,
+        customer_type:  _dlCustomerType,
+        items:          _dlItems
+      });
+    } catch(e) {}
+
+    // ── Registrar en Supabase (CRM) + Google Sheets ──
+    tinasRegistrarOrden(params);
+
+  } else {
+    document.getElementById('tinaResultFail').style.display = 'block';
+    if (pago === 'cancelado') {
+      document.getElementById('tinaFailMsg').textContent = 'Cancelaste el proceso de pago. Puedes volver a intentarlo cuando quieras.';
+    }
+    window.history.replaceState({}, '', window.location.pathname);
+  }
+}
+function tinasRegistrarOrden(params) {
+  try {
+    var _od = JSON.parse(sessionStorage.getItem('pp_tinas_order_data') || 'null');
+    if (!_od) return;
+    if (!window.supabase || !window.POLYPLAS_CONFIG) {
+      setTimeout(function() { tinasRegistrarOrden(params); }, 350);
+      return;
+    }
+    sessionStorage.removeItem('pp_tinas_order_data');
+    var _sb = window.supabase.createClient(
+      window.POLYPLAS_CONFIG.SUPABASE_URL,
+      window.POLYPLAS_CONFIG.SUPABASE_ANON_KEY
+    );
+    _sb.from('conversations').insert({
+      id:              _od.convId,
+      client_name:     _od.client.nombre || _od.client.razon || '',
+      client_email:    _od.client.email  || '',
+      unread_count:    1,
+      last_message_at: new Date().toISOString(),
+      metadata: {
+        source:       'order',
+        tipo_cliente: _od.client.tipo   || '',
+        nombre:       _od.client.nombre || '',
+        razon_social: _od.client.razon  || '',
+        rut:          _od.client.rut    || '',
+        giro:         _od.client.giro   || '',
+        email:        _od.client.email  || '',
+        phone:        _od.client.tel    || '',
+        dir:          _od.client.dir    || '',
+        ciudad:       _od.client.ciudad || '',
+        region:       _od.client.region || '',
+        entrega:      _od.entregaLabel,
+        total:        _od.total,
+        items:        _od.orderItems,
+        webpay_orden: params.get('orden') || '',
+        webpay_auth:  params.get('auth')  || ''
+      }
+    }).then(function() {
+      var _scriptURL = 'https://script.google.com/macros/s/AKfycbw4WkE3slUjbDIUrbYVZD-aL1nB6WWJeyj6XG6rpFNz9p3pSFfdmUd3FjY_hV-QQJNkKA/exec';
+      var _msgText = '🛁 PEDIDO CASCO DE TINA\n─────────────────\n' + _od.resumen +
+        '\n─────────────────\nEntrega: ' + _od.entregaLabel +
+        '   Total: $' + _od.total.toLocaleString('es-CL') +
+        '\n─────────────────\nCliente: ' + (_od.client.nombre || _od.client.razon) +
+        '  RUT: ' + _od.client.rut +
+        '\nEmail: ' + _od.client.email +
+        '  Tel: ' + _od.client.tel +
+        '\nDirección: ' + _od.client.dir + ', ' + _od.client.ciudad + ', ' + _od.client.region;
+      _sb.from('messages').insert({
+        conversation_id: _od.convId,
+        sender:          'client',
+        content:         _msgText
+      }).then(function(){});
+      fetch(_scriptURL + '?' + new URLSearchParams({
+        accion:        'pedido_web',
+        idRef:         _od.shortId,
+        nombre:        _od.client.nombre || _od.client.razon || '',
+        email:         _od.client.email  || '',
+        telefono:      _od.client.tel    || '',
+        monto:         String(_od.total),
+        vendido:       'Sí',
+        observaciones: _od.resumen + ' | Entrega:' + _od.entregaLabel
+      }).toString(), { mode: 'no-cors' });
+    });
+  } catch(e2) {}
+}
+tinaCheckPaymentResult();
+
+// Actualiza el JSON-LD con los precios reales después del fetch de Supabase
+// para evitar discrepancia entre precio visible y datos estructurados (penaliza rich results).
+function _syncTinasJsonLd() {
+  try {
+    var ldScript = document.querySelector('script[type="application/ld+json"]');
+    if (!ldScript) return;
+    var data = JSON.parse(ldScript.textContent);
+    var pageUrl = window.location.href.split('#')[0];
+    var items = data.itemListElement || [];
+    items.forEach(function(listItem) {
+      var product = listItem.item || {};
+      // SKU "TINA-KUYEN-FULL" → id "kuyen", "TINA-VILCUN" → "vilcun"
+      var rawId = (product.sku || '').replace('CASCO-', '').toLowerCase();
+      // kuyen-full → kuyen
+      var tinaId = rawId.replace('-full', '').replace(/-/g, '');
+      var tina = (window.TINAS || []).find(function(t) { return t.id === tinaId; });
+      if (!tina || !product.offers) return;
+      // precio
+      if (tina.precio) product.offers.price = String(Math.round(tina.precio));
+      // disponibilidad: sincroniza con el estado real de stock
+      product.offers.availability = (tina.inStock === false)
+        ? 'https://schema.org/OutOfStock'
+        : 'https://schema.org/InStock';
+      // url: link directo a la sección del producto en la página actual
+      product.url = pageUrl + '#tina-' + tina.id;
+      product.offers.url = pageUrl + '#tina-' + tina.id;
+    });
+    ldScript.textContent = JSON.stringify(data);
+  } catch(e) {}
+}
+
+// ── Sincronizar precios y stock de tinas desde Supabase ───────
+// Lee pp_stock donde tipo='CASCOS' (dim = queilen / coinco) y actualiza precio y stock en tiempo real.
+// Mientras no existan esas filas en el CRM, se usa el precio escrito en este archivo.
+// Los keys en Supabase son TINAS|vilcun|na|na, TINAS|queilen|na|na, etc.
+// No interfiere con los registros AA/PA de acrílicos.
+function loadTinasStockFromSupabase() {
+  if (!window.supabase || !window.POLYPLAS_CONFIG) {
+    setTimeout(loadTinasStockFromSupabase, 400);
+    return;
+  }
+  var _sb = window.supabase.createClient(
+    window.POLYPLAS_CONFIG.SUPABASE_URL,
+    window.POLYPLAS_CONFIG.SUPABASE_ANON_KEY
+  );
+  _sb.from('pp_stock')
+    .select('dim,cantidad,precio,precio_antes')
+    .eq('tipo', 'CASCOS')
+    .then(function(res) {
+      if (!res.data || !res.data.length) return;
+      res.data.forEach(function(row) {
+        // Config especial: faldón Kuyen Full ON/OFF
+        if (row.dim === 'kuyen_faldon') {
+          window.FALDON_UPSELL_ACTIVE = (row.cantidad === null || row.cantidad === undefined || row.cantidad !== 0);
+          return;
+        }
+        var tina = (window.TINAS || []).find(function(t){ return t.id === row.dim; });
+        if (!tina) return;
+
+        // ── Precio actual ─────────────────────────────────────
+        if (row.precio !== null && row.precio !== undefined) {
+          tina.precio = row.precio;
+          var priceEl = document.getElementById('price-' + tina.id);
+          if (priceEl) priceEl.innerHTML = '$ ' + Math.round(row.precio).toLocaleString('es-CL') + '<span class="pp-tina-price-iva">c/IVA</span>';
+        }
+
+        // ── Precio antes y ahorro ─────────────────────────────
+        if (row.precio_antes && row.precio_antes > 0) {
+          var oldEl = document.getElementById('price-old-' + tina.id);
+          if (oldEl) oldEl.textContent = 'Antes $ ' + Math.round(row.precio_antes).toLocaleString('es-CL');
+          var ahorro = row.precio_antes - (tina.precio || row.precio || 0);
+          var ahorroTxt = ahorro > 0 ? 'Ahorras $ ' + Math.round(ahorro).toLocaleString('es-CL') : '';
+          // Actualizar div ahorro en la card
+          var ahorroEl = document.getElementById('ahorro-' + tina.id);
+          if (ahorroEl) {
+            if (ahorroTxt) { ahorroEl.textContent = ahorroTxt; ahorroEl.style.display = ''; }
+            else { ahorroEl.style.display = 'none'; }
+          }
+          // Actualizar también en tinaDetailData (popup de detalle)
+          if (window.tinaDetailData && window.tinaDetailData[tina.id]) {
+            window.tinaDetailData[tina.id].precioOld = 'Antes $ ' + Math.round(row.precio_antes).toLocaleString('es-CL');
+            window.tinaDetailData[tina.id].ahorro    = ahorroTxt;
+          }
+        } else {
+          // Sin precio antes: ocultar elementos tachado y ahorro
+          var oldEl2 = document.getElementById('price-old-' + tina.id);
+          if (oldEl2) oldEl2.style.display = 'none';
+          var ahorroEl2 = document.getElementById('ahorro-' + tina.id);
+          if (ahorroEl2) ahorroEl2.style.display = 'none';
+        }
+
+        // ── Sin stock / disponible ────────────────────────────
+        tina.inStock = (row.cantidad !== 0);
+        var btn = document.querySelector('button.pp-tina-btn-buy[onclick*="' + tina.id + '"]');
+        if (btn) {
+          if (row.cantidad === 0) {
+            btn.disabled = true;
+            btn.innerHTML = 'Sin stock';
+            btn.style.opacity = '0.5';
+            btn.style.cursor  = 'not-allowed';
+          } else {
+            btn.disabled = false;
+            btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> COMPRAR';
+            btn.style.opacity = '';
+            btn.style.cursor  = '';
+          }
+        }
+      });
+      if (typeof renderDrawer === 'function') renderDrawer();
+      _syncTinasJsonLd();
+      setTimeout(loadTinasStockFromSupabase, 120000);
+    }).catch(function(e) {
+      console.warn('PP tinas stock load:', e);
+      setTimeout(loadTinasStockFromSupabase, 120000);
+    });
+}
+loadTinasStockFromSupabase();
+</script>
+<script>
+(function(){
+  window.POLYPLAS_CONFIG = window.POLYPLAS_CONFIG || {
+    SUPABASE_URL:      'https://gdrkscedvkjtcvexnhzg.supabase.co',
+    SUPABASE_ANON_KEY: 'sb_publishable_qT9WuJK5Wi6VghgMvcYIMw_IGBtn1Tc'
+  };
+  if (window.supabase) return;
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+  document.head.appendChild(s);
+})();
+</script>
+<script>
+/* ── DEEP LINK: #casco=queilen ── */
+(function ppDeepLinkTinas() {
+  var hashStr = window.location.hash.replace(/^#/, '');
+  if (!hashStr) return;
+  var params = new URLSearchParams(hashStr);
+  var tina = params.get('casco');
+  if (!tina) return;
+  function tryOpen() {
+    if (typeof window.openTinaDetail !== 'function') { setTimeout(tryOpen, 200); return; }
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+    setTimeout(function() { window.openTinaDetail(tina); }, 180);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() { setTimeout(tryOpen, 400); });
+  } else { setTimeout(tryOpen, 400); }
+})();
+</script>

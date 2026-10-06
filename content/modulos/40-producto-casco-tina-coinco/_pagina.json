@@ -1,0 +1,23 @@
+{
+  "url": "/casco-tina-coinco/",
+  "tipo": "page",
+  "titulo": "Casco de Tina Coinco 167x92x58 cm | Polyplas",
+  "descripcion": "Casco de Tina Coinco: 167×92×58 cm, interior rectangular, para 1 persona. Solo el casco, sin motor ni jets. $180.000 c/IVA con Webpay.",
+  "robots": "max-image-preview:large",
+  "canonical": "/casco-tina-coinco/",
+  "og": {
+    "type": "website",
+    "title": "Casco de Tina Coinco 167x92x58 cm | Polyplas",
+    "description": "Casco de Tina Coinco: 167×92×58 cm, interior rectangular, para 1 persona. Solo el casco, sin motor ni jets. $180.000 c/IVA con Webpay.",
+    "image": "https://polyplas.cl/wp-content/uploads/2026/10/casco-tina-coinco.webp",
+    "image:width": "1200",
+    "image:height": "718"
+  },
+  "publicado": "2026-10-06T12:00:00+00:00",
+  "modificado": "2026-10-06T12:00:00+00:00",
+  "css": [],
+  "datosGoogle": [
+    "{\"@context\": \"https://schema.org\", \"@graph\": [{\"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Inicio\", \"item\": \"https://polyplas.cl/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Cascos de tinas\", \"item\": \"https://polyplas.cl/categoria-producto/cascos-de-tinas/\"}, {\"@type\": \"ListItem\", \"position\": 3, \"name\": \"Casco de Tina Coinco\", \"item\": \"https://polyplas.cl/casco-tina-coinco/\"}]}, {\"@type\": \"Product\", \"name\": \"Casco de Tina Coinco\", \"sku\": \"CASCO-COINCO\", \"description\": \"Casco de Tina Coinco: 167×92×58 cm, interior rectangular, para 1 persona. Solo el casco, sin motor ni jets. $180.000 c/IVA con Webpay.\", \"image\": \"https://polyplas.cl/wp-content/uploads/2026/10/casco-tina-coinco.webp\", \"url\": \"https://polyplas.cl/casco-tina-coinco/\", \"brand\": {\"@type\": \"Brand\", \"name\": \"Polyplas\"}, \"offers\": {\"@type\": \"Offer\", \"url\": \"https://polyplas.cl/casco-tina-coinco/\", \"price\": \"180000\", \"priceCurrency\": \"CLP\", \"itemCondition\": \"https://schema.org/NewCondition\", \"seller\": {\"@type\": \"Organization\", \"name\": \"Polyplas\", \"url\": \"https://polyplas.cl\"}, \"availability\": \"https://schema.org/InStock\"}}]}"
+  ],
+  "dataLayer": null
+}

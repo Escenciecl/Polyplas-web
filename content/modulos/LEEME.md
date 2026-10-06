@@ -11,6 +11,7 @@ Los módulos se muestran en orden según el número del nombre (01, 02, 03…).
 | `02-nosotros` | /nosotros/ |
 | `03-contacto` | /contacto/ |
 | `04-planchas-acrilico` … `10-tinas` | Categorías de productos |
+| `10b-cascos-de-tinas` | Categoría Cascos de tinas (/categoria-producto/cascos-de-tinas/) |
 | `11-guia-acrilicos`, `12-guia-tinas` | Guías |
 | `13-blog` | /blog/ (el listado de artículos se arma solo) |
 | `20-articulo-…` | Cada artículo del blog |
