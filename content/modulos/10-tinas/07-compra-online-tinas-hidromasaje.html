@@ -463,6 +463,27 @@
   .pp-terms-check-row { padding: 14px 14px; min-height: 52px; }
 }
 
+/* ── Ventana "Tu producto": lado de accesorios y faldón ── */
+.pp-acc-fila { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.pp-acc-nombre { flex: 0 0 108px; font-size: 0.86rem; font-weight: 700; color: #1a1a2e; font-family: Arial, sans-serif; }
+.pp-acc-ops { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.pp-acc-ops button { min-height: 46px; padding: 10px 8px; border: 1.5px solid #ccd8ee; border-radius: 8px; background: #fff; color: #1a1a2e; font-family: Arial, sans-serif; font-size: 0.86rem; font-weight: 600; cursor: pointer; }
+.pp-acc-ops button:hover { border-color: var(--pp-accent); }
+.pp-acc-ops button.sel { background: var(--pp-accent); border-color: var(--pp-accent); color: #fff; }
+.pp-fal { display: flex; gap: 10px; align-items: stretch; margin-bottom: 14px; }
+.pp-fal .pp-fal-toggle { flex: 1; margin: 0; }
+.pp-fal-thumb { position: relative; flex: none; width: 72px; min-height: 64px; padding: 0; border: 1.5px solid #ccd8ee; border-radius: 10px; background: #fff; cursor: zoom-in; overflow: visible; }
+.pp-fal-thumb > img:first-child { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block; }
+.pp-fal-thumb span { position: absolute; left: 0; right: 0; bottom: 0; background: rgba(11,42,79,0.78); color: #fff; font-size: 0.62rem; font-weight: 700; padding: 2px 0; border-radius: 0 0 8px 8px; font-family: Arial, sans-serif; }
+.pp-fal-thumb .pp-fal-big { display: none; position: absolute; left: 0; bottom: calc(100% + 8px); width: 300px; max-width: 74vw; height: auto; border-radius: 12px; border: 1px solid #ccd8ee; box-shadow: 0 14px 40px rgba(11,42,79,0.3); z-index: 5; background: #fff; }
+@media (hover: hover) { .pp-fal-thumb:hover .pp-fal-big, .pp-fal-thumb:focus-visible .pp-fal-big { display: block; } }
+/* La ventana no supera la pantalla: el contenido se desplaza y los botones quedan siempre a la vista */
+.pp-qty-modal { max-height: 92vh; max-height: 92dvh; display: flex; flex-direction: column; }
+.pp-qty-modal-body { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+.pp-qty-modal-btns { position: sticky; bottom: 0; background: #fff; padding: 12px 0 4px; margin-top: 4px; z-index: 2; }
+.pp-qty-btn-checkout:disabled, .pp-qty-btn-more:disabled { background: #e3e8f0 !important; color: #6b7686 !important; border-color: #e3e8f0 !important; box-shadow: none !important; cursor: not-allowed; }
+@media (max-width: 480px) { .pp-acc-fila { flex-direction: column; align-items: stretch; gap: 6px; margin-bottom: 12px; } .pp-acc-nombre { flex: none; } }
+
 /* ── Tarjeta orientada a la compra ── */
 .pp-tina-body { flex: 0 0 auto; }
 .pp-tina-badge { background: #d6262f !important; font-size: 0.85rem; letter-spacing: 0; padding: 5px 11px; border-radius: 999px; font-weight: 800; }
@@ -1590,7 +1611,7 @@
 <div class="pp-qty-modal-overlay" id="tinaQtyModal">
 <div class="pp-qty-modal">
 <div class="pp-qty-modal-header">
-<h3>Agregar al carrito</h3>
+<h3>Tu producto</h3>
 <button aria-label="Cerrar" class="pp-qty-modal-close" onclick="closeQtyModal()">×</button>
 </div>
 <div class="pp-qty-modal-body">
@@ -1621,6 +1642,36 @@
 <div class="pp-qty-ctrl-num" id="qtyDisplay">1</div>
 <button class="pp-qty-ctrl-btn" id="qtyPlus" onclick="changeModalQty(1)">+</button>
 </div>
+<div class="pp-qty-modal-label" style="margin-top:16px">¿En qué lado va cada accesorio?</div>
+<div class="pp-acc-fila">
+<span class="pp-acc-nombre" id="qtyAccLbl1">Pulsador</span>
+<div class="pp-acc-ops" role="radiogroup" aria-labelledby="qtyAccLbl1">
+<button type="button" role="radio" aria-checked="false" data-acc="a1" data-lado="izquierdo" onclick="tinaSetAcc(this)">Izquierdo</button>
+<button type="button" role="radio" aria-checked="false" data-acc="a1" data-lado="derecho" onclick="tinaSetAcc(this)">Derecho</button>
+</div>
+</div>
+<div class="pp-acc-fila">
+<span class="pp-acc-nombre" id="qtyAccLbl2">Regulador</span>
+<div class="pp-acc-ops" role="radiogroup" aria-labelledby="qtyAccLbl2">
+<button type="button" role="radio" aria-checked="false" data-acc="a2" data-lado="izquierdo" onclick="tinaSetAcc(this)">Izquierdo</button>
+<button type="button" role="radio" aria-checked="false" data-acc="a2" data-lado="derecho" onclick="tinaSetAcc(this)">Derecho</button>
+</div>
+</div>
+<div id="qtyFaldonBox" style="display:none">
+<div class="pp-qty-modal-label" style="margin-top:16px">Accesorio opcional</div>
+<div class="pp-fal">
+<button type="button" class="pp-fal-thumb" onclick="openPpLightbox('/wp-content/uploads/2026/08/tina-faldon.webp','Faldón para Tina Kuyen Full')" aria-label="Ampliar foto del faldón">
+<img src="/wp-content/uploads/2026/08/tina-faldon.webp" alt="Faldón para Tina Kuyen Full" loading="lazy" width="72" height="64"/>
+<span>Ampliar</span>
+<img class="pp-fal-big" src="/wp-content/uploads/2026/08/tina-faldon.webp" alt="" loading="lazy"/>
+</button>
+<div class="pp-embalaje-toggle pp-fal-toggle" id="qtyFaldonToggle" onclick="tinaToggleFaldon()" role="checkbox" aria-checked="false" tabindex="0">
+<div class="pp-embalaje-check"><svg id="qtyFaldonCheckIcon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" style="display:none"><polyline points="20 6 9 17 4 12"/></svg></div>
+<div class="pp-embalaje-info"><span class="pp-embalaje-name">Agregar faldón</span><span class="pp-embalaje-desc">Cubre la base metálica</span></div>
+<span class="pp-embalaje-price" id="qtyFaldonPrecio">+ $ 107.100</span>
+</div>
+</div>
+</div>
 <div class="pp-qty-faldon-breakdown" id="qtyFaldonBreakdown" style="display:none">
 <div class="pp-qty-bd-row">
 <span class="pp-qty-bd-label" id="qtyBdTinaLabel">Tina Kuyen Full</span>
@@ -1643,10 +1694,10 @@
 <div class="pp-qty-total-val" id="qtyTotalVal"></div>
 </div>
 <div class="pp-qty-modal-btns">
-<button class="pp-qty-btn-checkout" onclick="addToTinaCart(); openTinaCheckout();">
+<button class="pp-qty-btn-checkout" id="qtyBtnGo" onclick="if(!tinaAccOk())return; addToTinaCart(); openTinaCheckout();">
           IR AL PAGO →
         </button>
-<button class="pp-qty-btn-more" onclick="addToTinaCart(); closeTinaDrawer();">
+<button class="pp-qty-btn-more" id="qtyBtnMore" onclick="if(!tinaAccOk())return; addToTinaCart(); closeTinaDrawer();">
           Agregar al carro y seguir comprando
         </button>
 </div>
@@ -1903,9 +1954,11 @@ function ppLockScroll() {
   document.body.style.top      = '-' + _ppScrollY + 'px';
   document.body.style.width    = '100%';
   document.body.style['overflow'] = 'hidden';
+  document.body.classList.add('ppGC-open'); // oculta el chat y la pestaña lateral mientras hay una ventana abierta
 }
 function ppUnlockScroll() {
   var wasFixed = document.body.style.position === 'fixed';
+  document.body.classList.remove('ppGC-open');
   document.body.style.position = '';
   document.body.style.top      = '';
   document.body.style.width    = '';
@@ -1924,7 +1977,37 @@ var TINAS = window.TINAS = [
 // ── Estado ───────────────────────────────────────────────────
 var cart = [];
 var EMBALAJE_PRECIO = 71400;
-var qtyModalState = { tina: null, qty: 1, embalaje: false };
+var qtyModalState = { tina: null, qty: 1, embalaje: false, a1: '', a2: '' };
+// Accesorios cuyo lado elige el cliente, cada uno por separado.
+var TINA_ACC = { kuyen: ['Panel digital', 'Kit de grifería'], _otras: ['Pulsador', 'Regulador'] };
+function tinaAccNombres(id) { return TINA_ACC[id] || TINA_ACC._otras; }
+function tinaAccOk() { return !!qtyModalState.a1 && !!qtyModalState.a2; }
+function tinaAccTexto() {
+  var n = tinaAccNombres(qtyModalState.tina ? qtyModalState.tina.id : '');
+  return n[0] + ': lado ' + qtyModalState.a1 + ' · ' + n[1] + ': lado ' + qtyModalState.a2;
+}
+// Los botones de avanzar dicen qué falta en vez de quedar grises sin explicación.
+function tinaSyncBtns() {
+  var ok = tinaAccOk(), go = document.getElementById('qtyBtnGo'), more = document.getElementById('qtyBtnMore');
+  if (go)   { go.disabled = !ok;   go.textContent = ok ? 'IR AL PAGO →' : 'Elige el lado de los accesorios'; }
+  if (more) { more.disabled = !ok; }
+}
+window.tinaAccOk = tinaAccOk;
+window.tinaSetAcc = function(btn) {
+  var acc = btn.getAttribute('data-acc');
+  qtyModalState[acc] = btn.getAttribute('data-lado');
+  document.querySelectorAll('#tinaQtyModal button[data-acc="' + acc + '"]').forEach(function(b) {
+    var on = b === btn; b.classList.toggle('sel', on); b.setAttribute('aria-checked', on ? 'true' : 'false');
+  });
+  tinaSyncBtns();
+};
+window.tinaToggleFaldon = function() {
+  kuyenFaldonPending = !kuyenFaldonPending;
+  var t = document.getElementById('qtyFaldonToggle'), i = document.getElementById('qtyFaldonCheckIcon');
+  if (t) { t.classList.toggle('checked', kuyenFaldonPending); t.setAttribute('aria-checked', kuyenFaldonPending ? 'true' : 'false'); }
+  if (i) i.style.display = kuyenFaldonPending ? '' : 'none';
+  updateQtyTotal();
+};
 var kuyenFaldonPending = false;
 window.FALDON_UPSELL_ACTIVE = true; // controlado desde CRM vía Supabase
 var tinaClientType = 'PN';
@@ -2022,6 +2105,20 @@ window.openQtyModal = function(id, nombre, specs, img, tinaIdx) {
   document.getElementById('qtyModalUnit').textContent = tina.precio ? fmt(tina.precio) + ' c/u · IVA incl.' : '$ — · IVA incl.';
   document.getElementById('qtyDisplay').textContent = '1';
   document.getElementById('qtyMinus').disabled = true;
+  // Lado de los accesorios y faldón: se eligen en esta misma ventana
+  qtyModalState.a1 = ''; qtyModalState.a2 = '';
+  var _accN = tinaAccNombres(tina.id);
+  document.getElementById('qtyAccLbl1').textContent = _accN[0];
+  document.getElementById('qtyAccLbl2').textContent = _accN[1];
+  document.querySelectorAll('#tinaQtyModal .pp-acc-ops button').forEach(function(b) { b.classList.remove('sel'); b.setAttribute('aria-checked', 'false'); });
+  kuyenFaldonPending = false;
+  var _falBox = document.getElementById('qtyFaldonBox');
+  if (_falBox) _falBox.style.display = (tina.id === 'kuyen' && window.FALDON_UPSELL_ACTIVE) ? '' : 'none';
+  var _falT = document.getElementById('qtyFaldonToggle'), _falI = document.getElementById('qtyFaldonCheckIcon'), _falP = document.getElementById('qtyFaldonPrecio');
+  if (_falT) { _falT.classList.remove('checked'); _falT.setAttribute('aria-checked', 'false'); }
+  if (_falI) _falI.style.display = 'none';
+  if (_falP && typeof FALDON_KUYEN !== 'undefined') _falP.textContent = '+ ' + fmt(FALDON_KUYEN.precio);
+  tinaSyncBtns();
   qtyModalState.embalaje = false;
   var _emTgl = document.getElementById('qtyEmbalajeToggle');
   var _emIcn = document.getElementById('qtyEmbalajeCheckIcon');
@@ -2127,8 +2224,9 @@ window.addToTinaCart = function() {
   if (idx >= 0) {
     cart[idx].qty += qtyModalState.qty;
     cart[idx].embalaje = qtyModalState.embalaje;
+    cart[idx].accesorios = tinaAccTexto();
   } else {
-    cart.push({ id: tina.id, nombre: tina.nombre, specs: tina.specs, precio: tina.precio, img: tina.img, qty: qtyModalState.qty, embalaje: qtyModalState.embalaje });
+    cart.push({ id: tina.id, nombre: tina.nombre, specs: tina.specs, precio: tina.precio, img: tina.img, qty: qtyModalState.qty, embalaje: qtyModalState.embalaje, accesorios: tinaAccTexto() });
   }
   // Carrito global
   try {
@@ -2140,7 +2238,7 @@ window.addToTinaCart = function() {
       nombre: _gcItem.nombre + (_gcItem.specs ? ' · ' + _gcItem.specs : '') + (_gcItem.embalaje ? ' + Embalaje' : ''),
       qty: _gcItem.qty, precio_unit: _gcItem.precio, corte_costo: 0,
       embalaje: !!_gcItem.embalaje, embalaje_unit: EMBALAJE_PRECIO,
-      pide_accesorios: _gcItem.id === 'kuyen',
+      accesorios: _gcItem.accesorios || '',
       subtotal: _gcItem.precio * _gcItem.qty + (_gcItem.embalaje ? EMBALAJE_PRECIO * _gcItem.qty : 0),
       descripcion: _gcItem.nombre + ' × ' + _gcItem.qty + (_gcItem.embalaje ? ' + Embalaje' : '')
     });
@@ -2727,8 +2825,8 @@ var FALDON_KUYEN = {
 };
 
 window.openKuyenUpsell = function() {
-  // Si el faldón está desactivado desde el CRM, ir directo al modal de cantidad
-  if (!window.FALDON_UPSELL_ACTIVE) {
+  // El faldón se ofrece ahora dentro de "Tu producto": se abre directo esa ventana.
+  if (true) {
     kuyenFaldonPending = false;
     var _k0 = (window.TINAS || []).find(function(t){ return t.id === 'kuyen'; }) || {};
     openQtyModal('kuyen', _k0.nombre || 'Tina Kuyen Full', _k0.specs || '183×120×65 cm · 300 L', _k0.img || '', 1);
