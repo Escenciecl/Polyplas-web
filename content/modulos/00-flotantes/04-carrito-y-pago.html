@@ -451,6 +451,12 @@
 .ppGC-confirm-row b { white-space: nowrap; }
 .ppGC-confirm-row.tot { background: #f4f7fc; font-weight: 800; font-size: 0.98rem; }
 .ppGC-confirm-row.tot b { color: #004a99; }
+.ppGC-addr-res { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 12px; padding: 12px 14px; background: #f4f7fc; border: 1px solid #dde4ef; border-radius: 12px; }
+.ppGC-addr-res span { display: block; font-size: 0.72rem; color: #5a6475; }
+.ppGC-addr-res strong { display: block; font-size: 0.9rem; color: #1a1a2e; line-height: 1.4; }
+.ppGC-addr-link { background: none; border: 0; padding: 0; font-family: inherit; font-size: 0.82rem; font-weight: 600; color: #004a99; text-decoration: underline; cursor: pointer; }
+/* El texto de los selectores no debe cortarse */
+#ppGC-co-modal .ppGC-field select { height: auto; min-height: 46px; line-height: 1.3; }
 /* ── Embalaje en el paso de entrega ── */
 .ppGC-emb { margin-top: 14px; border: 1.5px solid #ccd8ee; border-radius: 12px; background: #fff; overflow: hidden; }
 .ppGC-emb.checked { border-color: #004a99; background: #eef3fc; }
@@ -737,6 +743,11 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
 </details>
 </div>
 <div id="ppGC-addressSection" style="display:none">
+<div class="ppGC-addr-res" id="ppGC-addr-res" style="display:none">
+<div><span>Despachamos a</span><strong id="ppGC-addr-txt"></strong></div>
+<button class="ppGC-addr-link" onclick="ppGCOtraDireccion()" type="button">Enviar a otra dirección</button>
+</div>
+<div id="ppGC-addr-form" style="display:none">
 <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin:16px 0 10px">Dirección de despacho</div>
 <div class="ppGC-form-grid">
 <div class="ppGC-field">
@@ -764,6 +775,8 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
 <label>Dirección *</label>
 <input id="ppgc_pn_dir" placeholder="Av. Ejemplo 1234, Depto 5" type="text"/>
 </div>
+</div>
+<button class="ppGC-addr-link" id="ppGC-addr-volver" onclick="ppGCMismaDireccion()" style="display:none;margin-top:8px" type="button">Usar la dirección de mis datos</button>
 </div>
 </div>
 <div class="ppGC-form-error" id="ppGC-s2a-err"></div>
@@ -906,7 +919,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
       h += '<div class="ppGC-confirm-row"><span>Embalaje protector<small>' + (gcSelectedEntrega.embOblig ? 'Obligatorio en envíos a regiones' : 'Opcional, lo agregaste tú') + '</small></span><b>' + fmt(gcEmbalajeCosto()) + '</b></div>';
     }
     if (gcSelectedEntrega) {
-      h += '<div class="ppGC-confirm-row"><span>' + gcEsc(gcSelectedEntrega.label) + (gcEsRegion() ? '<small>El flete lo pagas al recibir, a tu empresa de transporte</small>' : '') + '</span><b>' + (gcEsRegion() ? 'Por pagar' : (gcSelectedEntrega.costo ? fmt(gcSelectedEntrega.costo) : 'Gratis')) + '</b></div>';
+      h += '<div class="ppGC-confirm-row"><span>' + gcEsc(gcSelectedEntrega.label) + (gcEsRegion() ? '<small>El flete lo pagas al recibir, a tu empresa de transporte</small>' : '') + (gcSelectedEntrega.needsAddress ? '<small>' + gcEsc(((gEl('ppgc_pn_dir')||{}).value||'') + ', ' + ((gEl('ppgc_pn_ciudad')||{}).value||'')) + '</small>' : '') + '</span><b>' + (gcEsRegion() ? 'Por pagar' : (gcSelectedEntrega.costo ? fmt(gcSelectedEntrega.costo) : 'Gratis')) + '</b></div>';
     }
     h += '<div class="ppGC-confirm-row tot"><span>Pagas ahora</span><b>' + fmt(gcTotalPagar()) + '</b></div>';
     box.innerHTML = h;
@@ -1345,12 +1358,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
         gEl('ppGC-retiroInfo').style.display    = op.id==='retiro_tienda' ? 'block' : 'none';
         gEl('ppGC-envioInfo').style.display     = op.id==='envio_propio'  ? 'block' : 'none';
         gEl('ppGC-addressSection').style.display= op.id==='despacho'      ? 'block' : 'none';
-        if (op.needsAddress) {
-          var reg=gEl('ppgc_pn_region'); if (reg&&regionPresel) reg.value=regionPresel;
-          if (regionPresel) ppGCUpdateComunas('ppgc_pn');
-          var step1Dir = gcClientType==='EMP' ? (gEl('ppgc_emp_dir')||{}).value||'' : (gEl('ppgc_bill_dir')||{}).value||'';
-          var dirEl=gEl('ppgc_pn_dir'); if (dirEl&&step1Dir) dirEl.value=step1Dir;
-        }
+        if (op.needsAddress) gcDireccionDesdeDatos(regionPresel);
         gcUpdateModalTotal();
       });
       el.appendChild(div);
@@ -1386,6 +1394,35 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     if (cm) cm.style.display=excluida?'block':'none';
     gcBuildEntregaOptions(gcCurrentGrand, excluida?null:'RM');
   }
+
+  // Despacho: se usa la dirección que el cliente ya escribió en "Tus datos".
+  // El formulario solo aparece si quiere enviar a otra dirección (o si falta algún dato).
+  var gcAddrRegion = '';
+  function gcDireccionDesdeDatos(regionPresel) {
+    if (regionPresel !== undefined) gcAddrRegion = regionPresel || '';
+    var pre = gcClientType === 'EMP' ? 'ppgc_emp' : 'ppgc_bill';
+    var v = function(id) { return ((gEl(id) || {}).value || '').trim(); };
+    var region = gcAddrRegion || v(pre + '_region'), comuna = v(pre + '_ciudad'), dir = v(pre + '_dir');
+    var reg = gEl('ppgc_pn_region'), ciu = gEl('ppgc_pn_ciudad'), dEl = gEl('ppgc_pn_dir');
+    if (reg) reg.value = region;
+    ppGCUpdateComunas('ppgc_pn');
+    if (ciu && comuna) ciu.value = comuna;
+    if (dEl) dEl.value = dir;
+    var completa = !!(reg && reg.value && ciu && ciu.value && dEl && dEl.value);
+    var res = gEl('ppGC-addr-res'), form = gEl('ppGC-addr-form'), vol = gEl('ppGC-addr-volver'), txt = gEl('ppGC-addr-txt');
+    if (txt) txt.textContent = dir + ', ' + comuna;
+    if (res) res.style.display = completa ? 'flex' : 'none';
+    if (form) form.style.display = completa ? 'none' : 'block';
+    if (vol) vol.style.display = 'none';
+    ppGCRecalcDespacho();
+  }
+  window.ppGCOtraDireccion = function() {
+    gEl('ppGC-addr-res').style.display = 'none';
+    gEl('ppGC-addr-form').style.display = 'block';
+    gEl('ppGC-addr-volver').style.display = '';
+    var d = gEl('ppgc_pn_dir'); if (d) { d.value = ''; d.focus(); }
+  };
+  window.ppGCMismaDireccion = function() { gcDireccionDesdeDatos(); };
 
   function ppGCRecalcDespacho() {
     if (!gcSelectedEntrega||!gcSelectedEntrega.needsAddress) return;
