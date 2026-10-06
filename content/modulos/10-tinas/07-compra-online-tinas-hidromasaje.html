@@ -366,7 +366,7 @@
   letter-spacing: 2px; color: var(--pp-muted); margin-bottom: 3px;
 }
 .pp-tina-price {
-  font-size: 1.35rem; font-weight: 700; color: var(--pp-accent);
+  font-size: 1.6rem; font-weight: 800; line-height: 1.1; color: var(--pp-accent);
   font-family: Arial, sans-serif;
 }
 .pp-tina-price-iva {
@@ -389,18 +389,26 @@
   background: #fff;
 }
 .pp-tina-btn-buy {
-  flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
-  padding: 11px 8px;
-  background: var(--pp-accent); color: #fff;
+  flex: 1.5; display: flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 13px 8px;
+  background: #ff8a1f; color: #231300;
   border: none; border-radius: 6px;
-  font-size: 0.78rem; font-weight: 700; font-family: Arial, sans-serif;
+  font-size: 0.84rem; font-weight: 800; font-family: Arial, sans-serif;
   cursor: pointer; letter-spacing: 1.5px; text-transform: uppercase;
   transition: background 0.18s, box-shadow 0.18s;
 }
 .pp-tina-btn-buy:hover {
-  background: #003366;
-  box-shadow: 0 4px 14px rgba(0,74,153,0.28);
+  background: #f47a08;
+  box-shadow: 0 4px 14px rgba(244,122,8,0.3);
 }
+/* Stock y cuotas en la tarjeta */
+.pp-tina-stock { font-size: 0.72rem; font-weight: 700; color: var(--pp-success); margin-bottom: 8px; }
+.pp-tina-stock::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: currentColor; margin-right: 6px; vertical-align: 1px; }
+.pp-tina-stock.sin-stock { color: var(--pp-muted); }
+.pp-tina-cuotas { font-size: 0.82rem; color: #1a1a2e; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--pp-border); line-height: 1.45; min-height: 4.6em; }
+.pp-tina-cuotas span { display: block; }
+.pp-tina-cuotas b { font-weight: 700; }
+.pp-tina-cuotas small { display: block; font-size: 0.7rem; color: var(--pp-muted); margin-top: 2px; }
 .pp-tina-btn-detail {
   flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px;
   padding: 11px 8px;
@@ -1111,10 +1119,12 @@
 </div>
 </div>
 <div class="pp-tina-price-block">
+<div class="pp-tina-stock" data-tina-stock="vilcun">En stock</div>
 <div class="pp-tina-price-label">Precio con IVA</div>
 <div class="pp-tina-price" id="price-vilcun">$ 479.990<span class="pp-tina-price-iva">c/IVA</span></div>
 <div class="pp-tina-price-old" id="price-old-vilcun">Antes $ 649.990</div>
 <div class="pp-tina-ahorro" id="ahorro-vilcun">Ahorras $ 170.000</div>
+<div class="pp-tina-cuotas" data-tina-cuotas="vilcun"></div>
 </div>
 </div>
 <div class="pp-tina-cta">
@@ -1163,10 +1173,12 @@
 </div>
 </div>
 <div class="pp-tina-price-block">
+<div class="pp-tina-stock" data-tina-stock="queilen">En stock</div>
 <div class="pp-tina-price-label">Precio con IVA</div>
 <div class="pp-tina-price" id="price-queilen">$ 489.490<span class="pp-tina-price-iva">c/IVA</span></div>
 <div class="pp-tina-price-old" id="price-old-queilen">Antes $ 569.990</div>
 <div class="pp-tina-ahorro" id="ahorro-queilen">Ahorras $ 80.500</div>
+<div class="pp-tina-cuotas" data-tina-cuotas="queilen"></div>
 </div>
 </div>
 <div class="pp-tina-cta">
@@ -1215,10 +1227,12 @@
 </div>
 </div>
 <div class="pp-tina-price-block">
+<div class="pp-tina-stock" data-tina-stock="coinco">En stock</div>
 <div class="pp-tina-price-label">Precio con IVA</div>
 <div class="pp-tina-price" id="price-coinco">$ 499.990<span class="pp-tina-price-iva">c/IVA</span></div>
 <div class="pp-tina-price-old" id="price-old-coinco">Antes $ 579.990</div>
 <div class="pp-tina-ahorro" id="ahorro-coinco">Ahorras $ 80.000</div>
+<div class="pp-tina-cuotas" data-tina-cuotas="coinco"></div>
 </div>
 </div>
 <div class="pp-tina-cta">
@@ -1267,10 +1281,12 @@
 </div>
 </div>
 <div class="pp-tina-price-block">
+<div class="pp-tina-stock" data-tina-stock="kuyen">En stock</div>
 <div class="pp-tina-price-label">Precio con IVA</div>
 <div class="pp-tina-price" id="price-kuyen">$ 979.990<span class="pp-tina-price-iva">c/IVA</span></div>
 <div class="pp-tina-price-old" id="price-old-kuyen">Antes $ 1.399.990</div>
 <div class="pp-tina-ahorro" id="ahorro-kuyen">Ahorras $ 420.000</div>
+<div class="pp-tina-cuotas" data-tina-cuotas="kuyen"></div>
 </div>
 </div>
 <div class="pp-tina-cta">
@@ -1319,10 +1335,12 @@
 </div>
 </div>
 <div class="pp-tina-price-block">
+<div class="pp-tina-stock" data-tina-stock="antuco">En stock</div>
 <div class="pp-tina-price-label">Precio con IVA</div>
 <div class="pp-tina-price" id="price-antuco">$ 479.990<span class="pp-tina-price-iva">c/IVA</span></div>
 <div class="pp-tina-price-old" id="price-old-antuco">Antes $ 679.990</div>
 <div class="pp-tina-ahorro" id="ahorro-antuco">Ahorras $ 200.000</div>
+<div class="pp-tina-cuotas" data-tina-cuotas="antuco"></div>
 </div>
 </div>
 <div class="pp-tina-cta">
@@ -1611,7 +1629,7 @@
 <svg fill="none" height="18" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="18"><rect height="16" rx="2" width="22" x="1" y="4"></rect><line x1="1" x2="23" y1="10" y2="10"></line></svg>
           PAGAR CON WEBPAY
         </button>
-<div class="pp-webpay-note">🔒 Pago 100% seguro · SSL · Transbank · 3 cuotas sin interés según tu banco</div>
+<div class="pp-webpay-note">🔒 Pago 100% seguro · SSL · Transbank · 3 y 6 cuotas sin interés según tu banco</div>
 </div>
 </div>
 </div>
@@ -2680,6 +2698,24 @@ function _syncTinasJsonLd() {
 // Lee pp_stock donde tipo='TINAS' y actualiza el módulo en tiempo real.
 // Los keys en Supabase son TINAS|vilcun|na|na, TINAS|queilen|na|na, etc.
 // No interfiere con los registros AA/PA de acrílicos.
+// Cuotas y stock en la tarjeta: se recalcula cuando cambia el precio o el stock.
+function tinaSyncCard(tina, cantidad) {
+  var fmtC = function(n) { return '$ ' + Math.round(n).toLocaleString('es-CL'); };
+  document.querySelectorAll('[data-tina-cuotas="' + tina.id + '"]').forEach(function(el) {
+    el.innerHTML = '<span><b>3 cuotas</b> de ' + fmtC(tina.precio / 3) + '</span>' +
+      '<span><b>6 cuotas</b> de ' + fmtC(tina.precio / 6) + '</span>' +
+      '<small>Sin interés, según tu banco</small>';
+  });
+  if (cantidad !== undefined && cantidad !== null) {
+    document.querySelectorAll('[data-tina-stock="' + tina.id + '"]').forEach(function(el) {
+      var sin = cantidad === 0;
+      el.textContent = sin ? 'Sin stock por ahora' : 'En stock';
+      el.classList.toggle('sin-stock', sin);
+    });
+  }
+}
+(window.TINAS || []).forEach(function(t) { tinaSyncCard(t); });
+
 function loadTinasStockFromSupabase() {
   if (!window.supabase || !window.POLYPLAS_CONFIG) {
     setTimeout(loadTinasStockFromSupabase, 400);
@@ -2737,6 +2773,7 @@ function loadTinasStockFromSupabase() {
 
         // ── Sin stock / disponible ────────────────────────────
         tina.inStock = (row.cantidad !== 0);
+        tinaSyncCard(tina, row.cantidad);
         var btn = document.querySelector('button.pp-tina-btn-buy[onclick*="' + tina.id + '"]');
         if (btn) {
           if (row.cantidad === 0) {
