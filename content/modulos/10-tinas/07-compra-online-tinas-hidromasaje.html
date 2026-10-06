@@ -401,6 +401,68 @@
   background: #f47a08;
   box-shadow: 0 4px 14px rgba(244,122,8,0.3);
 }
+/* ── Embalaje opcional y Términos y Condiciones ── */
+.pp-embalaje-row { margin-bottom: 14px; }
+.pp-embalaje-toggle {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--pp-border);
+  border-radius: 10px; cursor: pointer;
+  background: #f8faff; transition: border-color .18s, background .18s;
+  user-select: none; -webkit-user-select: none;
+}
+.pp-embalaje-toggle:hover { border-color: var(--pp-accent); background: #eef3fc; }
+.pp-embalaje-toggle.checked { border-color: var(--pp-accent); background: #eef3fc; }
+.pp-embalaje-check {
+  width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--pp-border);
+  background: #fff; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background .15s, border-color .15s;
+}
+.pp-embalaje-toggle.checked .pp-embalaje-check { background: var(--pp-accent); border-color: var(--pp-accent); }
+.pp-embalaje-info { flex: 1; min-width: 0; }
+.pp-embalaje-name { display: block; font-size: 0.85rem; font-weight: 700; color: var(--pp-text); }
+.pp-embalaje-desc { display: block; font-size: 0.72rem; color: var(--pp-muted); margin-top: 1px; }
+.pp-embalaje-price { font-size: 0.85rem; font-weight: 700; color: var(--pp-accent); white-space: nowrap; flex-shrink: 0; }
+
+/* ── Términos y Condiciones checkout ────────────────────── */
+.pp-terms-row {
+  margin: 16px 0 4px;
+  border: 1.5px solid var(--pp-border);
+  border-radius: 10px; overflow: hidden;
+}
+.pp-terms-check-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 14px; cursor: pointer; background: #f8faff;
+  transition: background .15s;
+}
+.pp-terms-check-row:hover { background: #eef3fc; }
+.pp-terms-checkbox {
+  width: 20px; height: 20px; border-radius: 5px; flex-shrink: 0; margin-top: 2px;
+  border: 2px solid var(--pp-border); background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s, border-color .15s;
+}
+.pp-terms-check-row.checked .pp-terms-checkbox { background: var(--pp-accent); border-color: var(--pp-accent); }
+.pp-terms-text { font-size: 0.8rem; color: var(--pp-text); line-height: 1.5; flex: 1; }
+.pp-terms-link {
+  background: none; border: none; padding: 0; cursor: pointer;
+  color: var(--pp-accent); font-size: 0.8rem; font-weight: 700;
+  text-decoration: underline; font-family: Arial, sans-serif;
+}
+.pp-terms-content {
+  display: none; padding: 12px 14px 16px;
+  border-top: 1px solid var(--pp-border); background: #fff;
+}
+.pp-terms-content.open { display: block; }
+.pp-terms-item {
+  font-size: 0.78rem; color: #4a5568; line-height: 1.6; margin-bottom: 8px;
+}
+.pp-terms-item:last-child { margin-bottom: 0; }
+.pp-terms-item strong { color: var(--pp-text); }
+@media (max-width: 680px) {
+  .pp-terms-check-row { padding: 14px 14px; min-height: 52px; }
+}
+
 /* ── Tarjeta orientada a la compra ── */
 .pp-tina-body { flex: 0 0 auto; }
 .pp-tina-badge { background: #d6262f !important; font-size: 0.85rem; letter-spacing: 0; padding: 5px 11px; border-radius: 999px; font-weight: 800; }
@@ -1540,6 +1602,19 @@
 <div class="pp-qty-modal-unit" id="qtyModalUnit"></div>
 </div>
 </div>
+      <div class="pp-embalaje-row">
+        <div class="pp-qty-modal-label" style="margin-bottom:8px;">¿Deseas incluir embalaje?</div>
+        <div class="pp-embalaje-toggle" id="qtyEmbalajeToggle" onclick="toggleEmbalaje()">
+          <div class="pp-embalaje-check" id="qtyEmbalajeCheck">
+            <svg id="qtyEmbalajeCheckIcon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="pp-embalaje-info">
+            <span class="pp-embalaje-name">Incluir embalaje</span>
+            <span class="pp-embalaje-desc">Opcional en Santiago · Obligatorio en envíos a regiones</span>
+          </div>
+          <span class="pp-embalaje-price">+ $ 71.400</span>
+        </div>
+      </div>
 <div class="pp-qty-modal-label">¿Cuántas unidades necesitas?</div>
 <div class="pp-qty-control">
 <button class="pp-qty-ctrl-btn" disabled="" id="qtyMinus" onclick="changeModalQty(-1)">−</button>
@@ -1551,9 +1626,13 @@
 <span class="pp-qty-bd-label" id="qtyBdTinaLabel">Tina Kuyen Full</span>
 <span class="pp-qty-bd-val" id="qtyBdTinaVal"></span>
 </div>
-<div class="pp-qty-bd-row pp-qty-bd-row--faldon">
+<div class="pp-qty-bd-row pp-qty-bd-row--faldon" id="qtyBdFaldonRow">
 <span class="pp-qty-bd-label">+ Faldón</span>
 <span class="pp-qty-bd-val" id="qtyBdFaldonVal">$ 107.100</span>
+</div>
+<div class="pp-qty-bd-row pp-qty-bd-row--faldon" id="qtyBdEmbalajeRow" style="display:none">
+<span class="pp-qty-bd-label">+ Embalaje</span>
+<span class="pp-qty-bd-val" id="qtyBdEmbalajeVal">$ 71.400</span>
 </div>
 </div>
 <div class="pp-qty-total-box">
@@ -1718,6 +1797,24 @@
 <div id="tinaRetiroInfo" style="display:none;margin-top:14px;background:#f0f4fb;border-radius:12px;padding:16px 18px;border:1px solid #ccd8ee"><div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin-bottom:10px">Dirección de retiro</div><div style="font-size:0.88rem;color:#1a1a2e;line-height:2"><div><strong>Santiago Concha 1525, Santiago</strong></div><div>Lunes a jueves · 9:00 a 18:00 hrs</div><div>Viernes · 9:00 a 17:00 hrs</div><div style="margin-top:8px;font-size:0.78rem;color:#666">Contáctanos al +56 9 4208 6751 para coordinar el retiro.</div></div></div>
 <div id="tinaEnvioInfo" style="display:none;margin-top:14px;background:#fffbeb;border-radius:12px;padding:16px 18px;border:1px solid #fde68a"><div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#92400e;font-weight:700;margin-bottom:10px">Envío gestionado por ti</div><div style="font-size:0.85rem;color:#1a1a2e;line-height:2"><div>Tu contratas y coordinas el transporte.</div><div>Tu transportista retira desde: <strong>Santiago Concha 1525, Santiago</strong></div><div style="margin-top:8px;font-size:0.78rem;color:#666">Coordina enviando tu comprobante por WhatsApp al +56 9 4208 6751.</div></div></div>
 <div id="tinaAddressSection" style="display:none;margin-top:14px"><div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin-bottom:10px">Dirección de despacho</div><div style="display:grid;gap:10px"><div><label style="font-size:0.78rem;font-weight:600;display:block;margin-bottom:4px">Región *</label><select id="tina_despacho_region" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-size:0.88rem;outline:none;"><option value="">Selecciona tu región...</option><option value="RM">Región Metropolitana</option><option value="XV">Arica y Parinacota</option><option value="I">Tarapacá</option><option value="II">Antofagasta</option><option value="III">Atacama</option><option value="IV">Coquimbo</option><option value="V">Valparaíso</option><option value="VI">O'Higgins</option><option value="VII">Maule</option><option value="XVI">Ñuble</option><option value="VIII">Biobío</option><option value="IX">La Araucanía</option><option value="XIV">Los Ríos</option><option value="X">Los Lagos</option><option value="XI">Aysén</option><option value="XII">Magallanes</option></select></div><div><label style="font-size:0.78rem;font-weight:600;display:block;margin-bottom:4px">Comuna *</label><input id="tina_despacho_comuna" placeholder="Ej: Providencia" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-size:0.88rem;outline:none;box-sizing:border-box;" type="text"/></div><div><label style="font-size:0.78rem;font-weight:600;display:block;margin-bottom:4px">Dirección *</label><input id="tina_despacho_dir" placeholder="Av. Ejemplo 1234, Depto 5" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-size:0.88rem;outline:none;box-sizing:border-box;" type="text"/></div></div></div>
+        <div class="pp-terms-row">
+          <div class="pp-terms-check-row" id="tinaTermsCheckRow" onclick="tinaToggleTerms()">
+            <div class="pp-terms-checkbox" id="tinaTermsCheckbox">
+              <svg id="tinaTermsCheckIcon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" style="display:none"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <span class="pp-terms-text">
+              Acepto los <button type="button" class="pp-terms-link" onclick="event.stopPropagation(); tinaExpandTerms()">Términos y Condiciones</button> de la compra
+            </span>
+          </div>
+          <div class="pp-terms-content" id="tinaTermsContent">
+            <div class="pp-terms-item"><strong>Ubicación de accesorios:</strong> Al momento de la compra, el cliente debe indicar en qué lado de la tina prefiere el panel digital y el kit de grifería (cascada y monomando). Se solicitará un dibujo o imagen de referencia para confirmar la ubicación exacta.</div>
+            <div class="pp-terms-item"><strong>Envíos a regiones:</strong> Para despachos fuera de la Región Metropolitana, el proceso de entrega final se coordinará directamente con la empresa de logística.</div>
+            <div class="pp-terms-item"><strong>Embalaje:</strong> El embalaje es obligatorio en los envíos a regiones y se suma al total al elegir esa entrega. En la Región Metropolitana y en el retiro en tienda es opcional.</div>
+            <div class="pp-terms-item"><strong>Garantía:</strong> 1 año por fallas de fabricación.</div>
+            <div class="pp-terms-item"><strong>Servicio y accesorios:</strong> No contamos con servicio técnico propio, no realizamos instalaciones ni vendemos repuestos o accesorios por separado.</div>
+            <div class="pp-terms-item"><strong>Incluido con la tina:</strong> Cabecera integrada y base metálica de soporte.</div>
+          </div>
+        </div>
 <div class="pp-form-error" id="tinaStep2Error"></div>
 <button class="pp-btn-back-step" onclick="tinaGoBackStep1()">← Volver y editar datos</button>
 <button class="pp-btn-webpay" disabled="" id="tinaBtnPay" onclick="tinaSubmitOrder()" style="opacity:0.5;cursor:not-allowed">
@@ -1797,6 +1894,25 @@
 
 // ── Datos de productos ───────────────────────────────────────
 // ⚠️ REEMPLAZA estos precios con los reales de los PDFs
+// ── Scroll lock compatible con iOS Safari ────────────────────
+var _ppScrollY = 0;
+function ppLockScroll() {
+  if (document.body.style.position === 'fixed') return; // ya bloqueado: no perder la posición guardada
+  _ppScrollY = window.scrollY;
+  document.body.style.position = 'fixed';
+  document.body.style.top      = '-' + _ppScrollY + 'px';
+  document.body.style.width    = '100%';
+  document.body.style['overflow'] = 'hidden';
+}
+function ppUnlockScroll() {
+  var wasFixed = document.body.style.position === 'fixed';
+  document.body.style.position = '';
+  document.body.style.top      = '';
+  document.body.style.width    = '';
+  document.body.style['overflow'] = '';
+  if (wasFixed) window.scrollTo(0, _ppScrollY);
+}
+
 var TINAS = window.TINAS = [
   { id:'vilcun',  nombre:'Tina Vilcún',    specs:'170×75×40 cm', precio:479990, img:'/wp-content/uploads/2026/08/vilcun-.webp' },
   { id:'kuyen',   nombre:'Tina Kuyen Full',specs:'183×120×65 cm · 300 L', precio:979990, img:'/wp-content/uploads/2026/08/kuyenfull.webp' },
@@ -1807,7 +1923,8 @@ var TINAS = window.TINAS = [
 
 // ── Estado ───────────────────────────────────────────────────
 var cart = [];
-var qtyModalState = { tina: null, qty: 1 };
+var EMBALAJE_PRECIO = 71400;
+var qtyModalState = { tina: null, qty: 1, embalaje: false };
 var kuyenFaldonPending = false;
 window.FALDON_UPSELL_ACTIVE = true; // controlado desde CRM vía Supabase
 var tinaClientType = 'PN';
@@ -1828,7 +1945,7 @@ function showToast(msg, type) {
 
 // ── Cart helpers ─────────────────────────────────────────────
 function cartTotal() {
-  return cart.reduce(function(s, i) { return s + i.precio * i.qty; }, 0);
+  return cart.reduce(function(s, i) { return s + i.precio * i.qty + (i.embalaje ? EMBALAJE_PRECIO * i.qty : 0); }, 0);
 }
 
 function cartCount() {
@@ -1864,9 +1981,10 @@ function renderDrawer() {
       '<div class="pp-drawer-item-body">' +
         '<div class="pp-drawer-item-name">' + item.nombre + '</div>' +
         '<div class="pp-drawer-item-sub">' + item.specs + '</div>' +
+        (item.embalaje ? '<div class="pp-drawer-item-sub" style="color:var(--pp-accent);font-weight:600;margin-top:2px;font-size:0.72rem;">+ Embalaje incluido</div>' : '') +
       '</div>' +
       '<div class="pp-drawer-item-right">' +
-        '<div class="pp-drawer-item-price">' + fmt(item.precio * item.qty) + '</div>' +
+        '<div class="pp-drawer-item-price">' + fmt((item.precio + (item.embalaje ? EMBALAJE_PRECIO : 0)) * item.qty) + '</div>' +
         '<div class="pp-drawer-item-qty">' +
           '<button class="pp-drawer-qty-btn" onclick="drawerQty(' + idx + ',-1)">−</button>' +
           '<span class="pp-drawer-qty-val">' + item.qty + '</span>' +
@@ -1904,9 +2022,14 @@ window.openQtyModal = function(id, nombre, specs, img, tinaIdx) {
   document.getElementById('qtyModalUnit').textContent = tina.precio ? fmt(tina.precio) + ' c/u · IVA incl.' : '$ — · IVA incl.';
   document.getElementById('qtyDisplay').textContent = '1';
   document.getElementById('qtyMinus').disabled = true;
+  qtyModalState.embalaje = false;
+  var _emTgl = document.getElementById('qtyEmbalajeToggle');
+  var _emIcn = document.getElementById('qtyEmbalajeCheckIcon');
+  if (_emTgl) _emTgl.classList.remove('checked');
+  if (_emIcn) _emIcn.style.display = 'none';
   updateQtyTotal();
   document.getElementById('tinaQtyModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  ppLockScroll();
   dlPushTinas('view_item', {
     currency: 'CLP',
     value: tina.precio || 0,
@@ -1916,15 +2039,24 @@ window.openQtyModal = function(id, nombre, specs, img, tinaIdx) {
 
 function updateQtyTotal() {
   var tina = qtyModalState.tina;
-  var tinaTotal = tina && tina.precio ? tina.precio * qtyModalState.qty : 0;
+  var qty  = qtyModalState.qty;
+  var tinaTotal = tina && tina.precio ? tina.precio * qty : 0;
   var breakdown = document.getElementById('qtyFaldonBreakdown');
-  if (kuyenFaldonPending && tina && tina.id === 'kuyen') {
-    var faldonPrecio = (typeof FALDON_KUYEN !== 'undefined' && FALDON_KUYEN.precio) ? FALDON_KUYEN.precio : 107100;
-    document.getElementById('qtyBdTinaLabel').textContent = tina.nombre || 'Tina Kuyen Full';
+  var hasFaldon   = kuyenFaldonPending && tina && tina.id === 'kuyen';
+  var hasEmbalaje = qtyModalState.embalaje;
+  var faldonPrecio  = hasFaldon   ? ((typeof FALDON_KUYEN !== 'undefined' && FALDON_KUYEN.precio) ? FALDON_KUYEN.precio : 107100) : 0;
+  var embalajeTotal = hasEmbalaje ? EMBALAJE_PRECIO * qty : 0;
+  if (hasFaldon || hasEmbalaje) {
+    document.getElementById('qtyBdTinaLabel').textContent = tina ? (tina.nombre || 'Tina') : 'Tina';
     document.getElementById('qtyBdTinaVal').textContent = fmt(tinaTotal);
-    document.getElementById('qtyBdFaldonVal').textContent = fmt(faldonPrecio);
+    var faldonRow = document.getElementById('qtyBdFaldonRow');
+    if (faldonRow) faldonRow.style.display = hasFaldon ? '' : 'none';
+    if (hasFaldon) document.getElementById('qtyBdFaldonVal').textContent = fmt(faldonPrecio);
+    var embalajeRow = document.getElementById('qtyBdEmbalajeRow');
+    if (embalajeRow) embalajeRow.style.display = hasEmbalaje ? '' : 'none';
+    if (hasEmbalaje) document.getElementById('qtyBdEmbalajeVal').textContent = fmt(embalajeTotal);
     if (breakdown) breakdown.style.display = 'block';
-    document.getElementById('qtyTotalVal').textContent = fmt(tinaTotal + faldonPrecio);
+    document.getElementById('qtyTotalVal').textContent = fmt(tinaTotal + faldonPrecio + embalajeTotal);
   } else {
     if (breakdown) breakdown.style.display = 'none';
     document.getElementById('qtyTotalVal').textContent = tinaTotal ? fmt(tinaTotal) : '$ —';
@@ -1940,8 +2072,17 @@ window.changeModalQty = function(delta) {
 
 window.closeQtyModal = function() {
   document.getElementById('tinaQtyModal').classList.remove('open');
-  document.body.style.overflow = '';
+  ppUnlockScroll();
   kuyenFaldonPending = false;
+};
+
+window.toggleEmbalaje = function() {
+  qtyModalState.embalaje = !qtyModalState.embalaje;
+  var toggle = document.getElementById('qtyEmbalajeToggle');
+  var icon   = document.getElementById('qtyEmbalajeCheckIcon');
+  if (toggle) toggle.classList.toggle('checked', qtyModalState.embalaje);
+  if (icon)   icon.style.display = qtyModalState.embalaje ? '' : 'none';
+  updateQtyTotal();
 };
 
 window.addToTinaCart = function() {
@@ -1957,8 +2098,9 @@ window.addToTinaCart = function() {
   var idx = cart.findIndex(function(i){ return i.id === tina.id; });
   if (idx >= 0) {
     cart[idx].qty += qtyModalState.qty;
+    cart[idx].embalaje = qtyModalState.embalaje;
   } else {
-    cart.push({ id: tina.id, nombre: tina.nombre, specs: tina.specs, precio: tina.precio, img: tina.img, qty: qtyModalState.qty });
+    cart.push({ id: tina.id, nombre: tina.nombre, specs: tina.specs, precio: tina.precio, img: tina.img, qty: qtyModalState.qty, embalaje: qtyModalState.embalaje });
   }
   // Carrito global
   try {
@@ -1967,10 +2109,11 @@ window.addToTinaCart = function() {
     if (!_gcItem._gid) _gcItem._gid = 'gc-' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
     typeof window.ppGlobalCartAdd === 'function' && window.ppGlobalCartAdd({
       gid: _gcItem._gid, sku: 'TINA_' + _gcItem.id, module: 'tinas',
-      nombre: _gcItem.nombre + (_gcItem.specs ? ' · ' + _gcItem.specs : ''),
+      nombre: _gcItem.nombre + (_gcItem.specs ? ' · ' + _gcItem.specs : '') + (_gcItem.embalaje ? ' + Embalaje' : ''),
       qty: _gcItem.qty, precio_unit: _gcItem.precio, corte_costo: 0,
-      subtotal: _gcItem.precio * _gcItem.qty,
-      descripcion: _gcItem.nombre + ' × ' + _gcItem.qty
+      embalaje: !!_gcItem.embalaje, embalaje_unit: EMBALAJE_PRECIO,
+      subtotal: _gcItem.precio * _gcItem.qty + (_gcItem.embalaje ? EMBALAJE_PRECIO * _gcItem.qty : 0),
+      descripcion: _gcItem.nombre + ' × ' + _gcItem.qty + (_gcItem.embalaje ? ' + Embalaje' : '')
     });
   } catch(e) {}
   dlPushTinas('add_to_cart', {
@@ -1995,12 +2138,12 @@ window.openTinaDrawer = function() {
   renderDrawer();
   document.getElementById('tinaCartDrawer').classList.add('open');
   document.getElementById('tinaDrawerOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  ppLockScroll();
 };
 window.closeTinaDrawer = function() {
   document.getElementById('tinaCartDrawer').classList.remove('open');
   document.getElementById('tinaDrawerOverlay').classList.remove('open');
-  document.body.style.overflow = '';
+  ppUnlockScroll();
 };
 
 // ── Modal detalle producto ────────────────────────────────────
@@ -2162,7 +2305,7 @@ window.openTinaDetail = function(id) {
     items: [{ item_id: 'TINA_' + id, item_name: d.label + ' ' + d.title, item_brand: 'Polyplas', item_category: 'Tinas Hidromasaje', item_variant: d.medidas || '', price: _viTina ? (_viTina.precio || 0) : 0, quantity: 1, index: 0 }]
   });
   document.getElementById('tinaDetailModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  ppLockScroll();
   history.replaceState(null, '', window.location.pathname + window.location.search + '#tina=' + id);
 };
 
@@ -2181,7 +2324,7 @@ window.detailSlide = function(idx) {
 window.closeTinaDetail = function() {
   if (window._detailInterval) { clearInterval(window._detailInterval); window._detailInterval = null; }
   document.getElementById('tinaDetailModal').classList.remove('open');
-  document.body.style.overflow = '';
+  ppUnlockScroll();
   history.replaceState(null, '', window.location.pathname + window.location.search);
 };
 
@@ -2191,13 +2334,21 @@ document.getElementById('tinaDetailModal').addEventListener('click', function(e)
 
 // ── Checkout ─────────────────────────────────────────────────
 function buildOrderItemsHTML() {
-  if (!cart.length) return '<div style="color:#888;font-size:0.82rem">Sin productos</div>';
-  return cart.map(function(item) {
-    return '<div class="pp-modal-order-item">' +
+  if (!cart.length) return '<div style="color:#888;font-size:0.82rem;">Sin productos</div>';
+  var rows = [];
+  cart.forEach(function(item) {
+    rows.push('<div class="pp-modal-order-item">' +
       '<span class="desc">' + item.nombre + ' × ' + item.qty + '</span>' +
       '<span class="monto">' + fmt(item.precio * item.qty) + '</span>' +
-    '</div>';
-  }).join('');
+    '</div>');
+    if (item.embalaje) {
+      rows.push('<div class="pp-modal-order-item">' +
+        '<span class="desc" style="padding-left:12px;font-size:0.76rem;color:var(--pp-accent);">+ Embalaje × ' + item.qty + '</span>' +
+        '<span class="monto">' + fmt(EMBALAJE_PRECIO * item.qty) + '</span>' +
+      '</div>');
+    }
+  });
+  return rows.join('');
 }
 
 window.openTinaCheckout = function() {
@@ -2213,11 +2364,11 @@ window.openTinaCheckout = function() {
   // Render order summary in step 1
   document.getElementById('tinaStep1OrderItems').innerHTML = buildOrderItemsHTML();
   document.getElementById('tinaCheckoutModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  ppLockScroll();
 };
 window.closeTinaCheckout = function() {
   document.getElementById('tinaCheckoutModal').classList.remove('open');
-  document.body.style.overflow = '';
+  ppUnlockScroll();
 };
 
 window.tinaSetClient = function(type) {
@@ -2294,8 +2445,41 @@ window.tinaGoStep2 = function() {
   document.getElementById('tinaCkLine').className  = 'pp-checkout-step-line done';
   document.getElementById('tinaStep2OrderItems').innerHTML = buildOrderItemsHTML();
   document.getElementById('tinaStep2Total').textContent = fmt(cartTotal());
+  tinaTermsAccepted = false;
+  var _tRow3 = document.getElementById('tinaTermsCheckRow');
+  var _tIcn3 = document.getElementById('tinaTermsCheckIcon');
+  var _tCnt  = document.getElementById('tinaTermsContent');
+  if (_tRow3) _tRow3.classList.remove('checked');
+  if (_tIcn3) _tIcn3.style.display = 'none';
+  if (_tCnt)  _tCnt.classList.remove('open');
   tinaRenderEntregaOptions();
+  var _m = document.querySelector('#tinaCheckoutModal .pp-modal'); if (_m) _m.scrollTop = 0;
 };
+var tinaTermsAccepted = false;
+
+function tinaCheckPayBtn() {
+  var wb = document.getElementById('tinaBtnPay');
+  if (!wb) return;
+  var ok = !!tinaSelectedEntrega && tinaTermsAccepted;
+  wb.disabled = !ok;
+  wb.style.opacity = ok ? '' : '0.5';
+  wb.style.cursor  = ok ? '' : 'not-allowed';
+}
+
+window.tinaToggleTerms = function() {
+  tinaTermsAccepted = !tinaTermsAccepted;
+  var row  = document.getElementById('tinaTermsCheckRow');
+  var icon = document.getElementById('tinaTermsCheckIcon');
+  if (row)  row.classList.toggle('checked', tinaTermsAccepted);
+  if (icon) icon.style.display = tinaTermsAccepted ? '' : 'none';
+  tinaCheckPayBtn();
+};
+
+window.tinaExpandTerms = function() {
+  var c = document.getElementById('tinaTermsContent');
+  if (c) c.classList.toggle('open');
+};
+
 var tinaSelectedEntrega = null;
 function tinaRenderEntregaOptions() {
   var el = document.getElementById("tinaEntregaOptions");
@@ -2327,7 +2511,7 @@ function tinaRenderEntregaOptions() {
       tinaSelectedEntrega={id:op.id,label:op.label,needsAddress:op.needsAddress,costo:0};
       dlPushTinas('add_shipping_info', { currency: 'CLP', value: cartTotal(), shipping_tier: op.id, customer_type: tinaClientType, items: cart.map(function(i, idx) { return { item_id: 'TINA_' + i.id, item_name: i.nombre, item_brand: 'Polyplas', item_category: 'Tinas Hidromasaje', item_variant: i.specs || '', price: i.precio, quantity: i.qty, index: idx }; }) });
       var e2=document.getElementById("tinaStep2Error"); if(e2) e2.style.display="none";
-      if(wb){wb.disabled=false;wb.style.opacity="";wb.style.cursor="";}
+      tinaCheckPayBtn();
       document.getElementById("tinaRetiroInfo").style.display  = op.id==="retiro_tienda"?"block":"none";
       document.getElementById("tinaEnvioInfo").style.display   = op.id==="envio_propio" ?"block":"none";
       document.getElementById("tinaAddressSection").style.display = op.id==="despacho"  ?"block":"none";
@@ -2372,11 +2556,19 @@ function tinaGetCheckoutData() {
 
 window.tinaGoBackStep1 = function() {
   tinaSelectedEntrega = null;
+  tinaTermsAccepted = false;
+  var _tRow2 = document.getElementById('tinaTermsCheckRow');
+  var _tIcn2 = document.getElementById('tinaTermsCheckIcon');
+  var _tCnt2 = document.getElementById('tinaTermsContent');
+  if (_tRow2) _tRow2.classList.remove('checked');
+  if (_tIcn2) _tIcn2.style.display = 'none';
+  if (_tCnt2) _tCnt2.classList.remove('open');
   document.getElementById('tinaStep1').style.display = '';
   document.getElementById('tinaStep2').style.display = 'none';
   document.getElementById('tinaCkStep1').className = 'pp-checkout-step active';
   document.getElementById('tinaCkStep2').className = 'pp-checkout-step';
   document.getElementById('tinaCkLine').className  = 'pp-checkout-step-line';
+  var _m = document.querySelector('#tinaCheckoutModal .pp-modal'); if (_m) _m.scrollTop = 0;
 };
 
 window.tinaSubmitOrder = async function() {
@@ -2386,6 +2578,11 @@ window.tinaSubmitOrder = async function() {
   if (!tinaSelectedEntrega) {
     var _e2=document.getElementById("tinaStep2Error");
     if(_e2){_e2.textContent="Elige una modalidad de entrega para continuar.";_e2.style.display="block";}
+    btn.disabled=false; btn.textContent="PAGAR CON WEBPAY"; return;
+  }
+  if (!tinaTermsAccepted) {
+    var _e2t=document.getElementById("tinaStep2Error");
+    if(_e2t){_e2t.textContent="Debes aceptar los Términos y Condiciones para continuar.";_e2t.style.display="block";}
     btn.disabled=false; btn.textContent="PAGAR CON WEBPAY"; return;
   }
   var entregaLabel = tinaSelectedEntrega.label;
@@ -2410,11 +2607,17 @@ window.tinaSubmitOrder = async function() {
   var convId  = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
   var shortId = 'PP-TINAS-' + convId.split('-').pop().substring(0, 5).toUpperCase();
 
-  var orderItems = cart.map(function(i) {
-    return { tipo: i.nombre, dim: i.specs, qty: i.qty, precio: i.precio };
+  // Ítems del pedido. El embalaje va además como línea propia para que
+  // aparezca en el comprobante y en el correo a ventas con su valor.
+  var orderItems = [];
+  cart.forEach(function(i) {
+    orderItems.push({ tipo: i.nombre, dim: i.specs, qty: i.qty, precio: i.precio, embalaje: i.embalaje || false });
+    if (i.embalaje) orderItems.push({ tipo: 'Embalaje', dim: i.nombre, qty: i.qty, precio: EMBALAJE_PRECIO });
   });
   var resumen = cart.map(function(i) {
-    return '• ' + i.nombre + ' · ' + i.specs + ' × ' + i.qty + ' → $' + (i.precio * i.qty).toLocaleString('es-CL');
+    var line = '• ' + i.nombre + ' · ' + i.specs + ' × ' + i.qty + ' → $' + (i.precio * i.qty).toLocaleString('es-CL');
+    if (i.embalaje) line += '\n  + Embalaje × ' + i.qty + ' → $' + (EMBALAJE_PRECIO * i.qty).toLocaleString('es-CL');
+    return line;
   }).join('\n');
 
   try {
@@ -2426,9 +2629,7 @@ window.tinaSubmitOrder = async function() {
         entrega:     entregaLabel,
         client:      client,
         return_page: 'https://polyplas.cl/gracias/',
-        items:       cart.map(function(i) {
-          return { tipo: i.nombre, dim: i.specs, qty: i.qty, precio: i.precio };
-        })
+        items:       orderItems
       })
     });
 
@@ -2444,7 +2645,8 @@ window.tinaSubmitOrder = async function() {
         shortId:      shortId,
         entregaLabel: entregaLabel,
         corteActivo:  false,
-        total:        total
+        total:        total,
+        termsAccepted: true
       });
       sessionStorage.setItem('pp_tinas_order_data', _tinaOrderJson);
       sessionStorage.setItem('pp_tinas_cart_dl', JSON.stringify(cart.map(function(i, idx) {
@@ -2478,11 +2680,11 @@ window.openPpLightbox = function(src, alt) {
   img.src = src;
   img.alt = alt;
   document.getElementById('ppPhotoLightbox').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  ppLockScroll();
 };
 window.closePpLightbox = function() {
   document.getElementById('ppPhotoLightbox').classList.remove('open');
-  document.body.style.overflow = '';
+  ppUnlockScroll();
 };
 
 // ── Upsell Faldón Kuyen Full ──────────────────────────────────
@@ -2510,11 +2712,11 @@ window.openKuyenUpsell = function() {
   if (elTina) elTina.textContent = fmt(tinaP);
   if (elTotal) elTotal.textContent = fmt(tinaP + faldonP);
   document.getElementById('kuyenUpsellModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
+  ppLockScroll();
 };
 window.closeKuyenUpsell = function() {
   document.getElementById('kuyenUpsellModal').classList.remove('open');
-  document.body.style.overflow = '';
+  ppUnlockScroll();
 };
 window.kuyenUpsellAccept = function() {
   kuyenFaldonPending = true;
@@ -2723,6 +2925,7 @@ function tinasRegistrarOrden(params) {
         ciudad:       _od.client.ciudad || '',
         region:       _od.client.region || '',
         entrega:      _od.entregaLabel,
+        terms_accepted: _od.termsAccepted || false,
         total:        _od.total,
         items:        _od.orderItems,
         webpay_orden: params.get('orden') || '',
