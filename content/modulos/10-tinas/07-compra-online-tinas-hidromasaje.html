@@ -2085,6 +2085,22 @@ window.toggleEmbalaje = function() {
   updateQtyTotal();
 };
 
+// Mantiene este carrito sincronizado con el carrito general: si el cliente elimina
+// un producto allá (o lo vacía), también se quita aquí. Sin esto, al volver a
+// agregar el mismo producto se sumaba a la cantidad anterior.
+function _ppSyncCarrito() {
+  try { renderDrawer(); } catch(e) {}
+  try { updateFloatingCart(); } catch(e) {}
+}
+document.addEventListener('ppGCItemRemoved', function(e) {
+  cart = cart.filter(function(i) { return i._gid !== e.detail.gid; });
+  _ppSyncCarrito();
+});
+document.addEventListener('ppGCCartCleared', function() {
+  cart = [];
+  _ppSyncCarrito();
+});
+
 window.addToTinaCart = function() {
   var tina = qtyModalState.tina;
   if (!tina) return;
@@ -2094,6 +2110,18 @@ window.addToTinaCart = function() {
     if (fIdx >= 0) { cart[fIdx].qty += 1; }
     else { cart.push({ id: FALDON_KUYEN.id, nombre: FALDON_KUYEN.nombre, specs: FALDON_KUYEN.specs, precio: FALDON_KUYEN.precio, img: FALDON_KUYEN.img, qty: 1 }); }
     kuyenFaldonPending = false;
+    // El faldón también se envía al carrito general (antes quedaba fuera y no se cobraba)
+    try {
+      var _fal = cart[cart.findIndex(function(i){ return i.id === FALDON_KUYEN.id; })];
+      if (!_fal._gid) _fal._gid = 'gc-' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+      typeof window.ppGlobalCartAdd === 'function' && window.ppGlobalCartAdd({
+        gid: _fal._gid, sku: 'TINA_' + _fal.id, module: 'tinas',
+        nombre: _fal.nombre + (_fal.specs ? ' · ' + _fal.specs : ''),
+        qty: _fal.qty, precio_unit: _fal.precio, corte_costo: 0,
+        subtotal: _fal.precio * _fal.qty,
+        descripcion: _fal.nombre + ' × ' + _fal.qty
+      });
+    } catch(e) {}
   }
   var idx = cart.findIndex(function(i){ return i.id === tina.id; });
   if (idx >= 0) {

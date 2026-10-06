@@ -1634,6 +1634,22 @@ window.closeQtyModal = function() {
   kuyenFaldonPending = false;
 };
 
+// Mantiene este carrito sincronizado con el carrito general: si el cliente elimina
+// un producto allá (o lo vacía), también se quita aquí. Sin esto, al volver a
+// agregar el mismo producto se sumaba a la cantidad anterior.
+function _ppSyncCarrito() {
+  try { renderDrawer(); } catch(e) {}
+  try { updateFloatingCart(); } catch(e) {}
+}
+document.addEventListener('ppGCItemRemoved', function(e) {
+  cart = cart.filter(function(i) { return i._gid !== e.detail.gid; });
+  _ppSyncCarrito();
+});
+document.addEventListener('ppGCCartCleared', function() {
+  cart = [];
+  _ppSyncCarrito();
+});
+
 window.addToTinaCart = function() {
   var tina = qtyModalState.tina;
   if (!tina) return;
