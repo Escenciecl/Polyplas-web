@@ -451,7 +451,15 @@
 .ppGC-emb-line--flete b { color: #92400e; font-size: 0.78rem; background: #fef3c7; padding: 2px 8px; border-radius: 999px; }
 .ppGC-emb-precio { font-size: 0.9rem; font-weight: 700; color: #004a99; white-space: nowrap; flex-shrink: 0; }
 /* ── Ubicación de accesorios ── */
-.ppGC-acc label { display: block; font-size: 0.84rem; font-weight: 600; color: #1a1a2e; margin-bottom: 8px; line-height: 1.4; }
+.ppGC-acc .ppGC-acc-intro { font-size: 0.84rem; color: #1a1a2e; margin: 0 0 12px; line-height: 1.45; }
+.ppGC-acc-fila { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.ppGC-acc-nombre { flex: 0 0 112px; font-size: 0.86rem; font-weight: 700; color: #1a1a2e; }
+.ppGC-acc-ops { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ppGC-acc-ops button { min-height: 46px; padding: 10px 8px; border: 1.5px solid #ccd8ee; border-radius: 8px; background: #fff; color: #1a1a2e; font-family: inherit; font-size: 0.86rem; font-weight: 600; cursor: pointer; }
+.ppGC-acc-ops button:hover { border-color: #004a99; }
+.ppGC-acc-ops button.sel { background: #004a99; border-color: #004a99; color: #fff; }
+.ppGC-acc input { margin-top: 4px; }
+@media (max-width: 480px) { .ppGC-acc-fila { flex-direction: column; align-items: stretch; gap: 6px; margin-bottom: 14px; } .ppGC-acc-nombre { flex: none; } }
 .ppGC-acc select, .ppGC-acc input { width: 100%; height: auto; min-height: 48px; line-height: 1.3; padding: 12px 13px; background: #f7f9fd; border: 1.5px solid #ccd8ee; border-radius: 8px; color: #1a1a2e; font-family: inherit; font-size: 16px; margin-bottom: 8px; box-sizing: border-box; }
 .ppGC-acc p { font-size: 0.74rem; color: #5a6475; margin: 0; line-height: 1.45; }
 /* Mientras el carrito o el pago están abiertos, se ocultan el chat y la pestaña lateral para que no tapen los botones */
@@ -746,12 +754,21 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
 <div id="ppGC-accesorios" style="display:none">
 <div class="ppGC-section-divider">Ubicación de accesorios</div>
 <div class="ppGC-acc">
-<label for="ppGC-acc-lado">¿En qué lado de la tina prefieres el panel digital y la grifería?</label>
-<select id="ppGC-acc-lado">
-<option value="">Lo confirmo después con ventas</option>
-<option value="Lado izquierdo">Lado izquierdo</option>
-<option value="Lado derecho">Lado derecho</option>
-</select>
+<p class="ppGC-acc-intro">Elige en qué lado de la tina quieres cada accesorio. Puedes combinarlos como prefieras.</p>
+<div class="ppGC-acc-fila">
+<span class="ppGC-acc-nombre" id="ppGC-acc-panel-lbl">Panel digital</span>
+<div aria-labelledby="ppGC-acc-panel-lbl" class="ppGC-acc-ops" role="radiogroup">
+<button aria-checked="false" data-acc="panel" data-lado="izquierdo" onclick="ppGCSetAccesorio(this)" role="radio" type="button">Lado izquierdo</button>
+<button aria-checked="false" data-acc="panel" data-lado="derecho" onclick="ppGCSetAccesorio(this)" role="radio" type="button">Lado derecho</button>
+</div>
+</div>
+<div class="ppGC-acc-fila">
+<span class="ppGC-acc-nombre" id="ppGC-acc-grif-lbl">Kit de grifería</span>
+<div aria-labelledby="ppGC-acc-grif-lbl" class="ppGC-acc-ops" role="radiogroup">
+<button aria-checked="false" data-acc="griferia" data-lado="izquierdo" onclick="ppGCSetAccesorio(this)" role="radio" type="button">Lado izquierdo</button>
+<button aria-checked="false" data-acc="griferia" data-lado="derecho" onclick="ppGCSetAccesorio(this)" role="radio" type="button">Lado derecho</button>
+</div>
+</div>
 <input id="ppGC-acc-nota" maxlength="140" placeholder="Comentario (opcional)" type="text"/>
 <p>Te pediremos un dibujo o foto de referencia para confirmar la ubicación exacta.</p>
 </div>
@@ -876,11 +893,27 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     var box = gEl('ppGC-accesorios'); if (!box) return;
     box.style.display = gcPideAccesorios() ? 'block' : 'none';
   }
+  // Cada accesorio se elige por separado (pueden ir al mismo lado o a lados distintos).
+  var gcAcc = { panel: '', griferia: '' };
+  function gcAccesoriosOk() { return !gcPideAccesorios() || (!!gcAcc.panel && !!gcAcc.griferia); }
+  function gcResetAccesorios() {
+    gcAcc = { panel: '', griferia: '' };
+    document.querySelectorAll('#ppGC-accesorios .ppGC-acc-ops button').forEach(function(b) { b.classList.remove('sel'); b.setAttribute('aria-checked', 'false'); });
+    var n = gEl('ppGC-acc-nota'); if (n) n.value = '';
+  }
+  window.ppGCSetAccesorio = function(btn) {
+    var acc = btn.getAttribute('data-acc');
+    gcAcc[acc] = btn.getAttribute('data-lado');
+    document.querySelectorAll('#ppGC-accesorios button[data-acc="' + acc + '"]').forEach(function(b) {
+      var on = b === btn; b.classList.toggle('sel', on); b.setAttribute('aria-checked', on ? 'true' : 'false');
+    });
+    var e2 = gEl('ppGC-s2-err'); if (e2 && gcAccesoriosOk()) e2.style.display = 'none';
+    gcCheckPayBtn();
+  };
   function gcAccesoriosTexto() {
-    var sel = gEl('ppGC-acc-lado'), nota = gEl('ppGC-acc-nota');
-    var t = sel && sel.value ? sel.value : 'Por confirmar con ventas';
+    var nota = gEl('ppGC-acc-nota');
     var n = nota && nota.value.trim() ? ' (' + nota.value.trim().slice(0, 140) + ')' : '';
-    return 'Panel y grifería: ' + t + n;
+    return 'Panel digital: lado ' + gcAcc.panel + ' · Kit de grifería: lado ' + gcAcc.griferia + n;
   }
 
   // Ítems del pedido: los del carrito, con la ubicación de accesorios en su línea,
@@ -931,7 +964,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
   // El botón de pago se habilita con entrega elegida y, si corresponde, términos aceptados.
   function gcCheckPayBtn() {
     var wb = gEl('ppGC-btn-wp'); if (!wb) return;
-    var ok = !!gcSelectedEntrega && (!gcTermsModules().length || gcTermsAccepted);
+    var ok = !!gcSelectedEntrega && gcAccesoriosOk() && (!gcTermsModules().length || gcTermsAccepted);
     wb.disabled = !ok; wb.style.opacity = ok ? '' : '0.5'; wb.style.cursor = ok ? '' : 'not-allowed';
   }
   window.ppGCToggleTerms = function() {
@@ -1141,6 +1174,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     if (!gcItems.length) return;
     gcEmbalajeOpc = false;
     gcRenderTerms();
+    gcResetAccesorios();
     gcRenderAccesorios();
     ppGCCloseCart();
     gcCurrentGrand = gcTotal();
@@ -1471,6 +1505,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
   async function ppGCSubmitCheckout() {
     var e2=gEl('ppGC-s2-err'), btn=gEl('ppGC-btn-wp');
     if (!gcSelectedEntrega) { if (e2) { e2.textContent='Elige una modalidad de entrega.'; e2.style.display='block'; } return; }
+    if (!gcAccesoriosOk()) { if (e2) { e2.textContent='Elige el lado del panel digital y del kit de grifería.'; e2.style.display='block'; } return; }
     if (gcTermsModules().length && !gcTermsAccepted) { if (e2) { e2.textContent='Debes aceptar los Términos y Condiciones para continuar.'; e2.style.display='block'; } return; }
     if (gcSelectedEntrega.needsAddress) {
       var dd=gEl('ppgc_pn_dir'), dr=gEl('ppgc_pn_region'), dc=gEl('ppgc_pn_ciudad');
