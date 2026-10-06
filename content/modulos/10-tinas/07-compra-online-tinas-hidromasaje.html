@@ -401,11 +401,46 @@
   background: #f47a08;
   box-shadow: 0 4px 14px rgba(244,122,8,0.3);
 }
+/* ── Tarjeta orientada a la compra ── */
+.pp-tina-body { flex: 0 0 auto; }
+.pp-tina-badge { background: #d6262f !important; font-size: 0.85rem; letter-spacing: 0; padding: 5px 11px; border-radius: 999px; font-weight: 800; }
+.pp-tina-img-wrap .pp-tina-btn-video {
+  position: absolute; left: 10px; bottom: 10px; z-index: 3;
+  padding: 7px 12px; border: 0; border-radius: 999px;
+  background: rgba(11,42,79,0.9); color: #fff;
+  font-size: 0.7rem; letter-spacing: 0.5px; text-transform: none;
+}
+.pp-tina-img-wrap .pp-tina-btn-video:hover { background: #0b2a4f; }
+.pp-tina-resumen { font-size: 0.9rem; font-weight: 600; color: #1a1a2e; line-height: 1.4; margin: 0; min-height: 2.8em; }
+.pp-tina-rating { display: inline-block; font-size: 0.8rem; color: var(--pp-muted); text-decoration: none; }
+.pp-tina-rating:hover { text-decoration: underline; }
+.pp-tina-rating b { color: #1a1a2e; }
+.pp-tina-stars { color: #e0a100; letter-spacing: 1px; background: linear-gradient(90deg, #e0a100 86%, #d5dae3 86%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.pp-tina-cta { flex-direction: column; gap: 10px; border-top: 0; padding: 0 14px 14px; background: transparent; }
+.pp-tina-cta .pp-tina-btn-buy { flex: none; width: 100%; padding: 15px 8px; font-size: 0.95rem; border-radius: 8px; }
+.pp-tina-sec { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.pp-tina-sec .pp-tina-btn-detail { flex: none; padding: 0; border: 0; background: none; color: var(--pp-accent); font-size: 0.82rem; letter-spacing: 0; text-transform: none; text-decoration: underline; }
+.pp-tina-sec .pp-tina-btn-detail:hover { background: none; color: #003366; }
+.pp-tina-link-wa { font-family: Arial, sans-serif; font-size: 0.82rem; font-weight: 700; color: #128c4b; text-decoration: underline; }
+.pp-tina-extra { flex: 1; padding: 0 14px 14px; background: #fff; }
+.pp-tina-trust { list-style: none; margin: 0; padding: 12px 0; border-top: 1px solid var(--pp-border); display: grid; gap: 5px; font-size: 0.8rem; color: var(--pp-muted); font-family: Arial, sans-serif; }
+.pp-tina-trust li::before { content: "\2713"; color: var(--pp-success); font-weight: 800; margin-right: 7px; }
+.pp-tina-trust li.pp-tina-stock { margin: 0; font-size: 0.8rem; }
+.pp-tina-trust li.pp-tina-stock::before { width: auto; height: auto; background: none; border-radius: 0; display: inline; vertical-align: baseline; }
+.pp-tina-acc { border-top: 1px solid var(--pp-border); padding-top: 10px; }
+.pp-tina-acc summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; font-family: Arial, sans-serif; font-size: 0.86rem; font-weight: 700; color: var(--pp-accent); }
+.pp-tina-acc summary::-webkit-details-marker { display: none; }
+.pp-tina-acc summary::after { content: "+"; font-size: 1.3rem; line-height: 1; }
+.pp-tina-acc[open] summary::after { content: "\2212"; }
+.pp-tina-acc .pp-tina-specs { margin-top: 10px; }
+.pp-tina-price-block .pp-tina-price { font-size: 1.9rem; }
+.pp-tina-cuotas b.c6 { display: block; font-size: 1rem; color: #0b2a4f; }
+
 /* Stock y cuotas en la tarjeta */
 .pp-tina-stock { font-size: 0.72rem; font-weight: 700; color: var(--pp-success); margin-bottom: 8px; }
 .pp-tina-stock::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: currentColor; margin-right: 6px; vertical-align: 1px; }
 .pp-tina-stock.sin-stock { color: var(--pp-muted); }
-.pp-tina-cuotas { font-size: 0.82rem; color: #1a1a2e; margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--pp-border); line-height: 1.45; min-height: 4.6em; }
+.pp-tina-cuotas { font-size: 0.78rem; color: var(--pp-muted); margin-top: 10px; padding: 9px 12px; background: #f1f6fd; border: 1px solid #cfe0f5; border-radius: 8px; line-height: 1.45; min-height: 4.4em; }
 .pp-tina-cuotas span { display: block; }
 .pp-tina-cuotas b { font-weight: 700; }
 .pp-tina-cuotas small { display: block; font-size: 0.7rem; color: var(--pp-muted); margin-top: 2px; }
@@ -1086,16 +1121,42 @@
 <div class="pp-tina-slides">
 <img alt="Tina hidromasaje Vilcún 170×75×40 cm - Polyplas Chile" class="pp-slide active" decoding="async" height="800" loading="eager" src="/wp-content/uploads/2026/08/vilcun-.webp" width="800"/>
 </div>
-<div class="pp-tina-badge">¡Oferta Imperdible!</div>
+<div class="pp-tina-badge" data-tina-off="vilcun" style="display:none"></div>
 <div class="pp-tina-img-hint">Ampliar</div>
+<a aria-label="Ver video técnico Tina Vilcún en YouTube" class="pp-tina-btn-video" onclick="event.stopPropagation()" href="https://www.youtube.com/shorts/ByqrzyPF8Zw" rel="noopener noreferrer" target="_blank">
+<svg fill="none" height="11" viewbox="0 0 15 11" width="15"><path d="M14.7 1.7A1.86 1.86 0 0 0 13.4.4C12.2 0 7.5 0 7.5 0S2.8 0 1.6.4A1.86 1.86 0 0 0 .3 1.7C0 2.9 0 5.5 0 5.5s0 2.6.3 3.8A1.86 1.86 0 0 0 1.6 10.6C2.8 11 7.5 11 7.5 11s4.7 0 5.9-.4a1.86 1.86 0 0 0 1.3-1.3C15 8.1 15 5.5 15 5.5s0-2.6-.3-3.8z" fill="#FF0000"></path><path d="M6 7.9l3.9-2.4L6 3.1v4.8z" fill="#fff"></path></svg> Ver video</a>
 </div>
-<a aria-label="Ver video técnico Tina Vilcún en YouTube" class="pp-tina-btn-video" href="https://www.youtube.com/shorts/ByqrzyPF8Zw" rel="noopener noreferrer" target="_blank">
-<svg fill="none" height="11" viewbox="0 0 15 11" width="15"><path d="M14.7 1.7A1.86 1.86 0 0 0 13.4.4C12.2 0 7.5 0 7.5 0S2.8 0 1.6.4A1.86 1.86 0 0 0 .3 1.7C0 2.9 0 5.5 0 5.5s0 2.6.3 3.8A1.86 1.86 0 0 0 1.6 10.6C2.8 11 7.5 11 7.5 11s4.7 0 5.9-.4a1.86 1.86 0 0 0 1.3-1.3C15 8.1 15 5.5 15 5.5s0-2.6-.3-3.8z" fill="#FF0000"></path><path d="M6 7.9l3.9-2.4L6 3.1v4.8z" fill="#fff"></path></svg>
-        Ver video técnico
-      </a>
 <div class="pp-tina-body">
 <div><div class="pp-tina-label">Tina Hidromasaje</div><h3 class="pp-tina-name"><a class="pp-ficha-link" href="/tina-hidromasaje-vilcun/">Vilcún</a></h3></div>
-<div class="pp-tina-divider"></div>
+<p class="pp-tina-resumen">1 persona · 170×75×40 cm · 8 mini jets</p>
+<a class="pp-tina-rating" href="https://g.page/r/CRKHgpDQLVM8EAE" target="_blank" rel="noopener noreferrer" aria-label="Polyplas: 4,3 de 5 estrellas en Google, 28 reseñas"><span class="pp-tina-stars" aria-hidden="true">★★★★★</span> <b>4,3</b> en Google · 28 reseñas</a>
+<div class="pp-tina-price-block">
+<div class="pp-tina-price-label">Precio con IVA</div>
+<div class="pp-tina-price" id="price-vilcun">$ 479.990<span class="pp-tina-price-iva">c/IVA</span></div>
+<div class="pp-tina-price-old" id="price-old-vilcun">Antes $ 649.990</div>
+<div class="pp-tina-ahorro" id="ahorro-vilcun">Ahorras $ 170.000</div>
+<div class="pp-tina-cuotas" data-tina-cuotas="vilcun"></div>
+</div>
+</div>
+<div class="pp-tina-cta">
+<button class="pp-tina-btn-buy" onclick="openQtyModal('vilcun','Tina Vilcún','170×75×40 cm','https://polyplas.cl/wp-content/uploads/2023/05/vilcun-ad.webp',0)">
+<svg fill="none" height="14" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="14"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          COMPRAR
+        </button>
+<div class="pp-tina-sec">
+<button aria-label="Ver detalle Tina Vilcún" class="pp-tina-btn-detail" onclick="openTinaDetail('vilcun')">Ver detalle</button>
+<a class="pp-tina-link-wa" href="https://wa.me/56942086751?text=Hola%20Polyplas%2C%20quiero%20consultar%20por%20la%20Tina%20Vilc%C3%BAn" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
+</div>
+</div>
+<div class="pp-tina-extra">
+<ul class="pp-tina-trust">
+<li class="pp-tina-stock" data-tina-stock="vilcun">En stock · retiro en tienda 24 hrs después de la compra</li>
+<li>Despacho gratis en Santiago</li>
+<li>Envío a regiones por pagar, con la empresa que elijas</li>
+<li>Garantía de 1 año</li>
+</ul>
+<details class="pp-tina-acc">
+<summary>Especificaciones</summary>
 <div class="pp-tina-specs">
 <div class="pp-tina-spec-row">
 <svg fill="none" height="13" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="13"><circle cx="12" cy="7" r="3"></circle><path d="M5 21c0-4 3-7 7-7s7 3 7 7"></path></svg>
@@ -1118,21 +1179,7 @@
 <span>Incluye: <strong>Base metálica, cabecera y desagüe con rebalse automático</strong></span>
 </div>
 </div>
-<div class="pp-tina-price-block">
-<div class="pp-tina-stock" data-tina-stock="vilcun">En stock</div>
-<div class="pp-tina-price-label">Precio con IVA</div>
-<div class="pp-tina-price" id="price-vilcun">$ 479.990<span class="pp-tina-price-iva">c/IVA</span></div>
-<div class="pp-tina-price-old" id="price-old-vilcun">Antes $ 649.990</div>
-<div class="pp-tina-ahorro" id="ahorro-vilcun">Ahorras $ 170.000</div>
-<div class="pp-tina-cuotas" data-tina-cuotas="vilcun"></div>
-</div>
-</div>
-<div class="pp-tina-cta">
-<button aria-label="Ver detalle Tina Vilcún" class="pp-tina-btn-detail" onclick="openTinaDetail('vilcun')">Ver detalle</button>
-<button class="pp-tina-btn-buy" onclick="openQtyModal('vilcun','Tina Vilcún','170×75×40 cm','https://polyplas.cl/wp-content/uploads/2023/05/vilcun-ad.webp',0)">
-<svg fill="none" height="14" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="14"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-          COMPRAR
-        </button>
+</details>
 </div>
 </div>
 <div class="pp-tina-card" id="tina-queilen">
@@ -1140,16 +1187,42 @@
 <div class="pp-tina-slides">
 <img alt="Tina hidromasaje Queilen 167×91,5×51 cm - Polyplas Chile" class="pp-slide active" decoding="async" height="800" loading="eager" src="/wp-content/uploads/2026/08/queilen.webp" width="800"/>
 </div>
-<div class="pp-tina-badge" style="background:var(--pp-accent2)">¡Oferta Imperdible!</div>
+<div class="pp-tina-badge" data-tina-off="queilen" style="display:none"></div>
 <div class="pp-tina-img-hint">Ampliar</div>
+<a aria-label="Ver video técnico Tina Queilen en YouTube" class="pp-tina-btn-video" onclick="event.stopPropagation()" href="https://www.youtube.com/shorts/ydCZom4Riso" rel="noopener noreferrer" target="_blank">
+<svg fill="none" height="11" viewbox="0 0 15 11" width="15"><path d="M14.7 1.7A1.86 1.86 0 0 0 13.4.4C12.2 0 7.5 0 7.5 0S2.8 0 1.6.4A1.86 1.86 0 0 0 .3 1.7C0 2.9 0 5.5 0 5.5s0 2.6.3 3.8A1.86 1.86 0 0 0 1.6 10.6C2.8 11 7.5 11 7.5 11s4.7 0 5.9-.4a1.86 1.86 0 0 0 1.3-1.3C15 8.1 15 5.5 15 5.5s0-2.6-.3-3.8z" fill="#FF0000"></path><path d="M6 7.9l3.9-2.4L6 3.1v4.8z" fill="#fff"></path></svg> Ver video</a>
 </div>
-<a aria-label="Ver video técnico Tina Queilen en YouTube" class="pp-tina-btn-video" href="https://www.youtube.com/shorts/ydCZom4Riso" rel="noopener noreferrer" target="_blank">
-<svg fill="none" height="11" viewbox="0 0 15 11" width="15"><path d="M14.7 1.7A1.86 1.86 0 0 0 13.4.4C12.2 0 7.5 0 7.5 0S2.8 0 1.6.4A1.86 1.86 0 0 0 .3 1.7C0 2.9 0 5.5 0 5.5s0 2.6.3 3.8A1.86 1.86 0 0 0 1.6 10.6C2.8 11 7.5 11 7.5 11s4.7 0 5.9-.4a1.86 1.86 0 0 0 1.3-1.3C15 8.1 15 5.5 15 5.5s0-2.6-.3-3.8z" fill="#FF0000"></path><path d="M6 7.9l3.9-2.4L6 3.1v4.8z" fill="#fff"></path></svg>
-        Ver video técnico
-      </a>
 <div class="pp-tina-body">
 <div><div class="pp-tina-label">Tina Hidromasaje</div><h3 class="pp-tina-name"><a class="pp-ficha-link" href="/tina-hidromasaje-queilen/">Queilen</a></h3></div>
-<div class="pp-tina-divider"></div>
+<p class="pp-tina-resumen">1 persona · 167×91,5×51 cm · 8 mini jets</p>
+<a class="pp-tina-rating" href="https://g.page/r/CRKHgpDQLVM8EAE" target="_blank" rel="noopener noreferrer" aria-label="Polyplas: 4,3 de 5 estrellas en Google, 28 reseñas"><span class="pp-tina-stars" aria-hidden="true">★★★★★</span> <b>4,3</b> en Google · 28 reseñas</a>
+<div class="pp-tina-price-block">
+<div class="pp-tina-price-label">Precio con IVA</div>
+<div class="pp-tina-price" id="price-queilen">$ 489.490<span class="pp-tina-price-iva">c/IVA</span></div>
+<div class="pp-tina-price-old" id="price-old-queilen">Antes $ 569.990</div>
+<div class="pp-tina-ahorro" id="ahorro-queilen">Ahorras $ 80.500</div>
+<div class="pp-tina-cuotas" data-tina-cuotas="queilen"></div>
+</div>
+</div>
+<div class="pp-tina-cta">
+<button class="pp-tina-btn-buy" onclick="openQtyModal('queilen','Tina Queilen','167×91,5×51 cm · 210 L','https://polyplas.cl/wp-content/uploads/2022/07/queilen-ad.webp',2)">
+<svg fill="none" height="14" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="14"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          COMPRAR
+        </button>
+<div class="pp-tina-sec">
+<button aria-label="Ver detalle Tina Queilen" class="pp-tina-btn-detail" onclick="openTinaDetail('queilen')">Ver detalle</button>
+<a class="pp-tina-link-wa" href="https://wa.me/56942086751?text=Hola%20Polyplas%2C%20quiero%20consultar%20por%20la%20Tina%20Queilen" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
+</div>
+</div>
+<div class="pp-tina-extra">
+<ul class="pp-tina-trust">
+<li class="pp-tina-stock" data-tina-stock="queilen">En stock · retiro en tienda 24 hrs después de la compra</li>
+<li>Despacho gratis en Santiago</li>
+<li>Envío a regiones por pagar, con la empresa que elijas</li>
+<li>Garantía de 1 año</li>
+</ul>
+<details class="pp-tina-acc">
+<summary>Especificaciones</summary>
 <div class="pp-tina-specs">
 <div class="pp-tina-spec-row">
 <svg fill="none" height="13" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="13"><circle cx="12" cy="7" r="3"></circle><path d="M5 21c0-4 3-7 7-7s7 3 7 7"></path></svg>
@@ -1172,21 +1245,7 @@
 <span>Incluye: <strong>Base metálica, 1 cabecera y desagüe con rebalse semiautomático</strong></span>
 </div>
 </div>
-<div class="pp-tina-price-block">
-<div class="pp-tina-stock" data-tina-stock="queilen">En stock</div>
-<div class="pp-tina-price-label">Precio con IVA</div>
-<div class="pp-tina-price" id="price-queilen">$ 489.490<span class="pp-tina-price-iva">c/IVA</span></div>
-<div class="pp-tina-price-old" id="price-old-queilen">Antes $ 569.990</div>
-<div class="pp-tina-ahorro" id="ahorro-queilen">Ahorras $ 80.500</div>
-<div class="pp-tina-cuotas" data-tina-cuotas="queilen"></div>
-</div>
-</div>
-<div class="pp-tina-cta">
-<button aria-label="Ver detalle Tina Queilen" class="pp-tina-btn-detail" onclick="openTinaDetail('queilen')">Ver detalle</button>
-<button class="pp-tina-btn-buy" onclick="openQtyModal('queilen','Tina Queilen','167×91,5×51 cm · 210 L','https://polyplas.cl/wp-content/uploads/2022/07/queilen-ad.webp',2)">
-<svg fill="none" height="14" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="14"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-          COMPRAR
-        </button>
+</details>
 </div>
 </div>
 <div class="pp-tina-card" id="tina-coinco">
@@ -1194,16 +1253,42 @@
 <div class="pp-tina-slides">
 <img alt="Tina hidromasaje Coinco 167×92×58 cm - Polyplas Chile" class="pp-slide active" decoding="async" height="800" loading="lazy" src="/wp-content/uploads/2026/08/coinco.webp" width="800"/>
 </div>
-<div class="pp-tina-badge">¡Oferta Imperdible!</div>
+<div class="pp-tina-badge" data-tina-off="coinco" style="display:none"></div>
 <div class="pp-tina-img-hint">Ampliar</div>
+<a aria-label="Ver video técnico Tina Coinco en YouTube" class="pp-tina-btn-video" onclick="event.stopPropagation()" href="https://www.youtube.com/shorts/pE8txNo1FIs" rel="noopener noreferrer" target="_blank">
+<svg fill="none" height="11" viewbox="0 0 15 11" width="15"><path d="M14.7 1.7A1.86 1.86 0 0 0 13.4.4C12.2 0 7.5 0 7.5 0S2.8 0 1.6.4A1.86 1.86 0 0 0 .3 1.7C0 2.9 0 5.5 0 5.5s0 2.6.3 3.8A1.86 1.86 0 0 0 1.6 10.6C2.8 11 7.5 11 7.5 11s4.7 0 5.9-.4a1.86 1.86 0 0 0 1.3-1.3C15 8.1 15 5.5 15 5.5s0-2.6-.3-3.8z" fill="#FF0000"></path><path d="M6 7.9l3.9-2.4L6 3.1v4.8z" fill="#fff"></path></svg> Ver video</a>
 </div>
-<a aria-label="Ver video técnico Tina Coinco en YouTube" class="pp-tina-btn-video" href="https://www.youtube.com/shorts/pE8txNo1FIs" rel="noopener noreferrer" target="_blank">
-<svg fill="none" height="11" viewbox="0 0 15 11" width="15"><path d="M14.7 1.7A1.86 1.86 0 0 0 13.4.4C12.2 0 7.5 0 7.5 0S2.8 0 1.6.4A1.86 1.86 0 0 0 .3 1.7C0 2.9 0 5.5 0 5.5s0 2.6.3 3.8A1.86 1.86 0 0 0 1.6 10.6C2.8 11 7.5 11 7.5 11s4.7 0 5.9-.4a1.86 1.86 0 0 0 1.3-1.3C15 8.1 15 5.5 15 5.5s0-2.6-.3-3.8z" fill="#FF0000"></path><path d="M6 7.9l3.9-2.4L6 3.1v4.8z" fill="#fff"></path></svg>
-        Ver video técnico
-      </a>
 <div class="pp-tina-body">
 <div><div class="pp-tina-label">Tina Hidromasaje</div><h3 class="pp-tina-name"><a class="pp-ficha-link" href="/tina-hidromasaje-coinco/">Coinco</a></h3></div>
-<div class="pp-tina-divider"></div>
+<p class="pp-tina-resumen">1 persona · 167×92×58 cm · 6 jets de alto caudal</p>
+<a class="pp-tina-rating" href="https://g.page/r/CRKHgpDQLVM8EAE" target="_blank" rel="noopener noreferrer" aria-label="Polyplas: 4,3 de 5 estrellas en Google, 28 reseñas"><span class="pp-tina-stars" aria-hidden="true">★★★★★</span> <b>4,3</b> en Google · 28 reseñas</a>
+<div class="pp-tina-price-block">
+<div class="pp-tina-price-label">Precio con IVA</div>
+<div class="pp-tina-price" id="price-coinco">$ 499.990<span class="pp-tina-price-iva">c/IVA</span></div>
+<div class="pp-tina-price-old" id="price-old-coinco">Antes $ 579.990</div>
+<div class="pp-tina-ahorro" id="ahorro-coinco">Ahorras $ 80.000</div>
+<div class="pp-tina-cuotas" data-tina-cuotas="coinco"></div>
+</div>
+</div>
+<div class="pp-tina-cta">
+<button class="pp-tina-btn-buy" onclick="openQtyModal('coinco','Tina Coinco','167×92×58 cm · 210 L','https://polyplas.cl/wp-content/uploads/2026/05/Tina-hidromasaje-coinco-scaled-e1780158950747.webp',3)">
+<svg fill="none" height="14" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="14"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          COMPRAR
+        </button>
+<div class="pp-tina-sec">
+<button aria-label="Ver detalle Tina Coinco" class="pp-tina-btn-detail" onclick="openTinaDetail('coinco')">Ver detalle</button>
+<a class="pp-tina-link-wa" href="https://wa.me/56942086751?text=Hola%20Polyplas%2C%20quiero%20consultar%20por%20la%20Tina%20Coinco" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
+</div>
+</div>
+<div class="pp-tina-extra">
+<ul class="pp-tina-trust">
+<li class="pp-tina-stock" data-tina-stock="coinco">En stock · retiro en tienda 24 hrs después de la compra</li>
+<li>Despacho gratis en Santiago</li>
+<li>Envío a regiones por pagar, con la empresa que elijas</li>
+<li>Garantía de 1 año</li>
+</ul>
+<details class="pp-tina-acc">
+<summary>Especificaciones</summary>
 <div class="pp-tina-specs">
 <div class="pp-tina-spec-row">
 <svg fill="none" height="13" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="13"><circle cx="12" cy="7" r="3"></circle><path d="M5 21c0-4 3-7 7-7s7 3 7 7"></path></svg>
@@ -1226,21 +1311,7 @@
 <span>Incluye: <strong>Base metálica, cabecera y desagüe con rebalse semiautomático</strong></span>
 </div>
 </div>
-<div class="pp-tina-price-block">
-<div class="pp-tina-stock" data-tina-stock="coinco">En stock</div>
-<div class="pp-tina-price-label">Precio con IVA</div>
-<div class="pp-tina-price" id="price-coinco">$ 499.990<span class="pp-tina-price-iva">c/IVA</span></div>
-<div class="pp-tina-price-old" id="price-old-coinco">Antes $ 579.990</div>
-<div class="pp-tina-ahorro" id="ahorro-coinco">Ahorras $ 80.000</div>
-<div class="pp-tina-cuotas" data-tina-cuotas="coinco"></div>
-</div>
-</div>
-<div class="pp-tina-cta">
-<button aria-label="Ver detalle Tina Coinco" class="pp-tina-btn-detail" onclick="openTinaDetail('coinco')">Ver detalle</button>
-<button class="pp-tina-btn-buy" onclick="openQtyModal('coinco','Tina Coinco','167×92×58 cm · 210 L','https://polyplas.cl/wp-content/uploads/2026/05/Tina-hidromasaje-coinco-scaled-e1780158950747.webp',3)">
-<svg fill="none" height="14" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="14"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-          COMPRAR
-        </button>
+</details>
 </div>
 </div>
 <div class="pp-tina-card" id="tina-kuyen">
@@ -1248,16 +1319,42 @@
 <div class="pp-tina-slides">
 <img alt="Tina hidromasaje Kuyen Full 183×120×65 cm para 2 personas - Polyplas Chile" class="pp-slide active" decoding="async" height="800" loading="lazy" src="/wp-content/uploads/2026/08/kuyenfull.webp" width="800"/>
 </div>
-<div class="pp-tina-badge" style="background:var(--pp-green)">¡Oferta Imperdible!</div>
+<div class="pp-tina-badge" data-tina-off="kuyen" style="display:none"></div>
 <div class="pp-tina-img-hint">Ampliar</div>
+<a aria-label="Ver video técnico Tina Kuyen Full en YouTube" class="pp-tina-btn-video" onclick="event.stopPropagation()" href="https://www.youtube.com/shorts/ZxNGGTYeLgk" rel="noopener noreferrer" target="_blank">
+<svg fill="none" height="11" viewbox="0 0 15 11" width="15"><path d="M14.7 1.7A1.86 1.86 0 0 0 13.4.4C12.2 0 7.5 0 7.5 0S2.8 0 1.6.4A1.86 1.86 0 0 0 .3 1.7C0 2.9 0 5.5 0 5.5s0 2.6.3 3.8A1.86 1.86 0 0 0 1.6 10.6C2.8 11 7.5 11 7.5 11s4.7 0 5.9-.4a1.86 1.86 0 0 0 1.3-1.3C15 8.1 15 5.5 15 5.5s0-2.6-.3-3.8z" fill="#FF0000"></path><path d="M6 7.9l3.9-2.4L6 3.1v4.8z" fill="#fff"></path></svg> Ver video</a>
 </div>
-<a aria-label="Ver video técnico Tina Kuyen Full en YouTube" class="pp-tina-btn-video" href="https://www.youtube.com/shorts/ZxNGGTYeLgk" rel="noopener noreferrer" target="_blank">
-<svg fill="none" height="11" viewbox="0 0 15 11" width="15"><path d="M14.7 1.7A1.86 1.86 0 0 0 13.4.4C12.2 0 7.5 0 7.5 0S2.8 0 1.6.4A1.86 1.86 0 0 0 .3 1.7C0 2.9 0 5.5 0 5.5s0 2.6.3 3.8A1.86 1.86 0 0 0 1.6 10.6C2.8 11 7.5 11 7.5 11s4.7 0 5.9-.4a1.86 1.86 0 0 0 1.3-1.3C15 8.1 15 5.5 15 5.5s0-2.6-.3-3.8z" fill="#FF0000"></path><path d="M6 7.9l3.9-2.4L6 3.1v4.8z" fill="#fff"></path></svg>
-        Ver video técnico
-      </a>
 <div class="pp-tina-body">
 <div><div class="pp-tina-label">Tina Hidromasaje</div><h3 class="pp-tina-name"><a class="pp-ficha-link" href="/tina-hidromasaje-kuyen-full/">Kuyen Full</a></h3></div>
-<div class="pp-tina-divider"></div>
+<p class="pp-tina-resumen">2 personas · 183×120×65 cm · 10 jets + 12 blowers</p>
+<a class="pp-tina-rating" href="https://g.page/r/CRKHgpDQLVM8EAE" target="_blank" rel="noopener noreferrer" aria-label="Polyplas: 4,3 de 5 estrellas en Google, 28 reseñas"><span class="pp-tina-stars" aria-hidden="true">★★★★★</span> <b>4,3</b> en Google · 28 reseñas</a>
+<div class="pp-tina-price-block">
+<div class="pp-tina-price-label">Precio con IVA</div>
+<div class="pp-tina-price" id="price-kuyen">$ 979.990<span class="pp-tina-price-iva">c/IVA</span></div>
+<div class="pp-tina-price-old" id="price-old-kuyen">Antes $ 1.399.990</div>
+<div class="pp-tina-ahorro" id="ahorro-kuyen">Ahorras $ 420.000</div>
+<div class="pp-tina-cuotas" data-tina-cuotas="kuyen"></div>
+</div>
+</div>
+<div class="pp-tina-cta">
+<button class="pp-tina-btn-buy" onclick="openKuyenUpsell()">
+<svg fill="none" height="14" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="14"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          COMPRAR
+        </button>
+<div class="pp-tina-sec">
+<button aria-label="Ver detalle Tina Kuyen Full" class="pp-tina-btn-detail" onclick="openTinaDetail('kuyen')">Ver detalle</button>
+<a class="pp-tina-link-wa" href="https://wa.me/56942086751?text=Hola%20Polyplas%2C%20quiero%20consultar%20por%20la%20Tina%20Kuyen%20Full" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
+</div>
+</div>
+<div class="pp-tina-extra">
+<ul class="pp-tina-trust">
+<li class="pp-tina-stock" data-tina-stock="kuyen">En stock · retiro en tienda 24 hrs después de la compra</li>
+<li>Despacho gratis en Santiago</li>
+<li>Envío a regiones por pagar, con la empresa que elijas</li>
+<li>Garantía de 1 año</li>
+</ul>
+<details class="pp-tina-acc">
+<summary>Especificaciones</summary>
 <div class="pp-tina-specs">
 <div class="pp-tina-spec-row">
 <svg fill="none" height="13" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="13"><circle cx="9" cy="7" r="3"></circle><circle cx="15" cy="7" r="3"></circle><path d="M2 21c0-4 3-7 7-7h6c4 0 7 3 7 7"></path></svg>
@@ -1280,21 +1377,7 @@
 <span>Incluye: <strong>Base metálica, cabecera, desagüe con rebalse semiautomático, pulsador y regulador, kit grifería (cascada + monomando), 8 Mini LEDs y foco subacuático</strong></span>
 </div>
 </div>
-<div class="pp-tina-price-block">
-<div class="pp-tina-stock" data-tina-stock="kuyen">En stock</div>
-<div class="pp-tina-price-label">Precio con IVA</div>
-<div class="pp-tina-price" id="price-kuyen">$ 979.990<span class="pp-tina-price-iva">c/IVA</span></div>
-<div class="pp-tina-price-old" id="price-old-kuyen">Antes $ 1.399.990</div>
-<div class="pp-tina-ahorro" id="ahorro-kuyen">Ahorras $ 420.000</div>
-<div class="pp-tina-cuotas" data-tina-cuotas="kuyen"></div>
-</div>
-</div>
-<div class="pp-tina-cta">
-<button aria-label="Ver detalle Tina Kuyen Full" class="pp-tina-btn-detail" onclick="openTinaDetail('kuyen')">Ver detalle</button>
-<button class="pp-tina-btn-buy" onclick="openKuyenUpsell()">
-<svg fill="none" height="14" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="14"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-          COMPRAR
-        </button>
+</details>
 </div>
 </div>
 <div class="pp-tina-card" id="tina-antuco">
@@ -1302,16 +1385,42 @@
 <div class="pp-tina-slides">
 <img alt="Tina hidromasaje Antuco 130×130×60 cm - Polyplas Chile" class="pp-slide active" decoding="async" height="800" loading="lazy" src="/wp-content/uploads/2026/08/antuco.webp" width="800"/>
 </div>
-<div class="pp-tina-badge">¡Oferta Imperdible!</div>
+<div class="pp-tina-badge" data-tina-off="antuco" style="display:none"></div>
 <div class="pp-tina-img-hint">Ampliar</div>
+<a aria-label="Ver video técnico Tina Antuco en YouTube" class="pp-tina-btn-video" onclick="event.stopPropagation()" href="https://www.youtube.com/shorts/1ponk9bZi-Q" rel="noopener noreferrer" target="_blank">
+<svg fill="none" height="11" viewbox="0 0 15 11" width="15"><path d="M14.7 1.7A1.86 1.86 0 0 0 13.4.4C12.2 0 7.5 0 7.5 0S2.8 0 1.6.4A1.86 1.86 0 0 0 .3 1.7C0 2.9 0 5.5 0 5.5s0 2.6.3 3.8A1.86 1.86 0 0 0 1.6 10.6C2.8 11 7.5 11 7.5 11s4.7 0 5.9-.4a1.86 1.86 0 0 0 1.3-1.3C15 8.1 15 5.5 15 5.5s0-2.6-.3-3.8z" fill="#FF0000"></path><path d="M6 7.9l3.9-2.4L6 3.1v4.8z" fill="#fff"></path></svg> Ver video</a>
 </div>
-<a aria-label="Ver video técnico Tina Antuco en YouTube" class="pp-tina-btn-video" href="https://www.youtube.com/shorts/1ponk9bZi-Q" rel="noopener noreferrer" target="_blank">
-<svg fill="none" height="11" viewbox="0 0 15 11" width="15"><path d="M14.7 1.7A1.86 1.86 0 0 0 13.4.4C12.2 0 7.5 0 7.5 0S2.8 0 1.6.4A1.86 1.86 0 0 0 .3 1.7C0 2.9 0 5.5 0 5.5s0 2.6.3 3.8A1.86 1.86 0 0 0 1.6 10.6C2.8 11 7.5 11 7.5 11s4.7 0 5.9-.4a1.86 1.86 0 0 0 1.3-1.3C15 8.1 15 5.5 15 5.5s0-2.6-.3-3.8z" fill="#FF0000"></path><path d="M6 7.9l3.9-2.4L6 3.1v4.8z" fill="#fff"></path></svg>
-        Ver video técnico
-      </a>
 <div class="pp-tina-body">
 <div><div class="pp-tina-label">Tina Hidromasaje</div><h3 class="pp-tina-name"><a class="pp-ficha-link" href="/tina-hidromasaje-antuco/">Antuco</a></h3></div>
-<div class="pp-tina-divider"></div>
+<p class="pp-tina-resumen">1 persona · 130×130×60 cm · 8 mini jets</p>
+<a class="pp-tina-rating" href="https://g.page/r/CRKHgpDQLVM8EAE" target="_blank" rel="noopener noreferrer" aria-label="Polyplas: 4,3 de 5 estrellas en Google, 28 reseñas"><span class="pp-tina-stars" aria-hidden="true">★★★★★</span> <b>4,3</b> en Google · 28 reseñas</a>
+<div class="pp-tina-price-block">
+<div class="pp-tina-price-label">Precio con IVA</div>
+<div class="pp-tina-price" id="price-antuco">$ 479.990<span class="pp-tina-price-iva">c/IVA</span></div>
+<div class="pp-tina-price-old" id="price-old-antuco">Antes $ 679.990</div>
+<div class="pp-tina-ahorro" id="ahorro-antuco">Ahorras $ 200.000</div>
+<div class="pp-tina-cuotas" data-tina-cuotas="antuco"></div>
+</div>
+</div>
+<div class="pp-tina-cta">
+<button class="pp-tina-btn-buy" onclick="openQtyModal('antuco','Tina Antuco','130×130×60 cm','https://polyplas.cl/wp-content/uploads/2026/08/antuco.webp',4)">
+<svg fill="none" height="14" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="14"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          COMPRAR
+        </button>
+<div class="pp-tina-sec">
+<button aria-label="Ver detalle Tina Antuco" class="pp-tina-btn-detail" onclick="openTinaDetail('antuco')">Ver detalle</button>
+<a class="pp-tina-link-wa" href="https://wa.me/56942086751?text=Hola%20Polyplas%2C%20quiero%20consultar%20por%20la%20Tina%20Antuco" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a>
+</div>
+</div>
+<div class="pp-tina-extra">
+<ul class="pp-tina-trust">
+<li class="pp-tina-stock" data-tina-stock="antuco">En stock · retiro en tienda 24 hrs después de la compra</li>
+<li>Despacho gratis en Santiago</li>
+<li>Envío a regiones por pagar, con la empresa que elijas</li>
+<li>Garantía de 1 año</li>
+</ul>
+<details class="pp-tina-acc">
+<summary>Especificaciones</summary>
 <div class="pp-tina-specs">
 <div class="pp-tina-spec-row">
 <svg fill="none" height="13" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="13"><circle cx="12" cy="7" r="3"></circle><path d="M5 21c0-4 3-7 7-7s7 3 7 7"></path></svg>
@@ -1334,21 +1443,7 @@
 <span>Incluye: <strong>Base metálica, cabecera y desagüe con rebalse semiautomático</strong></span>
 </div>
 </div>
-<div class="pp-tina-price-block">
-<div class="pp-tina-stock" data-tina-stock="antuco">En stock</div>
-<div class="pp-tina-price-label">Precio con IVA</div>
-<div class="pp-tina-price" id="price-antuco">$ 479.990<span class="pp-tina-price-iva">c/IVA</span></div>
-<div class="pp-tina-price-old" id="price-old-antuco">Antes $ 679.990</div>
-<div class="pp-tina-ahorro" id="ahorro-antuco">Ahorras $ 200.000</div>
-<div class="pp-tina-cuotas" data-tina-cuotas="antuco"></div>
-</div>
-</div>
-<div class="pp-tina-cta">
-<button aria-label="Ver detalle Tina Antuco" class="pp-tina-btn-detail" onclick="openTinaDetail('antuco')">Ver detalle</button>
-<button class="pp-tina-btn-buy" onclick="openQtyModal('antuco','Tina Antuco','130×130×60 cm','https://polyplas.cl/wp-content/uploads/2026/08/antuco.webp',4)">
-<svg fill="none" height="14" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="14"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-          COMPRAR
-        </button>
+</details>
 </div>
 </div>
 </div>
@@ -2702,18 +2797,36 @@ function _syncTinasJsonLd() {
 function tinaSyncCard(tina, cantidad) {
   var fmtC = function(n) { return '$ ' + Math.round(n).toLocaleString('es-CL'); };
   document.querySelectorAll('[data-tina-cuotas="' + tina.id + '"]').forEach(function(el) {
-    el.innerHTML = '<span><b>3 cuotas</b> de ' + fmtC(tina.precio / 3) + '</span>' +
-      '<span><b>6 cuotas</b> de ' + fmtC(tina.precio / 6) + '</span>' +
-      '<small>Sin interés, según tu banco</small>';
+    el.innerHTML = '<b class="c6">6 cuotas de ' + fmtC(tina.precio / 6) + '</b>' +
+      'o 3 cuotas de ' + fmtC(tina.precio / 3) + ' · sin interés, según tu banco';
+  });
+  // Descuento en % sobre la foto (solo si hay precio anterior visible)
+  var oldEl = document.getElementById('price-old-' + tina.id);
+  var antes = (oldEl && oldEl.style.display !== 'none') ? parseInt((oldEl.textContent || '').replace(/\D/g, ''), 10) : 0;
+  document.querySelectorAll('[data-tina-off="' + tina.id + '"]').forEach(function(el) {
+    var pct = antes > tina.precio ? Math.round((antes - tina.precio) / antes * 100) : 0;
+    el.textContent = '\u2212' + pct + '%';
+    el.style.display = pct > 0 ? '' : 'none';
   });
   if (cantidad !== undefined && cantidad !== null) {
     document.querySelectorAll('[data-tina-stock="' + tina.id + '"]').forEach(function(el) {
       var sin = cantidad === 0;
-      el.textContent = sin ? 'Sin stock por ahora' : 'En stock';
+      el.textContent = sin ? 'Sin stock por ahora' : 'En stock · retiro en tienda 24 hrs después de la compra';
       el.classList.toggle('sin-stock', sin);
     });
   }
 }
+// Acordeón "Especificaciones": al abrir o cerrar uno, se abren o cierran todos.
+(function() {
+  var accs = [].slice.call(document.querySelectorAll('.pp-tina-acc')), lock = false;
+  accs.forEach(function(d) {
+    d.addEventListener('toggle', function() {
+      if (lock) return; lock = true;
+      accs.forEach(function(o) { o.open = d.open; });
+      setTimeout(function() { lock = false; }, 0);
+    });
+  });
+})();
 (window.TINAS || []).forEach(function(t) { tinaSyncCard(t); });
 
 function loadTinasStockFromSupabase() {
