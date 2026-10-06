@@ -218,7 +218,10 @@
 .pp-cupola-stock { font-size: 0.72rem; font-weight: 700; color: var(--pp-success); margin-bottom: 8px; }
 .pp-cupola-stock::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: currentColor; margin-right: 6px; vertical-align: 1px; }
 .pp-cupola-stock.sin-stock { color: var(--pp-muted); }
-.pp-cupola-cuotas { font-size: 0.75rem; color: var(--pp-muted); margin-top: 6px; min-height: 1.2em; }
+.pp-cupola-cuotas { font-size: 0.8rem; color: var(--pp-text); margin-top: 8px; min-height: 4.2em; line-height: 1.4; }
+.pp-cupola-cuotas span { display: block; }
+.pp-cupola-cuotas b { font-weight: 700; }
+.pp-cupola-cuotas small { display: block; font-size: 0.7rem; color: var(--pp-muted); margin-top: 2px; }
 
 /* Guía de medida */
 .cup-guia { max-width: 1200px; margin: 0 auto 24px; display: grid; grid-template-columns: 140px 1fr; gap: 20px; align-items: center; background: var(--pp-surface); border: 1px solid var(--pp-border); border-radius: var(--pp-radius); padding: 16px 20px; }
@@ -2327,7 +2330,9 @@ function cupSyncCard(cup, cantidad) {
   var q = function(sel) { return document.querySelectorAll(sel); };
   var fmt = function(n) { return '$ ' + Math.round(n).toLocaleString('es-CL'); };
   q('[data-cup-cuotas="' + cup.id + '"]').forEach(function(el) {
-    el.textContent = 'o 6 cuotas de ' + fmt(cup.precio / 6) + ' sin interés';
+    el.innerHTML = '<span><b>3 cuotas</b> de ' + fmt(cup.precio / 3) + '</span>' +
+      '<span><b>6 cuotas</b> de ' + fmt(cup.precio / 6) + '</span>' +
+      '<small>Sin interés, según tu banco</small>';
   });
   q('[data-cup-precio="' + cup.id + '"]').forEach(function(el) {
     el.textContent = fmt(cup.precio);
