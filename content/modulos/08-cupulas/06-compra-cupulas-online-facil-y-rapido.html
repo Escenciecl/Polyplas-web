@@ -11,6 +11,8 @@
   --pp-border: #dde4ef;
   --pp-accent: #004a99;
   --pp-accent2: #e52727;
+  --pp-buy: #ff8a1f;       /* color reservado para Comprar */
+  --pp-buy-text: #231300;
   --pp-text: #262626;
   --pp-muted: #5a5a5a;
   --pp-green: #28a745;
@@ -24,13 +26,13 @@
   font-family: Arial, sans-serif;
   background: var(--pp-bg);
   color: var(--pp-text);
-  padding: 40px 20px 120px;
+  padding: 8px 20px 48px;
   width: 100%;
   max-width: 100%;
 }
 
 /* ── Header ─────────────────────────────────────────────── */
-.pp-cupulas-header { text-align: center; margin-bottom: 40px; }
+.pp-cupulas-header { text-align: center; margin: 56px 0 24px; }
 .pp-cupulas .pp-cupulas-header h2 {
   font-family: Arial, sans-serif !important;
   font-size: 1.75rem !important;
@@ -127,7 +129,7 @@
   font-weight: 600;
 }
 .pp-cupola-title {
-  font-size: 1.05rem;
+  font-size: 1.35rem;
   font-weight: 800;
   color: var(--pp-text);
   letter-spacing: 0.2px;
@@ -135,10 +137,11 @@
   margin-bottom: 6px;
 }
 .pp-cupola-specs {
-  font-size: 0.73rem;
+  font-size: 0.8rem;
   color: var(--pp-muted);
   margin-bottom: 12px;
   line-height: 1.5;
+  min-height: 3em; /* 2 líneas: alinea precios y botones entre tarjetas */
 }
 
 /* Precio */
@@ -175,7 +178,7 @@
 /* Botones */
 .pp-cupola-btns {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.5fr;
   gap: 8px;
   margin-top: auto;
 }
@@ -195,21 +198,42 @@
 }
 .pp-cupola-btn-detail:hover { border-color: var(--pp-accent); background: #eef3fc; }
 .pp-cupola-btn-buy {
-  padding: 10px 6px;
+  padding: 12px 6px;
   border: none;
   border-radius: 8px;
-  background: var(--pp-accent);
-  color: #fff;
+  background: var(--pp-buy);
+  color: var(--pp-buy-text);
   font-family: Arial, sans-serif;
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: 0.8rem;
+  font-weight: 800;
   letter-spacing: 1px;
   cursor: pointer;
   transition: background 0.15s, box-shadow 0.15s;
   text-transform: uppercase;
 }
-.pp-cupola-btn-buy:hover { background: #003366; box-shadow: 0 4px 14px rgba(0,74,153,0.25); }
-.pp-cupola-btn-buy:disabled { background: var(--pp-surface2); color: var(--pp-muted); cursor: not-allowed; }
+.pp-cupola-btn-buy:hover { background: #f47a08; box-shadow: 0 4px 14px rgba(244,122,8,0.3); }
+.pp-cupola-btn-buy:disabled { background: var(--pp-surface2); color: var(--pp-muted); cursor: not-allowed; box-shadow: none; }
+
+/* Stock y cuotas en la tarjeta */
+.pp-cupola-stock { font-size: 0.72rem; font-weight: 700; color: var(--pp-success); margin-bottom: 8px; }
+.pp-cupola-stock::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: currentColor; margin-right: 6px; vertical-align: 1px; }
+.pp-cupola-stock.sin-stock { color: var(--pp-muted); }
+.pp-cupola-cuotas { font-size: 0.75rem; color: var(--pp-muted); margin-top: 6px; min-height: 1.2em; }
+
+/* Guía de medida */
+.cup-guia { max-width: 1200px; margin: 0 auto 24px; display: grid; grid-template-columns: 140px 1fr; gap: 20px; align-items: center; background: var(--pp-surface); border: 1px solid var(--pp-border); border-radius: var(--pp-radius); padding: 16px 20px; }
+.cup-guia-svg { width: 100%; height: auto; display: block; }
+.pp-cupulas .cup-guia .cup-guia-t { font-family: Arial, sans-serif !important; font-size: 1.1rem !important; font-weight: 800 !important; color: var(--pp-text) !important; margin-bottom: 6px !important; line-height: 1.3 !important; }
+.cup-guia p { font-size: 0.88rem; line-height: 1.6; color: var(--pp-muted); max-width: 760px; }
+.cup-guia a { color: var(--pp-accent); font-weight: 700; text-decoration: underline; }
+@media(max-width: 560px) { .cup-guia { grid-template-columns: 1fr; } .cup-guia-svg { max-width: 150px; } }
+
+/* Franja de entrega */
+.cup-entrega { max-width: 1200px; margin: 24px auto 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; background: #fff; border: 1px solid var(--pp-border); border-left: 4px solid var(--pp-accent); border-radius: var(--pp-radius); padding: 16px 20px; }
+.cup-entrega strong { display: block; font-size: 0.85rem; color: var(--pp-text); margin-bottom: 3px; }
+.cup-entrega span { font-size: 0.8rem; color: var(--pp-muted); line-height: 1.45; }
+@media(max-width: 900px) { .cup-entrega { grid-template-columns: repeat(2, 1fr); } }
+@media(max-width: 480px) { .cup-entrega { grid-template-columns: 1fr; } }
 
 /* ── Floating cart ─────────────────────────────────────── */
 #cupolasFloatingCart {
@@ -891,8 +915,8 @@
 .cup-intro { max-width: 1200px; margin: 0 auto 40px; }
 .cup-intro-desc {
   font-family: Arial, sans-serif;
-  font-size: 0.88rem;
-  color: #666;
+  font-size: 0.92rem;
+  color: #4a4a4a;
   line-height: 1.75;
   text-align: left;
   max-width: 860px;
@@ -914,12 +938,6 @@
   border-right: 1px solid #dde4ef;
 }
 .cup-intro-feat:last-child { border-right: none; }
-.cup-intro-feat-dot {
-  width: 5px; height: 5px;
-  background: #004a99;
-  border-radius: 50%;
-  margin-bottom: 10px;
-}
 .cup-intro-feat strong {
   font-family: Arial, sans-serif;
   font-size: 0.72rem;
@@ -932,8 +950,8 @@
 }
 .cup-intro-feat span {
   font-family: Arial, sans-serif;
-  font-size: 0.7rem;
-  color: #888;
+  font-size: 0.78rem;
+  color: #5a5a5a;
   line-height: 1.45;
 }
 @media(max-width: 760px) {
@@ -954,45 +972,20 @@
 <!-- ══ MÓDULO PRINCIPAL ═══════════════════════════════════════════ -->
 <div class="pp-cupulas" id="ppCupulas">
 
-  <!-- Header -->
-  <div class="pp-cupulas-header">
-    <h2>Compra <span>Cúpulas</span> Online — Fácil y Rápido</h2>
-  </div>
-
-  <!-- Bloque de texto intro -->
-  <div class="cup-intro">
-    <p class="cup-intro-desc">
-      Fabricadas en metacrilato termoformado de alta calidad, las cúpulas Polyplas son la solución
-      para instalar un tragaluz en techos planos o inclinados en casas, oficinas y naves industriales.
-      Disponemos de medidas estándar desde 54×54 hasta 110×110 cm. Con un buen mantenimiento,
-      duran hasta 3 años — retiro disponible en nuestra tienda en Santiago.
-    </p>
-    <div class="cup-intro-features">
-      <div class="cup-intro-feat">
-        <div class="cup-intro-feat-dot"></div>
-        <strong>Protección UV</strong>
-        <span>Evita el amarillamiento con el tiempo</span>
-      </div>
-      <div class="cup-intro-feat">
-        <div class="cup-intro-feat-dot"></div>
-        <strong>Tragaluz para techos</strong>
-        <span>Iluminación natural sin obras mayores</span>
-      </div>
-      <div class="cup-intro-feat">
-        <div class="cup-intro-feat-dot"></div>
-        <strong>Superficie brillante</strong>
-        <span>Lisa y fácil de limpiar</span>
-      </div>
-      <div class="cup-intro-feat">
-        <div class="cup-intro-feat-dot"></div>
-        <strong>Versión bronce</strong>
-        <span>Control solar y privacidad</span>
-      </div>
-      <div class="cup-intro-feat">
-        <div class="cup-intro-feat-dot"></div>
-        <strong>Pago seguro</strong>
-        <span>100% con Webpay</span>
-      </div>
+  <!-- Guía de medida -->
+  <div class="cup-guia">
+    <svg class="cup-guia-svg" viewBox="0 0 150 110" role="img" aria-label="Esquema de una cúpula: la pestaña apoya sobre el marco alrededor del vano">
+      <rect x="8" y="8" width="134" height="80" rx="6" fill="#e8f1fa" stroke="#004a99" stroke-width="2"/>
+      <rect x="26" y="24" width="98" height="48" rx="4" fill="#fff" stroke="#004a99" stroke-width="1.5" stroke-dasharray="5 4"/>
+      <text x="75" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="#004a99">Vano</text>
+      <text x="75" y="19" text-anchor="middle" font-size="8" fill="#004a99">Pestaña 50–60 mm</text>
+      <path d="M8 100h134M8 96v8M142 96v8" stroke="#262626" stroke-width="1.5" fill="none"/>
+      <text x="75" y="97" text-anchor="middle" font-size="9" fill="#262626" paint-order="stroke" stroke="#fff" stroke-width="4">Medida de la cúpula</text>
+    </svg>
+    <div>
+      <div class="cup-guia-t" role="heading" aria-level="2">¿Qué medida necesito?</div>
+      <p>Mide el vano (la abertura) de tu techo y elige una cúpula más grande que el vano: la pestaña de anclaje de 50 a 60 mm debe apoyar sobre el marco en todo el contorno.
+      ¿Tienes dudas? <a href="https://wa.me/56942086751?text=Hola%20Polyplas%2C%20necesito%20ayuda%20para%20elegir%20la%20medida%20de%20una%20c%C3%BApula" target="_blank" rel="noopener">Envíanos la medida de tu vano por WhatsApp</a> y te decimos cuál te sirve.</p>
     </div>
   </div>
 
@@ -1012,11 +1005,13 @@
         <div class="pp-cupola-title"><a class="pp-ficha-link" href="/cupula-acrilico-54x54/">54 × 54 cm</a></div>
         <div class="pp-cupola-specs">4 mm · Transparente · Protección UV · Alta resistencia</div>
         <div class="pp-cupola-price-wrap">
+          <div class="pp-cupola-stock" data-cup-stock="54x54">En stock · retiro en menos de 24 hrs</div>
           <span class="pp-cupola-price-old" id="price-old-54x54" style="display:none;"></span>
           <div class="pp-cupola-ahorro" id="ahorro-54x54"></div>
           <div class="pp-cupola-price" id="price-54x54">
             $ 48.500<span class="pp-cupola-price-iva">c/IVA</span>
           </div>
+          <div class="pp-cupola-cuotas" data-cup-cuotas="54x54"></div>
         </div>
         <div class="pp-cupola-btns">
           <button class="pp-cupola-btn-detail" onclick="openCupolaDetail('54x54')">Ver detalle</button>
@@ -1042,11 +1037,13 @@
         <div class="pp-cupola-title"><a class="pp-ficha-link" href="/cupula-acrilico-68x68/">68 × 68 cm</a></div>
         <div class="pp-cupola-specs">4 mm · Transparente · Tragaluz · Protección UV</div>
         <div class="pp-cupola-price-wrap">
+          <div class="pp-cupola-stock" data-cup-stock="68x68">En stock · retiro en menos de 24 hrs</div>
           <span class="pp-cupola-price-old" id="price-old-68x68" style="display:none;"></span>
           <div class="pp-cupola-ahorro" id="ahorro-68x68"></div>
           <div class="pp-cupola-price" id="price-68x68">
             $ 53.000<span class="pp-cupola-price-iva">c/IVA</span>
           </div>
+          <div class="pp-cupola-cuotas" data-cup-cuotas="68x68"></div>
         </div>
         <div class="pp-cupola-btns">
           <button class="pp-cupola-btn-detail" onclick="openCupolaDetail('68x68')">Ver detalle</button>
@@ -1072,11 +1069,13 @@
         <div class="pp-cupola-title"><a class="pp-ficha-link" href="/cupula-acrilico-80x80/">80 × 80 cm</a></div>
         <div class="pp-cupola-specs">4 mm · Transparente · Máxima entrada de luz</div>
         <div class="pp-cupola-price-wrap">
+          <div class="pp-cupola-stock" data-cup-stock="80x80">En stock · retiro en menos de 24 hrs</div>
           <span class="pp-cupola-price-old" id="price-old-80x80" style="display:none;"></span>
           <div class="pp-cupola-ahorro" id="ahorro-80x80"></div>
           <div class="pp-cupola-price" id="price-80x80">
             $ 75.500<span class="pp-cupola-price-iva">c/IVA</span>
           </div>
+          <div class="pp-cupola-cuotas" data-cup-cuotas="80x80"></div>
         </div>
         <div class="pp-cupola-btns">
           <button class="pp-cupola-btn-detail" onclick="openCupolaDetail('80x80')">Ver detalle</button>
@@ -1093,7 +1092,7 @@
     <div class="pp-cupola-card">
       <div class="pp-cupola-img-wrap">
         <img class="pp-cupola-main-img"
-          src="https://polyplas.cl/wp-content/uploads/2023/05/cup80x80.webp"
+          src="/wp-content/uploads/2026/08/cupula_bronce.webp"
           alt="Cúpula de Acrílico Bronce 80×80 cm" loading="lazy">
         <span class="pp-cupola-badge pp-cupola-badge-bronce">BRONCE</span>
       </div>
@@ -1102,17 +1101,19 @@
         <div class="pp-cupola-title"><a class="pp-ficha-link" href="/cupula-acrilico-bronce-80x80/">80 × 80 cm · Bronce</a></div>
         <div class="pp-cupola-specs">4 mm · Bronce · Control solar · Privacidad</div>
         <div class="pp-cupola-price-wrap">
+          <div class="pp-cupola-stock" data-cup-stock="80x80_bronce">En stock · retiro en menos de 24 hrs</div>
           <span class="pp-cupola-price-old" id="price-old-80x80_bronce" style="display:none;"></span>
           <div class="pp-cupola-ahorro" id="ahorro-80x80_bronce"></div>
           <div class="pp-cupola-price" id="price-80x80_bronce">
             $ 75.500<span class="pp-cupola-price-iva">c/IVA</span>
           </div>
+          <div class="pp-cupola-cuotas" data-cup-cuotas="80x80_bronce"></div>
         </div>
         <div class="pp-cupola-btns">
           <button class="pp-cupola-btn-detail" onclick="openCupolaDetail('80x80_bronce')">Ver detalle</button>
           <button class="pp-cupola-btn-buy" id="buy-80x80_bronce"
             onclick="cupOpenQtyModal('80x80_bronce','Cúpula Bronce 80×80 cm','4mm · Bronce · Control solar',
-              'https://polyplas.cl/wp-content/uploads/2023/05/cup80x80.webp',3)">
+              '/wp-content/uploads/2026/08/cupula_bronce.webp',3)">
             COMPRAR
           </button>
         </div>
@@ -1120,6 +1121,51 @@
     </div>
 
   </div><!-- /grid -->
+
+  <!-- Entrega -->
+  <div class="cup-entrega">
+    <div><strong>Retiro en tienda: gratis</strong><span>Listo en menos de 24 hrs en Santiago Concha 1525, Santiago Centro.</span></div>
+    <div><strong>Envío gratis en Santiago</strong><span>En compras sobre $350.000.</span></div>
+    <div><strong>Envío a regiones</strong><span>Por pagar, con el transporte que tú elijas.</span></div>
+    <div><strong>Factura electrónica</strong><span>Siempre, a persona natural o empresa.</span></div>
+  </div>
+
+  <!-- Header -->
+  <div class="pp-cupulas-header">
+    <h2>Compra <span>Cúpulas</span> Online — Fácil y Rápido</h2>
+  </div>
+
+  <!-- Bloque de texto intro -->
+  <div class="cup-intro">
+    <p class="cup-intro-desc">
+      Fabricadas en metacrilato termoformado de alta calidad, las cúpulas Polyplas son la solución
+      para instalar un tragaluz en techos planos o inclinados en casas, oficinas y naves industriales.
+      Disponemos de medidas estándar de 54×54, 68×68 y 80×80 cm. Con un buen mantenimiento,
+      su vida útil es de hasta 3 años.
+    </p>
+    <div class="cup-intro-features">
+      <div class="cup-intro-feat">
+        <strong>Protección UV</strong>
+        <span>Retarda el amarillamiento</span>
+      </div>
+      <div class="cup-intro-feat">
+        <strong>Tragaluz para techos</strong>
+        <span>Iluminación natural sin obras mayores</span>
+      </div>
+      <div class="cup-intro-feat">
+        <strong>Superficie brillante</strong>
+        <span>Lisa y fácil de limpiar</span>
+      </div>
+      <div class="cup-intro-feat">
+        <strong>Versión bronce</strong>
+        <span>Control solar y privacidad</span>
+      </div>
+      <div class="cup-intro-feat">
+        <strong>Pago seguro con Webpay</strong>
+        <span>3 y 6 cuotas sin interés</span>
+      </div>
+    </div>
+  </div>
 </div><!-- /pp-cupulas -->
 
 <!-- ── BOTÓN CARRITO FLOTANTE ──────────────────────────────────── -->
@@ -1382,7 +1428,7 @@
           PAGAR CON WEBPAY
         </button>
         <div class="pp-cup-webpay-note">
-          Pago 100% seguro · SSL · Transbank · 3 cuotas sin interés según tu banco
+          Pago 100% seguro · SSL · Transbank · 3 y 6 cuotas sin interés
         </div>
       </div>
 
@@ -1458,7 +1504,7 @@ var CUPULAS = window.CUPULAS = [
     nombre: 'Cúpula Bronce 80×80 cm',
     specs:  '80×80 cm · 4mm · Bronce · Control solar',
     precio: 75500,
-    img:    'https://polyplas.cl/wp-content/uploads/2023/05/cup80x80.webp'
+    img:    '/wp-content/uploads/2026/08/cupula_bronce.webp'
   }
 ];
 
@@ -2277,6 +2323,27 @@ function cupulasRegistrarOrden(params) {
   } catch(e2) {}
 }
 
+// ── Cuotas, stock y precios de la tabla comparativa ───────────
+// Se recalcula cada vez que cambia el precio o el stock de una cúpula.
+function cupSyncCard(cup, cantidad) {
+  var q = function(sel) { return document.querySelectorAll(sel); };
+  var fmt = function(n) { return '$ ' + Math.round(n).toLocaleString('es-CL'); };
+  q('[data-cup-cuotas="' + cup.id + '"]').forEach(function(el) {
+    el.textContent = 'o 6 cuotas de ' + fmt(cup.precio / 6) + ' sin interés';
+  });
+  q('[data-cup-precio="' + cup.id + '"]').forEach(function(el) {
+    el.textContent = fmt(cup.precio);
+  });
+  if (cantidad !== undefined && cantidad !== null) {
+    q('[data-cup-stock="' + cup.id + '"]').forEach(function(el) {
+      var sin = cantidad === 0;
+      el.textContent = sin ? 'Sin stock por ahora' : 'En stock · retiro en menos de 24 hrs';
+      el.classList.toggle('sin-stock', sin);
+    });
+  }
+}
+(window.CUPULAS || []).forEach(function(c) { cupSyncCard(c); });
+
 // ── Sincronizar precios y stock desde Supabase ────────────────
 // Lee pp_stock donde tipo='CUPULAS' y actualiza precios en tiempo real.
 // Keys esperados: CUPULAS|54x54|na|na, CUPULAS|68x68|na|na, etc.
@@ -2318,6 +2385,8 @@ function loadCupulasStockFromSupabase() {
             '$ ' + Math.round(row.precio).toLocaleString('es-CL') +
             '<span class="pp-cupola-price-iva">c/IVA</span>';
         }
+
+        cupSyncCard(cup, row.cantidad);
 
         // Precio antes y ahorro
         if (row.precio_antes && row.precio_antes > 0) {
