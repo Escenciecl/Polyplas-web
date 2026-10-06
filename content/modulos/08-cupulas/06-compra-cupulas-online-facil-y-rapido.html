@@ -1827,6 +1827,7 @@ window.closeCupolaDetail = function() {
 window.openCupolasCheckout = function() {
   if (!cupCart.length) { cupShowToast('Agrega al menos un producto para continuar'); return; }
   dlPushCupulas('begin_checkout', { currency: 'CLP', value: cupCartTotal(), customer_type: cupClientType, items: cupCart.map(function(i, idx) { return { item_id: 'CUP_' + i.id, item_name: i.nombre, item_brand: 'Polyplas', item_category: 'Cúpulas de Acrílico', item_variant: i.specs || '', price: i.precio, quantity: i.qty, index: idx }; }) });
+  if (window.ppGCOpenCheckout) { window.ppGCOpenCheckout(); return; }
   if (window.ppGCOpen) { window.ppGCOpen(); return; }
   // Reset a paso 1
   document.getElementById('cupStep1').style.display = '';

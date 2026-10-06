@@ -430,6 +430,25 @@
   /* Toggle cliente más cómodo */
   .ppGC-client-toggle button { padding: 13px 10px; font-size: 0.9rem; }
 }
+/* ── Embalaje en el paso de entrega ── */
+.ppGC-emb { margin-top: 14px; border: 1.5px solid #ccd8ee; border-radius: 12px; background: #fff; overflow: hidden; }
+.ppGC-emb.checked { border-color: #004a99; background: #eef3fc; }
+.ppGC-emb--oblig { background: #eef3fc; border-color: #b9cdea; padding: 14px 16px; }
+.ppGC-emb-row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; min-height: 56px; }
+.ppGC-emb.checked .ppGC-terms-box { background: #004a99; border-color: #004a99; }
+.ppGC-emb.checked .ppGC-terms-box svg { display: block; }
+.ppGC-emb-txt { flex: 1; min-width: 0; }
+.ppGC-emb-txt strong { display: block; font-size: 0.88rem; color: #1a1a2e; }
+.ppGC-emb-txt span { display: block; font-size: 0.76rem; color: #5a6475; line-height: 1.45; margin-top: 2px; }
+.ppGC-emb-precio { font-size: 0.9rem; font-weight: 700; color: #004a99; white-space: nowrap; flex-shrink: 0; }
+/* ── Ubicación de accesorios ── */
+.ppGC-acc label { display: block; font-size: 0.84rem; font-weight: 600; color: #1a1a2e; margin-bottom: 8px; line-height: 1.4; }
+.ppGC-acc select, .ppGC-acc input { width: 100%; height: auto; min-height: 48px; line-height: 1.3; padding: 12px 13px; background: #f7f9fd; border: 1.5px solid #ccd8ee; border-radius: 8px; color: #1a1a2e; font-family: inherit; font-size: 16px; margin-bottom: 8px; box-sizing: border-box; }
+.ppGC-acc p { font-size: 0.74rem; color: #5a6475; margin: 0; line-height: 1.45; }
+/* Mientras el carrito o el pago están abiertos, se ocultan el chat y la pestaña lateral para que no tapen los botones */
+body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !important; }
+/* ── WhatsApp en el pago ── */
+.ppGC-wa-link { display: block; text-align: center; margin: 12px 0 2px; padding: 10px; font-size: 0.86rem; font-weight: 700; color: #128c4b; text-decoration: underline; }
 /* ── Términos y Condiciones (según los productos del carrito) ── */
 .ppGC-terms { margin: 14px 0 12px; border: 1.5px solid #ccd8ee; border-radius: 12px; overflow: hidden; background: #fff; }
 .ppGC-terms-row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; min-height: 52px; }
@@ -675,7 +694,7 @@
 <div style="margin-top:8px;font-size:0.78rem;color:#666">Coordina al +56 9 4208 6751</div>
 </div>
 </div>
-<div id="ppGC-embalajeAviso" style="display:none;margin-top:14px;background:#eef3fc;border-radius:12px;padding:14px 18px;border:1px solid #b9cdea;font-size:0.85rem;color:#1a1a2e;line-height:1.5"></div>
+<div class="ppGC-emb" id="ppGC-embalajeAviso" style="display:none"></div>
 <div id="ppGC-envioInfo" style="display:none;margin-top:14px;background:#fffbeb;border-radius:12px;padding:16px 18px;border:1px solid #fde68a">
 <div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#92400e;font-weight:700;margin-bottom:10px">Envío gestionado por ti</div>
 <div style="font-size:0.85rem;color:#1a1a2e;line-height:2">
@@ -715,6 +734,19 @@
 </div>
 </div>
 </div>
+<div id="ppGC-accesorios" style="display:none">
+<div class="ppGC-section-divider">Ubicación de accesorios</div>
+<div class="ppGC-acc">
+<label for="ppGC-acc-lado">¿En qué lado de la tina prefieres el panel digital y la grifería?</label>
+<select id="ppGC-acc-lado">
+<option value="">Lo confirmo después con ventas</option>
+<option value="Lado izquierdo">Lado izquierdo</option>
+<option value="Lado derecho">Lado derecho</option>
+</select>
+<input id="ppGC-acc-nota" maxlength="140" placeholder="Comentario (opcional)" type="text"/>
+<p>Te pediremos un dibujo o foto de referencia para confirmar la ubicación exacta.</p>
+</div>
+</div>
 <div class="ppGC-section-divider">Pago seguro</div>
 <div class="ppGC-terms" id="ppGC-terms" style="display:none">
 <div class="ppGC-terms-row" id="ppGC-terms-row" onclick="ppGCToggleTerms()" role="checkbox" aria-checked="false" tabindex="0">
@@ -736,6 +768,7 @@
           PAGAR CON WEBPAY PLUS
         </button>
 <p class="ppGC-webpay-note">Pago 100% seguro · Tarjetas de crédito y débito · SSL</p>
+<a class="ppGC-wa-link" href="https://wa.me/56942086751" id="ppGC-wa-link" rel="noopener noreferrer" target="_blank">¿Dudas antes de pagar? Escríbenos por WhatsApp</a>
 <button class="ppGC-btn-back-link" onclick="ppGCGoToStep1()">← Volver a mis datos</button>
 </div>
 </div>
@@ -791,19 +824,71 @@
       ['Incluido con la tina', 'Cabecera integrada y base metálica de soporte.']
     ]
   };
-  // ── Embalaje obligatorio en envíos a regiones ────────────────
-  // Productos que informan un valor de embalaje (hoy: tinas) y que el cliente
-  // agregó sin embalaje. Si elige envío a regiones, se suma al total.
-  function gcEmbalajePendiente() {
+  // ── Embalaje: se decide junto con la entrega ─────────────────
+  // Productos que informan un valor de embalaje (hoy: tinas) y que aún no lo llevan.
+  // Envío a regiones: obligatorio. Retiro o despacho en la RM: opcional (casilla).
+  var gcEmbalajeOpc = false;
+  function gcEmbalajeLineas(obligatorio) {
     return gcItems.filter(function(i) { return i.embalaje_unit > 0 && !i.embalaje; }).map(function(i) {
-      return { nombre: 'Embalaje obligatorio envío a regiones · ' + i.nombre, qty: i.qty || 1, precio_unit: i.embalaje_unit, corte_costo: 0, subtotal: i.embalaje_unit * (i.qty || 1), module: i.module };
+      return { nombre: (obligatorio ? 'Embalaje obligatorio envío a regiones · ' : 'Embalaje · ') + i.nombre, qty: i.qty || 1, precio_unit: i.embalaje_unit, corte_costo: 0, subtotal: i.embalaje_unit * (i.qty || 1), module: i.module };
     });
   }
-  function gcEmbalajeCosto() { return gcEmbalajePendiente().reduce(function(s, i) { return s + i.subtotal; }, 0); }
-  // Ítems del pedido: los del carrito más el embalaje obligatorio si corresponde.
-  function gcItemsPedido() {
-    return (gcSelectedEntrega && gcSelectedEntrega.id === 'envio_propio' && gcSelectedEntrega.costo > 0) ? gcItems.concat(gcEmbalajePendiente()) : gcItems;
+  function gcEmbalajeCosto() { return gcEmbalajeLineas(false).reduce(function(s, i) { return s + i.subtotal; }, 0); }
+  function gcEmbalajeAplica() { return !!gcSelectedEntrega && (gcSelectedEntrega.embOblig || gcEmbalajeOpc); }
+  function gcEmbalajeMonto() { return gcEmbalajeAplica() ? gcEmbalajeCosto() : 0; }
+  function gcTotalPagar() { return gcCurrentGrand + (gcSelectedEntrega ? (gcSelectedEntrega.costo || 0) : 0) + gcEmbalajeMonto(); }
+  // Muestra el bloque de embalaje según la entrega elegida.
+  function gcRenderEmbalaje() {
+    var box = gEl('ppGC-embalajeAviso'); if (!box) return;
+    var costo = gcEmbalajeCosto();
+    if (!gcSelectedEntrega || !costo) { box.style.display = 'none'; box.innerHTML = ''; return; }
+    if (gcSelectedEntrega.embOblig) {
+      box.className = 'ppGC-emb ppGC-emb--oblig';
+      box.innerHTML = '<div class="ppGC-emb-txt"><strong>Embalaje incluido: + ' + fmt(costo) + '</strong><span>Es obligatorio en los envíos a regiones, para proteger tu producto en el traslado.</span></div>';
+    } else {
+      box.className = 'ppGC-emb' + (gcEmbalajeOpc ? ' checked' : '');
+      box.innerHTML = '<div class="ppGC-emb-row" onclick="ppGCToggleEmbalaje()" role="checkbox" tabindex="0" aria-checked="' + (gcEmbalajeOpc ? 'true' : 'false') + '">' +
+        '<div class="ppGC-terms-box"><svg fill="none" height="12" stroke="#fff" stroke-width="3" viewBox="0 0 24 24" width="12"><polyline points="20 6 9 17 4 12"></polyline></svg></div>' +
+        '<div class="ppGC-emb-txt"><strong>Agregar embalaje protector</strong><span>Opcional · Empaque para el traslado</span></div>' +
+        '<span class="ppGC-emb-precio">+ ' + fmt(costo) + '</span></div>';
+    }
+    box.style.display = 'block';
   }
+  window.ppGCToggleEmbalaje = function() { gcEmbalajeOpc = !gcEmbalajeOpc; gcRenderEmbalaje(); gcUpdateModalTotal(); gcUpdateWaLink(); };
+
+  // ── Ubicación de accesorios (productos que lo requieren, ej. Kuyen Full) ──
+  function gcPideAccesorios() { return gcItems.some(function(i) { return i.pide_accesorios; }); }
+  function gcRenderAccesorios() {
+    var box = gEl('ppGC-accesorios'); if (!box) return;
+    box.style.display = gcPideAccesorios() ? 'block' : 'none';
+  }
+  function gcAccesoriosTexto() {
+    var sel = gEl('ppGC-acc-lado'), nota = gEl('ppGC-acc-nota');
+    var t = sel && sel.value ? sel.value : 'Por confirmar con ventas';
+    var n = nota && nota.value.trim() ? ' (' + nota.value.trim().slice(0, 140) + ')' : '';
+    return 'Panel y grifería: ' + t + n;
+  }
+
+  // Ítems del pedido: los del carrito, con la ubicación de accesorios en su línea,
+  // más el embalaje si corresponde.
+  function gcItemsPedido() {
+    var base = gcItems.map(function(i) {
+      if (!i.pide_accesorios) return i;
+      var c = {}; for (var k in i) c[k] = i[k];
+      c.nombre = i.nombre + ' · ' + gcAccesoriosTexto();
+      return c;
+    });
+    return gcEmbalajeAplica() ? base.concat(gcEmbalajeLineas(!!gcSelectedEntrega.embOblig)) : base;
+  }
+
+  // ── WhatsApp con el pedido ya escrito ────────────────────────
+  function gcUpdateWaLink() {
+    var a = gEl('ppGC-wa-link'); if (!a) return;
+    var lineas = gcItems.map(function(i) { return '• ' + i.nombre + ' × ' + i.qty; }).join('\n');
+    var msg = 'Hola Polyplas, tengo una duda antes de pagar este pedido:\n' + lineas + '\nTotal: ' + fmt(gcTotalPagar());
+    a.href = 'https://wa.me/56942086751?text=' + encodeURIComponent(msg);
+  }
+
   var gcTermsAccepted = false;
   function gcTermsModules() {
     var seen = [];
@@ -845,8 +930,27 @@
 
   /* ── Helpers ─────────────────────────────────────────────── */
   function fmt(n) { return '$ ' + Math.round(n || 0).toLocaleString('es-CL'); }
-  function gcLoad() { try { gcItems = JSON.parse(sessionStorage.getItem(GC_KEY) || '[]'); } catch(e) { gcItems = []; } }
-  function gcSave() { try { sessionStorage.setItem(GC_KEY, JSON.stringify(gcItems)); } catch(e) {} }
+  // El carrito se guarda en el navegador para que siga ahí si el cliente cierra la
+  // pestaña y vuelve después. Caduca a las 72 horas para no cobrar precios antiguos.
+  var GC_TTL = 72 * 60 * 60 * 1000;
+  function gcStore() { try { var k = '__pp_t'; localStorage.setItem(k, '1'); localStorage.removeItem(k); return localStorage; } catch(e) { return sessionStorage; } }
+  function gcLoad() {
+    gcItems = [];
+    try {
+      var st = gcStore(), raw = st.getItem(GC_KEY);
+      if (!raw) { // compatibilidad: carrito de la versión anterior (solo sesión)
+        var old = sessionStorage.getItem(GC_KEY);
+        if (old) { gcItems = JSON.parse(old) || []; sessionStorage.removeItem(GC_KEY); gcSave(); }
+        return;
+      }
+      var d = JSON.parse(raw);
+      if (Array.isArray(d)) { gcItems = d; return; }
+      if (d && Array.isArray(d.items) && (Date.now() - (d.t || 0)) < GC_TTL) gcItems = d.items;
+      else st.removeItem(GC_KEY);
+    } catch(e) { gcItems = []; }
+  }
+  function gcSave() { try { gcStore().setItem(GC_KEY, JSON.stringify({ t: Date.now(), items: gcItems })); } catch(e) {} }
+  function gcClearStore() { try { gcStore().removeItem(GC_KEY); } catch(e) {} try { sessionStorage.removeItem(GC_KEY); } catch(e) {} }
   function gcTotal() { return gcItems.reduce(function(s,i){ return s + (i.subtotal||0); }, 0); }
   function gcCount() { return gcItems.reduce(function(s,i){ return s + (i.qty||0); }, 0); }
   function gEl(id) { return document.getElementById(id); }
@@ -881,8 +985,10 @@
     document.body.style.top      = '-' + _gcScrollY + 'px';
     document.body.style.width    = '100%';
     document.body.style.overflow = 'hidden';
+    document.body.classList.add('ppGC-open');
   }
   function gcUnlockScroll() {
+    document.body.classList.remove('ppGC-open');
     document.body.style.position = '';
     document.body.style.top      = '';
     document.body.style.width    = '';
@@ -1004,7 +1110,7 @@
       document.dispatchEvent(new CustomEvent('ppGCItemRemoved', { detail: { gid: item.gid } }));
     });
     gcItems = [];
-    try { sessionStorage.removeItem(GC_KEY); } catch(e) {}
+    gcClearStore();
     document.dispatchEvent(new CustomEvent('ppGCCartCleared'));
     gcUpdateBadge();
     ppGCCloseCart();
@@ -1019,7 +1125,9 @@
   function ppGCOpenCheckout() {
     gcLoad();
     if (!gcItems.length) return;
+    gcEmbalajeOpc = false;
     gcRenderTerms();
+    gcRenderAccesorios();
     ppGCCloseCart();
     gcCurrentGrand = gcTotal();
     // Inicio del pago: se abre el formulario "Finalizar pedido"
@@ -1150,7 +1258,7 @@
 
   /* ── Entrega ─────────────────────────────────────────────── */
   function gcUpdateModalTotal() {
-    var total = gcCurrentGrand + (gcSelectedEntrega ? (gcSelectedEntrega.costo||0) : 0);
+    var total = gcTotalPagar();
     var el = gEl('ppGC-modal-total'); if (el) el.textContent = fmt(total);
   }
 
@@ -1160,7 +1268,9 @@
     var wb=gEl('ppGC-btn-wp'); if (wb) { wb.disabled=true; wb.style.opacity='0.5'; wb.style.cursor='not-allowed'; }
     var t=gEl('ppGC-entregaTitulo'); if (t) t.style.display='none';
     gcSelectedEntrega=null;
+    gcRenderEmbalaje();
     gcUpdateModalTotal();
+    gcUpdateWaLink();
   }
 
   function gcBuildEntregaOptions(grand, regionPresel) {
@@ -1174,9 +1284,14 @@
     if (esRM) {
       opciones.push({ id:'despacho', icon:'🚚', label:'Despacho a domicilio', desc:'Gratis · Región Metropolitana · 1–3 días hábiles', badge:'<span class="ppGC-entrega-badge badge-gratis">GRATIS</span>', costo:0, needsAddress:true });
     } else {
-      // Solo regiones distintas de la RM (una comuna de la RM sin despacho no paga embalaje obligatorio)
-      var _emb = (regionPresel && regionPresel !== 'RM') ? gcEmbalajeCosto() : 0;
-      opciones.push({ id:'envio_propio', icon:'📦', label:'Envío propio', desc:'Coordinas tú el transporte desde nuestra bodega' + (_emb ? ' · Embalaje obligatorio: + ' + fmt(_emb) : ''), badge:'<span class="ppGC-entrega-badge badge-propio">TÚ GESTIONAS</span>', costo:_emb, needsAddress:false });
+      // Región distinta de la RM: envío a regiones con flete por pagar y embalaje obligatorio.
+      // (Una comuna de la RM sin despacho, o una compra bajo el mínimo, mantiene "Envío propio".)
+      var _esRegion = !!regionPresel && regionPresel !== 'RM';
+      var _emb = _esRegion ? gcEmbalajeCosto() : 0;
+      opciones.push({ id:'envio_propio', icon:'📦',
+        label: _esRegion ? 'Envío a regiones (flete por pagar)' : 'Envío propio',
+        desc: (_esRegion ? 'Tú eliges la empresa de transporte y pagas el flete al recibir' : 'Coordinas tú el transporte desde nuestra bodega') + (_emb ? ' · Incluye embalaje obligatorio: + ' + fmt(_emb) : ''),
+        badge:'<span class="ppGC-entrega-badge badge-propio">' + (_esRegion ? 'POR PAGAR' : 'TÚ GESTIONAS') + '</span>', costo:0, embOblig: _emb > 0, needsAddress:false });
     }
     opciones.forEach(function(op) {
       var div=document.createElement('div');
@@ -1185,17 +1300,13 @@
       div.addEventListener('click', function(){
         el.querySelectorAll('.ppGC-entrega-opt').forEach(function(x){ x.classList.remove('selected'); });
         div.classList.add('selected');
-        gcSelectedEntrega = { id:op.id, label:op.label, costo:op.costo, needsAddress:op.needsAddress };
+        gcSelectedEntrega = { id:op.id, label:op.label, costo:op.costo, needsAddress:op.needsAddress, embOblig: !!op.embOblig };
         gcDlPush('add_shipping_info', { currency: 'CLP', value: gcCurrentGrand, shipping_tier: op.id, customer_type: gcClientType, items: gcItems.map(gcDlItem) });
         var e2=gEl('ppGC-s2-err'); if (e2) e2.style.display='none';
         gcCheckPayBtn();
         gcUpdateModalTotal();
-        var _av = gEl('ppGC-embalajeAviso');
-        if (_av) {
-          var _show = op.id === 'envio_propio' && op.costo > 0;
-          _av.style.display = _show ? 'block' : 'none';
-          if (_show) _av.innerHTML = '<strong>Embalaje obligatorio para envíos a regiones.</strong> Se agregó al total: + ' + fmt(op.costo) + '. Si retiras en tienda con tu propio transporte, es opcional.';
-        }
+        gcRenderEmbalaje();
+        gcUpdateWaLink();
         gEl('ppGC-retiroInfo').style.display    = op.id==='retiro_tienda' ? 'block' : 'none';
         gEl('ppGC-envioInfo').style.display     = op.id==='envio_propio'  ? 'block' : 'none';
         gEl('ppGC-addressSection').style.display= op.id==='despacho'      ? 'block' : 'none';
@@ -1351,7 +1462,7 @@
       var dd=gEl('ppgc_pn_dir'), dr=gEl('ppgc_pn_region'), dc=gEl('ppgc_pn_ciudad');
       if (!dd||!dd.value||!dr||!dr.value||!dc||!dc.value) { if (e2){e2.textContent='Completa la dirección de despacho.';e2.style.display='block';} return; }
     }
-    var client=gcGetClientData(), total=gcCurrentGrand+(gcSelectedEntrega.costo||0);
+    var client=gcGetClientData(), total=gcTotalPagar();
     // Clic en "Pagar con Webpay" con los datos completos
     gcDlPush('add_payment_info', { currency: 'CLP', value: total, payment_type: 'Webpay', shipping_tier: gcSelectedEntrega.id, customer_type: gcClientType, items: gcItems.map(gcDlItem) });
     if (btn) { btn.disabled=true; btn.textContent='Procesando...'; }
@@ -1382,7 +1493,7 @@
     var od=null; try { od=JSON.parse(sessionStorage.getItem(GC_ORDER_KEY)||'null'); } catch(e){}
     if (!od) return;
     sessionStorage.removeItem(GC_ORDER_KEY);
-    try { sessionStorage.removeItem(GC_KEY); } catch(e){}
+    gcClearStore();
     var auth=params.get('auth')||'', orden=params.get('orden')||'';
     gcDlPush('purchase', { transaction_id: orden, currency: 'CLP', value: od.total, customer_type: (od.client && od.client.tipo === 'Empresa') ? 'EMP' : 'PN', items: (od.items || []).map(gcDlItem) });
     (function tryReg() {

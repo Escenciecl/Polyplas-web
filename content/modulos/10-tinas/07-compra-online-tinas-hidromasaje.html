@@ -1602,7 +1602,7 @@
 <div class="pp-qty-modal-unit" id="qtyModalUnit"></div>
 </div>
 </div>
-      <div class="pp-embalaje-row">
+      <div class="pp-embalaje-row" style="display:none"><!-- El embalaje se elige ahora en el paso "Entrega y pago" del carrito -->
         <div class="pp-qty-modal-label" style="margin-bottom:8px;">¿Deseas incluir embalaje?</div>
         <div class="pp-embalaje-toggle" id="qtyEmbalajeToggle" onclick="toggleEmbalaje()">
           <div class="pp-embalaje-check" id="qtyEmbalajeCheck">
@@ -2112,6 +2112,7 @@ window.addToTinaCart = function() {
       nombre: _gcItem.nombre + (_gcItem.specs ? ' · ' + _gcItem.specs : '') + (_gcItem.embalaje ? ' + Embalaje' : ''),
       qty: _gcItem.qty, precio_unit: _gcItem.precio, corte_costo: 0,
       embalaje: !!_gcItem.embalaje, embalaje_unit: EMBALAJE_PRECIO,
+      pide_accesorios: _gcItem.id === 'kuyen',
       subtotal: _gcItem.precio * _gcItem.qty + (_gcItem.embalaje ? EMBALAJE_PRECIO * _gcItem.qty : 0),
       descripcion: _gcItem.nombre + ' × ' + _gcItem.qty + (_gcItem.embalaje ? ' + Embalaje' : '')
     });
@@ -2354,6 +2355,7 @@ function buildOrderItemsHTML() {
 window.openTinaCheckout = function() {
   if (!cart.length) { showToast('Agrega una tina primero', ''); return; }
   dlPushTinas('begin_checkout', { currency: 'CLP', value: cartTotal(), customer_type: tinaClientType, items: cart.map(function(i, idx) { return { item_id: 'TINA_' + i.id, item_name: i.nombre, item_brand: 'Polyplas', item_category: 'Tinas Hidromasaje', item_variant: i.specs || '', price: i.precio, quantity: i.qty, index: idx }; }) });
+  if (window.ppGCOpenCheckout) { window.ppGCOpenCheckout(); return; }
   if (window.ppGCOpen) { window.ppGCOpen(); return; }
   // Reset to step 1
   document.getElementById('tinaStep1').style.display = '';
