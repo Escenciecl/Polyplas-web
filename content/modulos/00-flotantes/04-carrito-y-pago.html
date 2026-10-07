@@ -776,6 +776,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
 <input id="ppgc_pn_dir" placeholder="Av. Ejemplo 1234, Depto 5" type="text"/>
 </div>
 </div>
+<div aria-live="polite" id="ppGC-addr-aviso" role="status" style="display:none;margin-top:12px;padding:12px 14px;background:#fff8e6;border:1.5px solid #f0c36d;border-radius:10px;color:#5c4400;font-size:0.85rem;line-height:1.45"></div>
 <button class="ppGC-addr-link" id="ppGC-addr-volver" onclick="ppGCMismaDireccion()" style="display:none;margin-top:8px" type="button">Usar la dirección de mis datos</button>
 </div>
 </div>
@@ -1437,6 +1438,22 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     var label=opt&&opt.querySelector('strong');
     var excluida=region==='RM'&&!!comuna&&EXCLUIDAS_RM.some(function(c){ return c.toLowerCase()===comuna.toLowerCase(); });
     var esRegion=!!region&&region!=='RM';
+    var aviso=gEl('ppGC-addr-aviso');
+    if (aviso) {
+      if (esRegion||excluida) {
+        var rSel=gEl('ppgc_pn_region');
+        var rNom=rSel&&rSel.selectedIndex>=0?rSel.options[rSel.selectedIndex].text:'regiones';
+        var embA=esRegion?gcEmbalajeCosto():0;
+        var tit=document.createElement('strong'), cuerpo=document.createElement('span');
+        tit.style.display='block';
+        tit.textContent=esRegion?('Cambiaste el envío a '+rNom+'.'):('Cambiaste el envío a '+comuna+'.');
+        cuerpo.textContent=esRegion
+          ? 'El despacho gratis es solo para la Región Metropolitana. Tu pedido va con flete por pagar al recibir'+(embA>0?' y embalaje obligatorio (+ '+fmt(embA)+')':'')+'.'
+          : 'Esta comuna no tiene despacho gratis: coordinas tú el transporte desde nuestra bodega, o puedes elegir Retiro en tienda.';
+        aviso.innerHTML=''; aviso.appendChild(tit); aviso.appendChild(cuerpo);
+        aviso.style.display='block';
+      } else { aviso.style.display='none'; aviso.innerHTML=''; }
+    }
     if (esRegion||excluida) {
       var emb=esRegion?gcEmbalajeCosto():0;
       gcSelectedEntrega={ id:'envio_propio', label:esRegion?'Envío a regiones':'Envío propio', costo:0, needsAddress:true, embOblig:emb>0, esRegion:esRegion };
