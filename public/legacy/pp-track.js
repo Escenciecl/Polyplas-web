@@ -33,7 +33,8 @@
     cupulas: 'Cúpulas de Acrílico',
     receptaculos: 'Receptáculos de Ducha',
     tinas: 'Tinas Hidromasaje',
-    cascos: 'Cascos de Tinas'
+    cascos: 'Cascos de Tinas',
+    duchas: 'Columnas de Ducha'
   };
   var LINEA_VALORES = Object.keys(LINEAS).map(function (k) { return LINEAS[k]; });
 
@@ -54,7 +55,8 @@
     CUP_80x80_bronce:  { nombre: 'Cúpula Bronce 80×80 cm',        tipo: 'Bronce',       modulo: 'cupulas' },
     RECEP_80x80_cuad:  { nombre: 'Receptáculo Cuadrado 80×80 cm', tipo: 'Cuadrado',     modulo: 'receptaculos' },
     RECEP_90x90_cuad:  { nombre: 'Receptáculo Cuadrado 90×90 cm', tipo: 'Cuadrado',     modulo: 'receptaculos' },
-    RECEP_90x90_esq:   { nombre: 'Receptáculo Esquinero 90×90 cm', tipo: 'Esquinero',   modulo: 'receptaculos' }
+    RECEP_90x90_esq:   { nombre: 'Receptáculo Esquinero 90×90 cm', tipo: 'Esquinero',   modulo: 'receptaculos' },
+    DUCHA_columna_inox: { nombre: 'Columna de Ducha Acero Inoxidable', tipo: 'Acero inoxidable', modulo: 'duchas' }
   };
 
   /* Etiquetas antiguas de categoría → módulo (para datos guardados antes de este cambio) */
@@ -90,6 +92,7 @@
     if (/^CASCO_/.test(id)) return 'cascos';
     if (/^CUP_/.test(id)) return 'cupulas';
     if (/^RECEP_/.test(id)) return 'receptaculos';
+    if (/^DUCHA_/.test(id)) return 'duchas';
     if (LINEAS[origen]) return origen;
     if (item._modulo && LINEAS[item._modulo]) return item._modulo;
     var porLinea = LINEA_VALORES.indexOf(item.item_category);
