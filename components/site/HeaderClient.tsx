@@ -90,7 +90,7 @@ export function BuscadorCabecera({ placeholder }: { placeholder: string }) {
 }
 
 /* ------------------------------------------------------------------ Menú */
-export function HeaderInteractivo({ menu, telefono, whatsapp }: { menu: ItemMenu[]; telefono: Enlace; whatsapp: Enlace }) {
+export function HeaderInteractivo({ menu, telefono, whatsapp, enlaceDerecha }: { menu: ItemMenu[]; telefono: Enlace; whatsapp: Enlace; enlaceDerecha?: Enlace }) {
   const path = usePathname() || "/";
   const [drawer, setDrawer] = useState(false);
   const [abierto, setAbierto] = useState<string | null>(null);
@@ -131,22 +131,40 @@ export function HeaderInteractivo({ menu, telefono, whatsapp }: { menu: ItemMenu
                   )}
                 </a>
                 {item.submenu && (
-                  <div className="pp-mega">
-                    <ul>
-                      {item.submenu.map((s) => (
-                        <li key={s.enlace}>
-                          <a href={s.enlace} className={s.enlace === path ? "is-current" : ""}>
-                            <strong>{s.texto}</strong>
-                            {s.detalle && <span>{s.detalle}</span>}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
+                  <div className={`pp-mega${item.destacado ? "" : " pp-mega--chico"}`}>
+                    <div className="pp-mega__in">
+                      <ul>
+                        {item.submenu.map((s) => (
+                          <li key={s.enlace}>
+                            <a href={s.enlace} className={s.enlace === path ? "is-current" : ""}>
+                              <strong>{s.texto}</strong>
+                              {s.detalle && <span>{s.detalle}</span>}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                      {item.destacado && (
+                        <a className="pp-mega__dest" href={item.destacado.enlace}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={item.destacado.imagen} alt="" loading="lazy" decoding="async" width={320} height={200} />
+                          <span>
+                            <b>{item.destacado.titulo}</b>
+                            <small>{item.destacado.detalle}</small>
+                            <em>{item.destacado.boton} →</em>
+                          </span>
+                        </a>
+                      )}
+                    </div>
                   </div>
                 )}
               </li>
             ))}
           </ul>
+          {enlaceDerecha && (
+            <a className="pp-nav__extra" href={enlaceDerecha.enlace}>
+              {enlaceDerecha.texto} →
+            </a>
+          )}
         </div>
       </nav>
 

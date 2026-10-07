@@ -1,9 +1,12 @@
 {
   "_ayuda": "Menú, barra superior y datos de contacto de la cabecera. Cambia solo los textos entre comillas.",
   "barraSuperior": [
-    "Retiro rápido en tienda · Concha 1525, Stgo Centro",
-    "Hasta 12 cuotas sin interés con Webpay"
+    "Retiro el mismo día · Concha 1525, Santiago Centro",
+    "Hasta 12 cuotas sin interés con Webpay",
+    "Despacho a todo Chile"
   ],
+  "horario": "Lun a Vie 9:00–18:00",
+  "enlaceDerecha": { "texto": "¿Qué material necesito?", "enlace": "/guia-de-acrilicos/" },
   "telefono": { "texto": "+56 9 4208 6751", "enlace": "tel:+56942086751" },
   "whatsapp": { "texto": "WhatsApp", "enlace": "https://wa.me/56942086751?text=Hola%20Polyplas%2C%20quiero%20cotizar" },
   "botonPrincipal": { "texto": "Cotizar", "enlace": "/contacto/" },
@@ -12,6 +15,7 @@
     {
       "texto": "Planchas",
       "enlace": "/categoria-producto/planchas-acrilico/",
+      "destacado": { "titulo": "Corte a medida", "detalle": "Lleva tus planchas dimensionadas y reduce el flete.", "boton": "Comprar planchas", "enlace": "/categoria-producto/planchas-acrilico/", "imagen": "/wp-content/uploads/2026/08/planchaspolicarbonatocompacto-640w.webp" },
       "submenu": [
         { "texto": "Planchas de acrílico", "enlace": "/categoria-producto/planchas-acrilico/", "detalle": "Transparente, colores y espejo" },
         { "texto": "Planchas PET", "enlace": "/categoria-producto/planchas-pet/", "detalle": "Económicas y rígidas" },
@@ -23,6 +27,7 @@
     {
       "texto": "Baños",
       "enlace": "/categoria-producto/banos/",
+      "destacado": { "titulo": "Todo para el baño", "detalle": "Tinas, duchas y accesorios en un solo lugar.", "boton": "Ver todo baños", "enlace": "/categoria-producto/banos/", "imagen": "/wp-content/uploads/2026/08/tina-hidromasaje-kuyen-full-polyplas-1.webp" },
       "submenu": [
         { "texto": "Todo para el baño", "enlace": "/categoria-producto/banos/", "detalle": "Todos los productos, con filtros" },
         { "texto": "Tinas de hidromasaje", "enlace": "/categoria-producto/tinas-de-hidromasaje/", "detalle": "Jacuzzi para 1 y 2 personas" },
