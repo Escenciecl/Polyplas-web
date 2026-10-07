@@ -1,0 +1,23 @@
+{
+  "url": "/mampara-de-ducha-vidrio/",
+  "tipo": "page",
+  "titulo": "Mampara de Ducha de Vidrio para Ducha o Tina | Polyplas",
+  "descripcion": "Mampara de ducha de vidrio transparente con perfiles metálicos, para receptáculo de ducha o tina. $101.150 c/IVA. Retiro en Santiago o envío a regiones.",
+  "robots": "max-image-preview:large",
+  "canonical": "/mampara-de-ducha-vidrio/",
+  "og": {
+    "type": "website",
+    "title": "Mampara de Ducha de Vidrio para Ducha o Tina | Polyplas",
+    "description": "Mampara de ducha de vidrio transparente con perfiles metálicos, para receptáculo de ducha o tina. $101.150 c/IVA. Retiro en Santiago o envío a regiones.",
+    "image": "https://polyplas.cl/wp-content/uploads/2026/10/mampara-ducha-vidrio-receptaculo.jpg",
+    "image:width": "1141",
+    "image:height": "1379"
+  },
+  "publicado": "2026-10-07T12:00:00+00:00",
+  "modificado": "2026-10-07T12:00:00+00:00",
+  "css": [],
+  "datosGoogle": [
+    "{\"@context\": \"https://schema.org\", \"@graph\": [{\"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Inicio\", \"item\": \"https://polyplas.cl/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Mampara de Ducha de Vidrio\", \"item\": \"https://polyplas.cl/mampara-de-ducha-vidrio/\"}]}, {\"@type\": \"Product\", \"name\": \"Mampara de Ducha de Vidrio\", \"sku\": \"MAMPARA-DUCHA-VIDRIO\", \"category\": \"Mamparas de ducha\", \"material\": \"Vidrio\", \"description\": \"Mampara de ducha de vidrio transparente con perfiles metálicos, para receptáculo de ducha o tina. $101.150 c/IVA. Retiro en Santiago o envío a regiones.\", \"image\": [\"https://polyplas.cl/wp-content/uploads/2026/10/mampara-ducha-vidrio-receptaculo.jpg\", \"https://polyplas.cl/wp-content/uploads/2026/10/mampara-ducha-vidrio-tina.webp\"], \"url\": \"https://polyplas.cl/mampara-de-ducha-vidrio/\", \"brand\": {\"@type\": \"Brand\", \"name\": \"Polyplas\"}, \"offers\": {\"@type\": \"Offer\", \"url\": \"https://polyplas.cl/mampara-de-ducha-vidrio/\", \"price\": \"101150\", \"priceCurrency\": \"CLP\", \"itemCondition\": \"https://schema.org/NewCondition\", \"availability\": \"https://schema.org/InStock\", \"seller\": {\"@type\": \"Organization\", \"name\": \"Polyplas\", \"url\": \"https://polyplas.cl\"}}}]}"
+  ],
+  "dataLayer": null
+}
