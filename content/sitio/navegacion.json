@@ -1,11 +1,10 @@
 {
   "_ayuda": "Menú, barra superior y datos de contacto de la cabecera. Cambia solo los textos entre comillas.",
   "barraSuperior": [
-    "Retiro el mismo día · Concha 1525, Santiago Centro",
-    "Hasta 12 cuotas sin interés con Webpay",
-    "Despacho a todo Chile"
+    "Retiro el mismo día · Santiago Concha 1525, Stgo Centro",
+    "3 y 6 cuotas sin interés según el banco emisor"
   ],
-  "horario": "Lun a Vie 9:00–18:00",
+  "horario": "Lun a Jue 9:00–18:00 · Vie 9:00–17:00",
   "enlaceDerecha": { "texto": "¿Qué material necesito?", "enlace": "/guia-de-acrilicos/" },
   "telefono": { "texto": "+56 9 4208 6751", "enlace": "tel:+56942086751" },
   "whatsapp": { "texto": "WhatsApp", "enlace": "https://wa.me/56942086751?text=Hola%20Polyplas%2C%20quiero%20cotizar" },

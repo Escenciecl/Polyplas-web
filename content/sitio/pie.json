@@ -46,7 +46,7 @@
   },
   "pagos": {
     "titulo": "Compra segura",
-    "texto": "Paga con Webpay: débito, crédito y hasta 12 cuotas sin interés.",
+    "texto": "Paga con Webpay: débito, crédito y 3 y 6 cuotas sin interés según el banco emisor.",
     "imagen": "/wp-content/uploads/2022/07/icon-transbank-1.svg"
   },
   "copyright": "Polyplas.cl · Todos los derechos reservados"

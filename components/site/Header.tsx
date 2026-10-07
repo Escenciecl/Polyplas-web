@@ -41,10 +41,6 @@ export default function Header() {
               </li>
             ))}
           </ul>
-          <div className="pp-topbar__contact">
-            <span>{nav.horario}</span>
-            <a href={nav.telefono.enlace}>{nav.telefono.texto}</a>
-          </div>
         </div>
       </div>
 
