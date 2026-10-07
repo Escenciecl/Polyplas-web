@@ -4106,28 +4106,22 @@
 <button class="pp-mat-filter-btn active" data-mat="AA" onclick="filterMaterial('AA')"><span class="pp-mat-filter-badge">AA</span></button>
 <button class="pp-mat-filter-btn" data-mat="PA" onclick="filterMaterial('PA')"><span class="pp-mat-filter-badge">PA</span></button>
 </div>
-<div class="pp-filter-bar" id="ppFilterBar">
-<div class="pp-filter-row">
-<button aria-label="Limpiar filtros" class="pp-filt-icon-btn" id="ppFiltIconBtn" onclick="window._ppFilt&amp;&amp;window._ppFilt.clearAll()">
-<svg fill="none" height="15" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="15"><line x1="4" x2="20" y1="6" y2="6"></line><line x1="7" x2="17" y1="12" y2="12"></line><line x1="10" x2="14" y1="18" y2="18"></line></svg>
-<span class="pp-filt-badge" hidden="" id="ppFiltBadge">0</span>
-</button>
-<button aria-label="Filtrar por color" class="pp-filt-attr-btn" id="ppFiltBtnColor" onclick="window._ppFilt&amp;&amp;window._ppFilt.openPanel('color')">
-<span id="ppFiltLblColor">Color</span>
-<svg fill="none" height="10" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" width="10"><polyline points="6 9 12 15 18 9"></polyline></svg>
-</button>
-<button aria-label="Filtrar por espesor" class="pp-filt-attr-btn" id="ppFiltBtnEsp" onclick="window._ppFilt&amp;&amp;window._ppFilt.openPanel('esp')">
-<span id="ppFiltLblEsp">Espesor</span>
-<svg fill="none" height="10" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" width="10"><polyline points="6 9 12 15 18 9"></polyline></svg>
-</button>
-<button aria-label="Solo productos con stock" class="pp-filt-quick-chip" id="ppFiltBtnRetira" onclick="window._ppFilt&amp;&amp;window._ppFilt.toggle('retiraHoy')">
-<svg fill="currentColor" height="12" viewbox="0 0 24 24" width="12"><path d="M13 2L4.09 12.97A1 1 0 005 14.5h6.5L11 22l8.91-10.97A1 1 0 0019 9.5H12.5L13 2z"></path></svg>
-        Retira hoy
-      </button>
-<a class="pp-filt-quick-chip pp-filt-section-chip" href="#ppSectionAA">AA Mix</a>
-<a class="pp-filt-quick-chip pp-filt-section-chip" href="#ppSectionPA">PA Virgen</a>
+<div class="pp-fb2-layout">
+<div class="pp-fb2" id="ppFb2" role="group" aria-label="Filtrar planchas de acrílico">
+<div class="pp-fb2-titulo">Filtrar planchas</div>
+<div class="pp-fb2-fila">
+<label class="pp-fb2-campo"><span class="pp-fb2-paso">1. Material</span><select class="pp-fb2-sel" id="ppFb2Mat" aria-label="Filtrar por material"><option value="">Todos (AA y PA)</option></select></label>
+<label class="pp-fb2-campo"><span class="pp-fb2-paso">2. Medida</span><select class="pp-fb2-sel" id="ppFb2Dim" aria-label="Filtrar por medida"><option value="">Todas las medidas</option></select></label>
+<label class="pp-fb2-campo"><span class="pp-fb2-paso">3. Espesor</span><select class="pp-fb2-sel" id="ppFb2Esp" aria-label="Filtrar por espesor"><option value="">Todos los espesores</option></select></label>
+<label class="pp-fb2-campo"><span class="pp-fb2-paso">4. Color</span><select class="pp-fb2-sel" id="ppFb2Color" aria-label="Filtrar por color"><option value="">Todos los colores</option></select></label>
+<label class="pp-fb2-campo"><span class="pp-fb2-paso">5. Precio</span><select class="pp-fb2-sel" id="ppFb2Precio" aria-label="Filtrar por precio"><option value="">Todos los precios</option></select></label>
+<button type="button" class="pp-fb2-limpiar" id="ppFb2Limpiar" hidden>Limpiar filtros</button>
 </div>
+<div class="pp-fb2-lado" id="ppFb2Lado"><div class="pp-fb2-grupo"><div class="pp-fb2-gt">Material</div><div class="pp-fb2-ops" data-para="ppFb2Mat"></div></div><div class="pp-fb2-grupo"><div class="pp-fb2-gt">Medida</div><div class="pp-fb2-ops dos" data-para="ppFb2Dim"></div></div><div class="pp-fb2-grupo"><div class="pp-fb2-gt">Espesor</div><div class="pp-fb2-ops tres" data-para="ppFb2Esp"></div></div><div class="pp-fb2-grupo"><div class="pp-fb2-gt">Color</div><div class="pp-fb2-ops" data-para="ppFb2Color"></div></div><div class="pp-fb2-grupo"><div class="pp-fb2-gt">Precio</div><div class="pp-fb2-ops" data-para="ppFb2Precio"></div></div></div>
+<div class="pp-fb2-res" id="ppFb2Res" aria-live="polite"></div>
 </div>
+<div class="pp-fb2-main">
+<div class="pp-fb2-vacio" id="ppFb2Vacio" hidden><p>No hay planchas con esa combinación.</p><button type="button" class="pp-fb2-limpiar" onclick="window._ppFilt.clearAll()">Limpiar filtros</button></div>
 <div class="pp-home-section" id="ppSectionAA">
 <div class="pp-home-section-head">
 <span class="pp-home-section-badge aa">AA</span>
@@ -4246,6 +4240,8 @@
 </div>
 </div>
 <button aria-label="Siguiente" class="pp-vitrine-nav next" onclick="ppVitrineScroll(1,'ppVitrinePA')">→</button>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -10359,155 +10355,227 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
   }
 }
 </style>
+<style>
+.pp-fb2{background:#fff;border:1px solid #dde4ef;border-radius:14px;padding:14px 16px;margin:0 0 22px;font-family:Inter,Arial,sans-serif;box-sizing:border-box;max-width:100%}
+.pp-fb2-titulo{font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#04213f;margin-bottom:10px}
+.pp-fb2-fila{display:grid;grid-template-columns:repeat(5,minmax(0,1fr)) auto;gap:10px;align-items:end}
+.pp-fb2-campo{display:flex;flex-direction:column;gap:4px;min-width:0;margin:0}
+.pp-fb2-paso{font-size:.72rem;font-weight:600;color:#5b6b80}
+.pp-fb2-sel{width:100%;height:42px;padding:0 30px 0 12px;border:1.5px solid #c9d3e2;border-radius:10px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23004a99' stroke-width='3'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 10px center;-webkit-appearance:none;appearance:none;font:600 .86rem Inter,Arial,sans-serif;color:#04213f;cursor:pointer;text-overflow:ellipsis}
+.pp-fb2-sel:focus-visible{outline:2px solid #00a0df;outline-offset:1px}
+.pp-fb2-sel.pp-fb2-on{border-color:#004a99;background-color:#eef3fc;color:#004a99}
+.pp-fb2-limpiar{height:42px;padding:0 14px;border:0;background:none;color:#004a99;font:600 .82rem Inter,Arial,sans-serif;text-decoration:underline;cursor:pointer;white-space:nowrap}
+.pp-fb2-limpiar[hidden]{display:none}
+.pp-fb2-res{font-size:.8rem;color:#5b6b80;margin-top:10px}
+.pp-fb2-res:empty{display:none}
+.pp-fb2-vacio{text-align:center;padding:36px 16px;border:1px dashed #c9d3e2;border-radius:14px;margin-bottom:22px;font-family:Inter,Arial,sans-serif;color:#04213f}
+.pp-fb2-vacio[hidden]{display:none}
+.pp-fb2-vacio p{margin:0 0 6px;font-weight:600}
+@media (max-width:900px){.pp-fb2-fila{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){
+  .pp-fb2{padding:12px;margin:0 8px 16px;border-radius:12px}
+  .pp-fb2-fila{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .pp-fb2-sel{height:44px;font-size:16px}
+  .pp-fb2-limpiar{justify-self:start;padding:0 4px}
+}
+
+/* Escritorio: filtros al costado, como en tinas */
+.pp-fb2-lado{display:none}
+.pp-fb2-main{min-width:0}
+@media (min-width:1000px){
+  .pp-fb2-layout{display:grid;grid-template-columns:260px minmax(0,1fr);gap:24px;align-items:start}
+  .pp-fb2{margin:0;padding:18px;border-radius:18px;position:sticky;top:156px;max-height:calc(100vh - 172px);overflow-y:auto}
+  .pp-fb2-fila{display:block}
+  .pp-fb2-campo{display:none}
+  .pp-fb2-lado{display:block}
+  .pp-fb2-grupo{padding:0 0 16px;margin:0 0 16px;border-bottom:1px solid #e6ebf3}
+  .pp-fb2-grupo:last-child{border:0;margin:0;padding:0}
+  .pp-fb2-gt{font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#5b6b80;margin-bottom:8px}
+  .pp-fb2-ops{display:grid;grid-template-columns:1fr;gap:8px}
+  .pp-fb2-ops.dos{grid-template-columns:1fr 1fr}
+  .pp-fb2-ops.tres{grid-template-columns:1fr 1fr 1fr}
+  .pp-fb2-op{min-height:42px;padding:8px 10px;border:1.5px solid #dde4ef;border-radius:10px;background:#fff;color:#04213f;font:600 .84rem Inter,Arial,sans-serif;text-align:left;cursor:pointer;line-height:1.2}
+  .pp-fb2-ops.dos .pp-fb2-op,.pp-fb2-ops.tres .pp-fb2-op{text-align:center;font-size:.8rem;padding:8px 4px}
+  .pp-fb2-op:hover{border-color:#004a99}
+  .pp-fb2-op.on{background:#004a99;border-color:#004a99;color:#fff}
+  .pp-fb2-op:focus-visible{outline:2px solid #00a0df;outline-offset:1px}
+  .pp-fb2-limpiar{padding:0;height:auto;margin-top:14px}
+  .pp-fb2-titulo{display:flex}
+}
+</style>
 <script>
-/* ── FILTROS MÓVIL ── */
+/* ── FILTROS PLANCHAS: Material → Medida → Espesor → Color → Precio ── */
 (function () {
-  var state = { color: null, espesor: null, retiraHoy: false };
-  var currentPanel = null;
-
-  var colorMeta = [
-    { key: 'clear',           label: 'Transparente',  bg: 'linear-gradient(135deg,#d4eaf7,#a8d4f0)', brd: '#78b8e0' },
-    { key: 'blanca',          label: 'Blanca',         bg: '#f0f0f0',                                  brd: '#c8c8c8' },
-    { key: 'negra',           label: 'Negra',           bg: '#1a1a1a',                                  brd: '#1a1a1a' },
-    { key: 'espejo_dorado',   label: 'Esp. Dorado',    bg: 'linear-gradient(135deg,#f5e070,#c8a010)', brd: '#c8a010' },
-    { key: 'espejo_plateado', label: 'Esp. Plateado',  bg: 'linear-gradient(135deg,#e8e8e8,#a0a8b0)', brd: '#8090a0' },
-    { key: 'fluor_verde',     label: 'Flúor Verde',    bg: '#39e014',                                  brd: '#22a800' },
-    { key: 'fluor_rojo',      label: 'Flúor Rojo',     bg: '#ff2040',                                  brd: '#cc0020' }
+  var state = { mat: '', dim: '', esp: '', color: '', precio: '' };
+  var RANGOS = [
+    { v: '0-50000',       l: 'Hasta $50.000',          a: 0,      b: 50000 },
+    { v: '50000-100000',  l: '$50.000 a $100.000',     a: 50000,  b: 100000 },
+    { v: '100000-200000', l: '$100.000 a $200.000',    a: 100000, b: 200000 },
+    { v: '200000-',       l: 'Más de $200.000',        a: 200000, b: Infinity }
   ];
+  var MAT = { AA: 'AA · Mix (más económica)', PA: 'PA · 100% virgen' };
+  var $ = function (id) { return document.getElementById(id); };
+  function cards() { return Array.prototype.slice.call(document.querySelectorAll('.pp-home-vitrine .pp-product-card')); }
+  function tipoDe(card) { return (typeof ppCardGetTipo === 'function') ? ppCardGetTipo(card) : (card.dataset.tipo || 'AA'); }
+  function oos(t, d, c, e) { return (typeof ppCardIsOos === 'function') ? ppCardIsOos(t, d, c, e) : false; }
+  function rango() { for (var i = 0; i < RANGOS.length; i++) if (RANGOS[i].v === state.precio) return RANGOS[i]; return null; }
 
-  function getCards() {
-    return Array.from(document.querySelectorAll('.pp-home-vitrine .pp-product-card'));
-  }
-
-  function applyFilters() {
-    var cards = getCards();
-    var visible = 0;
-    var active = state.color || state.espesor || state.retiraHoy;
-    cards.forEach(function (card) {
-      var show = true;
-      if (state.color && card.dataset.color !== state.color) show = false;
-      if (state.espesor) {
-        var esps = (card.dataset.espesores || '').split(',');
-        if (esps.indexOf(state.espesor) === -1) show = false;
-      }
-      if (state.retiraHoy && card.dataset.stockStatus === 'sin-stock') show = false;
-      card.style.display = show ? '' : 'none';
-      if (show) visible++;
+  // Todas las combinaciones medida+espesor de una card
+  function combos(card) {
+    var t = tipoDe(card), c = card.dataset.color, tp = (window._ppPrices || {})[t] || {}, out = [];
+    Object.keys(tp).forEach(function (d) {
+      if (/_pc|_pet|_petg/.test(d)) return;
+      var m = tp[d][c]; if (!m) return;
+      Object.keys(m).forEach(function (e) { out.push({ t: t, c: c, d: d, e: e, p: m[e], oos: oos(t, d, c, e) }); });
     });
-    syncUI();
-    updateEmpty(active && visible === 0);
+    return out;
   }
-
-  function syncUI() {
-    var count = (state.color ? 1 : 0) + (state.espesor ? 1 : 0) + (state.retiraHoy ? 1 : 0);
-    var badge = document.getElementById('ppFiltBadge');
-    if (badge) { badge.textContent = count; badge.hidden = count === 0; }
-
-    var found = colorMeta.filter(function (c) { return c.key === state.color; })[0];
-    var lblC = document.getElementById('ppFiltLblColor');
-    var btnC = document.getElementById('ppFiltBtnColor');
-    if (lblC) lblC.textContent = found ? found.label : 'Color';
-    if (btnC) btnC.classList.toggle('pp-filt-active', !!state.color);
-
-    var lblE = document.getElementById('ppFiltLblEsp');
-    var btnE = document.getElementById('ppFiltBtnEsp');
-    if (lblE) lblE.textContent = state.espesor || 'Espesor';
-    if (btnE) btnE.classList.toggle('pp-filt-active', !!state.espesor);
-
-    var btnR = document.getElementById('ppFiltBtnRetira');
-    if (btnR) btnR.classList.toggle('pp-filt-active', state.retiraHoy);
+  function pasa(x, omit) {
+    if (omit !== 'mat' && state.mat && x.t !== state.mat) return false;
+    if (omit !== 'dim' && state.dim && x.d !== state.dim) return false;
+    if (omit !== 'esp' && state.esp && x.e !== state.esp) return false;
+    if (omit !== 'color' && state.color && x.c !== state.color) return false;
+    if (omit !== 'precio') { var r = rango(); if (r && !(x.p >= r.a && x.p < r.b)) return false; }
+    return true;
   }
-
-  function openPanel(type) {
-    currentPanel = type;
-    var overlay = document.getElementById('ppFiltOverlay');
-    var sheet   = document.getElementById('ppFiltSheet');
-    var title   = document.getElementById('ppFiltSheetTitle');
-    var body    = document.getElementById('ppFiltSheetBody');
-    if (!overlay || !sheet) return;
-    if (title) title.textContent = type === 'color' ? 'Color' : 'Espesor';
-    if (body)  body.innerHTML    = type === 'color' ? buildColorHTML() : buildEspHTML();
-    overlay.classList.add('open');
-    requestAnimationFrame(function () { sheet.classList.add('open'); });
-    document.body.style.overflow = 'hidden';
+  function dimLabel(d) {
+    var m = (window._ppDimMeta || {})[d];
+    return ((m && m.label) || d).replace(/\s*cm/i, '').replace(/\s*[x×]\s*/g, ' × ') + ' cm';
   }
-
-  function closePanel() {
-    var overlay = document.getElementById('ppFiltOverlay');
-    var sheet   = document.getElementById('ppFiltSheet');
-    if (sheet) sheet.classList.remove('open');
-    setTimeout(function () {
-      if (overlay) overlay.classList.remove('open');
-    }, 280);
-    document.body.style.overflow = '';
-    currentPanel = null;
+  function colorLabel(c) {
+    var m = (window._ppColorMeta || {})[c];
+    return (m && m.label) || c;
   }
-
-  function buildColorHTML() {
-    var html = '<div class="pp-color-grid">';
-    colorMeta.forEach(function (c) {
-      var act = state.color === c.key ? ' pp-filt-active' : '';
-      html += '<button class="pp-color-opt' + act + '" onclick="window._ppFilt.selectColor(\'' + c.key + '\')">' +
-        '<span class="pp-color-dot" style="background:' + c.bg + ';border-color:' + c.brd + '"></span>' +
-        '<span class="pp-color-name">' + c.label + '</span>' +
-        '</button>';
-    });
-    return html + '</div>';
-  }
-
-  function buildEspHTML() {
-    var espSet = {};
-    getCards().forEach(function (card) {
-      (card.dataset.espesores || '').split(',').forEach(function (e) { if (e) espSet[e] = true; });
-    });
-    var order = ['0.75mm','1mm','2mm','3mm','4mm','5mm','6mm','8mm','10mm'];
-    var available = order.filter(function (e) { return espSet[e]; });
-    if (!available.length) available = ['2mm','3mm','4mm','5mm','6mm','8mm','10mm'];
-    var html = '<div class="pp-esp-chips">';
-    available.forEach(function (e) {
-      var act = state.espesor === e ? ' pp-filt-active' : '';
-      html += '<button class="pp-esp-chip' + act + '" onclick="window._ppFilt.selectEsp(\'' + e + '\')">' + e + '</button>';
-    });
-    return html + '</div>';
-  }
-
-  function updateEmpty(isEmpty) {
-    var sections = document.querySelectorAll('.pp-home-section');
-    var empty = document.getElementById('ppFiltEmpty');
-    if (isEmpty) {
-      if (!empty) {
-        empty = document.createElement('div');
-        empty.id = 'ppFiltEmpty';
-        empty.className = 'pp-filter-empty';
-        empty.innerHTML =
-          '<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' +
-          '<p>Sin productos con estos filtros</p>' +
-          '<button class="pp-filter-empty-btn" onclick="window._ppFilt.clearAll()">Limpiar filtros</button>';
-        if (sections[0]) sections[0].parentNode.insertBefore(empty, sections[0]);
-      }
-      if (empty) empty.style.display = '';
-      sections.forEach(function (s) { s.style.display = 'none'; });
-    } else {
-      if (empty) empty.style.display = 'none';
-      sections.forEach(function (s) { s.style.display = ''; });
+  function llenar(sel, primero, opts, val) {
+    var h = '<option value="">' + primero + '</option>';
+    opts.forEach(function (o) { h += '<option value="' + o.v + '"' + (o.v === val ? ' selected' : '') + '>' + o.l + '</option>'; });
+    sel.innerHTML = h; sel.value = val;
+    sel.classList.toggle('pp-fb2-on', !!val);
+    var caja = document.querySelector('.pp-fb2-ops[data-para="' + sel.id + '"]');
+    if (caja) {
+      var b = '';
+      opts.forEach(function (o) { b += '<button type="button" class="pp-fb2-op' + (o.v === val ? ' on' : '') + '" aria-pressed="' + (o.v === val) + '" data-v="' + o.v + '">' + o.l + '</button>'; });
+      caja.innerHTML = b;
     }
   }
 
+  // Cada lista muestra solo opciones que dan resultado con los demás filtros (sin callejones sin salida)
+  function opciones(all) {
+    function uniq(campo, omit) {
+      var set = {}; all.forEach(function (x) { if (pasa(x, omit)) set[x[campo]] = true; }); return set;
+    }
+    var sM = uniq('t', 'mat'), sD = uniq('d', 'dim'), sE = uniq('e', 'esp'), sC = uniq('c', 'color');
+    llenar($('ppFb2Mat'), 'Todos (AA y PA)', ['AA', 'PA'].map(function (k) { return { v: k, l: MAT[k] }; }), state.mat);
+    var dims = Object.keys(sD).sort(function (a, b) {
+      var pa = a.split('x').map(Number), pb = b.split('x').map(Number);
+      return (pa[0] * pa[1] || 0) - (pb[0] * pb[1] || 0);
+    });
+    llenar($('ppFb2Dim'), 'Todas las medidas', dims.map(function (d) { return { v: d, l: dimLabel(d) }; }), state.dim);
+    var orden = window._ppAllEsp || [];
+    var esps = Object.keys(sE).sort(function (a, b) {
+      var ia = orden.indexOf(a), ib = orden.indexOf(b);
+      return (ia < 0 || ib < 0) ? parseFloat(a) - parseFloat(b) : ia - ib;
+    });
+    llenar($('ppFb2Esp'), 'Todos los espesores', esps.map(function (e) { return { v: e, l: e.replace('mm', ' mm') }; }), state.esp);
+    llenar($('ppFb2Color'), 'Todos los colores', Object.keys(sC).map(function (c) { return { v: c, l: colorLabel(c) }; }), state.color);
+    var rs = RANGOS.filter(function (r) { return all.some(function (x) { return pasa(x, 'precio') && x.p >= r.a && x.p < r.b; }); });
+    llenar($('ppFb2Precio'), 'Todos los precios', rs.map(function (r) { return { v: r.v, l: r.l }; }), state.precio);
+  }
+
+  function fijarCombo(card, x) {
+    if (card.dataset.selectedDim === x.d && card.dataset.selectedEsp === x.e) return;
+    card.dataset.selectedDim = x.d; card.dataset.selectedEsp = x.e;
+    card.querySelectorAll('[data-dim]').forEach(function (s) { s.classList.toggle('pp-spec-active', s.dataset.dim === x.d); });
+    if (typeof ppCardRefreshEspOos === 'function') ppCardRefreshEspOos(card);
+    card.querySelectorAll('[data-esp]').forEach(function (s) { s.classList.toggle('pp-spec-active', s.dataset.esp === x.e); });
+    if (typeof ppCardUpdatePrice === 'function') ppCardUpdatePrice(card);
+  }
+
+  var aplicando = false;
+  function aplicar() {
+    if (!$('ppFb2')) return;
+    aplicando = true;
+    var cs = cards(), all = [], visibles = 0;
+    var porCard = cs.map(function (card) { var k = combos(card); all = all.concat(k); return k; });
+    var fino = !!(state.dim || state.esp || state.precio);
+    cs.forEach(function (card, i) {
+      var ok = porCard[i].filter(function (x) { return pasa(x); });
+      var sinDatos = !porCard[i].length;
+      var show = sinDatos ? (!state.dim && !state.esp && !state.precio &&
+                             (!state.mat || tipoDe(card) === state.mat) &&
+                             (!state.color || card.dataset.color === state.color))
+                          : ok.length > 0;
+      card.style.display = show ? '' : 'none';
+      if (!show) return;
+      visibles++;
+      if (fino && ok.length) {
+        var conStock = ok.filter(function (x) { return !x.oos; });
+        var lista = (conStock.length ? conStock : ok).slice().sort(function (a, b) { return a.p - b.p; });
+        fijarCombo(card, lista[0]);
+      }
+    });
+    document.querySelectorAll('.pp-home-section').forEach(function (sec) {
+      var alguna = Array.prototype.some.call(sec.querySelectorAll('.pp-product-card'), function (c) { return c.style.display !== 'none'; });
+      sec.style.display = alguna ? '' : 'none';
+    });
+    opciones(all);
+    var n = ['mat', 'dim', 'esp', 'color', 'precio'].filter(function (k) { return state[k]; }).length;
+    $('ppFb2Limpiar').hidden = n === 0;
+    $('ppFb2Vacio').hidden = !(n > 0 && visibles === 0);
+    $('ppFb2Res').textContent = n ? (visibles + (visibles === 1 ? ' plancha coincide' : ' planchas coinciden') +
+      (fino ? ' · cada tarjeta ya muestra el precio de tu selección' : '')) : '';
+    aplicando = false;
+  }
+
+  function cambiar(k, v) {
+    state[k] = v;
+    if (k === 'mat') {            // al cambiar de material, soltar lo que ese material no tiene
+      var all = []; cards().forEach(function (c) { all = all.concat(combos(c)); });
+      ['dim', 'esp', 'color', 'precio'].forEach(function (f) {
+        if (state[f] && !all.some(function (x) { return pasa(x); })) state[f] = '';
+      });
+    }
+    aplicar();
+    try { (window.dataLayer = window.dataLayer || []).push({ event: 'planchas_filtro', filtro: k, valor: v || 'todos',
+      material: state.mat || 'todos', medida: state.dim || 'todas', espesor: state.esp || 'todos', color: state.color || 'todos', precio: state.precio || 'todos' }); } catch (e) {}
+  }
+
+  function init() {
+    if (!$('ppFb2')) return;
+    [['ppFb2Mat', 'mat'], ['ppFb2Dim', 'dim'], ['ppFb2Esp', 'esp'], ['ppFb2Color', 'color'], ['ppFb2Precio', 'precio']].forEach(function (p) {
+      $(p[0]).addEventListener('change', function () { cambiar(p[1], this.value); });
+    });
+    var mapa = { ppFb2Mat: 'mat', ppFb2Dim: 'dim', ppFb2Esp: 'esp', ppFb2Color: 'color', ppFb2Precio: 'precio' };
+    $('ppFb2Lado').addEventListener('click', function (ev) {
+      var b = ev.target.closest('.pp-fb2-op'); if (!b) return;
+      var k = mapa[b.parentNode.dataset.para];
+      cambiar(k, state[k] === b.dataset.v ? '' : b.dataset.v);
+    });
+    $('ppFb2Limpiar').addEventListener('click', function () { window._ppFilt.clearAll(); });
+    // Reaplicar cuando llegan precios/stock actualizados
+    if (typeof window.updateCardSpecs === 'function' && !window.updateCardSpecs._fb2) {
+      var orig = window.updateCardSpecs, t = null;
+      window.updateCardSpecs = function () {
+        var r = orig.apply(this, arguments);
+        if (!aplicando) { clearTimeout(t); t = setTimeout(aplicar, 60); }
+        return r;
+      };
+      window.updateCardSpecs._fb2 = true;
+    }
+    aplicar();
+    setTimeout(aplicar, 1500);
+  }
+
   window._ppFilt = {
-    openPanel:    openPanel,
-    closePanel:   closePanel,
-    selectColor:  function (k) { state.color   = state.color   === k ? null : k; applyFilters(); closePanel(); },
-    selectEsp:    function (e) { state.espesor = state.espesor === e ? null : e; applyFilters(); closePanel(); },
-    toggle:       function (k) { state[k] = !state[k]; applyFilters(); },
-    clearCurrent: function ()  {
-      if (currentPanel === 'color') state.color   = null;
-      if (currentPanel === 'esp')   state.espesor = null;
-      applyFilters(); closePanel();
-    },
-    clearAll:     function ()  { state = { color: null, espesor: null, retiraHoy: false }; applyFilters(); }
+    clearAll: function () { state = { mat: '', dim: '', esp: '', color: '', precio: '' }; aplicar(); },
+    set: cambiar, state: function () { return state; },
+    openPanel: function () {}, closePanel: function () {}, clearCurrent: function () {},
+    selectColor: function (c) { cambiar('color', c); }, selectEsp: function (e) { cambiar('esp', e); }, toggle: function () {}
   };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+
 <script>
 (function(){
   var _r='PP-'+Math.random().toString(36).slice(2,7).toUpperCase();
