@@ -368,3 +368,37 @@ a.pp-ficha-link::after {
   text-decoration: underline;
 }
 a.pp-ficha-link:hover, a.pp-ficha-link:focus-visible { text-decoration: underline; }
+
+/* Coherencia visual entre páginas ---------------------------------------- */
+/* Un mismo botón de compra en todo el sitio: naranja y redondeado */
+body .pp-btn-buy:not([disabled]), body .pp-cupola-btn-buy:not([disabled]), body .pp-recep-btn-buy:not([disabled]),
+body .pp-tina-btn-buy:not([disabled]), body .bn-btn, body .tv-btn-pri:not([disabled]),
+body .pp-cart-drawer-checkout:not([disabled]), body .pp-cup-drawer-checkout:not([disabled]), body .pp-recep-drawer-checkout:not([disabled]) {
+  background: #ff8a1f !important; border-color: #ff8a1f !important; color: #fff !important; border-radius: 999px !important;
+}
+body .pp-btn-buy:not([disabled]):hover, body .pp-cupola-btn-buy:not([disabled]):hover, body .pp-recep-btn-buy:not([disabled]):hover,
+body .pp-tina-btn-buy:not([disabled]):hover, body .bn-btn:hover, body .tv-btn-pri:not([disabled]):hover,
+body .pp-cart-drawer-checkout:not([disabled]):hover, body .pp-cup-drawer-checkout:not([disabled]):hover, body .pp-recep-drawer-checkout:not([disabled]):hover {
+  background: #f07400 !important; border-color: #f07400 !important;
+}
+body .pp-btn-buy[disabled], body .pp-cupola-btn-buy[disabled], body .pp-recep-btn-buy[disabled], body .pp-tina-btn-buy[disabled] { border-radius: 999px !important; }
+/* Una misma tarjeta de producto: borde suave y esquinas de 16px */
+body .pp-product-card, body .pp-cupola-card, body .pp-recep-card, body .pp-tina-card, body .tv-card, body .bn-card {
+  border: 1px solid var(--pp-blue-100) !important; border-radius: 16px !important; overflow: hidden;
+}
+/* Botones secundarios y de los pasos de compra con la misma forma */
+body .pp-cupola-btn-detail, body .pp-recep-btn-detail, body .pp-tina-btn-detail {
+  border-radius: 999px !important; border: 1.5px solid var(--pp-blue-100) !important; background: #fff !important; color: var(--pp-blue) !important;
+}
+body .pp-cupola-btn-detail:hover, body .pp-recep-btn-detail:hover, body .pp-tina-btn-detail:hover { border-color: var(--pp-blue) !important; }
+body .pp-detail-btn-buy, body .pp-qty-btn-checkout, body .pp-qty-btn-more, body .pp-cup-btn-next, body .pp-recep-btn-next,
+body .pp-cup-btn-back, body .pp-recep-btn-back, body .pp-cup-btn-webpay, body .pp-recep-btn-webpay, body .pp-upsell-btn-yes, body .pp-upsell-btn-no { border-radius: 999px !important; }
+body .pp-detail-btn-buy:not([disabled]), body .pp-qty-btn-checkout:not([disabled]), body .pp-cup-btn-next:not([disabled]), body .pp-recep-btn-next:not([disabled]) {
+  background: #ff8a1f !important; border-color: #ff8a1f !important; color: #fff !important;
+}
+body .pp-detail-btn-buy:not([disabled]):hover, body .pp-qty-btn-checkout:not([disabled]):hover, body .pp-cup-btn-next:not([disabled]):hover, body .pp-recep-btn-next:not([disabled]):hover { background: #f07400 !important; border-color: #f07400 !important; }
+/* Ventana de cantidad: mismos botones en cúpulas, receptáculos, tinas y cascos */
+body [class*="-qty-btn-checkout"], body .pp-qty-btn-checkout { background: #ff8a1f !important; border-color: #ff8a1f !important; color: #fff !important; border-radius: 999px !important; }
+body [class*="-qty-btn-checkout"]:hover, body .pp-qty-btn-checkout:hover { background: #f07400 !important; border-color: #f07400 !important; }
+body [class*="-qty-btn-more"], body .pp-qty-btn-more { background: #fff !important; border: 1.5px solid var(--pp-blue) !important; color: var(--pp-blue) !important; border-radius: 999px !important; }
+body [class*="-qty-close"], body .pp-qty-close { border-radius: 999px !important; }
