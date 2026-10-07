@@ -1544,6 +1544,122 @@ html,body{overflow-x:clip}
   #tv .tv-card{flex:0 0 82%}
 }
 
+/* ══ Tema a tono con el sitio Polyplas (misma paleta, botones y radios que la cabecera y las fichas) ══ */
+#tv{--azul:#004a99;--azul-osc:#003366;--azul-900:#04213f;--azul-suave:#eef3fc;--azul-100:#dde4ef;--cian:#00a0df;--naranja:#ff8a1f;--linea:#e2e8f0;--tinta:#1a1a2e;--gris:#5b6475;--titulo:#0b2a4a;--fondo:#f6f9fe;--sombra:0 1px 2px rgba(4,33,63,.06),0 8px 24px rgba(4,33,63,.08);color:var(--tinta)}
+#tv .tv-wrap,#tv .tv-hero .tv-wrap{max-width:1320px}
+#tv .tv-faq{max-width:860px}
+#tv section{padding:56px 0}
+#tv .tv-gris{background:var(--fondo)}
+#tv h2,#tv h3{color:var(--titulo)}
+#tv :focus-visible{outline:3px solid var(--cian);outline-offset:2px}
+
+/* Encabezado */
+#tv .tv-hero{background:linear-gradient(110deg,var(--azul-900) 0%,var(--azul-osc) 45%,var(--azul) 100%);padding:0 0 30px;border-bottom:0;position:relative;overflow:hidden}
+#tv .tv-hero::after{content:"";position:absolute;right:-120px;top:-140px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(0,160,223,.28),rgba(0,160,223,0) 70%);pointer-events:none}
+#tv .tv-hero .tv-wrap{position:relative;z-index:1}
+#tv .tv-hero-topbar{border-bottom:1px solid rgba(255,255,255,.12);margin-bottom:22px;padding:12px 0}
+#tv .tv-hero-nav{gap:8px}
+#tv .tv-hero-nav a{color:#dbe7f7;font-size:.86rem;padding:6px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.18);transition:background-color .15s,border-color .15s}
+#tv .tv-hero-nav a:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.4);color:#fff}
+#tv .tv-hero-kicker{color:#7fd3f5;font-size:.72rem;letter-spacing:.14em;margin-bottom:10px}
+#tv .tv-hero h1{font-size:clamp(1.7rem,3.2vw,2.6rem);margin:0 0 10px;letter-spacing:-.02em;color:#fff}
+#tv .tv-hero-rating{font-size:.9rem;color:#dbe7f7;margin-bottom:10px}
+#tv .tv-hero-rating .tv-estrellas{color:#ffc93c}
+#tv .tv-lead{font-size:1.02rem;color:#dbe7f7;max-width:640px}
+
+/* Títulos de sección */
+#tv .tv-kicker{color:var(--azul);display:inline-flex;align-items:center;gap:8px}
+#tv .tv-kicker::before{content:"";width:22px;height:3px;border-radius:2px;background:var(--cian)}
+#tv .tv-head h2{margin:10px 0 8px}
+
+/* Botones (misma forma que los de la cabecera del sitio) */
+#tv .tv-btn{border-radius:999px;transition:background-color .15s,border-color .15s,box-shadow .15s,transform .15s}
+#tv .tv-btn-sec{background:#fff;color:var(--azul);border-color:var(--azul-100)}
+#tv .tv-btn-sec:hover{border-color:var(--azul);background:var(--azul-suave)}
+#tv .tv-btn-pri{background:var(--azul);box-shadow:0 4px 14px rgba(0,74,153,.25)}
+#tv .tv-btn-pri:hover{background:var(--azul-osc)}
+#tv a.tv-link{color:var(--azul)}
+#tv a.tv-link:hover{color:var(--cian)}
+/* Comprar: el naranja de compra que ya usa el sitio y la ventana del carrito */
+#tv .tv-card .pp-tina-btn-buy{background:var(--naranja);color:#231300;border-radius:10px;box-shadow:0 4px 14px rgba(255,138,31,.28);letter-spacing:.06em;font-weight:800}
+#tv .tv-card .pp-tina-btn-buy:hover{background:#ff7a00;transform:translateY(-1px)}
+#tv .tv-card .pp-tina-btn-buy:disabled{background:#c5cbd6;color:#4a5263;box-shadow:none;transform:none}
+
+/* Filtros */
+#tv .tv-filtros{border:1px solid var(--azul-100);border-radius:16px;box-shadow:var(--sombra)}
+#tv .tv-filtros .tv-q h3{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gris);font-weight:700}
+#tv .tv-op{border-color:var(--azul-100);border-radius:10px;transition:border-color .15s,background-color .15s}
+#tv .tv-op:hover:not(:disabled){border-color:var(--azul);background:var(--azul-suave)}
+#tv .tv-op[aria-pressed="true"]{border-color:var(--azul);background:var(--azul);color:#fff;box-shadow:none}
+#tv .tv-op[aria-pressed="true"] small{color:rgba(255,255,255,.8)}
+#tv .tv-region select,#tv .tv-ordenar-wrap select{border-color:var(--azul-100);border-radius:10px;color:var(--tinta);background-color:#fff}
+#tv .tv-btn-filtros{border-radius:999px}
+
+/* Tarjetas */
+#tv .tv-card{border:1px solid var(--azul-100);border-radius:14px;box-shadow:none;transition:box-shadow .2s,transform .2s,border-color .2s}
+#tv .tv-card:hover{box-shadow:0 12px 28px rgba(4,33,63,.12);transform:translateY(-2px);border-color:#c6d3e6}
+#tv .tv-foto{background:#eef2f8}
+#tv .tv-cuerpo h3 a.tv-nombre{color:var(--titulo)}
+#tv .tv-precio{color:var(--titulo)}
+#tv .tv-tag-ahorro{background:#d92d20}
+#tv .tv-ahorro b{color:#d92d20}
+#tv .tv-garantia{color:#1b7a43}
+#tv .tv-cuotas{background:var(--azul-suave);border-radius:10px;padding:10px 12px}
+#tv .tv-envio{color:#1b7a43}
+#tv .tv-btn-video{background:rgba(4,33,63,.85)}
+
+/* Comparación */
+#tv .tv-comp{border:1px solid var(--azul-100);border-radius:14px;box-shadow:var(--sombra)}
+#tv .tv-comp thead th{background:var(--azul-900);color:#dbe7f7}
+#tv .tv-comp th,#tv .tv-comp td{border-bottom:1px solid var(--linea)}
+#tv .tv-comp tbody tr:hover{background:var(--azul-suave)}
+#tv .tv-comp tr.tv-k{background:var(--azul-suave)}
+#tv .tv-comp td.tv-p{color:var(--titulo)}
+
+/* Medidas y qué incluye */
+#tv .tv-panel{border:1px solid var(--azul-100);border-radius:14px;box-shadow:none}
+#tv .tv-tab{border-color:var(--azul-100)}
+#tv .tv-tab:hover{border-color:var(--azul)}
+#tv .tv-tab[aria-pressed="true"]{background:var(--azul);border-color:var(--azul)}
+#tv .tv-lista svg{color:#1b7a43}
+#tv .tv-btn-yt{border-radius:999px}
+
+/* Respaldo */
+#tv .tv-puntaje{background:linear-gradient(135deg,var(--azul-900),var(--azul));border-radius:14px}
+#tv .tv-res-uno,#tv .tv-tienda,#tv .tv-garantias>div{border:1px solid var(--azul-100);border-radius:14px}
+#tv .tv-garantias svg{flex:0 0 38px;width:38px;height:38px;padding:8px;border-radius:10px;background:var(--azul-suave);color:var(--azul);box-sizing:border-box}
+#tv .tv-garantias b{color:var(--titulo)}
+
+/* Preguntas */
+#tv .tv-faq details{border:1px solid var(--azul-100);border-radius:12px;background:#fff;margin-bottom:10px;padding:0 18px}
+#tv .tv-faq details[open]{border-color:var(--azul);box-shadow:var(--sombra)}
+#tv .tv-faq summary{padding:16px 0;color:var(--titulo)}
+#tv .tv-faq summary::after{border-color:var(--azul)}
+#tv .tv-guias a{color:var(--azul)}
+#tv .tv-guias a:hover{color:var(--cian)}
+
+/* Sin espacio en blanco entre las migas de pan y el encabezado */
+.elementor-2419 .poly-breadcrumbs{margin-bottom:0}
+.elementor-2419 .elementor-top-section:has(.elementor-widget-wrap:empty),.elementor-2419 .elementor-widget:has(>.elementor-widget-container:empty){display:none}
+
+@media (max-width:980px){
+  #tv .tv-op[aria-pressed="true"]{background:var(--azul)}
+}
+@media (max-width:720px){
+  #tv section{padding:40px 0}
+  #tv .tv-hero{padding:20px 0 24px}
+  #tv .tv-hero h1{font-size:1.6rem}
+  #tv .tv-comp{border:0;box-shadow:none}
+  #tv .tv-comp tr{border:1px solid var(--azul-100)}
+  #tv .tv-comp tr.tv-k{border:1.5px solid var(--azul)}
+  #tv .tv-card:hover{transform:none}
+}
+.elementor-2419>section:not(:has(.elementor-widget-container:not(:empty))){display:none}
+.elementor-2419 .elementor-widget:has(#tv){margin:0}
+#tv .tv-filtros .tv-q h3{font-size:.78rem!important;letter-spacing:.1em;text-transform:uppercase!important;line-height:1.3;margin:0 0 10px}
+#tv .tv-cuerpo h3{font-size:1.2rem!important;line-height:1.2;margin:0}
+#tv .tv-panel h3{font-size:1.1rem!important;line-height:1.25}
+
 </style>
 <div id="tv">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -1848,17 +1964,6 @@ html,body{overflow-x:clip}
 <details><summary>¿Cómo se realiza el mantenimiento de los jets?</summary><p>El mantenimiento es sencillo: se recomienda hacer circular agua con un desinfectante suave una vez al mes para limpiar las tuberías internas. El metacrilato sanitizado evita la acumulación de hongos y bacterias en la superficie.</p></details>
 <details><summary>¿Qué pasa si algo falla después de la compra?</summary><p>Cada tina se entrega probada y tiene 1 año de garantía. Si un accesorio no funciona, enviamos el repuesto sin costo. No contamos con servicio técnico a domicilio.</p></details>
 <p class="tv-guias">Para decidir con calma: <a href="/jacuzzi-tina-de-hidromasaje-transforma-tu-bano/">¿jacuzzi para baño o tina de hidromasaje?</a> · <a href="/elegir-tina-hidromasaje/">medidas de tinas de hidromasaje y cómo elegir</a> · <a href="/guia-para-comprar-tina-de-hidromasaje-en-chile/">guía de compra de tinas de hidromasaje</a>.</p>
-</div>
-</section>
-
-<section class="tv-cierre">
-<div class="tv-wrap">
-<h2>¿Todavía no sabes cuál elegir?</h2>
-<p>Cuéntanos las medidas de tu baño y te ayudamos a decidir, sin compromiso.</p>
-<div class="tv-cta">
-<a class="tv-btn tv-btn-wa" data-tv-asesor="cierre" href="https://wa.me/56942086751?text=Hola%20Polyplas%2C%20necesito%20ayuda%20para%20elegir%20una%20tina%20de%20hidromasaje" target="_blank" rel="noopener noreferrer"><svg class="tv-i"><use href="#tv-chat"/></svg>Hablar con un asesor</a>
-<a class="tv-btn tv-btn-sec" href="#modelos">Ver modelos y precios</a>
-</div>
 </div>
 </section>
 </div>
