@@ -4,36 +4,36 @@
 <nav class="bn-migas" aria-label="Estás aquí"><a href="/">Inicio</a><span aria-hidden="true">›</span><span aria-current="page">Baños</span></nav>
 <span class="bn-kicker">Línea de baño</span>
 <h1>Baños: tinas, receptáculos, columnas y mamparas de ducha</h1>
-<p class="bn-lead">Todo para renovar tu baño en un solo lugar. Filtra por tipo de producto o por precio y entra a la ficha para comprar con Webpay.</p>
+<p class="bn-lead">Todo para renovar tu baño en un solo lugar. Elige una categoría y entra a la ficha para comprar con Webpay.</p>
 </div>
 </div>
 
 <section class="bn-catalogo" id="productos" aria-label="Productos para baño">
-<div class="pp-container bn-layout">
-<aside class="bn-filtros" aria-label="Filtros">
-<div class="bn-q">
-<h2>Tipo de producto</h2>
-<div class="bn-ops">
-<button class="bn-op" type="button" data-f="tipo" data-v="tinas" aria-pressed="false">Tinas de hidromasaje<span class="bn-n">5</span></button>
-<button class="bn-op" type="button" data-f="tipo" data-v="cascos" aria-pressed="false">Cascos de tinas<span class="bn-n">2</span></button>
-<button class="bn-op" type="button" data-f="tipo" data-v="receptaculos" aria-pressed="false">Receptáculos de ducha<span class="bn-n">3</span></button>
-<button class="bn-op" type="button" data-f="tipo" data-v="columnas" aria-pressed="false">Columnas de ducha<span class="bn-n">1</span></button>
-<button class="bn-op" type="button" data-f="tipo" data-v="mamparas" aria-pressed="false">Mamparas de ducha<span class="bn-n">1</span></button>
+<div class="pp-container">
+<div class="bn-burbujas-wrap">
+<button type="button" class="bn-flecha bn-flecha--izq" id="bn-izq" aria-label="Ver categorías anteriores" hidden>‹</button>
+<div class="bn-burbujas" id="bn-burbujas" role="group" aria-label="Filtrar por tipo de producto">
+<button class="bn-burbuja" type="button" data-v="" aria-pressed="true"><span class="bn-burbuja__img"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span><span class="bn-burbuja__txt">Todo baños</span></button>
+<button class="bn-burbuja" type="button" data-v="tinas" aria-pressed="false"><span class="bn-burbuja__img"><img src="/wp-content/uploads/2026/08/kuyenfull-480w.webp" alt="" width="480" height="531" loading="eager" decoding="async"></span><span class="bn-burbuja__txt">Tinas de hidromasaje</span></button>
+<button class="bn-burbuja" type="button" data-v="cascos" aria-pressed="false"><span class="bn-burbuja__img"><img src="/wp-content/uploads/2026/10/casco-tina-queilen.webp" alt="" width="1200" height="670" loading="eager" decoding="async"></span><span class="bn-burbuja__txt">Cascos de tinas</span></button>
+<button class="bn-burbuja" type="button" data-v="receptaculos" aria-pressed="false"><span class="bn-burbuja__img"><img src="/wp-content/uploads/2025/02/CCB16685-7F31-4E4C-9C4D-36582D221238.jpg" alt="" width="1599" height="1066" loading="eager" decoding="async"></span><span class="bn-burbuja__txt">Receptáculos de ducha</span></button>
+<button class="bn-burbuja" type="button" data-v="columnas" aria-pressed="false"><span class="bn-burbuja__img"><img src="/wp-content/uploads/2026/10/columna-ducha-acero-inoxidable-600.webp" alt="" width="600" height="600" loading="eager" decoding="async"></span><span class="bn-burbuja__txt">Columnas de ducha</span></button>
+<button class="bn-burbuja" type="button" data-v="mamparas" aria-pressed="false"><span class="bn-burbuja__img"><img src="/wp-content/uploads/2026/10/mampara-ducha-vidrio-receptaculo-600.webp" alt="" width="600" height="725" loading="eager" decoding="async"></span><span class="bn-burbuja__txt">Mamparas de ducha</span></button>
 </div>
+<button type="button" class="bn-flecha bn-flecha--der" id="bn-der" aria-label="Ver más categorías" hidden>›</button>
 </div>
-<div class="bn-q">
-<h2>Precio</h2>
-<div class="bn-ops">
-<button class="bn-op" type="button" data-f="precio" data-v="bajo" aria-pressed="false">Hasta $150.000</button>
-<button class="bn-op" type="button" data-f="precio" data-v="medio" aria-pressed="false">$150.000 a $500.000</button>
-<button class="bn-op" type="button" data-f="precio" data-v="alto" aria-pressed="false">Más de $500.000</button>
-</div>
-</div>
-<button class="bn-limpiar" id="bn-limpiar" type="button" hidden>Quitar filtros</button>
-</aside>
 <div class="bn-main">
 <div class="bn-barra">
 <p id="bn-conteo" class="bn-conteo" aria-live="polite">12 productos</p>
+<div class="bn-selects">
+<label class="bn-orden">Precio
+<select id="bn-precio">
+<option value="">Todos</option>
+<option value="bajo">Hasta $150.000</option>
+<option value="medio">$150.000 a $500.000</option>
+<option value="alto">Más de $500.000</option>
+</select>
+</label>
 <label class="bn-orden">Ordenar por
 <select id="bn-orden">
 <option value="destacados">Destacados</option>
@@ -41,6 +41,7 @@
 <option value="mayor">Precio: mayor a menor</option>
 </select>
 </label>
+</div>
 </div>
 <div class="bn-grid" id="bn-grid">
 <article class="bn-card" data-id="TINA_kuyen" data-tipo="tinas" data-precio="979990" data-antes="1399990" data-sb="TINAS|kuyen" data-orden="0"><a class="bn-foto" href="/tina-hidromasaje-kuyen-full/" tabindex="-1" aria-hidden="true"><img src="/wp-content/uploads/2026/08/kuyenfull.webp" srcset="/wp-content/uploads/2026/08/kuyenfull-480w.webp 480w, /wp-content/uploads/2026/08/kuyenfull-720w.webp 720w, /wp-content/uploads/2026/08/kuyenfull.webp 900w" sizes="(max-width: 640px) 92vw, (max-width: 1000px) 45vw, 300px" alt="Tina Kuyen Full - Polyplas" width="900" height="995" loading="eager" fetchpriority="high" decoding="async"><span class="bn-off">-30%</span></a><div class="bn-cuerpo"><span class="bn-tipo">Tina de hidromasaje</span><h3><a href="/tina-hidromasaje-kuyen-full/">Tina Kuyen Full</a></h3><p class="bn-specs">2 personas · 183×120×65 cm · 10 jets + 12 blowers</p><p class="bn-precio"><strong>$979.990</strong> <small>c/IVA</small><s>$1.399.990</s></p><p class="bn-stock" hidden>Sin stock por ahora</p><a class="bn-btn" href="/tina-hidromasaje-kuyen-full/" aria-label="Ver Tina Kuyen Full">Ver producto</a></div></article>
@@ -96,25 +97,29 @@
 #bn .bn-lead{font-size:1.02rem;color:#dbe7f7;max-width:640px}
 
 #bn .bn-catalogo{background:var(--fondo);padding:36px 0 56px;scroll-margin-top:150px}
-#bn .bn-layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:28px;align-items:start}
-#bn .bn-filtros{background:#fff;border:1px solid var(--azul-100);border-radius:16px;padding:22px;position:sticky;top:156px;display:flex;flex-direction:column;gap:22px;box-shadow:0 1px 2px rgba(4,33,63,.06),0 8px 24px rgba(4,33,63,.08)}
-#bn .bn-q h2{font-size:.78rem!important;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gris);margin-bottom:10px}
-#bn .bn-q+.bn-q{padding-top:20px;border-top:1px solid #e2e8f0}
-#bn .bn-ops{display:grid;gap:8px}
-#bn .bn-op{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:46px;padding:10px 14px;border:1.5px solid var(--azul-100);border-radius:10px;background:#fff;color:var(--tinta);font-size:.93rem;font-weight:600;text-align:left;cursor:pointer;transition:border-color .15s,background-color .15s;height:auto;line-height:1.3}
-#bn .bn-op:hover{border-color:var(--azul);background:var(--azul-suave)}
-#bn .bn-op[aria-pressed="true"]{background:var(--azul);border-color:var(--azul);color:#fff}
-#bn .bn-n{font-size:.78rem;font-weight:600;color:var(--gris);background:var(--azul-suave);border-radius:999px;padding:2px 8px;min-width:26px;text-align:center}
-#bn .bn-op[aria-pressed="true"] .bn-n{background:rgba(255,255,255,.2);color:#fff}
-#bn .bn-limpiar{background:none;border:0;padding:0;color:var(--azul);font-size:.9rem;font-weight:600;text-decoration:underline;text-underline-offset:3px;cursor:pointer;align-self:flex-start;height:auto;width:auto}
-#bn .bn-limpiar[hidden]{display:none}
+#bn .bn-burbujas-wrap{position:relative;margin-bottom:26px}
+#bn .bn-burbujas{display:flex;gap:22px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;padding:6px 2px 8px;justify-content:safe center}
+#bn .bn-burbujas::-webkit-scrollbar{display:none}
+#bn .bn-burbuja{flex:none;width:132px;display:flex;flex-direction:column;align-items:center;gap:10px;padding:0;border:0;background:none;cursor:pointer;scroll-snap-align:start;color:var(--tinta);height:auto}
+#bn .bn-burbuja__img{width:116px;height:116px;border-radius:50%;background:#fff;border:2px solid transparent;box-shadow:0 2px 10px rgba(4,33,63,.10);overflow:hidden;display:grid;place-items:center;transition:border-color .15s,box-shadow .15s,transform .15s}
+#bn .bn-burbuja__img img{width:100%;height:100%;object-fit:cover;display:block}
+#bn .bn-burbuja__img svg{width:44px;height:44px;stroke:var(--azul);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+#bn .bn-burbuja__txt{font-size:.9rem;font-weight:600;line-height:1.25;text-align:center}
+#bn .bn-burbuja:hover .bn-burbuja__img{border-color:var(--azul-100);box-shadow:0 8px 20px rgba(4,33,63,.16);transform:translateY(-2px)}
+#bn .bn-burbuja[aria-pressed="true"] .bn-burbuja__img{border-color:var(--azul);box-shadow:0 0 0 3px rgba(0,74,153,.15),0 6px 16px rgba(4,33,63,.14)}
+#bn .bn-burbuja[aria-pressed="true"] .bn-burbuja__txt{color:var(--azul);font-weight:700}
+#bn .bn-flecha{position:absolute;top:44px;z-index:2;width:40px;height:40px;border-radius:10px;border:1px solid var(--azul-100);background:#fff;color:var(--azul);font-size:24px;line-height:1;cursor:pointer;box-shadow:0 4px 12px rgba(4,33,63,.14);display:grid;place-items:center;padding:0 0 3px}
+#bn .bn-flecha[hidden]{display:none}
+#bn .bn-flecha--izq{left:-8px}
+#bn .bn-flecha--der{right:-8px}
+#bn .bn-selects{display:flex;flex-wrap:wrap;gap:10px 18px}
 
 #bn .bn-barra{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
 #bn .bn-conteo{font-size:.92rem;font-weight:600;color:var(--gris)}
 #bn .bn-orden{display:flex;align-items:center;gap:8px;font-size:.9rem;color:var(--gris);font-weight:400}
 #bn .bn-orden select{font-size:.9rem;font-weight:600;color:var(--tinta);border:1.5px solid var(--azul-100);border-radius:10px;padding:8px 10px;background:#fff;min-height:40px;cursor:pointer;height:auto;width:auto}
 
-#bn .bn-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+#bn .bn-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
 #bn .bn-card{background:#fff;border:1px solid var(--azul-100);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s,border-color .2s}
 #bn .bn-card:hover{box-shadow:0 12px 28px rgba(4,33,63,.12);transform:translateY(-2px);border-color:#c6d3e6}
 #bn .bn-card[hidden]{display:none}
@@ -152,17 +157,22 @@
 #bn .bn-guias{font-size:.93rem;color:var(--gris)}
 #bn .bn-guias a{color:var(--azul)}
 
+@media (max-width:1100px){
+  #bn .bn-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
 @media (max-width:1000px){
-  #bn .bn-layout{grid-template-columns:minmax(0,1fr);gap:18px}
-  #bn .bn-filtros{position:static;padding:16px;gap:14px;box-shadow:none}
-  #bn .bn-q+.bn-q{padding-top:14px}
-  #bn .bn-ops{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;margin:0 -16px;padding:0 16px 4px;scrollbar-width:none}
-  #bn .bn-ops::-webkit-scrollbar{display:none}
-  #bn .bn-op{width:auto;flex:none;white-space:nowrap;border-radius:999px;min-height:42px}
+  #bn .bn-burbujas{justify-content:flex-start;gap:14px;margin:0 -16px;padding:6px 16px 8px}
   #bn .bn-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
   #bn .bn-ventajas{grid-template-columns:1fr 1fr}
+  #bn .bn-flecha{display:none}
 }
 @media (max-width:560px){
+  #bn .bn-burbuja{width:92px;gap:8px}
+  #bn .bn-burbuja__img{width:84px;height:84px}
+  #bn .bn-burbuja__txt{font-size:.8rem}
+  #bn .bn-selects{width:100%}
+  #bn .bn-orden{flex:1;flex-direction:column;align-items:flex-start;gap:4px}
+  #bn .bn-orden select{width:100%}
   #bn .bn-hero{padding:14px 0 26px}
   #bn .bn-catalogo{padding:20px 0 40px}
   #bn .bn-grid{gap:10px}
@@ -205,11 +215,11 @@
     });
     document.getElementById('bn-conteo').textContent = n + (n === 1 ? ' producto' : ' productos');
     document.getElementById('bn-vacio').hidden = n > 0;
-    document.getElementById('bn-limpiar').hidden = !(tipos.length || F.precio);
-    [].forEach.call(root.querySelectorAll('.bn-op'), function (b) {
-      var f = b.getAttribute('data-f'), v = b.getAttribute('data-v');
-      b.setAttribute('aria-pressed', (f === 'tipo' ? !!F.tipo[v] : F.precio === v) ? 'true' : 'false');
+    [].forEach.call(root.querySelectorAll('.bn-burbuja'), function (b) {
+      var v = b.getAttribute('data-v');
+      b.setAttribute('aria-pressed', (v ? !!F.tipo[v] : !tipos.length) ? 'true' : 'false');
     });
+    document.getElementById('bn-precio').value = F.precio;
   }
   function ordenar() {
     var o = document.getElementById('bn-orden').value;
@@ -221,25 +231,38 @@
   }
   function limpiar() { F = { tipo: {}, precio: '' }; aplicar(); track('banos_filtro', { filtro: 'todos', valor: '(quitar)' }); }
 
-  [].forEach.call(root.querySelectorAll('.bn-op'), function (b) {
+  // Burbujas: una categoría a la vez; "Todo" quita el filtro
+  [].forEach.call(root.querySelectorAll('.bn-burbuja'), function (b) {
     b.addEventListener('click', function () {
-      var f = b.getAttribute('data-f'), v = b.getAttribute('data-v'), activo;
-      if (f === 'tipo') { F.tipo[v] = !F.tipo[v]; activo = F.tipo[v]; }
-      else { F.precio = F.precio === v ? '' : v; activo = F.precio === v; }
+      var v = b.getAttribute('data-v'), ya = v && F.tipo[v];
+      F.tipo = {};
+      if (v && !ya) F.tipo[v] = true;
       aplicar();
-      track('banos_filtro', { filtro: f, valor: activo ? v : '(quitar)' });
+      track('banos_filtro', { filtro: 'tipo', valor: (v && !ya) ? v : '(todos)' });
     });
   });
-  document.getElementById('bn-limpiar').addEventListener('click', limpiar);
+  document.getElementById('bn-precio').addEventListener('change', function () { F.precio = this.value; aplicar(); track('banos_filtro', { filtro: 'precio', valor: this.value || '(todos)' }); });
   document.getElementById('bn-limpiar2').addEventListener('click', limpiar);
   document.getElementById('bn-orden').addEventListener('change', function () { ordenar(); track('banos_orden', { orden: this.value }); });
+
+  // Flechas del carrusel de categorías (solo aparecen si no caben todas)
+  (function () {
+    var fila = document.getElementById('bn-burbujas'), izq = document.getElementById('bn-izq'), der = document.getElementById('bn-der');
+    function ver() {
+      var max = fila.scrollWidth - fila.clientWidth;
+      izq.hidden = fila.scrollLeft <= 4; der.hidden = max <= 4 || fila.scrollLeft >= max - 4;
+    }
+    izq.addEventListener('click', function () { fila.scrollBy({ left: -320, behavior: 'smooth' }); });
+    der.addEventListener('click', function () { fila.scrollBy({ left: 320, behavior: 'smooth' }); });
+    fila.addEventListener('scroll', ver, { passive: true }); window.addEventListener('resize', ver); ver();
+  })();
 
   // Enlace directo a un tipo: /categoria-producto/banos/#tipo=receptaculos
   function desdeHash() {
     var m = /(?:^#|&)tipo=([a-z,]+)/.exec(window.location.hash);
     if (!m) return;
     F.tipo = {};
-    m[1].split(',').forEach(function (t) { if (root.querySelector('.bn-op[data-f="tipo"][data-v="' + t + '"]')) F.tipo[t] = true; });
+    m[1].split(',').forEach(function (t) { if (root.querySelector('.bn-burbuja[data-v="' + t + '"]')) F.tipo[t] = true; });
     aplicar();
   }
   window.addEventListener('hashchange', desdeHash);
