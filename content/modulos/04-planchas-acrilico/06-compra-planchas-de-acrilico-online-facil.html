@@ -4108,8 +4108,9 @@
 </div>
 <div class="pp-fb2-layout">
 <div class="pp-fb2" id="ppFb2" role="group" aria-label="Filtrar planchas de acrílico">
+<button type="button" class="pp-fb2-abrir" id="ppFb2Abrir" aria-expanded="false" aria-controls="ppFb2Cuerpo"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>Filtrar planchas<b id="ppFb2N" hidden></b></button>
 <div class="pp-fb2-titulo">Filtrar planchas</div>
-<div class="pp-fb2-fila">
+<div class="pp-fb2-fila" id="ppFb2Cuerpo">
 <label class="pp-fb2-campo"><span class="pp-fb2-paso">1. Material</span><select class="pp-fb2-sel" id="ppFb2Mat" aria-label="Filtrar por material"><option value="">Todos (AA y PA)</option></select></label>
 <label class="pp-fb2-campo"><span class="pp-fb2-paso">2. Medida</span><select class="pp-fb2-sel" id="ppFb2Dim" aria-label="Filtrar por medida"><option value="">Todas las medidas</option></select></label>
 <label class="pp-fb2-campo"><span class="pp-fb2-paso">3. Espesor</span><select class="pp-fb2-sel" id="ppFb2Esp" aria-label="Filtrar por espesor"><option value="">Todos los espesores</option></select></label>
@@ -5611,9 +5612,10 @@ function showComboPricePreview() {
       '<div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--pp-accent);font-weight:700;margin-bottom:4px">Precio</div>' +
       '<div style="font-size:1.8rem;font-weight:800;color:var(--pp-success,#2d7a3a);letter-spacing:1px">' + fmtFn(price) + '</div>' +
       '<div style="font-size:0.72rem;color:var(--pp-muted);margin-top:2px">IVA incluido &middot; ' + dimLabel + ' &middot; ' + state.esp + '</div>' +
-      '<button onclick="goToStep(5)" style="width:100%;margin-top:14px;padding:14px;background:var(--pp-accent);color:#fff;border:none;border-radius:10px;font-size:0.95rem;font-weight:700;letter-spacing:1px;cursor:pointer;transition:background 0.15s">' +
+      '<button onclick="goToStep(5)" class="pp-x-cta" style="width:100%;margin-top:14px;padding:14px;background:#ff8a1f;color:#fff;border:none;border-radius:10px;font-size:0.95rem;font-weight:700;letter-spacing:1px;cursor:pointer;transition:background 0.15s">' +
         'Continuar al pedido →' +
       '</button>' +
+      '<div class="pp-x-conf"><span>Retiro el mismo día</span><span>Hasta 12 cuotas</span><span>Despacho a todo Chile</span></div>' +
     '</div>';
   setTimeout(() => pp.scrollIntoView({ behavior: "smooth", block: "nearest" }), 80);
 }
@@ -10521,6 +10523,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
     opciones(all);
     var n = ['mat', 'dim', 'esp', 'color', 'precio'].filter(function (k) { return state[k]; }).length;
     $('ppFb2Limpiar').hidden = n === 0;
+    var nb = $('ppFb2N'); if (nb) { nb.textContent = n; nb.hidden = n === 0; }
     $('ppFb2Vacio').hidden = !(n > 0 && visibles === 0);
     $('ppFb2Res').textContent = n ? (visibles + (visibles === 1 ? ' plancha coincide' : ' planchas coinciden') +
       (fino ? ' · cada tarjeta ya muestra el precio de tu selección' : '')) : '';
@@ -10550,6 +10553,11 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
       var b = ev.target.closest('.pp-fb2-op'); if (!b) return;
       var k = mapa[b.parentNode.dataset.para];
       cambiar(k, state[k] === b.dataset.v ? '' : b.dataset.v);
+    });
+    var ab = $('ppFb2Abrir');
+    if (ab) ab.addEventListener('click', function () {
+      var on = $('ppFb2').classList.toggle('abierto');
+      ab.setAttribute('aria-expanded', String(on));
     });
     $('ppFb2Limpiar').addEventListener('click', function () { window._ppFilt.clearAll(); });
     // Reaplicar cuando llegan precios/stock actualizados
@@ -10584,3 +10592,45 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',_upd);else _upd();
 })();
 </script>
+
+<style>
+/* ── Ajustes de look & feel (oct 2026) ── */
+#ppWrap, #ppWrap *:not(svg):not(svg *), .pp-modal, .pp-modal *:not(svg):not(svg *) { font-family: var(--pp-font, Inter), Arial, sans-serif !important; }
+/* un solo color para comprar */
+#ppWrap .pp-home-vitrine .pp-btn-buy:not([disabled]) { background: #ff8a1f !important; border-color: #ff8a1f !important; color: #fff !important; border-radius: 999px !important; }
+#ppWrap .pp-home-vitrine .pp-btn-buy:not([disabled]):hover { background: #f07400 !important; border-color: #f07400 !important; }
+.pp-x-cta { border-radius: 999px !important; transition: background .15s; }
+.pp-x-cta:hover { background: #f07400 !important; }
+.pp-x-conf { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px; margin-top: 12px; font-size: .74rem; font-weight: 600; color: #003366; }
+.pp-x-conf span::before { content: "✓ "; color: #0a7a3d; }
+/* etiqueta de material sobre la foto */
+#ppWrap .pp-home-vitrine .pp-product-card-img-wrap { position: relative; }
+#ppVitrineAA .pp-product-card-img-wrap::after, #ppVitrinePA .pp-product-card-img-wrap::after { position: absolute; left: 8px; top: 8px; padding: 3px 9px; border-radius: 999px; font: 700 .68rem var(--pp-font, Inter), Arial, sans-serif; letter-spacing: .04em; color: #fff; }
+#ppVitrineAA .pp-product-card-img-wrap::after { content: "AA · Mix"; background: #004a99; }
+#ppVitrinePA .pp-product-card-img-wrap::after { content: "PA · Virgen"; background: #04213f; }
+#ppWrap .pp-home-vitrine .pp-product-card { border-radius: 14px; overflow: hidden; }
+/* un solo título: se oculta el segundo encabezado */
+#ppWrap > .pp-header { display: none !important; }
+/* panel de filtros alineado con la primera fila de productos */
+@media (min-width: 1000px) { .pp-fb2 { position: static !important; max-height: none !important; overflow: visible !important; } }
+@media (min-width: 641px) { #ppWrap .pp-card-mobile-summary { display: none !important; } }
+.pp-fb2-abrir { display: none; }
+@media (min-width: 1200px) {
+  #ppWrap .pp-fb2-main .pp-home-vitrine .pp-product-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 14px !important; }
+}
+@media (max-width: 640px) {
+  /* productos más arriba: un solo título y filtros tras un botón */
+  .pp-fb2 { padding: 8px !important; margin: 0 8px 12px !important; }
+  .pp-fb2-titulo { display: none; }
+  .pp-fb2-abrir { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 44px; border: 1.5px solid #c9d3e2; border-radius: 999px; background: #fff; color: #04213f; font: 700 .9rem var(--pp-font, Inter), Arial, sans-serif; cursor: pointer; }
+  .pp-fb2-abrir b { min-width: 20px; height: 20px; padding: 0 5px; border-radius: 10px; background: #004a99; color: #fff; font-size: .72rem; display: inline-flex; align-items: center; justify-content: center; }
+  .pp-fb2-abrir b[hidden] { display: none; }
+  .pp-fb2:not(.abierto) .pp-fb2-fila { display: none; }
+  .pp-fb2.abierto .pp-fb2-fila { margin-top: 10px; }
+  .pp-fb2-res { margin-top: 8px; text-align: center; }
+  html body #contenido h1.elementor-heading-title { font-size: 22px !important; line-height: 1.15 !important; margin: 0 !important; }
+  .polyplas-main-txt, .polyplas-banner-payment, .polyplas-logistics-line > span:first-child, .polyplas-logistics-line > .polyplas-bullet { display: none !important; }
+  .polyplas-banner-wrapper { padding: 8px 12px !important; gap: 4px !important; }
+  .polyplas-banner-text, .polyplas-text-group, .polyplas-logistics-line { gap: 4px !important; margin: 0 !important; }
+}
+</style>
