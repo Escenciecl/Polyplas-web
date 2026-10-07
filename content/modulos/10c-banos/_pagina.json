@@ -1,0 +1,23 @@
+{
+  "url": "/categoria-producto/banos/",
+  "tipo": "category",
+  "titulo": "Baños: Tinas, Receptáculos, Columnas y Mamparas de Ducha | Polyplas",
+  "descripcion": "Todo para tu baño: tinas de hidromasaje, cascos de tinas, receptáculos, columna y mampara de ducha. Compra online con Webpay, retiro en Santiago o envío a regiones.",
+  "robots": "max-image-preview:large",
+  "canonical": "/categoria-producto/banos/",
+  "og": {
+    "type": "website",
+    "title": "Baños: Tinas, Receptáculos, Columnas y Mamparas de Ducha | Polyplas",
+    "description": "Todo para tu baño: tinas de hidromasaje, cascos de tinas, receptáculos, columna y mampara de ducha. Compra online con Webpay, retiro en Santiago o envío a regiones.",
+    "image": "https://polyplas.cl/wp-content/uploads/2026/08/kuyenfull.webp",
+    "image:width": "900",
+    "image:height": "995"
+  },
+  "publicado": "2026-10-07T12:00:00+00:00",
+  "modificado": "2026-10-07T12:00:00+00:00",
+  "css": [],
+  "datosGoogle": [
+    "{\"@context\": \"https://schema.org\", \"@graph\": [{\"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Inicio\", \"item\": \"https://polyplas.cl/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Baños\", \"item\": \"https://polyplas.cl/categoria-producto/banos/\"}]}, {\"@type\": \"CollectionPage\", \"@id\": \"https://polyplas.cl/categoria-producto/banos/#collectionpage\", \"url\": \"https://polyplas.cl/categoria-producto/banos/\", \"name\": \"Baños: Tinas, Receptáculos, Columnas y Mamparas de Ducha | Polyplas\", \"description\": \"Todo para tu baño: tinas de hidromasaje, cascos de tinas, receptáculos, columna y mampara de ducha. Compra online con Webpay, retiro en Santiago o envío a regiones.\", \"inLanguage\": \"es-CL\", \"isPartOf\": {\"@id\": \"https://polyplas.cl/#website\"}}, {\"@type\": \"ItemList\", \"name\": \"Productos para baño Polyplas\", \"numberOfItems\": 12, \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Tina Kuyen Full\", \"url\": \"https://polyplas.cl/tina-hidromasaje-kuyen-full/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Tina Antuco\", \"url\": \"https://polyplas.cl/tina-hidromasaje-antuco/\"}, {\"@type\": \"ListItem\", \"position\": 3, \"name\": \"Tina Vilcún\", \"url\": \"https://polyplas.cl/tina-hidromasaje-vilcun/\"}, {\"@type\": \"ListItem\", \"position\": 4, \"name\": \"Tina Queilen\", \"url\": \"https://polyplas.cl/tina-hidromasaje-queilen/\"}, {\"@type\": \"ListItem\", \"position\": 5, \"name\": \"Tina Coinco\", \"url\": \"https://polyplas.cl/tina-hidromasaje-coinco/\"}, {\"@type\": \"ListItem\", \"position\": 6, \"name\": \"Columna de Ducha de Acero Inoxidable\", \"url\": \"https://polyplas.cl/columna-de-ducha-acero-inoxidable/\"}, {\"@type\": \"ListItem\", \"position\": 7, \"name\": \"Mampara de Ducha de Vidrio\", \"url\": \"https://polyplas.cl/mampara-de-ducha-vidrio/\"}, {\"@type\": \"ListItem\", \"position\": 8, \"name\": \"Receptáculo de Ducha 80×80 cm Cuadrado\", \"url\": \"https://polyplas.cl/receptaculo-ducha-80x80/\"}, {\"@type\": \"ListItem\", \"position\": 9, \"name\": \"Receptáculo de Ducha 90×90 cm Cuadrado\", \"url\": \"https://polyplas.cl/receptaculo-ducha-90x90/\"}, {\"@type\": \"ListItem\", \"position\": 10, \"name\": \"Receptáculo de Ducha Esquinero 90×90 cm\", \"url\": \"https://polyplas.cl/receptaculo-ducha-esquinero-90x90/\"}, {\"@type\": \"ListItem\", \"position\": 11, \"name\": \"Casco de Tina Queilen\", \"url\": \"https://polyplas.cl/casco-tina-queilen/\"}, {\"@type\": \"ListItem\", \"position\": 12, \"name\": \"Casco de Tina Coinco\", \"url\": \"https://polyplas.cl/casco-tina-coinco/\"}]}]}"
+  ],
+  "dataLayer": null
+}
