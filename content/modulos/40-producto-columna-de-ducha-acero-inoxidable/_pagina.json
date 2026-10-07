@@ -2,13 +2,13 @@
   "url": "/columna-de-ducha-acero-inoxidable/",
   "tipo": "page",
   "titulo": "Columna de Ducha de Acero Inoxidable | Polyplas",
-  "descripcion": "Columna de ducha de acero inoxidable con ducha superior, chorros frontales y ducha de mano. $120.000 c/IVA. Paga con Webpay, retiro en Santiago o envío a regiones.",
+  "descripcion": "Columna de ducha de acero inoxidable con ducha superior, chorros frontales y ducha de mano. $120.000 c/IVA. Webpay, retiro en Santiago o envío a regiones.",
   "robots": "max-image-preview:large",
   "canonical": "/columna-de-ducha-acero-inoxidable/",
   "og": {
     "type": "website",
     "title": "Columna de Ducha de Acero Inoxidable | Polyplas",
-    "description": "Columna de ducha de acero inoxidable con ducha superior, chorros frontales y ducha de mano. $120.000 c/IVA. Paga con Webpay, retiro en Santiago o envío a regiones.",
+    "description": "Columna de ducha de acero inoxidable con ducha superior, chorros frontales y ducha de mano. $120.000 c/IVA. Webpay, retiro en Santiago o envío a regiones.",
     "image": "https://polyplas.cl/wp-content/uploads/2026/10/columna-ducha-acero-inoxidable.jpg",
     "image:width": "1200",
     "image:height": "1200"
@@ -17,7 +17,7 @@
   "modificado": "2026-10-07T12:00:00+00:00",
   "css": [],
   "datosGoogle": [
-    "{\"@context\": \"https://schema.org\", \"@graph\": [{\"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Inicio\", \"item\": \"https://polyplas.cl/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Columna de Ducha de Acero Inoxidable\", \"item\": \"https://polyplas.cl/columna-de-ducha-acero-inoxidable/\"}]}, {\"@type\": \"Product\", \"name\": \"Columna de Ducha de Acero Inoxidable\", \"sku\": \"DUCHA-COLUMNA-INOX\", \"category\": \"Columnas de ducha\", \"material\": \"Acero inoxidable\", \"description\": \"Columna de ducha de acero inoxidable con ducha superior, chorros frontales y ducha de mano. $120.000 c/IVA. Paga con Webpay, retiro en Santiago o envío a regiones.\", \"image\": \"https://polyplas.cl/wp-content/uploads/2026/10/columna-ducha-acero-inoxidable.jpg\", \"url\": \"https://polyplas.cl/columna-de-ducha-acero-inoxidable/\", \"brand\": {\"@type\": \"Brand\", \"name\": \"Polyplas\"}, \"offers\": {\"@type\": \"Offer\", \"url\": \"https://polyplas.cl/columna-de-ducha-acero-inoxidable/\", \"price\": \"120000\", \"priceCurrency\": \"CLP\", \"itemCondition\": \"https://schema.org/NewCondition\", \"availability\": \"https://schema.org/InStock\", \"seller\": {\"@type\": \"Organization\", \"name\": \"Polyplas\", \"url\": \"https://polyplas.cl\"}}}]}"
+    "{\"@context\": \"https://schema.org\", \"@graph\": [{\"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Inicio\", \"item\": \"https://polyplas.cl/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Columna de Ducha de Acero Inoxidable\", \"item\": \"https://polyplas.cl/columna-de-ducha-acero-inoxidable/\"}]}, {\"@type\": \"Product\", \"name\": \"Columna de Ducha de Acero Inoxidable\", \"sku\": \"DUCHA-COLUMNA-INOX\", \"category\": \"Columnas de ducha\", \"material\": \"Acero inoxidable\", \"description\": \"Columna de ducha de acero inoxidable con ducha superior, chorros frontales y ducha de mano. $120.000 c/IVA. Webpay, retiro en Santiago o envío a regiones.\", \"image\": \"https://polyplas.cl/wp-content/uploads/2026/10/columna-ducha-acero-inoxidable.jpg\", \"url\": \"https://polyplas.cl/columna-de-ducha-acero-inoxidable/\", \"brand\": {\"@type\": \"Brand\", \"name\": \"Polyplas\"}, \"offers\": {\"@type\": \"Offer\", \"url\": \"https://polyplas.cl/columna-de-ducha-acero-inoxidable/\", \"price\": \"120000\", \"priceCurrency\": \"CLP\", \"itemCondition\": \"https://schema.org/NewCondition\", \"availability\": \"https://schema.org/InStock\", \"seller\": {\"@type\": \"Organization\", \"name\": \"Polyplas\", \"url\": \"https://polyplas.cl\"}}}]}"
   ],
   "dataLayer": null
 }

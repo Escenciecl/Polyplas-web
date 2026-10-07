@@ -81,7 +81,7 @@
         </form>
       </div>
       <div id="successMessage" style="display:none" role="status">
-        <h2>¡Solicitud enviada!</h2>
+        <p class="hm-ok">¡Solicitud enviada!</p>
         <p>Recibimos tu requerimiento. En breve te contactamos por WhatsApp.</p>
         <button class="pp-btn pp-btn--ghost" type="button" onclick="location.reload()">Enviar otra solicitud</button>
       </div>
@@ -99,6 +99,7 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
+  "@id": "https://polyplas.cl/#negocio",
   "@type": "LocalBusiness",
   "name": "Polyplas",
   "url": "https://polyplas.cl",
@@ -200,6 +201,7 @@
 #hm .hm-cot{background:var(--pp-blue);color:#fff;border-radius:20px;padding:30px}
 #hm .hm-cot h2{color:#fff;font-size:clamp(1.3rem,2.4vw,1.8rem)!important;font-weight:800;margin-bottom:8px}
 #hm .hm-cot p{margin:0 0 18px;color:#d6e4f5}
+#hm .hm-cot p.hm-ok{color:#fff;font-size:1.6rem;font-weight:800;line-height:1.15;margin-bottom:8px}
 #hm .hm-cot form{display:grid;gap:12px;margin:0}
 #hm .hm-f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 #hm .hm-cot label{display:grid;gap:5px;font-size:.8rem;font-weight:600;color:#fff;margin:0}
