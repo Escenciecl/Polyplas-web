@@ -1,5 +1,5 @@
 /**
- * Cuentas de clientes (Supabase Auth): ingreso con Google o con correo y contraseña.
+ * Cuentas de clientes (Supabase Auth): ingreso con correo y contraseña.
  *
  * - La librería de Supabase se descarga solo cuando hace falta (no frena la carga de la página).
  * - La sesión se guarda con una llave propia ("pp-cuenta-auth") para NO mezclarse con el chat y
@@ -82,6 +82,5 @@ export function mensajeError(e: { message?: string; code?: string } | null | und
   if (c === "weak_password" || m.includes("password should")) return "La contraseña es muy débil. Usa al menos 8 caracteres.";
   if (c === "same_password") return "La nueva contraseña debe ser distinta a la anterior.";
   if (c.includes("rate_limit") || m.includes("rate limit") || m.includes("security purposes")) return "Demasiados intentos. Espera un momento y vuelve a intentar.";
-  if (m.includes("provider is not enabled")) return "El ingreso con Google aún no está activado.";
   return "No pudimos completar la acción. Intenta de nuevo.";
 }

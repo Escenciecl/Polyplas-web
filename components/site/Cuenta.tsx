@@ -134,17 +134,6 @@ export function FormularioCuenta({ inicial = "ingreso", onListo }: { inicial?: M
 
   const destino = () => `${window.location.origin}${RUTA_CUENTA}`;
 
-  const conGoogle = async () => {
-    setOcupado(true);
-    setError("");
-    const { error } = await (await sb()).auth.signInWithOAuth({ provider: "google", options: { redirectTo: destino() } });
-    if (error) {
-      setError(mensajeError(error));
-      setOcupado(false);
-    }
-    // si no hay error, el navegador se va a Google y vuelve a /cuenta/
-  };
-
   const enviar = async (e: React.FormEvent) => {
     e.preventDefault();
     setOcupado(true);
@@ -167,7 +156,7 @@ export function FormularioCuenta({ inicial = "ingreso", onListo }: { inicial?: M
         if (error) return setError(mensajeError(error));
         // Supabase no revela si el correo ya existe: devuelve un usuario sin identidades
         if (data.user && data.user.identities && data.user.identities.length === 0) {
-          return setError("Ya existe una cuenta con ese correo. Ingresa con tu contraseña o con Google.");
+          return setError("Ya existe una cuenta con ese correo. Ingresa con tu contraseña.");
         }
         if (!data.session) {
           setClave("");
@@ -191,16 +180,6 @@ export function FormularioCuenta({ inicial = "ingreso", onListo }: { inicial?: M
     <div className="pp-auth">
       <h2 className="pp-auth__titulo">{titulo}</h2>
       {modo !== "recuperar" && <p className="pp-auth__bajada">Guarda tus compras y revisa tus pedidos cuando quieras.</p>}
-
-      {modo !== "recuperar" && (
-        <>
-          <button type="button" className="pp-auth__google" onClick={conGoogle} disabled={ocupado}>
-            <b aria-hidden="true">G</b>
-            Continuar con Google
-          </button>
-          <div className="pp-auth__o"><span>o con tu correo</span></div>
-        </>
-      )}
 
       <form onSubmit={enviar}>
         {modo === "registro" && (

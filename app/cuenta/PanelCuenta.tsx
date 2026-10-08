@@ -24,7 +24,7 @@ export default function PanelCuenta() {
 
   const cargar = useCallback(async () => {
     const c = await sb();
-    // getSession espera a que termine el regreso desde Google o desde el correo (?code=...)
+    // getSession espera a que termine el regreso desde el enlace del correo (?code=...)
     const { data } = await c.auth.getSession();
     const user = data.session?.user;
     if (!user) return setEstado("fuera");

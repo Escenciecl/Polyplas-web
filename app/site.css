@@ -428,11 +428,6 @@ body [class*="-qty-close"], body .pp-qty-close { border-radius: 999px !important
 .pp-auth { font-family: var(--pp-font); color: var(--pp-ink); }
 .pp-auth__titulo { margin: 0 0 6px; font: 700 22px/1.2 var(--pp-font); color: var(--pp-blue-900); }
 .pp-auth__bajada { margin: 0 0 18px; font-size: 14px; color: var(--pp-muted); }
-.pp-auth__google { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; height: 46px; border: 1.5px solid var(--pp-blue-100); border-radius: 999px; background: #fff; font: 600 15px var(--pp-font); color: var(--pp-ink); cursor: pointer; }
-.pp-auth__google:hover { border-color: var(--pp-blue); background: var(--pp-blue-50); }
-.pp-auth__google b { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--pp-blue); color: #fff; font: 700 14px var(--pp-font); }
-.pp-auth__o { display: flex; align-items: center; gap: 12px; margin: 16px 0; font-size: 12.5px; color: var(--pp-muted); }
-.pp-auth__o::before, .pp-auth__o::after { content: ""; flex: 1; height: 1px; background: var(--pp-line); }
 .pp-campo { display: block; margin: 0 0 12px; }
 .pp-campo > span { display: block; margin-bottom: 5px; font: 600 13px var(--pp-font); color: var(--pp-ink); }
 .pp-campo input { width: 100%; height: 44px; padding: 0 14px; box-sizing: border-box; border: 1.5px solid var(--pp-blue-100); border-radius: var(--pp-radius-sm); background: #fff; font: 400 15px var(--pp-font); color: var(--pp-ink); outline: none; }
@@ -440,8 +435,7 @@ body [class*="-qty-close"], body .pp-qty-close { border-radius: 999px !important
 .pp-campo input:disabled { background: var(--pp-blue-50); color: var(--pp-muted); }
 .pp-campo small { display: block; margin-top: 4px; font-size: 12px; color: var(--pp-muted); }
 .pp-auth__enviar { width: 100%; margin-top: 4px; }
-.pp-btn:disabled, .pp-auth__google:disabled { opacity: .6; cursor: default; transform: none; }
-.pp-auth__msg { margin: 0 0 12px; padding: 10px 12px; border-radius: var(--pp-radius-sm); font-size: 13.5px; line-height: 1.45; }
+.pp-btn:disabled, .pp-auth__msg { margin: 0 0 12px; padding: 10px 12px; border-radius: var(--pp-radius-sm); font-size: 13.5px; line-height: 1.45; }
 .pp-auth__msg--error { background: #fdecec; color: #9b1c1c; }
 .pp-auth__msg--ok { background: #e8f7ee; color: #14622f; }
 .pp-auth__pie { margin-top: 14px; text-align: center; font-size: 14px; color: var(--pp-muted); }
