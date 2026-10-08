@@ -472,4 +472,4 @@ body [class*="-qty-close"], body .pp-qty-close { border-radius: 999px !important
 .pp-ficha__dcto { align-self: flex-start; padding: 3px 8px; border-radius: 999px; background: #e8f7ee; color: #14622f; font: 700 12.5px var(--pp-font); }
 .pp-ficha__agotado { margin: -6px 0 14px; padding: 8px 12px; border-radius: var(--pp-radius-sm); background: #fdecec; color: #9b1c1c; font: 600 14px var(--pp-font); }
 .pp-ficha__antes[hidden], .pp-ficha__dcto[hidden], .pp-ficha__agotado[hidden] { display: none !important; }
-.pp-btn.is-agotado { opacity: .5; cursor: not-allowed; pointer-events: none; }
+.pp-btn.is-agotado, .pp-btn.is-agotado:hover { background: #cbd5e1 !important; color: #475569 !important; border-color: #cbd5e1 !important; box-shadow: none !important; transform: none !important; cursor: not-allowed; pointer-events: none; }

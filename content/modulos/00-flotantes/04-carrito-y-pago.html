@@ -1045,6 +1045,64 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     window.scrollTo(0, _gcScrollY);
   }
 
+  /* ── Carrito al día con el CRM (precio y stock) ──────────── */
+  // Un producto puede cambiar de precio o agotarse después de entrar al carrito (dura hasta 72 h).
+  // Antes de mostrarlo y antes de pagar se compara con el CRM (tabla pp_stock).
+  function gcClaveCRM(item) {
+    var sku = String(item.sku || ''), m;
+    if (sku === 'DUCHA_columna_inox') return 'DUCHAS|columna';
+    if (sku === 'MAMPARA_ducha_vidrio') return 'MAMPARAS|vidrio';
+    if ((m = /^(CUP|REC|CASCO|TINA)_(.+)$/.exec(sku))) return { CUP:'CUPULAS', REC:'RECEPTACULOS', CASCO:'CASCOS', TINA:'TINAS' }[m[1]] + '|' + m[2];
+    // Planchas: TIPO_medida_color_espesor (el color puede llevar guion bajo, ej. fluor_verde)
+    var p = sku.split('_');
+    if (p.length >= 4) {
+      var tipo = p[0], dim = p[1], esp = p[p.length - 1], color = p.slice(2, -1).join('_');
+      if (tipo === 'AA' || tipo === 'PA') return tipo + '|' + dim + '|' + color + '|' + esp;
+      if (tipo === 'PET')  return 'SIN_MATERIAL|' + dim + '_pet|clear|' + esp;
+      if (tipo === 'PETG') return 'SIN_MATERIAL|' + dim + '_petg|clear|' + esp;
+      if (tipo === 'PC')   return 'SIN_MATERIAL|' + dim + '_pc|clear|' + esp;
+    }
+    return '';
+  }
+  // Devuelve { precios: n, agotados: n } con lo que cambió
+  function gcSyncCRM() {
+    var out = { precios: 0, agotados: 0 }, api = window.ppCRM;
+    if (!api || !gcItems.length) return out;
+    var cambio = false;
+    gcItems.forEach(function(item) {
+      var clave = gcClaveCRM(item), r = clave ? api.get(clave) : null;
+      if (!r) return;
+      var agotado = r.cantidad === 0;
+      if (!!item.agotado !== agotado) { item.agotado = agotado; cambio = true; }
+      if (agotado) out.agotados++;
+      var nuevo = Number(r.precio) || 0, viejo = Number(item.precio_unit) || 0;
+      if (nuevo > 0 && viejo > 0 && nuevo !== viejo) {
+        var corte = Number(item.corte_costo) || 0;
+        // El recargo por cortes distintos es un porcentaje del precio: se ajusta en la misma proporción
+        if (corte > 0 && item.tieneRecargo) corte = Math.round(corte * nuevo / viejo);
+        item.precio_unit = nuevo;
+        item.corte_costo = corte;
+        item.subtotal = nuevo * (item.qty || 1) + corte + (item.embalaje ? (Number(item.embalaje_unit) || 0) * (item.qty || 1) : 0);
+        out.precios++; cambio = true;
+      }
+    });
+    if (cambio) gcSave();
+    return out;
+  }
+  function gcHayAgotados() { return gcItems.some(function(i){ return i.agotado; }); }
+  // Vuelve a leer el CRM y compara; llama a cb(resultado) al terminar (también si no hay conexión)
+  function gcRevisarCRM(cb) {
+    var listo = function() { var r = gcSyncCRM(); if (cb) cb(r); };
+    if (typeof window.ppCRMActualizar !== 'function') return listo();
+    window.ppCRMActualizar().then(listo, listo);
+  }
+  document.addEventListener('pp:crm', function() {
+    gcLoad();
+    var r = gcSyncCRM();
+    var abierto = gEl('ppGC-cart-modal') && gEl('ppGC-cart-modal').style.display === 'flex';
+    if (abierto && (r.precios || r.agotados)) gcRenderCartItems();
+  });
+
   /* ── Badge y FAB ─────────────────────────────────────────── */
   function gcUpdateBadge() {
     gcLoad();
@@ -1106,6 +1164,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
           (mod ? '<div class="ppGC-cart-item-mod">' + mod + '</div>' : '') +
           '<div class="ppGC-cart-item-name">' + (item.nombre || '') + '</div>' +
           '<div class="ppGC-cart-item-qty">Cantidad: ' + item.qty + '</div>' +
+          (item.agotado ? '<div style="margin-top:4px;font-size:.78rem;font-weight:700;color:#b91c1c">Sin stock: quítalo para continuar</div>' : '') +
         '</div>' +
         '<div style="display:flex;align-items:center;gap:10px">' +
           '<span class="ppGC-cart-item-price">' + fmt(item.subtotal) + '</span>' +
@@ -1117,6 +1176,14 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     if (total) total.textContent = fmt(gcTotal());
     if (trow)  trow.style.display = 'flex';
     if (acts)  acts.style.display = 'flex';
+    // Con un producto sin stock, "Ir al pago" queda congelado
+    var goBtn = acts ? acts.querySelector('.ppGC-btn-checkout-go') : null;
+    if (goBtn) {
+      var bloqueado = gcHayAgotados();
+      goBtn.disabled = bloqueado;
+      goBtn.style.opacity = bloqueado ? '.45' : '';
+      goBtn.style.cursor = bloqueado ? 'not-allowed' : '';
+    }
     if (cnt)   cnt.textContent = gcCount();
 
     // Barra de progreso hacia envío gratis
@@ -1140,8 +1207,10 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
 
   function ppGCOpen() {
     gcLoad();
+    gcSyncCRM();
     if (gcItems.length) gcDlPush('view_cart', { currency: 'CLP', value: gcTotal(), items: gcItems.map(gcDlItem) });
     gcRenderCartItems();
+    gcRevisarCRM(function(r) { if (r.precios || r.agotados) gcRenderCartItems(); });
     gEl('ppGC-overlay').style.display = 'block';
     gEl('ppGC-cart-modal').style.display = 'flex';
     gcLockScroll();
@@ -1175,6 +1244,8 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
   function ppGCOpenCheckout() {
     gcLoad();
     if (!gcItems.length) return;
+    gcSyncCRM();
+    if (gcHayAgotados()) { ppGCOpen(); return; }
     gcEmbalajeOpc = false;
     gcRenderTerms();
     ppGCCloseCart();
@@ -1597,6 +1668,17 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     if (gcSelectedEntrega.needsAddress) {
       var dd=gEl('ppgc_pn_dir'), dr=gEl('ppgc_pn_region'), dc=gEl('ppgc_pn_ciudad');
       if (!dd||!dd.value||!dr||!dr.value||!dc||!dc.value) { if (e2){e2.textContent='Completa la dirección de despacho.';e2.style.display='block';} return; }
+    }
+    // Última comprobación contra el CRM antes de cobrar: precio y stock vigentes
+    if (btn) { btn.disabled=true; btn.textContent='Verificando precios y stock...'; }
+    var _rev = await new Promise(function(ok){ gcRevisarCRM(ok); });
+    if (btn) { btn.disabled=false; btn.textContent='Pagar con Webpay'; }
+    if (gcHayAgotados() || gcTotal() !== gcCurrentGrand) {
+      ppGCCloseCheckout();
+      ppGCOpen();
+      var _av = gEl('ppGC-cart-items');
+      if (_av) _av.insertAdjacentHTML('afterbegin', '<div style="margin-bottom:12px;padding:10px 12px;border-radius:8px;background:#fff7ed;color:#9a3412;font-size:.85rem;font-weight:600">' + (gcHayAgotados() ? 'Un producto de tu carrito se quedó sin stock. Quítalo para continuar.' : 'Actualizamos los precios de tu carrito. Revisa el total antes de pagar.') + '</div>');
+      return;
     }
     var client=gcGetClientData(), total=gcTotalPagar();
     // Clic en "Pagar con Webpay" con los datos completos

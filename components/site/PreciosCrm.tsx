@@ -10,7 +10,7 @@
  *   data-crm-antes="TIPO|codigo"      → escribe el precio anterior tachado; se oculta si no hay
  *   data-crm-descuento="TIPO|codigo"  → escribe el descuento (-28%); se oculta si no hay
  *   data-crm-agotado="TIPO|codigo"    → se muestra solo cuando la cantidad es 0
- *   data-crm-bloquear="TIPO|codigo"   → botón que se desactiva cuando la cantidad es 0
+ *   data-crm-bloquear="TIPO|codigo"   → botón o enlace de compra: con cantidad 0 queda congelado y dice "Sin stock"
  *   data-crm-desde="TIPO,TIPO2"       → el precio más bajo con stock de esos tipos
  *
  * La clave es la misma del CRM: tipo y código (ej. TINAS|vilcun, CUPULAS|54x54) o, en planchas,
@@ -80,8 +80,23 @@ function pintar(api: CrmApi) {
   cada("data-crm-bloquear", (el, f) => {
     if (!f) return;
     const agotado = f.cantidad === 0;
-    (el as HTMLButtonElement).disabled = agotado;
+    if (agotado === el.classList.contains("is-agotado")) return;
     el.classList.toggle("is-agotado", agotado);
+    if (agotado) {
+      // Congelado: no se puede pulsar ni alcanzar con el teclado, y avisa "Sin stock"
+      el.setAttribute("data-crm-texto", el.innerHTML);
+      el.textContent = "Sin stock";
+      el.setAttribute("aria-disabled", "true");
+      el.setAttribute("tabindex", "-1");
+      if (el instanceof HTMLButtonElement) el.disabled = true;
+    } else {
+      const original = el.getAttribute("data-crm-texto");
+      if (original !== null) el.innerHTML = original;
+      el.removeAttribute("data-crm-texto");
+      el.removeAttribute("aria-disabled");
+      el.removeAttribute("tabindex");
+      if (el instanceof HTMLButtonElement) el.disabled = false;
+    }
   });
   cada("data-crm-desde", (el, _f, tipos) => {
     const p = api.desde(tipos);
@@ -89,10 +104,10 @@ function pintar(api: CrmApi) {
   });
 }
 
-async function cargar(): Promise<Fila[]> {
+async function cargar(vigencia = VIGENCIA): Promise<Fila[]> {
   try {
     const c = JSON.parse(sessionStorage.getItem(CACHE) || "null");
-    if (c && Date.now() - c.t < VIGENCIA && Array.isArray(c.filas)) return c.filas;
+    if (c && Date.now() - c.t < vigencia && Array.isArray(c.filas)) return c.filas;
   } catch {}
   const r = await fetch(`${SB_URL}/rest/v1/pp_stock?select=tipo,dim,color,espesor,cantidad,precio,precio_antes&limit=5000`, {
     headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` },
@@ -109,14 +124,23 @@ export default function PreciosCrm() {
   useEffect(() => {
     let vivo = true;
     let api: CrmApi | null = null;
+    const w = window as unknown as { ppCRM?: CrmApi; ppCRMActualizar?: () => Promise<CrmApi | null> };
     const repintar = () => api && pintar(api);
+    const aplicar = (filas: Fila[]) => {
+      api = crearApi(filas);
+      w.ppCRM = api;
+      pintar(api);
+      document.dispatchEvent(new CustomEvent("pp:crm"));
+      return api;
+    };
+    // El carrito lo llama justo antes de pagar: vuelve a leer el CRM (datos de no más de 10 segundos)
+    w.ppCRMActualizar = () => cargar(10_000).then(aplicar).catch(() => api);
+    // Si la página queda abierta, se refresca sola cada 2 minutos
+    const reloj = setInterval(() => { if (!document.hidden) cargar().then((f) => vivo && aplicar(f)).catch(() => {}); }, 120_000);
     cargar()
       .then((filas) => {
         if (!vivo) return;
-        api = crearApi(filas);
-        (window as unknown as { ppCRM?: CrmApi }).ppCRM = api;
-        pintar(api);
-        document.dispatchEvent(new CustomEvent("pp:crm"));
+        aplicar(filas);
         // los módulos heredados pueden insertar contenido un poco después
         setTimeout(repintar, 800);
         setTimeout(repintar, 2500);
@@ -125,6 +149,7 @@ export default function PreciosCrm() {
     document.addEventListener("pp:legacy-ready", repintar);
     return () => {
       vivo = false;
+      clearInterval(reloj);
       document.removeEventListener("pp:legacy-ready", repintar);
     };
   }, []);
