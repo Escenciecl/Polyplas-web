@@ -8,7 +8,7 @@
 <h1>Columna de Ducha de Acero Inoxidable</h1>
 <p class="pp-ficha__lead">Columna de ducha en acero inoxidable con terminación cepillada. Reúne en un solo panel la ducha superior, dos zonas de chorros frontales y una ducha de mano con flexible, con mando y selector de salida integrados.</p>
 <div class="pp-ficha__buy">
-<p class="pp-ficha__price"><span class="pp-ficha__price-label">Precio con IVA</span><strong>$120.000</strong></p>
+<p class="pp-ficha__price"><span class="pp-ficha__price-label">Precio con IVA</span><strong data-crm-precio="DUCHAS|columna">$120.000</strong> <s class="pp-ficha__antes" data-crm-antes="DUCHAS|columna" hidden></s> <span class="pp-ficha__dcto" data-crm-descuento="DUCHAS|columna" hidden></span></p><p class="pp-ficha__agotado" data-crm-agotado="DUCHAS|columna" hidden>Sin stock por ahora</p>
 <div class="pp-ducha-qty">
 <span id="ppDuchaQtyLbl">Cantidad</span>
 <div class="pp-ducha-qty__ctrl" role="group" aria-labelledby="ppDuchaQtyLbl">
@@ -18,7 +18,7 @@
 </div>
 <span class="pp-ducha-qty__total">Total <strong id="ppDuchaTotal">$120.000</strong></span>
 </div>
-<p class="pp-ficha__cta"><button type="button" class="pp-btn pp-btn--primary" id="ppDuchaComprar">Comprar online</button><a class="pp-btn pp-btn--ghost" href="https://wa.me/56942086751?text=Hola%20Polyplas%2C%20quiero%20consultar%20por%20la%20Columna%20de%20Ducha%20de%20Acero%20Inoxidable" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a></p>
+<p class="pp-ficha__cta"><button type="button" class="pp-btn pp-btn--primary" data-crm-bloquear="DUCHAS|columna" id="ppDuchaComprar">Comprar online</button><a class="pp-btn pp-btn--ghost" href="https://wa.me/56942086751?text=Hola%20Polyplas%2C%20quiero%20consultar%20por%20la%20Columna%20de%20Ducha%20de%20Acero%20Inoxidable" target="_blank" rel="noopener noreferrer">Consultar por WhatsApp</a></p>
 </div>
 <ul class="pp-ficha__trust"><li><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19"/></svg><div><strong>Pago seguro</strong><span>Con Webpay</span></div></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M9 20v-6h6v6"/></svg><div><strong>Retiro en tienda</strong><span>Santiago Concha 1525</span></div></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h11v9H3zM14 9h4l3 3v3h-7z"/><circle cx="7" cy="17" r="1.8"/><circle cx="17" cy="17" r="1.8"/></svg><div><strong>Envío a regiones</strong><span>Flete por pagar</span></div></li></ul>
 </div>
@@ -32,7 +32,7 @@
 </div>
 <aside class="pp-ficha__side">
 <section class="pp-ficha__card"><h2>Medidas e instalación</h2><p>¿Necesitas las medidas exactas o saber si sirve para tu baño? Escríbenos y te ayudamos antes de comprar.</p><p class="pp-ficha__cta"><a class="pp-btn pp-btn--ghost" href="https://wa.me/56942086751?text=Hola%20Polyplas%2C%20necesito%20las%20medidas%20de%20la%20Columna%20de%20Ducha%20de%20Acero%20Inoxidable" target="_blank" rel="noopener noreferrer">Preguntar por WhatsApp</a></p></section>
-<section class="pp-ficha__card pp-ficha__card--blue"><h2>¿Listo para comprar?</h2><p>Retiro en Santiago Concha 1525, Santiago, o envío a regiones con flete por pagar. Pago seguro con Webpay.</p><p class="pp-ficha__cta"><button type="button" class="pp-btn pp-btn--primary" data-pp-ducha-comprar>Comprar online · $120.000</button></p></section>
+<section class="pp-ficha__card pp-ficha__card--blue"><h2>¿Listo para comprar?</h2><p>Retiro en Santiago Concha 1525, Santiago, o envío a regiones con flete por pagar. Pago seguro con Webpay.</p><p class="pp-ficha__cta"><button type="button" class="pp-btn pp-btn--primary" data-crm-bloquear="DUCHAS|columna" data-pp-ducha-comprar>Comprar online · <span data-crm-precio="DUCHAS|columna">$120.000</span></button></p></section>
 </aside>
 </div>
 </div>
@@ -64,6 +64,7 @@
   if (!ficha) return;
   var SKU = ficha.getAttribute('data-sku');
   var PRECIO = Number(ficha.getAttribute('data-precio')) || 0;
+  var AGOTADO = false, CRM_KEY = 'DUCHAS|columna';
   var NOMBRE = ficha.getAttribute('data-nombre');
   var MAX = 10, qty = 1, GID_KEY = 'pp_ducha_gid';
   var fmt = function (n) { return '$' + Math.round(n).toLocaleString('es-CL'); };
@@ -94,7 +95,17 @@
     } catch (e) {}
     return null;
   }
+  // Precio y stock vigentes del CRM (tabla pp_stock): mandan sobre el precio escrito en esta página
+  function sincronizarCRM() {
+    var r = window.ppCRM && window.ppCRM.get(CRM_KEY);
+    if (!r) return;
+    if (r.precio > 0) { PRECIO = Number(r.precio); ficha.setAttribute('data-precio', PRECIO); }
+    AGOTADO = r.cantidad === 0;
+    pintar();
+  }
+  document.addEventListener('pp:crm', sincronizarCRM);
   function comprar(btn) {
+    if (AGOTADO) return;
     if (typeof window.ppGlobalCartAdd !== 'function') {
       // El carrito aún no carga: se reintenta un momento después
       if (btn && !btn.getAttribute('data-espera')) { btn.setAttribute('data-espera', '1'); setTimeout(function () { btn.removeAttribute('data-espera'); comprar(btn); }, 600); }
@@ -118,5 +129,6 @@
   function vista() { if (ficha.getAttribute('data-pp-visto')) return; ficha.setAttribute('data-pp-visto', '1'); track('view_item', 1); }
   if (window.ppTrack) vista(); else { document.addEventListener('pp:legacy-ready', vista); window.addEventListener('load', vista); }
   pintar();
+  sincronizarCRM();
 })();
 </script>

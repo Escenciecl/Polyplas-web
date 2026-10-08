@@ -3,6 +3,7 @@ import Script from "next/script";
 import LegacyHtml from "@/components/LegacyHtml";
 import Header from "@/components/site/Header";
 import Footer from "@/components/site/Footer";
+import PreciosCrm from "@/components/site/PreciosCrm";
 import JsonLd from "@/components/JsonLd";
 import { readHtml, site, SITE_URL } from "@/lib/content";
 
@@ -72,6 +73,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main id="contenido">{children}</main>
         <Footer />
+        <PreciosCrm />
       </body>
     </html>
   );

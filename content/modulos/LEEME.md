@@ -50,3 +50,24 @@ Cambia solo el texto entre comillas.
 
 - `_estructura.html`: es el armazón de Elementor que ordena los módulos.
 - No cambies `"url"` en `_pagina.json`: cambiaría la dirección de la página y se perdería posicionamiento en Google.
+
+## Precios y stock: manda el CRM
+
+El precio, el precio anterior y la cantidad de **todos** los productos se cambian en el CRM
+(pestaña *Gestión de Stock*), que los guarda en la tabla `pp_stock` de Supabase. El sitio los lee solo.
+El precio escrito en los archivos `.html` es únicamente un respaldo que se ve mientras carga.
+
+Para que un precio de cualquier página siga al CRM, el número se envuelve con la **clave** del producto
+(la misma que muestra el CRM, por ejemplo `TINAS|vilcun` o `AA|1800x1200|clear|3mm`):
+
+| Marca en el HTML | Qué hace |
+|---|---|
+| `<span data-crm-precio="TINAS|vilcun">$479.990</span>` | Muestra el precio actual |
+| `<s data-crm-antes="TINAS|vilcun" hidden></s>` | Muestra el precio anterior tachado (se oculta si no hay) |
+| `<span data-crm-descuento="TINAS|vilcun" hidden></span>` | Muestra el descuento, ej. -28% |
+| `<p data-crm-agotado="TINAS|vilcun" hidden>Sin stock</p>` | Aparece solo cuando la cantidad es 0 |
+| `<button data-crm-bloquear="TINAS|vilcun">` | El botón se desactiva cuando la cantidad es 0 |
+| `<data data-crm-desde="TINAS">$479.990</data>` | El precio más bajo con stock de esa categoría |
+
+**Producto nuevo:** créalo en el CRM con *＋ Nuevo producto* (te muestra su clave) y usa esa clave
+en las marcas de su página. No hay que tocar nada más.
