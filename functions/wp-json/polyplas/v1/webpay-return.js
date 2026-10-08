@@ -4,7 +4,7 @@
  * se registra en Supabase y se redirige a /gracias/ con los mismos parámetros que WordPress:
  *   ?pp_pago=aprobado&orden=...&monto=...&auth=...   |   ?pp_pago=rechazado   |   ?pp_pago=cancelado
  */
-import { enviarComprobante, registrarEnSupabase, registrarRechazoEnSupabase, tbkRequest } from "../../../_lib/webpay.js";
+import { enviarComprobante, registrarCompraEnCuenta, registrarEnSupabase, registrarRechazoEnSupabase, tbkRequest } from "../../../_lib/webpay.js";
 
 async function readParams(request) {
   const url = new URL(request.url);
@@ -58,7 +58,7 @@ export async function onRequest({ request, env, waitUntil }) {
     };
     // Correo y CRM corren en segundo plano: el cliente no espera
     waitUntil(
-      Promise.allSettled([enviarComprobante(env, order, tbk), registrarEnSupabase(order, tbk)]).then((r) =>
+      Promise.allSettled([enviarComprobante(env, order, tbk), registrarEnSupabase(order, tbk), registrarCompraEnCuenta(env, order, tbk)]).then((r) =>
         r.forEach((x) => x.status === "rejected" && console.log("[Polyplas] post-pago", x.reason)),
       ),
     );

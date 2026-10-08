@@ -540,3 +540,59 @@ export async function registrarEnSupabase(order, tbk) {
     body: JSON.stringify({ conversation_id: convId, sender: "client", content: msg }),
   });
 }
+
+/* ------------------------------------------------------------------ cuentas de clientes */
+const SUPABASE_AUTH = SUPABASE_URL.replace(/\/rest\/v1$/, "/auth/v1");
+
+/**
+ * Si el cliente pagó con la sesión iniciada, el navegador envía su token en "Authorization".
+ * Se valida contra Supabase (nunca se confía en un id enviado por el navegador).
+ * Devuelve { id, email } o null si no hay sesión o el token no es válido.
+ */
+export async function usuarioDesdeToken(request) {
+  const m = /^Bearer\s+(\S+)$/i.exec(request.headers.get("Authorization") || "");
+  if (!m) return null;
+  try {
+    const r = await fetch(`${SUPABASE_AUTH}/user`, {
+      headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${m[1]}` },
+    });
+    if (!r.ok) return null;
+    const u = await r.json();
+    return u && u.id ? { id: u.id, email: u.email || "" } : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Guarda la compra en la tabla "compras" asociada a la cuenta del cliente.
+ * Requiere el secreto SUPABASE_SERVICE_KEY en Cloudflare Pages (llave secreta de Supabase):
+ * así solo el servidor puede escribir compras y nadie puede inventarlas desde el navegador.
+ */
+export async function registrarCompraEnCuenta(env, order, tbk) {
+  if (!order.user_id) return; // compró como invitado
+  const key = String(env.SUPABASE_SERVICE_KEY || env.SUPABASE_SECRET_KEY || "").trim();
+  if (!key) {
+    console.log("[Polyplas cuentas] Falta SUPABASE_SERVICE_KEY: la compra no se guardó en la cuenta", tbk.buy_order);
+    return;
+  }
+  const r = await fetch(`${SUPABASE_URL}/compras?on_conflict=orden`, {
+    method: "POST",
+    headers: {
+      apikey: key,
+      Authorization: `Bearer ${key}`,
+      "Content-Type": "application/json",
+      Prefer: "resolution=ignore-duplicates,return=minimal",
+    },
+    body: JSON.stringify({
+      user_id: order.user_id,
+      orden: tbk.buy_order,
+      total: tbk.amount,
+      entrega: order.entrega || "",
+      items: order.items || [],
+      cliente: order.client || {},
+      webpay_auth: tbk.authorization_code,
+    }),
+  });
+  if (!r.ok) console.log("[Polyplas cuentas] Error al guardar la compra", r.status, await r.text());
+}

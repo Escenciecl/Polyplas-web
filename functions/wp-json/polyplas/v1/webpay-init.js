@@ -3,7 +3,7 @@
  * Misma dirección y mismo formato que tenía WordPress, así las páginas no cambian.
  * Crea la transacción en Transbank y guarda el pedido 30 minutos en KV.
  */
-import { json, randomOrder, tbkRequest, tbkMissing } from "../../../_lib/webpay.js";
+import { json, randomOrder, tbkRequest, tbkMissing, usuarioDesdeToken } from "../../../_lib/webpay.js";
 
 export async function onRequestPost({ request, env }) {
   const missing = tbkMissing(env);
@@ -56,10 +56,14 @@ export async function onRequestPost({ request, env }) {
     return { ...it, calcInfo: rest };
   });
 
+  // Si el cliente tiene la sesión iniciada, la compra quedará guardada en su cuenta
+  const usuario = await usuarioDesdeToken(request);
+
   await env.ORDERS.put(
     `order:${result.token}`,
     JSON.stringify({
       buy_order: buyOrder,
+      user_id: usuario ? usuario.id : null,
       total,
       client: p.client || {},
       items: itemsClean,

@@ -22,7 +22,7 @@ const generic = [
   "/tienda/ / 301",
   "/carrito/ / 301",
   "/finalizar-compra/ / 301",
-  "/mi-cuenta/ /contacto/ 301",
+  "/mi-cuenta/ /cuenta/ 301",
   // filtros antiguos por espesor (aún aparecen en Google)
   "/espesor/* /categoria-producto/planchas-acrilico/ 301",
   // fichas de producto antiguas sin regla propia: van a su categoría, no a la portada
