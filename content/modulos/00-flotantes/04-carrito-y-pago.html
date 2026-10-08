@@ -1052,7 +1052,8 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     var bdg = gEl('ppGC-badge');
     var fab = gEl('ppGC-fab');
     if (bdg) bdg.textContent = cnt;
-    if (fab) fab.style.display = cnt > 0 ? 'flex' : 'none';
+    // El botón flotante ya no se muestra: el carrito está en la cabecera (que copia este contador).
+    if (fab) fab.style.display = 'none';
   }
 
   /* ── API pública: agregar ítem ───────────────────────────── */
