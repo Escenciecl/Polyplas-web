@@ -2127,7 +2127,7 @@
 <button class="pp-qty-btn-checkout" id="qtyBtnGo" onclick="if(!tinaAccOk())return; addToTinaCart(); openTinaCheckout();">
           IR AL PAGO →
         </button>
-<button class="pp-qty-btn-more" id="qtyBtnMore" onclick="if(!tinaAccOk())return; addToTinaCart(); closeTinaDrawer();">
+<button class="pp-qty-btn-more" id="qtyBtnMore" onclick="if(!tinaAccOk())return; addToTinaCart(); closeTinaDrawer(); if(window.ppGCOpen)window.ppGCOpen();">
           Agregar al carro y seguir comprando
         </button>
 </div>

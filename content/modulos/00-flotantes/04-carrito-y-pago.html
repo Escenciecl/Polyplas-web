@@ -124,14 +124,25 @@
 .ppGC-cart-item-remove {
   background: none;
   border: none;
-  color: #ccc;
-  font-size: 1.1rem;
+  color: #9aa5b8;
+  font-size: 1.35rem;
   cursor: pointer;
-  padding: 0 2px;
+  padding: 0;
+  min-width: 40px; min-height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px;
   line-height: 1;
   flex-shrink: 0;
-  transition: color .15s;
+  transition: color .15s, background .15s;
 }
+.ppGC-cart-item-remove:hover { background: #fdecec; }
+/* Cantidad editable dentro del carrito */
+.ppGC-qty { display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; border: 1.5px solid #ccd8ee; border-radius: 999px; padding: 2px; background: #fff; }
+.ppGC-qty button { width: 34px; height: 34px; border: 0; border-radius: 50%; background: #eef3fc; color: #00448D; font-size: 1.15rem; font-weight: 700; line-height: 1; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.ppGC-qty button:hover:not(:disabled) { background: #dde7f8; }
+.ppGC-qty button:disabled { opacity: .4; cursor: default; }
+.ppGC-qty output { min-width: 30px; text-align: center; font-size: .92rem; font-weight: 700; color: #1a1a2e; }
+.ppGC-qty-max { font-size: .72rem; color: #9a3412; margin-top: 4px; }
 .ppGC-cart-item-remove:hover { color: #dc2626; }
 
 /* Vacío */
@@ -245,8 +256,8 @@
 .ppGC-close-btn {
   position: absolute; top: 14px; right: 16px;
   background: rgba(255,255,255,.15); border: none; color: #fff;
-  width: 30px; height: 30px; border-radius: 8px;
-  font-size: 14px; cursor: pointer;
+  width: 40px; height: 40px; border-radius: 8px;
+  font-size: 16px; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
 }
 
@@ -521,7 +532,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
 <div class="ppGC-modal-wrap" id="ppGC-cart-modal">
 <div class="ppGC-modal-box">
 <div id="ppGC-cart-header">
-<h3>Tu carrito — <span id="ppGC-cart-count">0</span> producto(s)</h3>
+<h3>Tu carrito — <span id="ppGC-cart-count">0</span> <span id="ppGC-cart-count-lbl">productos</span></h3>
 <button class="ppGC-close-btn" onclick="ppGCCloseCart()" style="position:static;background:rgba(255,255,255,.15)">✕</button>
 </div>
 <div id="ppGC-cart-body">
@@ -1103,6 +1114,33 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     if (abierto && (r.precios || r.agotados)) gcRenderCartItems();
   });
 
+  /* ── Cambiar cantidad dentro del carrito ─────────────────── */
+  var GC_QTY_MAX = 99;
+  // Solo productos sin corte a medida: en las planchas con cortes, la cantidad define el plan de corte
+  function gcQtyEditable(item) { return !item.corteMode && !item.calcInfo && !item.corteMedidas && !(Number(item.corte_costo) > 0) && Number(item.precio_unit) > 0; }
+  function gcSubtotal(item) { return (Number(item.precio_unit) || 0) * item.qty + (Number(item.corte_costo) || 0) + (item.embalaje ? (Number(item.embalaje_unit) || 0) * item.qty : 0); }
+  // Tope: lo que el CRM tiene en stock (si lo informa) y un máximo general
+  function gcQtyTope(item) {
+    var r = window.ppCRM && gcClaveCRM(item) ? window.ppCRM.get(gcClaveCRM(item)) : null;
+    var stock = r && r.cantidad > 0 ? r.cantidad : GC_QTY_MAX;
+    return Math.min(GC_QTY_MAX, stock);
+  }
+  window.ppGlobalCartQty = function(gid, delta) {
+    gcLoad();
+    var item = gcItems.filter(function(i){ return i.gid === gid; })[0];
+    if (!item || !gcQtyEditable(item)) return;
+    var nueva = Math.max(1, Math.min(gcQtyTope(item), (item.qty || 1) + delta));
+    if (nueva === item.qty) return;
+    var dif = nueva - item.qty;
+    item.qty = nueva;
+    item.subtotal = gcSubtotal(item);
+    if (item.descripcion) item.descripcion = String(item.descripcion).replace(/× \d+/, '× ' + nueva);
+    gcSave();
+    gcDlPush(dif > 0 ? 'add_to_cart' : 'remove_from_cart', { currency: 'CLP', value: (Number(item.precio_unit) || 0) * Math.abs(dif), items: [Object.assign(gcDlItem(item, 0), { quantity: Math.abs(dif) })] });
+    gcUpdateBadge();
+    gcRenderCartItems();
+  };
+
   /* ── Badge y FAB ─────────────────────────────────────────── */
   function gcUpdateBadge() {
     gcLoad();
@@ -1119,6 +1157,17 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     gcLoad();
     if (!item.gid) item.gid = Date.now().toString(36) + Math.random().toString(36).slice(2,7);
     var idx = gcItems.findIndex(function(i){ return i.gid === item.gid; });
+    // La página lleva su propia cuenta: si el cliente cambió la cantidad dentro del carrito,
+    // se suma solo lo nuevo en vez de pisar ese ajuste.
+    var _qModulo = item.qty;
+    if (idx >= 0 && gcQtyEditable(item)) {
+      var _prev = gcItems[idx];
+      if (_prev._qtyModulo != null && _prev.qty !== _prev._qtyModulo) {
+        item.qty = Math.max(1, Math.min(GC_QTY_MAX, _prev.qty + (item.qty - _prev._qtyModulo)));
+        item.subtotal = gcSubtotal(item);
+      }
+    }
+    item._qtyModulo = _qModulo;
     if (idx >= 0) gcItems[idx] = item; else gcItems.push(item);
     gcSave();
     gcUpdateBadge();
@@ -1163,12 +1212,19 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
         '<div class="ppGC-cart-item-info">' +
           (mod ? '<div class="ppGC-cart-item-mod">' + mod + '</div>' : '') +
           '<div class="ppGC-cart-item-name">' + (item.nombre || '') + '</div>' +
-          '<div class="ppGC-cart-item-qty">Cantidad: ' + item.qty + '</div>' +
+          (gcQtyEditable(item)
+            ? '<div class="ppGC-qty" role="group" aria-label="Cantidad">' +
+                '<button type="button" aria-label="Quitar una unidad" onclick="window.ppGlobalCartQty(\'' + item.gid + '\',-1)"' + (item.qty <= 1 ? ' disabled' : '') + '>−</button>' +
+                '<output aria-live="polite">' + item.qty + '</output>' +
+                '<button type="button" aria-label="Agregar una unidad" onclick="window.ppGlobalCartQty(\'' + item.gid + '\',1)"' + (item.qty >= gcQtyTope(item) ? ' disabled' : '') + '>+</button>' +
+              '</div>' +
+              (item.qty >= gcQtyTope(item) && gcQtyTope(item) < GC_QTY_MAX ? '<div class="ppGC-qty-max">Es todo el stock disponible</div>' : '')
+            : '<div class="ppGC-cart-item-qty">Cantidad: ' + item.qty + '</div>') +
           (item.agotado ? '<div style="margin-top:4px;font-size:.78rem;font-weight:700;color:#b91c1c">Sin stock: quítalo para continuar</div>' : '') +
         '</div>' +
         '<div style="display:flex;align-items:center;gap:10px">' +
           '<span class="ppGC-cart-item-price">' + fmt(item.subtotal) + '</span>' +
-          '<button class="ppGC-cart-item-remove" onclick="window.ppGlobalCartRemove(\'' + item.gid + '\')" title="Eliminar">×</button>' +
+          '<button class="ppGC-cart-item-remove" onclick="window.ppGlobalCartRemove(\'' + item.gid + '\')" title="Quitar del carrito" aria-label="Quitar del carrito">×</button>' +
         '</div>' +
       '</div>';
     }).join('');
@@ -1184,7 +1240,9 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
       goBtn.style.opacity = bloqueado ? '.45' : '';
       goBtn.style.cursor = bloqueado ? 'not-allowed' : '';
     }
-    if (cnt)   cnt.textContent = gcCount();
+    if (cnt)   cnt.textContent = gcItems.length;
+    var cntLbl = gEl('ppGC-cart-count-lbl');
+    if (cntLbl) cntLbl.textContent = (gcItems.length === 1 ? 'producto' : 'productos') + (gcCount() !== gcItems.length ? ' · ' + gcCount() + ' unidades' : '');
 
     // Barra de progreso hacia envío gratis
     var grand = gcTotal();
