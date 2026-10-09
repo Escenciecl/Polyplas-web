@@ -290,5 +290,49 @@
  {
   "source": "/wp-content/uploads/2026/06/CARACTERISTICAS-PLANCHAS-ACRILICO.pdf",
   "destination": "/guia-de-acrilicos/"
+ },
+ {
+  "source": "/categoria/receptaculos/",
+  "destination": "/categoria-producto/receptaculos/"
+ },
+ {
+  "source": "/categoria/receptaculos-2/",
+  "destination": "/categoria-producto/receptaculos/"
+ },
+ {
+  "source": "/webpage/receptaculos",
+  "destination": "/categoria-producto/receptaculos/"
+ },
+ {
+  "source": "/categoria/tinas-de-hidromasaje/",
+  "destination": "/categoria-producto/tinas-de-hidromasaje/"
+ },
+ {
+  "source": "/categoria/acrilicos/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/categoria/acrilicos/planchas-acrilico-blanco/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/categoria/acrilicos/planchas-acrilico-espejado/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/plancha-acrilico-2000x1500/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/categoria/shower-door/",
+  "destination": "/categoria-producto/banos/"
+ },
+ {
+  "source": "/categoria-producto/shower-door/",
+  "destination": "/categoria-producto/banos/"
+ },
+ {
+  "source": "/productos.html",
+  "destination": "/"
  }
 ]
