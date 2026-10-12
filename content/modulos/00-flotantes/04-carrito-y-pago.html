@@ -609,7 +609,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
 <div class="ppGC-field">
 <label>RUT *</label>
 <input id="ppgc_rut" onblur="ppGCValidateField(this)" oninput="ppGCFormatRut(this)" placeholder="12.345.678-9" type="text"/>
-<div class="ppGC-field-error" id="ppgc_rut_err">RUT inválido · 8 dígitos + verificador (ej: 12.345.678-9)</div>
+<div class="ppGC-field-error" id="ppgc_rut_err">RUT inválido · revisa los números y el dígito verificador (ej: 12.345.678-5)</div>
 </div>
 <div class="ppGC-field">
 <label>Teléfono *</label>
@@ -652,7 +652,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
 <div class="ppGC-field">
 <label>RUT Empresa *</label>
 <input id="ppgc_emp_rut" onblur="ppGCValidateField(this)" oninput="ppGCFormatRut(this)" placeholder="76.543.210-K" type="text"/>
-<div class="ppGC-field-error" id="ppgc_emp_rut_err">RUT inválido · 8 dígitos + verificador</div>
+<div class="ppGC-field-error" id="ppgc_emp_rut_err">RUT inválido · revisa los números y el dígito verificador</div>
 </div>
 <div class="ppGC-field full">
 <label>Razón Social *</label>
@@ -1371,6 +1371,13 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
   function ppGCEmailIsValid(id) { var el=gEl(id); if(!el) return false; var v=el.value.trim(); return (v.match(/@/g)||[]).length===1 && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
 
   /* ── Validación RUT ──────────────────────────────────────── */
+  // Dígito verificador del RUT (módulo 11)
+  function gcRutDv(cuerpo) {
+    var s = 0, m = 2;
+    for (var i = cuerpo.length - 1; i >= 0; i--) { s += (+cuerpo[i]) * m; m = m === 7 ? 2 : m + 1; }
+    var r = 11 - (s % 11);
+    return r === 11 ? '0' : (r === 10 ? 'K' : String(r));
+  }
   function ppGCFormatRut(input) {
     var v = input.value.replace(/[^0-9kK]/g,'').toUpperCase();
     if (v.length < 2) { input.value = v; return; }
@@ -1380,7 +1387,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     var errMap = {ppgc_rut:'ppgc_rut_err', ppgc_emp_rut:'ppgc_emp_rut_err'};
     if (errMap[input.id]) {
       var digits = cuerpo.replace(/\./g,'');
-      var valid = digits.length>=7 && digits.length<=8 && /^[0-9K]$/.test(dv);
+      var valid = digits.length>=7 && digits.length<=8 && /^[0-9K]$/.test(dv) && gcRutDv(digits) === dv;
       var errEl = gEl(errMap[input.id]);
       if (errEl) errEl.style.display = (v.length>0 && !valid) ? 'block' : 'none';
       input.classList.toggle('ppGC-input-error', v.length>0 && !valid);
@@ -1672,7 +1679,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     var rutErrId=gcClientType==='PN'?'ppgc_rut_err':'ppgc_emp_rut_err';
 
     var rutEl=gEl(rutId), rawRut=rutEl?rutEl.value.replace(/[^0-9kK]/g,'').toUpperCase():'';
-    var rutOk=rawRut.slice(0,-1).length>=7 && rawRut.slice(0,-1).length<=8 && /^[0-9K]$/.test(rawRut.slice(-1));
+    var rutOk=rawRut.slice(0,-1).length>=7 && rawRut.slice(0,-1).length<=8 && /^[0-9K]$/.test(rawRut.slice(-1)) && gcRutDv(rawRut.slice(0,-1))===rawRut.slice(-1);
     if (!rutOk) { var re=gEl(rutErrId); if(re) re.style.display='block'; if(rutEl){rutEl.classList.add('ppGC-input-error');rutEl.scrollIntoView({behavior:'smooth',block:'center'});} return; }
     if (!ppGCEmailIsValid(emailId)) { var ee=gEl(emailId+'_err'); if(ee) ee.style.display='block'; var eEl=gEl(emailId); if(eEl){eEl.classList.add('ppGC-input-error');eEl.scrollIntoView({behavior:'smooth',block:'center'});} return; }
     if (!ppGCTelIsValid(telId)) { var te=gEl(telId+'_err'); if(te) te.style.display='block'; var tEl=gEl(telId); if(tEl){tEl.classList.add('ppGC-input-error');tEl.scrollIntoView({behavior:'smooth',block:'center'});} return; }

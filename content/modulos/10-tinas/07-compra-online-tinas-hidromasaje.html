@@ -1757,7 +1757,7 @@
 <div class="tv-ops">
 <button class="tv-op" type="button" data-v="bajo" aria-pressed="false">Hasta $490.000</button>
 <button class="tv-op" type="button" data-v="medio" aria-pressed="false">$490.000 – $510.000</button>
-<button class="tv-op" type="button" data-v="alto" aria-pressed="false">Más de $900.000</button>
+<button class="tv-op" type="button" data-v="alto" aria-pressed="false">Más de $510.000</button>
 </div>
 </div>
 <button class="tv-btn tv-btn-pri tv-sheet-aplicar" id="tv-sheet-aplicar" type="button">Ver modelos</button>
@@ -3824,9 +3824,11 @@ loadTinasStockFromSupabase();
   }
 
   /* ── Filtros ───────────────────────────────────────────────── */
+  // Tramo de precio según el precio vigente (CRM), igual que las etiquetas del filtro
+  function tramo(id) { var p = precio(id); return p <= 490000 ? 'bajo' : (p <= 510000 ? 'medio' : 'alto'); }
   function cumple(id, t) {
     var m = BASE[id];
-    return (!t.personas || m.personas === t.personas) && (!t.medidas || m.medidas === t.medidas) && (!t.precio || m.precio === t.precio);
+    return (!t.personas || m.personas === t.personas) && (!t.medidas || m.medidas === t.medidas) && (!t.precio || tramo(id) === t.precio);
   }
   function contarCon(k, v) {
     var t = { personas: R.personas, medidas: R.medidas, precio: R.precio };
