@@ -2589,6 +2589,16 @@ loadTinasStockFromSupabase();
 <script>
 /* ── DEEP LINK: #casco=queilen ── */
 (function ppDeepLinkTinas() {
+  // Desde la ficha: abre directo la compra (mismo botón COMPRAR del listado); si no hay stock, muestra el detalle
+  function ppAbrirCompra(id) {
+    var bs = [].slice.call(document.querySelectorAll('button[class*="btn-buy"]')).filter(function (x) {
+      var oc = x.getAttribute('onclick') || '';
+      return oc.indexOf("'" + id + "'") >= 0 || x.id === 'buy-' + id || (id === 'kuyen' && oc.indexOf('openKuyenUpsell') >= 0);
+    });
+    var b = bs.filter(function (x) { return x.offsetParent; })[0] || bs[0];
+    if (b && !b.disabled) { b.click(); return true; }
+    return false;
+  }
   var hashStr = window.location.hash.replace(/^#/, '');
   if (!hashStr) return;
   var params = new URLSearchParams(hashStr);
@@ -2596,8 +2606,10 @@ loadTinasStockFromSupabase();
   if (!tina) return;
   function tryOpen() {
     if (typeof window.openTinaDetail !== 'function') { setTimeout(tryOpen, 200); return; }
+    if (window.__ppDeepLink) return;
+    window.__ppDeepLink = true;
     history.replaceState(null, '', window.location.pathname + window.location.search);
-    setTimeout(function() { window.openTinaDetail(tina); }, 180);
+    setTimeout(function() { if (!ppAbrirCompra(tina)) window.openTinaDetail(tina); }, 180);
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() { setTimeout(tryOpen, 400); });
