@@ -1428,6 +1428,10 @@
 #tv .tv-sheet-cerrar{background:none;border:0;font-size:1.3rem;color:var(--gris);cursor:pointer;padding:4px;line-height:1}
 #tv .tv-sheet-limpiar{background:none;border:0;font:inherit;font-size:.88rem;font-weight:600;color:var(--azul);cursor:pointer;padding:4px;text-decoration:underline;text-underline-offset:3px}
 #tv .tv-btn-filtros{display:none;align-items:center;gap:7px;background:#fff;border:1.5px solid var(--azul);color:var(--azul);border-radius:10px;padding:9px 16px;font:inherit;font-size:.92rem;font-weight:700;cursor:pointer}
+#tv .tv-limpiar{background:none;border:0;font:inherit;font-size:.88rem;font-weight:600;color:var(--azul);cursor:pointer;padding:4px 2px;text-decoration:underline;text-underline-offset:3px}
+#tv .tv-limpiar[hidden]{display:none}
+#tv .tv-conteo-wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#tv .tv-limpiar-panel{display:block;margin:0 0 10px auto}
 #tv .tv-badge-filtros{background:var(--azul);color:#fff;font-size:.7rem;font-weight:700;border-radius:999px;padding:2px 7px;display:none}
 @media (max-width:980px){#tv .tv-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
 #tv .tv-garantias{grid-template-columns:1fr 1fr}
@@ -1447,6 +1451,7 @@
 #tv .tv-sheet-handle{display:block}
 #tv .tv-sheet-header{display:flex}
 #tv .tv-btn-filtros{display:flex}
+#tv .tv-limpiar-panel{display:none!important}
 #tv .tv-barra-grid{margin-bottom:14px}}
 @media (max-width:720px){#tv section{padding:44px 0}
 #tv .tv-hero{padding:0 0 14px}
@@ -1731,6 +1736,7 @@
 <span>Santiago Concha 1525, Santiago.<br>Listo en 24 hrs hábiles.</span>
 </div>
 </div>
+<button class="tv-limpiar tv-limpiar-panel" id="tv-limpiar-panel" type="button" hidden>Limpiar filtros</button>
 <div class="tv-q" data-q="personas">
 <h3>Personas</h3>
 <div class="tv-ops tv-dos">
@@ -1758,7 +1764,7 @@
 </aside>
 <div class="tv-modelos-main">
 <div class="tv-barra-grid">
-<span id="tv-conteo" class="tv-conteo-modelos">5 modelos</span>
+<div class="tv-conteo-wrap"><span id="tv-conteo" class="tv-conteo-modelos">5 modelos</span><button class="tv-limpiar" id="tv-limpiar-barra" type="button" hidden>Limpiar filtros</button></div>
 <div class="tv-ordenar-wrap">
 <label for="tv-ordenar">Ordenar por:</label>
 <select id="tv-ordenar">
@@ -3849,6 +3855,7 @@ loadTinasStockFromSupabase();
     });
     var n = FILTROS.filter(function (k) { return R[k]; }).length, b = $('tv-badge-filtros');
     if (b) { b.textContent = n; b.style.display = n ? '' : 'none'; }
+    ['tv-limpiar-barra', 'tv-limpiar-panel'].forEach(function (id) { var l = $(id); if (l) l.hidden = !n; });
     if (cambio) filtrar();
   }
   function actualizarEntrega() {
@@ -3906,9 +3913,11 @@ loadTinasStockFromSupabase();
       all('.tv-op', q).forEach(function (o) { o.setAttribute('aria-pressed', 'false'); });
     });
     filtrar();
+    track('tinas_filtro', { filtro: 'todos', valor: '(limpiar)' });
   }
   [['tv-btn-filtros', abrirFiltros], ['tv-sheet-cerrar', cerrarFiltros], ['tv-sheet-backdrop', cerrarFiltros],
-   ['tv-sheet-aplicar', cerrarFiltros], ['tv-sheet-limpiar', limpiarFiltros]].forEach(function (p) {
+   ['tv-sheet-aplicar', cerrarFiltros], ['tv-sheet-limpiar', limpiarFiltros],
+   ['tv-limpiar-barra', limpiarFiltros], ['tv-limpiar-panel', limpiarFiltros]].forEach(function (p) {
     var el = $(p[0]); if (el) el.addEventListener('click', p[1]);
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') cerrarFiltros(); });

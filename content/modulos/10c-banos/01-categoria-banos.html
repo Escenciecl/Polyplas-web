@@ -25,7 +25,7 @@
 <div class="bn-main">
 <h2 class="bn-h2">Productos para baño</h2>
 <div class="bn-barra">
-<p id="bn-conteo" class="bn-conteo" aria-live="polite">12 productos</p>
+<div class="bn-conteo-wrap"><p id="bn-conteo" class="bn-conteo" aria-live="polite">12 productos</p><button type="button" class="bn-limpiar" id="bn-limpiar" hidden>Limpiar filtros</button></div>
 <div class="bn-selects">
 <label class="bn-orden">Precio
 <select id="bn-precio">
@@ -117,6 +117,10 @@
 
 #bn .bn-barra{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
 #bn .bn-conteo{font-size:.92rem;font-weight:600;color:var(--gris)}
+#bn .bn-conteo-wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+#bn .bn-conteo-wrap .bn-conteo{margin:0}
+#bn .bn-limpiar{background:none;border:0;font:inherit;font-size:.88rem;font-weight:600;color:var(--azul,#004a99);cursor:pointer;padding:4px 2px;text-decoration:underline;text-underline-offset:3px}
+#bn .bn-limpiar[hidden]{display:none}
 #bn .bn-orden{display:flex;align-items:center;gap:8px;font-size:.9rem;color:var(--gris);font-weight:400}
 #bn .bn-orden select{font-size:.9rem;font-weight:600;color:var(--tinta);border:1.5px solid var(--azul-100);border-radius:10px;padding:8px 10px;background:#fff;min-height:40px;cursor:pointer;height:auto;width:auto}
 
@@ -222,6 +226,7 @@
       b.setAttribute('aria-pressed', (v ? !!F.tipo[v] : !tipos.length) ? 'true' : 'false');
     });
     document.getElementById('bn-precio').value = F.precio;
+    document.getElementById('bn-limpiar').hidden = !(tipos.length || F.precio);
   }
   function ordenar() {
     var o = document.getElementById('bn-orden').value;
@@ -245,6 +250,7 @@
   });
   document.getElementById('bn-precio').addEventListener('change', function () { F.precio = this.value; aplicar(); track('banos_filtro', { filtro: 'precio', valor: this.value || '(todos)' }); });
   document.getElementById('bn-limpiar2').addEventListener('click', limpiar);
+  document.getElementById('bn-limpiar').addEventListener('click', limpiar);
   document.getElementById('bn-orden').addEventListener('change', function () { ordenar(); track('banos_orden', { orden: this.value }); });
 
   // Flechas del carrusel de categorías (solo aparecen si no caben todas)
