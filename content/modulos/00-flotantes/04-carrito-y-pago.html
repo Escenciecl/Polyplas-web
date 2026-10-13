@@ -1257,7 +1257,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
       var pct = Math.min(100, Math.round(grand / UMBRAL * 100));
       shipFill.style.width = pct + '%';
       if (grand >= UMBRAL) {
-        shipLabel.textContent = '🚚 Tienes despacho gratis a la RM';
+        shipLabel.textContent = '🚚 Despacho gratis en la RM (comunas con cobertura)';
         shipLabel.className = 'ppGC-shipping-label reached';
       } else {
         shipLabel.textContent = 'Te faltan ' + fmt(UMBRAL - grand) + ' para despacho gratis';
