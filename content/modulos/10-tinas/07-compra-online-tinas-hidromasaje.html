@@ -2149,7 +2149,7 @@
 </div>
 <details open><summary>¿Tina, jacuzzi o bañera con hidromasaje son lo mismo?</summary><p>Sí. En Chile "jacuzzi", "tina de hidromasaje" y "bañera con hidromasaje" nombran el mismo producto: una tina con jets de agua a presión, motor y pulsador.</p></details>
 <details><summary>¿Cuánto cuesta una tina de hidromasaje?</summary><p>De $479.990 a $979.990 con IVA incluido. Las de 1 persona cuestan entre $479.990 y $499.990, y la de 2 personas $979.990. Puedes pagar en 3 o 6 cuotas sin interés.</p></details>
-<details><summary>¿Cuánto cuesta el envío a regiones?</summary><p>En Santiago el despacho es gratis. A regiones, el flete lo pagas al recibir, con la empresa de transporte que elijas, y se agrega un embalaje protector obligatorio de $71.400 c/IVA.</p></details>
+<details><summary>¿Cuánto cuesta el envío a regiones?</summary><p>En Santiago el despacho es gratis. A regiones, el flete lo pagas al recibir, con la empresa de transporte que elijas, y se agrega un embalaje protector obligatorio de $90.000 c/IVA.</p></details>
 <details><summary>¿Cuál es la tina más pequeña?</summary><p>La Antuco es la más corta, con 130×130 cm. La Vilcún es la más angosta, con 170×75 cm, parecida a una tina tradicional.</p></details>
 <details><summary>¿Qué tina de hidromasaje elegir para 2 personas?</summary><p>La Kuyen Full es nuestra tina de hidromasaje para 2 personas: mide 183×120×65 cm y trae jets de alto caudal, mini jets lumbares, blowers, panel digital e iluminación LED.</p></details>
 <details><summary>¿Qué requerimientos eléctricos necesita la tina?</summary><p>Nuestras tinas cuentan con motores de 1 HP de alta eficiencia. Se recomienda una conexión eléctrica independiente con protección (automático y diferencial) para garantizar un funcionamiento óptimo y seguro.</p></details>
@@ -2254,7 +2254,7 @@
             <span class="pp-embalaje-name">Incluir embalaje</span>
             <span class="pp-embalaje-desc">Opcional en Santiago · Obligatorio en envíos a regiones</span>
           </div>
-          <span class="pp-embalaje-price">+ $ 71.400</span>
+          <span class="pp-embalaje-price">+ $ 90.000</span>
         </div>
       </div>
 <div class="pp-qty-modal-label">¿Cuántas unidades necesitas?</div>
@@ -2304,7 +2304,7 @@
 </div>
 <div class="pp-qty-bd-row pp-qty-bd-row--faldon" id="qtyBdEmbalajeRow" style="display:none">
 <span class="pp-qty-bd-label">+ Embalaje</span>
-<span class="pp-qty-bd-val" id="qtyBdEmbalajeVal">$ 71.400</span>
+<span class="pp-qty-bd-val" id="qtyBdEmbalajeVal">$ 90.000</span>
 </div>
 </div>
 <div class="pp-qty-total-box">
@@ -2597,7 +2597,7 @@ var TINAS = window.TINAS = [
 
 // ── Estado ───────────────────────────────────────────────────
 var cart = [];
-var EMBALAJE_PRECIO = 71400;
+var EMBALAJE_PRECIO = 90000;
 var qtyModalState = { tina: null, qty: 1, embalaje: false, a1: '', a2: '' };
 // Accesorios cuyo lado elige el cliente, cada uno por separado.
 var TINA_ACC = { kuyen: ['Panel digital', 'Kit de grifería'], _otras: ['Pulsador', 'Regulador'] };
@@ -3918,7 +3918,7 @@ loadTinasStockFromSupabase();
   anchoPagina();
   window.addEventListener('resize', anchoPagina);
 
-  var EMB = 71400; // embalaje a regiones, mismo valor que usa el carrito de tinas
+  var EMB = 90000; // embalaje a regiones, mismo valor que usa el carrito de tinas
   var ORDEN = ['kuyen', 'antuco', 'vilcun', 'queilen', 'coinco'];
   var BASE = {
     kuyen:   { n: 'Kuyen Full', p: 979990, l: 183, a: 120, h: 65, personas: '2', medidas: 'amplia',   precio: 'alto',  yt: 'https://www.youtube.com/shorts/ZxNGGTYeLgk',

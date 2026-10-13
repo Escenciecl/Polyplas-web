@@ -19,7 +19,7 @@ const SUPABASE_URL = "https://gdrkscedvkjtcvexnhzg.supabase.co/rest/v1";
 const SUPABASE_KEY = "sb_publishable_qT9WuJK5Wi6VghgMvcYIMw_IGBtn1Tc";
 
 /** Embalaje obligatorio u opcional de cada tina (mismo valor que EMBALAJE_PRECIO en el módulo de tinas). */
-export const EMBALAJE_TINA = 71400;
+export const EMBALAJE_TINA = 90000;
 
 /** Misma traducción sku → clave del CRM que usa el carrito (gcClaveCRM). */
 export function claveCRM(sku) {
