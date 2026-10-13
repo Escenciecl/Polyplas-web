@@ -893,14 +893,14 @@
 <div class="pp-receptaculos" id="ppReceptaculos">
 <div class="pp-receptaculos-header">
 <h2>Receptáculos de <span>Ducha</span> Online</h2>
-<p>Acrílico sanitario · Push-Up incluido · Envío a todo Chile</p>
+<p>Acrílico sanitario · Push-Up incluido · Retiro en Santiago</p>
 </div>
 <div class="recep-intro">
 <p class="recep-intro-desc">
       Receptáculos de ducha fabricados en acrílico sanitario reciclable, resistente y fácil de limpiar.
       Incluyen desagüe metálico con válvula push-up, listos para instalar sin accesorios adicionales.
       Disponibles en formato cuadrado y rectangular para adaptarse a distintos espacios de baño.
-      Envío a todo Chile con pago 100% seguro a través de Webpay.
+      Retiro en Santiago o despacho gratis en la RM desde $350.000, con pago 100% seguro a través de Webpay.
     </p>
 <div class="recep-intro-pills">
 <span class="recep-intro-pill">🚿 Acrílico sanitario reciclable</span>
@@ -1530,7 +1530,7 @@ window.receptAddToCart = function() {
     if (!_gcItem._gid) _gcItem._gid = 'gc-' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
     typeof window.ppGlobalCartAdd === 'function' && window.ppGlobalCartAdd({
       gid: _gcItem._gid, sku: 'REC_' + _gcItem.id, module: 'receptaculos',
-      nombre: _gcItem.nombre + (_gcItem.specs ? ' · ' + _gcItem.specs : ''),
+      nombre: _gcItem.nombre + (_gcItem.specs ? ' · ' + _gcItem.specs.split(' · ').filter(function (x) { return _gcItem.nombre.indexOf(x) < 0; }).join(' · ') : ''),
       qty: _gcItem.qty, precio_unit: _gcItem.precio, corte_costo: 0,
       subtotal: _gcItem.precio * _gcItem.qty,
       descripcion: _gcItem.nombre + ' × ' + _gcItem.qty

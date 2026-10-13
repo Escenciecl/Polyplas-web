@@ -1763,7 +1763,7 @@ window.cupAddToCart = function() {
     if (!_gcItem._gid) _gcItem._gid = 'gc-' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
     typeof window.ppGlobalCartAdd === 'function' && window.ppGlobalCartAdd({
       gid: _gcItem._gid, sku: 'CUP_' + _gcItem.id, module: 'cupulas',
-      nombre: _gcItem.nombre + (_gcItem.specs ? ' · ' + _gcItem.specs : ''),
+      nombre: _gcItem.nombre + (_gcItem.specs ? ' · ' + _gcItem.specs.split(' · ').filter(function (x) { return _gcItem.nombre.indexOf(x) < 0; }).join(' · ') : ''),
       qty: _gcItem.qty, precio_unit: _gcItem.precio, corte_costo: 0,
       subtotal: _gcItem.precio * _gcItem.qty,
       descripcion: _gcItem.nombre + ' × ' + _gcItem.qty
