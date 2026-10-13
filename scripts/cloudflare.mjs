@@ -46,9 +46,9 @@ const generic = [
   "/cpanel https://cpanel.polyplas.cl/ 302",
   "/cpanel/* https://cpanel.polyplas.cl/ 302",
   "/whm https://whm.polyplas.cl/ 302",
-  "/wp-admin https://cpanel.polyplas.cl/ 302",
-  "/wp-admin/* https://cpanel.polyplas.cl/ 302",
-  "/wp-login.php https://cpanel.polyplas.cl/ 302",
+  // /wp-admin y /wp-login.php ya no redirigen a cPanel: responden 404.
+  // (Google seguía esa redirección y marcaba las URLs como "Bloqueada por robots.txt",
+  //  porque cpanel.polyplas.cl bloquea todo en su robots.txt; además exponía el acceso a cPanel.)
   // sitemaps antiguos de AIOSEO / WordPress -> sitemap nuevo
   "/sitemap_index.xml /sitemap.xml 301",
   "/post-sitemap.xml /sitemap.xml 301",

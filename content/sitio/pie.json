@@ -1,8 +1,8 @@
 {
   "_ayuda": "Textos del pie de página. Cambia solo los textos entre comillas.",
-  "descripcion": "Importadora con más de 29 años en Chile. Planchas de acrílico, PET, PETG, policarbonato, cúpulas, receptáculos y tinas de hidromasaje para personas y empresas.",
+  "descripcion": "Importadora y fabricante con más de 29 años en Chile. Planchas de acrílico, PET, PETG, policarbonato, cúpulas, receptáculos y tinas de hidromasaje para personas y empresas.",
   "redes": [
-    { "red": "facebook", "enlace": "https://facebook.com/polyplas.cl" },
+    { "red": "facebook", "enlace": "https://www.facebook.com/polyplas.ltda" },
     { "red": "instagram", "enlace": "https://www.instagram.com/polyplaschile/" }
   ],
   "columnas": [
@@ -26,7 +26,7 @@
         { "texto": "Guía de acrílicos", "enlace": "/guia-de-acrilicos/" },
         { "texto": "Guía de tinas de hidromasaje", "enlace": "/guia-para-comprar-tina-de-hidromasaje-en-chile/" },
         { "texto": "Blog técnico", "enlace": "/blog/" },
-        { "texto": "Devolución y garantía", "enlace": "/categoria-producto/politica-de-devolucion/" },
+        { "texto": "Términos, envíos y devoluciones", "enlace": "/terminos-y-condiciones/" },
         { "texto": "Política de privacidad", "enlace": "/politica-de-privacidad-de-datos/" }
       ]
     }

@@ -4,6 +4,7 @@
  * Crea la transacción en Transbank y guarda el pedido 30 minutos en KV.
  */
 import { json, randomOrder, tbkRequest, tbkMissing, usuarioDesdeToken } from "../../../_lib/webpay.js";
+import { verificarTotal } from "../../../_lib/precios.js";
 
 export async function onRequestPost({ request, env }) {
   const missing = tbkMissing(env);
@@ -20,6 +21,13 @@ export async function onRequestPost({ request, env }) {
 
   const total = Math.trunc(Number(p.total) || 0);
   if (total <= 0) return json({ code: "invalid_amount", message: "Monto invalido" }, 400);
+
+  // El total lo calcula el navegador: se vuelve a calcular con los precios del CRM antes de cobrar
+  const verif = await verificarTotal(p.items, total);
+  if (!verif.ok) {
+    console.log("[Polyplas Webpay] Pago rechazado por verificación:", verif.detalle);
+    return json({ code: verif.code, message: verif.message }, 409);
+  }
 
   const origin = new URL(request.url).origin;
   // Solo se permite volver a páginas de este mismo sitio
@@ -69,6 +77,7 @@ export async function onRequestPost({ request, env }) {
       items: itemsClean,
       items_full: items,
       entrega: String(p.entrega || "").slice(0, 200),
+      verificado: verif.verificado,
       return_page: returnPage,
     }),
     { expirationTtl: 60 * 30 },

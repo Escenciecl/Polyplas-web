@@ -360,7 +360,9 @@ export async function enviarComprobante(env, order, tbk) {
   }, 0);
   const alerta = suma > 0 && Math.abs(suma - tbk.amount) > Math.max(2000, tbk.amount * 0.35)
     ? `<p style="background:#fef2f2;border:2px solid #dc2626;color:#991b1b;padding:12px;font:14px Arial;margin:0 0 12px;">⚠ REVISAR ANTES DE DESPACHAR: el monto pagado (${clp(tbk.amount)}) no calza con la suma de productos (${clp(suma)}).</p>`
-    : "";
+    : order.verificado === false
+      ? `<p style="background:#fffbeb;border:2px solid #d97706;color:#92400e;padding:12px;font:14px Arial;margin:0 0 12px;">⚠ REVISAR ANTES DE DESPACHAR: al crear este pago el CRM no respondió y no se pudo comprobar el total con los precios vigentes.</p>`
+      : "";
 
   const send = (to, subject, body) => {
     const req = useBrevo

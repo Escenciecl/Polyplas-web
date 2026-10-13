@@ -334,5 +334,77 @@
  {
   "source": "/productos.html",
   "destination": "/"
+ },
+ {
+  "source": "/producto/receptaculo-de-ducha-acrilico-80x80/",
+  "destination": "/receptaculo-ducha-80x80/"
+ },
+ {
+  "source": "/producto/receptaculo-de-ducha-acrilico-90x90/",
+  "destination": "/receptaculo-ducha-90x90/"
+ },
+ {
+  "source": "/producto/receptaculo-de-ducha-acrilico-esquinero-90x90/",
+  "destination": "/receptaculo-ducha-esquinero-90x90/"
+ },
+ {
+  "source": "/producto/tina-modelo-antuco/",
+  "destination": "/tina-hidromasaje-antuco/"
+ },
+ {
+  "source": "/producto/tina-hidromasaje-antuco/",
+  "destination": "/tina-hidromasaje-antuco/"
+ },
+ {
+  "source": "/producto/tina-hidromasaje-queilen/",
+  "destination": "/tina-hidromasaje-queilen/"
+ },
+ {
+  "source": "/producto/tina-hidromasaje-coinco/",
+  "destination": "/tina-hidromasaje-coinco/"
+ },
+ {
+  "source": "/producto/tina-hidromasaje-kuyen-full/",
+  "destination": "/tina-hidromasaje-kuyen-full/"
+ },
+ {
+  "source": "/producto/tina-hidromasaje-modelo-kuyen-full-oferta/",
+  "destination": "/tina-hidromasaje-kuyen-full/"
+ },
+ {
+  "source": "/producto/cupula-acrilico-54-x-54-cm/",
+  "destination": "/cupula-acrilico-54x54/"
+ },
+ {
+  "source": "/producto/shower-door/",
+  "destination": "/mampara-de-ducha-vidrio/"
+ },
+ {
+  "source": "/producto/panel-de-ducha/",
+  "destination": "/categoria-producto/banos/"
+ },
+ {
+  "source": "/category/receptaculos-ducha/",
+  "destination": "/categoria-producto/receptaculos/"
+ },
+ {
+  "source": "/acrilico",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/compra-planchas-de-acrilico-online/",
+  "destination": "/categoria-producto/planchas-acrilico/"
+ },
+ {
+  "source": "/categoria-producto/politica-de-devolucion/",
+  "destination": "/terminos-y-condiciones/"
+ },
+ {
+  "source": "/politica-de-devoluciones/",
+  "destination": "/terminos-y-condiciones/"
+ },
+ {
+  "source": "/politica-de-devolucion/",
+  "destination": "/terminos-y-condiciones/"
  }
 ]

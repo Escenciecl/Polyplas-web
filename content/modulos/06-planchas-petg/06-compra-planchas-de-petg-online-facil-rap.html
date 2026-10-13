@@ -3733,8 +3733,8 @@
 {
   "@context": "https://schema.org",
   "@type": "Product",
-  "name": "Planchas de PET",
-  "description": "Planchas de PET (Tereftalato de Polietileno) en plancha 244 × 122 cm. Espesor 1 mm. Rígido, liviano y económico, ideal para señalética, packaging y displays de bajo costo. Con servicio de corte incluido.",
+  "name": "Planchas de PETG",
+  "description": "Planchas de PETG en 244 × 122 cm. Fácil de doblar y termoformar, resistente al impacto y apto para contacto con alimentos. Ideal para displays, protecciones y piezas termoformadas. Con servicio de corte.",
   "brand": {
     "@type": "Brand",
     "name": "Polyplas"
@@ -3742,8 +3742,8 @@
   "offers": {
     "@type": "AggregateOffer",
     "priceCurrency": "CLP",
-    "lowPrice": "23000",
-    "highPrice": "23000",
+    "lowPrice": "64260",
+    "highPrice": "64260",
     "availability": "https://schema.org/InStock",
     "seller": {
       "@type": "Organization",
@@ -3751,7 +3751,7 @@
     }
   },
   "category": "Materiales plásticos",
-  "material": "PET"
+  "material": "PETG"
 }
 </script>
 <style>
@@ -3804,7 +3804,7 @@
       El PETG combina la rigidez del acrílico con una flexibilidad que le permite doblarse sin
       romperse. Excelente para termoformado, displays y piezas que requieren conformado en calor.
       Alta claridad óptica y fácil de trabajar. Disponible en planchas de <strong>244 × 122 cm</strong>
-      en espesores desde 1 mm,
+      en distintos espesores,
       con opción de corte a medida incluido en el proceso de compra.
     </p>
 </div>
@@ -3816,7 +3816,7 @@
 <div class="pp-product-card-name">Plancha PETG</div>
 <div class="pp-product-card-mat">Clear / Transparente</div>
 <div class="pp-card-specs"></div>
-<div class="pp-card-desde"><span class="pp-card-desde-label">Valor</span><span class="pp-card-desde-price">$ 61.880</span><span class="pp-card-desde-iva">IVA incluido</span></div>
+<div class="pp-card-desde"><span class="pp-card-desde-label">Valor</span><span class="pp-card-desde-price">$ 64.260</span><span class="pp-card-desde-iva">IVA incluido</span></div>
 <button class="pp-btn-buy" onclick="openConfigurator('clear','','PETG')">COMPRAR →</button>
 </div>
 </div>
@@ -4500,7 +4500,7 @@ function isOutOfStock(tipo, dim, color, esp) {
   return Array.isArray(entry) && entry.includes(esp);
 }
 
-var prices   = (window.__ppPETG && window.__ppPETG.prices)   || { PETG: { "2440x1220": { clear: { "2mm":61880 }}}};
+var prices   = (window.__ppPETG && window.__ppPETG.prices)   || { PETG: { "2440x1220": { clear: { "2mm":64260 }}}};
 const dimMeta   = (window.__ppPETG && window.__ppPETG.dimMeta)   || { "2440x1220": { label:"244 × 122 cm", tipos:["PETG"], w:2440, h:1220 }};
 const colorMeta = (window.__ppPETG && window.__ppPETG.colorMeta) || { clear: { label:"Clear / Transparente", dot:"rgba(200,240,255,0.7)", border:"#b0d8f0", img:"/wp-content/uploads/2026/05/plancha-de-acrilico-color-transparente.webp" }};
 

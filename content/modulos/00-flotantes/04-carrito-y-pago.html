@@ -883,7 +883,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
   var gcEmbalajeOpc = false;
   function gcEmbalajeLineas(obligatorio) {
     return gcItems.filter(function(i) { return i.embalaje_unit > 0 && !i.embalaje; }).map(function(i) {
-      return { nombre: (obligatorio ? 'Embalaje obligatorio envío a regiones · ' : 'Embalaje · ') + i.nombre, qty: i.qty || 1, precio_unit: i.embalaje_unit, corte_costo: 0, subtotal: i.embalaje_unit * (i.qty || 1), module: i.module };
+      return { sku: 'EMBALAJE', nombre: (obligatorio ? 'Embalaje obligatorio envío a regiones · ' : 'Embalaje · ') + i.nombre, qty: i.qty || 1, precio_unit: i.embalaje_unit, corte_costo: 0, subtotal: i.embalaje_unit * (i.qty || 1), module: i.module };
     });
   }
   function gcEmbalajeCosto() { return gcEmbalajeLineas(false).reduce(function(s, i) { return s + i.subtotal; }, 0); }
@@ -1760,8 +1760,19 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     var itemsPedido=gcItemsPedido();
     var resumen=itemsPedido.map(function(item){ var mod=MOD_LABELS[item.module]||item.module||''; return '• '+(mod?mod+' · ':'')+item.nombre+' × '+item.qty+' → '+fmt(item.subtotal); }).join('\n');
     try {
-      var res=await fetch('/wp-json/polyplas/v1/webpay-init',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({total:Math.round(total),entrega:gcSelectedEntrega.label,client:client,return_page:'https://polyplas.cl/gracias/',items:itemsPedido.map(function(i){return{nombre:i.nombre,qty:i.qty,precio_unit:i.precio_unit||0,corte_costo:i.corte_costo||0,subtotal:i.subtotal||0,corteMode:i.corteMode||'',tieneRecargo:i.tieneRecargo||false,corteInstrucciones:i.corteInstrucciones||'',corteMedidas:i.corteMedidas||null,calcInfo:i.calcInfo||null};})})});
+      var res=await fetch('/wp-json/polyplas/v1/webpay-init',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({total:Math.round(total),entrega:gcSelectedEntrega.label,client:client,return_page:'https://polyplas.cl/gracias/',items:itemsPedido.map(function(i){return{sku:i.sku||'',embalaje:!!i.embalaje,nombre:i.nombre,qty:i.qty,precio_unit:i.precio_unit||0,corte_costo:i.corte_costo||0,subtotal:i.subtotal||0,corteMode:i.corteMode||'',tieneRecargo:i.tieneRecargo||false,corteInstrucciones:i.corteInstrucciones||'',corteMedidas:i.corteMedidas||null,calcInfo:i.calcInfo||null};})})});
       var data=await res.json();
+      // El servidor recalcula el total con el CRM: si no calza, se revisa el carrito antes de cobrar
+      if (data && (data.code==='precio_cambio' || data.code==='verificacion')) {
+        if (data.code==='precio_cambio') {
+          await new Promise(function(ok){ gcRevisarCRM(ok); });
+          ppGCCloseCheckout(); ppGCOpen();
+          var _avp = gEl('ppGC-cart-items');
+          if (_avp) _avp.insertAdjacentHTML('afterbegin', '<div style="margin-bottom:12px;padding:10px 12px;border-radius:8px;background:#fff7ed;color:#9a3412;font-size:.85rem;font-weight:600">' + (data.message || 'Los precios de tu carrito se actualizaron. Revísalo antes de pagar.') + '</div>');
+        } else if (e2) { e2.textContent = data.message || 'No pudimos verificar tu pedido.'; e2.style.display = 'block'; }
+        if (btn){btn.disabled=false;btn.textContent='Pagar con Webpay';}
+        return;
+      }
       if (!data.token||!data.url) throw new Error('Respuesta inválida');
       try { sessionStorage.setItem(GC_ORDER_KEY,JSON.stringify({convId:convId,shortId:shortId,client:client,items:itemsPedido,entregaLabel:gcSelectedEntrega.label,total:total,resumen:resumen,termsAccepted:gcTermsAccepted})); } catch(e){}
       var form=document.createElement('form'); form.method='POST'; form.action=data.url;

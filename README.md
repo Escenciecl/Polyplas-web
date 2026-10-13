@@ -102,6 +102,7 @@ Configuración en Cloudflare Pages → Settings:
 | **Secreto** | `RESEND_API_KEY` | API key de resend.com (correos, plan gratis) |
 | KV binding | `ORDERS` | namespace `polyplas-orders` |
 
-> **Nota de seguridad:** el monto a cobrar lo calcula el navegador (igual que en WordPress).
-> Si el total pagado no calza con la suma de productos, el correo a ventas llega con un aviso
-> rojo "REVISAR ANTES DE DESPACHAR". Mejora pendiente: validar precios en el servidor.
+> **Nota de seguridad:** antes de crear el pago, `webpay-init` vuelve a calcular el total con los
+> precios y el stock del CRM (`functions/_lib/precios.js`). Si no calza, el pago no se crea y el
+> carrito se actualiza. Si el CRM no responde, el pago sigue y el correo a ventas llega con un aviso
+> "REVISAR ANTES DE DESPACHAR". Un producto nuevo necesita su `sku` en el carrito y su fila con precio en el CRM.
