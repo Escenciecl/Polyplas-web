@@ -26,12 +26,41 @@
   };
   /*
    * SDK pesados de terceros (Supabase): varios módulos lo insertan apenas carga la página.
-   * Se retiene hasta la primera interacción del visitante (o 12 s) para no frenar la carga.
+   * Se retienen hasta que la página terminó de cargar y el navegador está desocupado
+   * (normalmente 2 a 4 s). Antes se esperaba la primera interacción del visitante, pero eso
+   * hacía que todo el JavaScript pesado corriera justo cuando la persona tocaba la pantalla,
+   * y Google lo medía como respuesta lenta (INP sobre 200 ms en móvil).
    * Si la página viene de un pago (/gracias/ o ?pp_pago=, ?orden=, ?auth=) se carga de inmediato.
    */
   var HEAVY = /cdn\.jsdelivr\.net\/npm\/@supabase\/supabase-js/;
   var urgent = /^\/gracias(\/|$)/.test(location.pathname) || /[?&](pp_pago|orden|auth)=/.test(location.search);
   window.__ppUrgent = urgent; // lo usan también GTM y el chat
+
+  /*
+   * window.__ppWhenIdle(fn): ejecuta fn una sola vez, después del evento "load" y con el
+   * navegador desocupado. Lo usan este archivo, GTM (components/LegacyScripts.tsx) y el chat.
+   */
+  var idleQueue = [], idleDone = false;
+  function flushIdle() {
+    if (idleDone) return;
+    idleDone = true;
+    var q = idleQueue; idleQueue = [];
+    for (var i = 0; i < q.length; i++) { try { q[i](); } catch (e) {} }
+  }
+  function scheduleIdle() {
+    setTimeout(function () {
+      if (window.requestIdleCallback) window.requestIdleCallback(flushIdle, { timeout: 3000 });
+      else setTimeout(flushIdle, 500);
+    }, 1500);
+  }
+  if (document.readyState === "complete") scheduleIdle();
+  else winAdd("load", scheduleIdle, { once: true });
+  setTimeout(flushIdle, 10000); // por si "load" se demora mucho
+  window.__ppWhenIdle = function (fn) {
+    if (urgent || idleDone) { setTimeout(fn, 0); return; }
+    idleQueue.push(fn);
+  };
+
   var awake = urgent, queue = [];
   function wake() {
     if (awake) return;
@@ -40,10 +69,9 @@
     for (var i = 0; i < q.length; i++) q[i]();
   }
   if (!urgent) {
-    ["pointerdown", "touchstart", "keydown", "scroll", "mousemove"].forEach(function (ev) {
-      winAdd(ev, wake, { once: true, passive: true, capture: true });
-    });
-    setTimeout(wake, 12000);
+    window.__ppWhenIdle(wake);
+    // Si la persona hace clic antes (carrito, cotizador), se carga en ese momento para que funcione.
+    winAdd("click", wake, { once: true, capture: true });
   }
   function hold(parent) {
     if (!parent || parent.__ppHold) return;

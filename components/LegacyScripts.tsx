@@ -38,31 +38,30 @@ function load(src: string): Promise<void> {
 
 /**
  * Google Tag Manager (y todo lo que carga: Analytics, píxeles, etc.) es lo más pesado del sitio.
- * Se carga con la primera interacción del visitante (mover el mouse, tocar, hacer scroll, teclear)
- * o, si no interactúa, a los 12 segundos. Los eventos que se registren antes quedan en `dataLayer`
- * y GTM los procesa al cargar, así que no se pierde ninguna medición.
+ * Se carga cuando la página ya terminó de cargar y el navegador está desocupado (normalmente 2 a 4 s),
+ * con `window.__ppWhenIdle` (definido en public/legacy/shim.js).
+ * Antes se cargaba con la primera interacción del visitante: eso hacía que GTM corriera justo cuando
+ * la persona tocaba la pantalla (INP lento en móvil) y las visitas que se iban sin interactuar no se medían.
+ * Los eventos que se registren antes quedan en `dataLayer` y GTM los procesa al cargar.
  * Si la página viene de un pago (/gracias/, ?pp_pago=…) se carga de inmediato para registrar la compra.
  */
 const DEFERRED = (src: string) => src === "/legacy/gtm.js";
-const WAKE_EVENTS = ["pointerdown", "touchstart", "keydown", "scroll", "mousemove"] as const;
 
-function onFirstInteraction(fn: () => void, maxWaitMs: number): () => void {
-  let done = false;
+declare global {
+  interface Window {
+    __ppWhenIdle?: (fn: () => void) => void;
+  }
+}
+
+function whenIdle(fn: () => void): () => void {
+  let cancelled = false;
   const run = () => {
-    if (done) return;
-    done = true;
-    cleanup();
-    fn();
+    if (!cancelled) fn();
   };
-  const timer = window.setTimeout(run, maxWaitMs);
-  const cleanup = () => {
-    window.clearTimeout(timer);
-    WAKE_EVENTS.forEach((ev) => window.removeEventListener(ev, run));
-  };
-  WAKE_EVENTS.forEach((ev) => window.addEventListener(ev, run, { once: true, passive: true }));
+  if (window.__ppWhenIdle) window.__ppWhenIdle(run);
+  else window.setTimeout(run, 4000);
   return () => {
-    done = true;
-    cleanup();
+    cancelled = true;
   };
 }
 
@@ -82,9 +81,9 @@ export default function LegacyScripts({ scripts }: { scripts: string[] }) {
         document.dispatchEvent(new Event("pp:legacy-ready"));
       });
     const stop = later.length
-      ? onFirstInteraction(() => {
+      ? whenIdle(() => {
           later.forEach((src) => void load(src));
-        }, 12000)
+        })
       : () => {};
     return () => {
       cancelled = true;

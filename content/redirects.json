@@ -272,6 +272,18 @@
   "destination": "/"
  },
  {
+  "source": "/elementor-3120/",
+  "destination": "/"
+ },
+ {
+  "source": "/elementor-3125/",
+  "destination": "/"
+ },
+ {
+  "source": "/blog-polyplas/",
+  "destination": "/blog/"
+ },
+ {
   "source": "/categoria/cupulas/",
   "destination": "/categoria-producto/cupulas/"
  },

@@ -431,7 +431,7 @@
     if (window.supabase) { init(); return; }
     var started = false, ready = false, pendingClick = false;
     var fab0 = document.getElementById('polyplas-fab');
-    if (fab0) fab0.addEventListener('click', function() { if (!ready) pendingClick = true; });
+    if (fab0) fab0.addEventListener('click', function() { if (!ready) { pendingClick = true; start(); } });
     function done() {
       init();
       ready = true;
@@ -450,10 +450,9 @@
       document.head.appendChild(s);
     }
     if (window.__ppUrgent || /^\/gracias(\/|$)/.test(location.pathname)) { start(); return; }
-    ['pointerdown', 'touchstart', 'keydown', 'scroll', 'mousemove'].forEach(function(ev) {
-      window.addEventListener(ev, start, { once: true, passive: true });
-    });
-    setTimeout(start, 12000);
+    // Se carga con el navegador desocupado (no con el primer toque: eso hacía lenta la respuesta, INP)
+    if (window.__ppWhenIdle) window.__ppWhenIdle(start);
+    else setTimeout(start, 4000);
   }
 
   function init() {
