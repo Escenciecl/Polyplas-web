@@ -1,0 +1,54 @@
+<!-- Ajuste móvil del configurador de planchas (acrílico, PET, PETG, policarbonato)
+     14-oct-2026 · Motivo: en GA4 el 76 % de los usuarios móviles abría el configurador
+     y no llegaba a "Continuar al pedido" (10 % en computador). En un teléfono el precio
+     y el botón quedaban bajo el borde de la pantalla y la barra con la X se escondía.
+     Solo CSS: no cambia precios, eventos ni el carrito. Para deshacer: borrar este archivo. -->
+<style>
+@media (max-width: 768px) {
+  /* Barra superior (Paso 1 de 2 + cerrar) siempre visible */
+  #configuratorModal .pp-configurator-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 6;
+  }
+  /* Precio + "Continuar al pedido" fijos abajo, en una sola franja */
+  #comboPricePreview {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    background: #fff;
+    border-radius: 14px 14px 0 0;
+    box-shadow: 0 -8px 20px rgba(15, 23, 42, .14);
+  }
+  #comboPricePreview > div {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 12px;
+    padding: 10px 12px !important;
+    margin: 0 !important;
+  }
+  #comboPricePreview > div > div:first-child,
+  #comboPricePreview .pp-x-conf {
+    display: none !important;
+  }
+  #comboPricePreview > div > div:nth-child(2) {
+    font-size: 22px !important;
+    line-height: 1.1 !important;
+    margin: 0 !important;
+  }
+  #comboPricePreview > div > div:nth-child(3) {
+    order: 3;
+    flex-basis: 100%;
+    margin: 0 !important;
+    font-size: 11px !important;
+  }
+  #comboPricePreview .pp-x-cta {
+    flex: 1;
+    min-width: 0;
+    margin: 0 !important;
+    padding: 12px 10px !important;
+    font-size: 15px !important;
+  }
+}
+</style>
