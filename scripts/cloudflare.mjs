@@ -95,6 +95,10 @@ https://:project.pages.dev/*
 
 /legacy/gtm.js
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+# SDK de Supabase alojado en el sitio (antes venía de cdn.jsdelivr.net con caché corta)
+/legacy/supabase.min.js
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=604800
 `;
 fs.writeFileSync("public/_headers", headers);
 

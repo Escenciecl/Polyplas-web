@@ -33,6 +33,7 @@
    * Si la página viene de un pago (/gracias/ o ?pp_pago=, ?orden=, ?auth=) se carga de inmediato.
    */
   var HEAVY = /cdn\.jsdelivr\.net\/npm\/@supabase\/supabase-js/;
+  var SUPABASE_LOCAL = "/legacy/supabase.min.js";
   var urgent = /^\/gracias(\/|$)/.test(location.pathname) || /[?&](pp_pago|orden|auth)=/.test(location.search);
   window.__ppUrgent = urgent; // lo usan también GTM y el chat
 
@@ -78,7 +79,16 @@
     parent.__ppHold = true;
     var orig = parent.appendChild;
     parent.appendChild = function (node) {
-      if (!awake && node && node.tagName === "SCRIPT" && HEAVY.test(node.src || "")) {
+      /*
+       * Supabase se sirve desde el propio sitio (/legacy/supabase.min.js, versión fija 2.117.3)
+       * en vez de cdn.jsdelivr.net/@2: evita una conexión extra a otro servidor, queda en caché
+       * del navegador y no cambia de versión sin aviso. Los módulos no se tocan: la dirección
+       * se reemplaza aquí al insertarse el <script>.
+       */
+      if (node && node.tagName === "SCRIPT" && HEAVY.test(node.src || "")) {
+        node.src = SUPABASE_LOCAL;
+      }
+      if (!awake && node && node.tagName === "SCRIPT" && (node.src || "").indexOf(SUPABASE_LOCAL) !== -1) {
         queue.push(function () { orig.call(parent, node); });
         return node;
       }
