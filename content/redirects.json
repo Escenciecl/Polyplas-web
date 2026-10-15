@@ -418,5 +418,9 @@
  {
   "source": "/politica-de-devolucion/",
   "destination": "/terminos-y-condiciones/"
+ },
+ {
+  "source": "/politicas-de-devolucion-y-garantia/",
+  "destination": "/terminos-y-condiciones/"
  }
 ]
