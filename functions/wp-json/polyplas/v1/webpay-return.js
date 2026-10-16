@@ -62,7 +62,11 @@ export async function onRequest({ request, env, waitUntil }) {
         r.forEach((x) => x.status === "rejected" && console.log("[Polyplas] post-pago", x.reason)),
       ),
     );
-    return redirect(returnPage, { pp_pago: "aprobado", orden: tbk.buy_order, monto: tbk.amount, auth: tbk.authorization_code });
+    // Compra a Google Analytics desde el servidor (ver enviarCompraGA4 al final del archivo)
+    const gaOk = await enviarCompraGA4(env, order, tbk);
+    const q = { pp_pago: "aprobado", orden: tbk.buy_order, monto: tbk.amount, auth: tbk.authorization_code };
+    if (gaOk) q.ga_srv = 1;
+    return redirect(returnPage, q);
   }
 
   console.log("[Polyplas Webpay] Pago rechazado", JSON.stringify(result));
@@ -72,4 +76,45 @@ export async function onRequest({ request, env, waitUntil }) {
     ),
   );
   return redirect(returnPage, { pp_pago: "rechazado" });
+}
+
+/* ── Google Analytics 4: la compra se registra desde el servidor ──────────
+ * Así queda medida aunque la persona vuelva de Webpay en otro navegador (app del banco)
+ * o cierre la página antes de que cargue Analytics. Usa la visita guardada en webpay-init.js.
+ * Requiere el secreto GA4_API_SECRET en Cloudflare; sin él no hace nada y todo sigue como antes.
+ * Si se envía, la redirección lleva ga_srv=1 y Tag Manager no vuelve a mandar la compra a GA4
+ * (Google Ads y Meta siguen recibiéndola desde el navegador). */
+async function enviarCompraGA4(env, order, tbk) {
+  const ga = order && order.ga;
+  if (!env.GA4_API_SECRET || !ga || !ga.client_id) return false;
+  const params = {
+    transaction_id: tbk.buy_order,
+    currency: "CLP",
+    value: tbk.amount,
+    items: Array.isArray(order.ga_items) ? order.ga_items : [],
+    origen_compra: "servidor",
+    engagement_time_msec: 1,
+  };
+  if (ga.session_id) params.session_id = ga.session_id;
+  const url =
+    "https://www.google-analytics.com/mp/collect?measurement_id=" +
+    encodeURIComponent(env.GA4_MEASUREMENT_ID || "G-HTFZ3XVZZP") +
+    "&api_secret=" +
+    encodeURIComponent(env.GA4_API_SECRET);
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 3000);
+  try {
+    const r = await fetch(url, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ client_id: ga.client_id, events: [{ name: "purchase", params }] }),
+      signal: ctrl.signal,
+    });
+    return r.ok;
+  } catch (e) {
+    console.log("[Polyplas GA4] no se pudo enviar la compra", String(e));
+    return false;
+  } finally {
+    clearTimeout(timer);
+  }
 }

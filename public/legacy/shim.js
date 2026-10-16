@@ -36,6 +36,9 @@
   var SUPABASE_LOCAL = "/legacy/supabase.min.js";
   var urgent = /^\/gracias(\/|$)/.test(location.pathname) || /[?&](pp_pago|orden|auth)=/.test(location.search);
   window.__ppUrgent = urgent; // lo usan también GTM y el chat
+  // La compra ya la registró el servidor en GA4 (webpay-return.js con ?ga_srv=1).
+  // GTM lo lee con la variable "JS - Compra registrada por servidor" para no enviarla dos veces a GA4.
+  window.__ppGaSrv = /[?&]ga_srv=1(&|$)/.test(location.search);
 
   /*
    * window.__ppWhenIdle(fn): ejecuta fn una sola vez, después del evento "load" y con el
