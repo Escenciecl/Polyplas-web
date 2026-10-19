@@ -2,7 +2,7 @@
 /* Enlace directo desde las fichas de producto: /categoria-producto/tinas-de-hidromasaje/#tina=vilcun abre la compra de ese modelo
    (igual que el botón COMPRAR del listado). Si no hay stock, abre el detalle. */
 (function () {
-  var m = /(?:^#|&)tina=([a-z0-9_-]+)/i.exec(window.location.hash);
+  var m = /(?:^#|&(?:amp;)?)tina=([a-z0-9_-]+)/i.exec(window.location.hash);
   if (!m) return;
   var id = m[1], intentos = 0;
   function boton() {

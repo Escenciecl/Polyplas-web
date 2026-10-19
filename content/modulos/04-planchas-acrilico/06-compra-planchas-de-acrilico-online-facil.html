@@ -8739,8 +8739,8 @@ function openConfiguratorPA(colorKey) {
 /* ── DEEP LINK: #color=clear&medida=1800x1200&espesor=2mm&mat=AA ── */
 (function ppDeepLink() {
   /* Lee del hash (#) para evitar 404 de WordPress con query params */
-  var hashStr = window.location.hash.replace(/^#/, '');
-  var params  = new URLSearchParams(hashStr || window.location.search);
+  var hashStr = window.location.hash.replace(/^#/, '').replace(/&amp(?:;|%3B)/gi, '&');
+  var params  = new URLSearchParams((hashStr || window.location.search).replace(/&amp(?:;|%3B)/gi, '&'));
   var color   = params.get('color') || params.get('c');
   var medida  = params.get('medida') || params.get('m');
   var espesor = params.get('espesor') || params.get('esp') || params.get('e');

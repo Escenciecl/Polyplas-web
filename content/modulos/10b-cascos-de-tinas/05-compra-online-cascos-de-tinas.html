@@ -2599,7 +2599,7 @@ loadTinasStockFromSupabase();
     if (b && !b.disabled) { b.click(); return true; }
     return false;
   }
-  var hashStr = window.location.hash.replace(/^#/, '');
+  var hashStr = window.location.hash.replace(/^#/, '').replace(/&amp(?:;|%3B)/gi, '&');
   if (!hashStr) return;
   var params = new URLSearchParams(hashStr);
   var tina = params.get('casco');
