@@ -172,6 +172,10 @@
 .ppGC-shipping-fill { height: 100%; background: linear-gradient(90deg, #00448D, #3b82f6); border-radius: 100px; transition: width 0.4s ease; }
 .ppGC-shipping-label { font-size: 0.72rem; color: #666; margin-top: 5px; display: block; }
 .ppGC-shipping-label.reached { color: #1a7c2a; font-weight: 600; }
+.ppGC-entrega-aviso { margin: 0 0 12px; padding: 11px 14px; background: #eef6ee; border-left: 3px solid #1a7c2a; border-radius: 8px; font-size: 0.8rem; line-height: 1.5; color: #1f3b22; }
+.ppGC-entrega-aviso:empty { display: none; }
+.ppGC-entrega-aviso-sub { display: block; margin-top: 4px; color: #4a5a4c; }
+.ppGC-factura-nota { margin: 0 0 12px; font-size: 0.76rem; line-height: 1.45; color: #555; }
 
 /* Botones del carrito */
 .ppGC-cart-actions {
@@ -596,6 +600,8 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
 </div>
 <div class="ppGC-summary-total" id="ppGC-sum-total">—</div>
 </div>
+<div class="ppGC-entrega-aviso" id="ppGC-entrega-aviso" role="note"></div>
+<p class="ppGC-factura-nota">🧾 Emitimos <strong>factura electrónica</strong> a personas y empresas. Estos datos son para emitirla.</p>
 <div class="ppGC-client-toggle">
 <button class="active" id="ppGC-btnPN" onclick="ppGCSetClientType('PN')">Persona Natural</button>
 <button id="ppGC-btnEMP" onclick="ppGCSetClientType('EMP')">Empresa</button>
@@ -835,10 +841,18 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
   /* ── Constantes ─────────────────────────────────────────── */
   var GC_KEY       = 'pp_global_cart';
   var GC_ORDER_KEY = 'pp_global_order_data';
-  var UMBRAL       = 350000;
+  // ── Reglas de entrega: un solo lugar para todo el sitio ──────
+  // Para cambiar el monto del despacho gratis o las comunas sin despacho, se edita solo aquí.
+  window.PP_ENTREGA = window.PP_ENTREGA || {
+    umbralDespachoGratis: 350000,
+    regionDespacho: 'RM',
+    comunasSinDespachoRM: ['Pirque','San José de Maipo','Colina','Lampa','Tiltil','San Bernardo','Buin','Calera de Tango','Paine','Melipilla','Alhué','Curacaví','María Pinto','San Pedro','Talagante','El Monte','Isla de Maipo','Padre Hurtado','Peñaflor'],
+    retiro: { direccion: 'Santiago Concha 1525, Santiago Centro', horario: 'Lun a jue 9:00–18:00 · Vie 9:00–17:00' }
+  };
+  var UMBRAL       = window.PP_ENTREGA.umbralDespachoGratis;
   var TEL_PREFIX   = '+56 ';
   var MOD_LABELS   = { petg:'PETG', pet:'PET', acrilico:'Acrílico', pc:'Policarbonato', tinas:'Tinas', cascos:'Cascos de tinas', cupulas:'Cúpulas', receptaculos:'Receptáculos', duchas:'Columnas de ducha', mamparas:'Mamparas de ducha' };
-  var EXCLUIDAS_RM = ['Pirque','San José de Maipo','Colina','Lampa','Tiltil','San Bernardo','Buin','Calera de Tango','Paine','Melipilla','Alhué','Curacaví','María Pinto','San Pedro','Talagante','El Monte','Isla de Maipo','Padre Hurtado','Peñaflor'];
+  var EXCLUIDAS_RM = window.PP_ENTREGA.comunasSinDespachoRM;
   var COMUNAS = {
     RM:  ['Cerrillos','Cerro Navia','Conchalí','El Bosque','Estación Central','Huechuraba','Independencia','La Cisterna','La Florida','La Granja','La Pintana','La Reina','Las Condes','Lo Barnechea','Lo Espejo','Lo Prado','Macul','Maipú','Ñuñoa','Pedro Aguirre Cerda','Peñalolén','Providencia','Pudahuel','Quilicura','Quinta Normal','Recoleta','Renca','San Joaquín','San Miguel','San Ramón','Santiago','Vitacura','Puente Alto','Pirque','San José de Maipo','Colina','Lampa','Tiltil','San Bernardo','Buin','Calera de Tango','Paine','Melipilla','Alhué','Curacaví','María Pinto','San Pedro','Talagante','El Monte','Isla de Maipo','Padre Hurtado','Peñaflor'],
     XV:['Arica','Camarones','Putre','General Lagos'], I:['Iquique','Alto Hospicio','Pozo Almonte','Camiña','Colchane','Huara','Pica'],
@@ -1260,7 +1274,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
         shipLabel.textContent = '🚚 Despacho gratis en la RM (comunas con cobertura)';
         shipLabel.className = 'ppGC-shipping-label reached';
       } else {
-        shipLabel.textContent = 'Te faltan ' + fmt(UMBRAL - grand) + ' para despacho gratis';
+        shipLabel.textContent = '🏪 Retiro gratis en tienda · Te faltan ' + fmt(UMBRAL - grand) + ' para despacho gratis en la RM';
         shipLabel.className = 'ppGC-shipping-label';
       }
     }
@@ -1316,6 +1330,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     gcClientType = 'PN';
     ppGCSetClientType('PN');
     gcRenderSummary();
+    gcRenderEntregaAviso();
     // El resumen parte plegado: el detalle completo se revisa en el paso 3
     var si = gEl('ppGC-sum-items'); if (si) si.classList.add('collapsed');
     var st = gEl('ppGC-sum-toggle'); if (st) st.textContent = 'Ver';
@@ -1432,6 +1447,22 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     var items=gEl('ppGC-sum-items'), btn=gEl('ppGC-sum-toggle');
     if (!items||!btn) return;
     btn.textContent = items.classList.toggle('collapsed') ? 'Ver' : 'Ocultar';
+  }
+
+  // Aviso en "Tus datos": cómo se entrega este pedido, antes de pedir los datos.
+  function gcRenderEntregaAviso() {
+    var el = gEl('ppGC-entrega-aviso'); if (!el) return;
+    var cfg = window.PP_ENTREGA || {}, r = cfg.retiro || {};
+    var g = gcTotal(), html;
+    if (g >= UMBRAL) {
+      html = '<strong>🚚 Tu pedido califica para despacho gratis</strong> en la Región Metropolitana (1–3 días hábiles, comunas con cobertura). '
+           + 'También puedes retirarlo gratis en tienda.';
+    } else {
+      html = '<strong>🏪 Retiro gratis en tienda</strong> · ' + (r.direccion || '') + (r.horario ? ' · ' + r.horario : '') + '.'
+           + '<span class="ppGC-entrega-aviso-sub">El despacho gratis es para compras desde ' + fmt(UMBRAL) + ' en la RM (te faltan ' + fmt(UMBRAL - g) + ').</span>';
+    }
+    if (gcSoloTinas()) html += '<span class="ppGC-entrega-aviso-sub">Fuera de la RM, las tinas van con flete por pagar al recibir.</span>';
+    el.innerHTML = html;
   }
 
   function gcRenderSummary() {
