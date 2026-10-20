@@ -91,7 +91,7 @@
 }
 
 @media (max-width: 480px) {
-  #ppG-card { padding: 32px 20px; margin: 20px auto; }
+#ppG-card { padding: 32px 20px; margin: 20px auto; }
 }
 </style>
 <div id="ppG-wrap">
@@ -119,8 +119,8 @@
 </div>
 </div>
 <button class="ppG-btn ppG-btn--outline" onclick="window.location.href='/'">
-        Volver al inicio
-      </button>
+Volver al inicio
+</button>
 </div>
 <div id="ppG-fail" style="display:none">
 <div class="ppG-icon ppG-icon--fail">
@@ -133,8 +133,8 @@
 <p id="ppG-fail-msg">El pago fue rechazado o cancelado.<br/>Puedes intentarlo nuevamente con otra tarjeta o contactar a tu banco.</p>
 <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
 <button class="ppG-btn ppG-btn--solid" id="ppG-btn-retry" onclick="window.location.href='/'">
-        Volver a la tienda e intentar de nuevo
-      </button>
+Volver a la tienda e intentar de nuevo
+</button>
 <a href="https://wa.me/56942086751?text=Hola%2C%20vengo%20de%20la%20web%20de%20Polyplas%20y%20quiero%20hacer%20una%20consulta." id="ppG-wa-link" style="text-decoration:none;display:block;">
 <button class="ppG-btn ppG-btn--outline" style="width:100%">Contactar por WhatsApp</button>
 </a>
@@ -144,161 +144,197 @@
 </div>
 <script>
 (function () {
-  window.POLYPLAS_CONFIG = window.POLYPLAS_CONFIG || {
-    SUPABASE_URL:      'https://gdrkscedvkjtcvexnhzg.supabase.co',
-    SUPABASE_ANON_KEY: 'sb_publishable_qT9WuJK5Wi6VghgMvcYIMw_IGBtn1Tc'
-  };
-  if (typeof (window.supabase || {}).createClient === 'function') return;
-  var s = document.createElement('script');
-  s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
-  document.head.appendChild(s);
+window.POLYPLAS_CONFIG = window.POLYPLAS_CONFIG || {
+SUPABASE_URL: 'https://gdrkscedvkjtcvexnhzg.supabase.co',
+SUPABASE_ANON_KEY: 'sb_publishable_qT9WuJK5Wi6VghgMvcYIMw_IGBtn1Tc'
+};
+if (typeof (window.supabase || {}).createClient === 'function') return;
+var s = document.createElement('script');
+s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+document.head.appendChild(s);
 })();
 </script>
 <script>
 (function () {
 
-  function checkPaymentResult() {
-    var params = new URLSearchParams(window.location.search);
-    var pago   = params.get('pp_pago');
-    if (!pago) return; // No hay resultado de pago: el bloque permanece oculto
-
-    // Mostrar overlay a pantalla completa
-    document.getElementById('ppG-wrap').style.display = 'block';
-
-    if (pago === 'aprobado') {
-      var monto = parseInt(params.get('monto') || '0');
-      document.getElementById('ppG-ok').style.display = 'block';
-      document.getElementById('ppG-orden').textContent = params.get('orden') || '—';
-      document.getElementById('ppG-monto').textContent = '$ ' + monto.toLocaleString('es-CL');
-      document.getElementById('ppG-auth').textContent  = params.get('auth')  || '—';
-      window.history.replaceState({}, '', window.location.pathname + '#gracias');
-
-      // ── GTM / dataLayer — evento purchase ──
-      try {
-        var _dlItems = JSON.parse(
-          sessionStorage.getItem('pp_cart_dl') ||
-          sessionStorage.getItem('pp_tinas_cart_dl') ||
-          sessionStorage.getItem('pp_pet_cart_dl') ||
-          sessionStorage.getItem('pp_petg_cart_dl') ||
-          sessionStorage.getItem('pp_cupulas_cart_dl') ||
-          sessionStorage.getItem('pp_recep_cart_dl') ||
-          sessionStorage.getItem('pp_pc_cart_dl') || '[]'
-        );
-        var _dlTotal = parseInt(
-          sessionStorage.getItem('pp_total_dl') ||
-          sessionStorage.getItem('pp_tinas_total_dl') ||
-          sessionStorage.getItem('pp_pet_total_dl') ||
-          sessionStorage.getItem('pp_petg_total_dl') ||
-          sessionStorage.getItem('pp_cupulas_total_dl') ||
-          sessionStorage.getItem('pp_recep_total_dl') ||
-          sessionStorage.getItem('pp_pc_total_dl') || String(monto)
-        );
-        sessionStorage.removeItem('pp_cart_dl');
-        sessionStorage.removeItem('pp_total_dl');
-        sessionStorage.removeItem('pp_tinas_cart_dl');
-        sessionStorage.removeItem('pp_tinas_total_dl');
-        sessionStorage.removeItem('pp_pet_cart_dl');
-        sessionStorage.removeItem('pp_pet_total_dl');
-        sessionStorage.removeItem('pp_petg_cart_dl');
-        sessionStorage.removeItem('pp_petg_total_dl');
-        sessionStorage.removeItem('pp_cupulas_cart_dl');
-        sessionStorage.removeItem('pp_cupulas_total_dl');
-        sessionStorage.removeItem('pp_recep_cart_dl');
-        sessionStorage.removeItem('pp_recep_total_dl');
-        sessionStorage.removeItem('pp_pc_cart_dl');
-        sessionStorage.removeItem('pp_pc_total_dl');
-        var _dlCompra = {
-          transaction_id: params.get('orden') || '',
-          currency:       'CLP',
-          value:          _dlTotal || monto,
-          items:          _dlItems
-        };
-        if (window.ppTrack) {
-          // Marcaje centralizado (public/legacy/pp-track.js): una sola compra por orden.
-          // Si el carrito global ya la informó con sus artículos, esta se descarta.
-          window.ppTrack('purchase', _dlCompra, 'gracias');
-        } else {
-          window.dataLayer = window.dataLayer || [];
-          window.dataLayer.push({ ecommerce: null });
-          window.dataLayer.push({ event: 'purchase', ecommerce: _dlCompra });
-        }
-      } catch(e) {}
-
-      // ── Limpiar sessionStorage (el CRM ya fue registrado por el servidor PHP) ──
-      (function () {
-        try {
-          var _od = JSON.parse(
-            sessionStorage.getItem('pp_acrilico_order_data') ||
-            sessionStorage.getItem('pp_pet_order_data') ||
-            sessionStorage.getItem('pp_petg_order_data') ||
-            sessionStorage.getItem('pp_tinas_order_data') ||
-            sessionStorage.getItem('pp_cupulas_order_data') ||
-            sessionStorage.getItem('pp_recep_order_data') ||
-            sessionStorage.getItem('pp_pc_order_data') || 'null'
-          );
-          sessionStorage.removeItem('pp_acrilico_order_data');
-          sessionStorage.removeItem('pp_pet_order_data');
-          sessionStorage.removeItem('pp_petg_order_data');
-          sessionStorage.removeItem('pp_tinas_order_data');
-          sessionStorage.removeItem('pp_cupulas_order_data');
-          sessionStorage.removeItem('pp_recep_order_data');
-          sessionStorage.removeItem('pp_pc_order_data');
-          if (_od) {
-            fetch('https://script.google.com/macros/s/AKfycbw4WkE3slUjbDIUrbYVZD-aL1nB6WWJeyj6XG6rpFNz9p3pSFfdmUd3FjY_hV-QQJNkKA/exec?' + new URLSearchParams({
-              accion:        'pedido_web',
-              idRef:         _od.shortId,
-              nombre:        _od.client.nombre || _od.client.razon || '',
-              email:         _od.client.email  || '',
-              telefono:      _od.client.tel    || '',
-              monto:         String(_od.total),
-              vendido:       'Sí',
-              observaciones: _od.resumen + ' | Entrega:' + _od.entregaLabel
-            }).toString(), { mode: 'no-cors' });
-          }
-        } catch (e) {}
-      })();
-
-    } else {
-      // Pago rechazado o cancelado
-      document.getElementById('ppG-fail').style.display = 'block';
-      if (pago === 'cancelado') {
-        document.getElementById('ppG-fail-msg').textContent =
-          'Cancelaste el proceso de pago. Puedes volver a intentarlo cuando quieras.';
-      }
-      // Detectar la página de producto desde sessionStorage para redirigir correctamente
-      var retryUrl = '/';
-      var ssKeys = ['pp_acrilico_order_data','pp_pet_order_data','pp_petg_order_data',
-                    'pp_tinas_order_data','pp_cupulas_order_data','pp_recep_order_data','pp_pc_order_data'];
-      var moduleToUrl = {
-        acrilico: '/categoria-producto/planchas-acrilico/',
-        pet:      '/categoria-producto/planchas-pet/',
-        petg:     '/categoria-producto/planchas-petg/',
-        pc:       '/categoria-producto/policarbonato-compacto/',
-        tinas:    '/categoria-producto/tinas-de-hidromasaje/',
-        cupulas:  '/categoria-producto/cupulas/',
-        recep:    '/categoria-producto/receptaculos/'
-      };
-      for (var _k of ssKeys) {
-        if (sessionStorage.getItem(_k)) {
-          var _mod = _k.replace('pp_','').replace('_order_data','');
-          retryUrl = moduleToUrl[_mod] || '/';
-          break;
-        }
-      }
-      var retryBtn = document.getElementById('ppG-btn-retry');
-      if (retryBtn) retryBtn.onclick = function() { window.location.href = retryUrl; };
-      var _waRef = 'PP-' + Math.random().toString(36).slice(2, 7).toUpperCase();
-      var _waLink = document.getElementById('ppG-wa-link');
-      if (_waLink) _waLink.href = 'https://wa.me/56942086751?text=' + encodeURIComponent('Hola, vengo de la web de Polyplas y quiero hacer una consulta. (Ref: ' + _waRef + ')');
-      window.history.replaceState({}, '', window.location.pathname);
+// ── Reseñas de Clientes en Google (encuesta opcional después de la compra) ──
+// Merchant Center 5664479489. Se muestra solo con pago aprobado y si hay correo del cliente.
+function ppGcrOptIn(od, orden) {
+  try {
+    var email = od && od.client && od.client.email;
+    if (!email || !orden) return;
+    var entrega = String(od.entregaLabel || '');
+    var resumen = String(od.resumen || '');
+    var dias = /retiro/i.test(entrega) ? 1 : (/tina/i.test(resumen) ? 7 : 3);
+    var d = new Date();
+    while (dias > 0) {
+      d.setDate(d.getDate() + 1);
+      if (d.getDay() !== 0 && d.getDay() !== 6) dias--;
     }
-  }
+    var fecha = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    window.renderOptIn = function () {
+      window.gapi.load('surveyoptin', function () {
+        window.gapi.surveyoptin.render({
+          merchant_id: 5664479489,
+          order_id: String(orden),
+          email: email,
+          delivery_country: 'CL',
+          estimated_delivery_date: fecha,
+          opt_in_style: 'CENTER_DIALOG'
+        });
+      });
+    };
+    var s = document.createElement('script');
+    s.src = 'https://apis.google.com/js/platform.js?onload=renderOptIn';
+    s.async = true;
+    s.defer = true;
+    document.head.appendChild(s);
+  } catch (e) {}
+}
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', checkPaymentResult);
-  } else {
-    checkPaymentResult();
-  }
+function checkPaymentResult() {
+var params = new URLSearchParams(window.location.search);
+var pago = params.get('pp_pago');
+if (!pago) return; // No hay resultado de pago: el bloque permanece oculto
+
+// Mostrar overlay a pantalla completa
+document.getElementById('ppG-wrap').style.display = 'block';
+
+if (pago === 'aprobado') {
+var monto = parseInt(params.get('monto') || '0');
+document.getElementById('ppG-ok').style.display = 'block';
+document.getElementById('ppG-orden').textContent = params.get('orden') || '—';
+document.getElementById('ppG-monto').textContent = '$ ' + monto.toLocaleString('es-CL');
+document.getElementById('ppG-auth').textContent = params.get('auth') || '—';
+window.history.replaceState({}, '', window.location.pathname + '#gracias');
+
+// ── GTM / dataLayer — evento purchase ──
+try {
+var _dlItems = JSON.parse(
+sessionStorage.getItem('pp_cart_dl') ||
+sessionStorage.getItem('pp_tinas_cart_dl') ||
+sessionStorage.getItem('pp_pet_cart_dl') ||
+sessionStorage.getItem('pp_petg_cart_dl') ||
+sessionStorage.getItem('pp_cupulas_cart_dl') ||
+sessionStorage.getItem('pp_recep_cart_dl') ||
+sessionStorage.getItem('pp_pc_cart_dl') || '[]'
+);
+var _dlTotal = parseInt(
+sessionStorage.getItem('pp_total_dl') ||
+sessionStorage.getItem('pp_tinas_total_dl') ||
+sessionStorage.getItem('pp_pet_total_dl') ||
+sessionStorage.getItem('pp_petg_total_dl') ||
+sessionStorage.getItem('pp_cupulas_total_dl') ||
+sessionStorage.getItem('pp_recep_total_dl') ||
+sessionStorage.getItem('pp_pc_total_dl') || String(monto)
+);
+sessionStorage.removeItem('pp_cart_dl');
+sessionStorage.removeItem('pp_total_dl');
+sessionStorage.removeItem('pp_tinas_cart_dl');
+sessionStorage.removeItem('pp_tinas_total_dl');
+sessionStorage.removeItem('pp_pet_cart_dl');
+sessionStorage.removeItem('pp_pet_total_dl');
+sessionStorage.removeItem('pp_petg_cart_dl');
+sessionStorage.removeItem('pp_petg_total_dl');
+sessionStorage.removeItem('pp_cupulas_cart_dl');
+sessionStorage.removeItem('pp_cupulas_total_dl');
+sessionStorage.removeItem('pp_recep_cart_dl');
+sessionStorage.removeItem('pp_recep_total_dl');
+sessionStorage.removeItem('pp_pc_cart_dl');
+sessionStorage.removeItem('pp_pc_total_dl');
+var _dlCompra = {
+transaction_id: params.get('orden') || '',
+currency: 'CLP',
+value: _dlTotal || monto,
+items: _dlItems
+};
+if (window.ppTrack) {
+// Marcaje centralizado (public/legacy/pp-track.js): una sola compra por orden.
+// Si el carrito global ya la informó con sus artículos, esta se descarta.
+window.ppTrack('purchase', _dlCompra, 'gracias');
+} else {
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({ ecommerce: null });
+window.dataLayer.push({ event: 'purchase', ecommerce: _dlCompra });
+}
+} catch(e) {}
+
+// ── Limpiar sessionStorage (el CRM ya fue registrado por el servidor PHP) ──
+(function () {
+try {
+var _od = JSON.parse(
+sessionStorage.getItem('pp_acrilico_order_data') ||
+sessionStorage.getItem('pp_pet_order_data') ||
+sessionStorage.getItem('pp_petg_order_data') ||
+sessionStorage.getItem('pp_tinas_order_data') ||
+sessionStorage.getItem('pp_cupulas_order_data') ||
+sessionStorage.getItem('pp_recep_order_data') ||
+sessionStorage.getItem('pp_pc_order_data') || 'null'
+);
+sessionStorage.removeItem('pp_acrilico_order_data');
+sessionStorage.removeItem('pp_pet_order_data');
+sessionStorage.removeItem('pp_petg_order_data');
+sessionStorage.removeItem('pp_tinas_order_data');
+sessionStorage.removeItem('pp_cupulas_order_data');
+sessionStorage.removeItem('pp_recep_order_data');
+sessionStorage.removeItem('pp_pc_order_data');
+if (_od) {
+fetch('https://script.google.com/macros/s/AKfycbw4WkE3slUjbDIUrbYVZD-aL1nB6WWJeyj6XG6rpFNz9p3pSFfdmUd3FjY_hV-QQJNkKA/exec?' + new URLSearchParams({
+accion: 'pedido_web',
+idRef: _od.shortId,
+nombre: _od.client.nombre || _od.client.razon || '',
+email: _od.client.email || '',
+telefono: _od.client.tel || '',
+monto: String(_od.total),
+vendido: 'Sí',
+observaciones: _od.resumen + ' | Entrega:' + _od.entregaLabel
+}).toString(), { mode: 'no-cors' });
+}
+ppGcrOptIn(_od, params.get('orden'));
+} catch (e) {}
+})();
+
+} else {
+// Pago rechazado o cancelado
+document.getElementById('ppG-fail').style.display = 'block';
+if (pago === 'cancelado') {
+document.getElementById('ppG-fail-msg').textContent =
+'Cancelaste el proceso de pago. Puedes volver a intentarlo cuando quieras.';
+}
+// Detectar la página de producto desde sessionStorage para redirigir correctamente
+var retryUrl = '/';
+var ssKeys = ['pp_acrilico_order_data','pp_pet_order_data','pp_petg_order_data',
+'pp_tinas_order_data','pp_cupulas_order_data','pp_recep_order_data','pp_pc_order_data'];
+var moduleToUrl = {
+acrilico: '/categoria-producto/planchas-acrilico/',
+pet: '/categoria-producto/planchas-pet/',
+petg: '/categoria-producto/planchas-petg/',
+pc: '/categoria-producto/policarbonato-compacto/',
+tinas: '/categoria-producto/tinas-de-hidromasaje/',
+cupulas: '/categoria-producto/cupulas/',
+recep: '/categoria-producto/receptaculos/'
+};
+for (var _k of ssKeys) {
+if (sessionStorage.getItem(_k)) {
+var _mod = _k.replace('pp_','').replace('_order_data','');
+retryUrl = moduleToUrl[_mod] || '/';
+break;
+}
+}
+var retryBtn = document.getElementById('ppG-btn-retry');
+if (retryBtn) retryBtn.onclick = function() { window.location.href = retryUrl; };
+var _waRef = 'PP-' + Math.random().toString(36).slice(2, 7).toUpperCase();
+var _waLink = document.getElementById('ppG-wa-link');
+if (_waLink) _waLink.href = 'https://wa.me/56942086751?text=' + encodeURIComponent('Hola, vengo de la web de Polyplas y quiero hacer una consulta. (Ref: ' + _waRef + ')');
+window.history.replaceState({}, '', window.location.pathname);
+}
+}
+
+if (document.readyState === 'loading') {
+document.addEventListener('DOMContentLoaded', checkPaymentResult);
+} else {
+checkPaymentResult();
+}
 
 })();
 </script>
