@@ -9755,7 +9755,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
     row.innerHTML=
       '<div><span class="pcc-lbl">Ancho cm</span><input class="pcc-in" type="number" inputmode="numeric" id="pccW_'+id+'" min="30" step="1" value="'+(w||'')+'" placeholder="ej: 40" oninput="pccV('+id+',this,0)" onblur="pccV('+id+',this,0)"><div class="pcc-tip" id="pccT_'+id+'_0"></div></div>'+
       '<div><span class="pcc-lbl">Alto cm</span><input class="pcc-in" type="number" inputmode="numeric" id="pccH_'+id+'" min="30" step="1" value="'+(h||'')+'" placeholder="ej: 60" oninput="pccV('+id+',this,1)" onblur="pccV('+id+',this,1)"><div class="pcc-tip" id="pccT_'+id+'_1"></div></div>'+
-      '<div><span class="pcc-lbl">Cant.</span><input class="pcc-in" type="number" inputmode="numeric" id="pccQ_'+id+'" min="1" value="'+(q||'')+'" placeholder="1"></div>'+
+      '<div><span class="pcc-lbl">Cant.</span><input class="pcc-in" type="number" inputmode="numeric" id="pccQ_'+id+'" min="1" value="'+(q||'')+'" placeholder="1" oninput="if(window.pccRefreshCalcBtn)window.pccRefreshCalcBtn()"></div>'+
       '<button class="pcc-x" type="button" onclick="pccDel('+id+')">&#215;</button>';
     list.appendChild(row);
     if(window.pccRefreshCalcBtn)window.pccRefreshCalcBtn();
