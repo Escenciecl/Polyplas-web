@@ -4042,6 +4042,7 @@
 <button id="btnGoCheckout" onclick="addToCart(true); if(window.closeConfigurator) closeConfigurator(); openCheckout();" style="width:100%;padding:17px;background:var(--pp-accent);color:#fff;border:none;border-radius:12px;font-size:0.95rem;font-weight:700;letter-spacing:2px;cursor:pointer;transition:background 0.15s">
               IR AL PAGO →
             </button>
+<p style="text-align:center;font-size:0.68rem;color:#6b7280;margin:4px 0 0">&#128274; Pago seguro &middot; Despacho gratis desde $350.000</p>
 <button class="pp-btn-add-order" id="btnAddToOrder" onclick="addToCartAndShowDrawer()">
               Agregar al carro y seguir comprando
             </button>
@@ -8000,8 +8001,8 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
 .pcc-x:hover{background:#fee2e2;}
 .pcc-btn-add{width:100%;padding:9px;margin:4px 0 12px;border:1.5px dashed #cbd5e1;border-radius:8px;background:transparent;color:#004a99;font-weight:700;font-size:0.8rem;cursor:pointer;font-family:Arial,sans-serif;}
 .pcc-btn-add:hover{background:#f0f5ff;border-color:#004a99;}
-.pcc-btn-calc{width:100%;padding:13px;border:none;border-radius:10px;background:#004a99;color:#fff;font-weight:700;font-size:0.9rem;cursor:pointer;font-family:Arial,sans-serif;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:8px;}
-.pcc-btn-calc:hover{background:#003c7d;}
+.pcc-btn-calc{width:100%;padding:13px;border:none;border-radius:10px;background:#ff8a1f;color:#fff;font-weight:700;font-size:0.9rem;cursor:pointer;font-family:Arial,sans-serif;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.pcc-btn-calc:hover{background:#e07910;}
 #pccRes{margin-top:14px;}
 .pcc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
 .pcc-stat{background:#f8faff;border:1px solid #e2e8f0;border-radius:9px;padding:10px 6px;text-align:center;}
@@ -8055,7 +8056,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
 .pcc-guide-btn-lbl{font-size:0.9rem;font-weight:700;color:#1a1a2e;}
 .pcc-guide-btn-sub{font-size:0.7rem;color:#6b7280;line-height:1.4;}
 /* Sí / No */
-.pcc-guide-btn--yes{border-color:#bbf7d0;background:#f0fdf4;}
+.pcc-guide-btn--yes{border-color:#16a34a;background:#f0fdf4;border-width:2.5px;}
 .pcc-guide-btn--yes:hover{border-color:#16a34a;background:#dcfce7;box-shadow:0 6px 18px rgba(22,163,74,.15);}
 .pcc-guide-btn--no{border-color:#e2e8f0;background:#f9fafb;}
 .pcc-guide-btn--no:hover{border-color:#9ca3af;background:#f3f4f6;}
@@ -8424,9 +8425,9 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
   border: 1px solid rgba(27,58,92,0.2) !important;
 }
 .pp-entrega-badge.badge-extra {
-  background: rgba(27,122,62,0.12) !important;
-  color: #155f30 !important;
-  border: 1px solid rgba(27,122,62,0.3) !important;
+  background: rgba(180,110,0,0.12) !important;
+  color: #8a5500 !important;
+  border: 1px solid rgba(180,110,0,0.35) !important;
 }
 
 /* ── Topbar configurador ─────────────────────────────────── */
@@ -9000,11 +9001,11 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
       var DIAG_PREVIEW=1;
       html+='<div class="pcc-viz-lbl">Como quedan en la plancha</div>'+ley;
       res.sheets.forEach(function(s,idx){
-        if(idx===DIAG_PREVIEW&&Nsh>DIAG_PREVIEW+1)html+='<details class="pcc-more-sheets"><summary>Ver '+(Nsh-DIAG_PREVIEW)+' plancha'+(Nsh-DIAG_PREVIEW===1?'':'s')+' más</summary>';
+        if(idx===DIAG_PREVIEW&&Nsh>DIAG_PREVIEW)html+='<details class="pcc-more-sheets"><summary>Ver '+(Nsh-DIAG_PREVIEW)+' plancha'+(Nsh-DIAG_PREVIEW===1?'':'s')+' más</summary>';
         html+='<div class="pcc-svg-w pcc-in-anim">'+
           (Nsh>1?'<div class="pcc-svg-lbl">Plancha '+(idx+1)+'</div>':'')+
           svgSheet(s,sh.w,sh.h,cm)+'</div>';
-        if(idx===Nsh-1&&Nsh>DIAG_PREVIEW+1)html+='</details>';
+        if(idx===Nsh-1&&Nsh>DIAG_PREVIEW)html+='</details>';
       });
       var curQty=(window._ppState&&window._ppState.qty)||1;
       var allSame=pieces.length===1||(function(){var k0=pieces[0].w+'x'+pieces[0].h;return pieces.every(function(p){return p.w+'x'+p.h===k0;});}());
