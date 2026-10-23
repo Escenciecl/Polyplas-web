@@ -8738,16 +8738,17 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
     return true;
   }
 
-  /* ── Grid (cortes iguales rectos) ── */
+  /* ── Grid (cortes iguales rectos) ──
+     Prueba la pieza en las dos orientaciones y usa la que deja más piezas por plancha.
+     Si empatan, respeta la orientación que escribió el cliente.
+     K = 3 mm: lo que consume la sierra de pared en cada corte. */
   function packGrid(pw,ph,qty,sw,sh){
     var best=null;
-    // Intentar orientación original primero; usar rotada solo si original no cabe
     var cols0=Math.floor((sw+K)/(pw+K)),rows0=Math.floor((sh+K)/(ph+K));
-    if(cols0>=1&&rows0>=1){
-      best={w:pw,h:ph,cols:cols0,rows:rows0,pps:cols0*rows0};
-    } else if(pw!==ph){
+    if(cols0>=1&&rows0>=1)best={w:pw,h:ph,cols:cols0,rows:rows0,pps:cols0*rows0};
+    if(pw!==ph){
       var colsR=Math.floor((sw+K)/(ph+K)),rowsR=Math.floor((sh+K)/(pw+K));
-      if(colsR>=1&&rowsR>=1)best={w:ph,h:pw,cols:colsR,rows:rowsR,pps:colsR*rowsR};
+      if(colsR>=1&&rowsR>=1&&(!best||colsR*rowsR>best.pps))best={w:ph,h:pw,cols:colsR,rows:rowsR,pps:colsR*rowsR};
     }
     if(!best)return{sheets:[],unp:Array(qty).fill(0).map(function(){return{w:pw,h:ph};}),ow:pw,oh:ph};
     var sheets=[],rem=qty;
@@ -8763,6 +8764,182 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
     }
     return{sheets:sheets,unp:[],ow:best.w,oh:best.h};
   }
+
+  /* ── Ayudas de la calculadora: mensajes, sugerencia por la sierra y formato más conveniente ── */
+  function pccFmtCm(mm){var c=Math.round(mm)/10;return(c%1===0?String(c):c.toFixed(1)).replace('.',',');}
+  function pccPrecios(){return(typeof prices!=='undefined'&&prices)?prices:window._ppPrices;}
+  function pccPrecio(dim){
+    var st=window._ppState,P=pccPrecios();
+    if(!st||!P||!P[st.tipo]||!P[st.tipo][dim]||!P[st.tipo][dim][st.color])return 0;
+    return Number(P[st.tipo][dim][st.color][st.esp])||0;
+  }
+  function pccHayStock(dim){
+    var st=window._ppState,o=window._ppOutOfStock;
+    if(!st)return false;
+    try{
+      if(typeof isOutOfStock==='function'){if(isOutOfStock(st.tipo,dim,st.color,st.esp))return false;}
+      else if(o){var e=o[st.tipo]&&o[st.tipo][dim]&&o[st.tipo][dim][st.color];if(e===true||(Array.isArray(e)&&e.indexOf(st.esp)>=0))return false;}
+    }catch(err){}
+    return pccPrecio(dim)>0;
+  }
+  function pccDimSheet(dim){
+    var m=/^(\d+)x(\d+)/.exec(String(dim));if(!m)return null;
+    var a=Number(m[1]),b=Number(m[2]);return{w:Math.min(a,b),h:Math.max(a,b)};
+  }
+  function pccDimLabel(dim){
+    var M=window._ppDimMeta;if(M&&M[dim]&&M[dim].label)return M[dim].label;
+    var s=pccDimSheet(dim);return s?(s.h/10+' × '+s.w/10+' cm'):dim;
+  }
+  function pccMoneda(n){return(typeof fmt==='function')?fmt(n):('$'+Math.round(n).toLocaleString('es-CL'));}
+
+  /* Mensaje del sobrante: sin alarmas, el sobrante se entrega con el pedido */
+  function pccMsgSobrante(waste){
+    if(waste<20)return '<div class="pcc-al al-ok">&#10003; Excelente aprovechamiento &mdash; '+waste.toFixed(0)+'% de sobrante</div>';
+    return '<div class="pcc-al al-info">Te sobra un '+waste.toFixed(0)+'% de la plancha. Ese material es tuyo y te lo llevas con tus piezas.</div>';
+  }
+
+  /* Cortes iguales: si achicando cada medida hasta 5 mm caben más piezas por plancha,
+     se propone la medida que sí cabe con los 3 mm de sierra por corte. */
+  var PCC_MAX_AJUSTE=5,pccCostoSierra=0;
+  function pccSugerenciaSierra(p,sh,Nsh){
+    pccCostoSierra=0;
+    if(!p||!sh||!Nsh)return '';
+    var best=null;
+    [[p.w,p.h,false],[p.h,p.w,true]].forEach(function(o){
+      var a=o[0],b=o[1];
+      var c0=Math.floor((sh.w+K)/(a+K)),r0=Math.floor((sh.h+K)/(b+K));
+      [[c0,r0+1],[c0+1,r0],[c0+1,r0+1]].forEach(function(cr){
+        var c=cr[0],r=cr[1];if(c<1||r<1)return;
+        var a2=Math.min(a,Math.floor((sh.w-(c-1)*K)/c)),b2=Math.min(b,Math.floor((sh.h-(r-1)*K)/r));
+        var da=a-a2,db=b-b2;
+        if(da<0||db<0||da>PCC_MAX_AJUSTE||db>PCC_MAX_AJUSTE||(da===0&&db===0)||a2<300||b2<300)return;
+        var nw=o[2]?b2:a2,nh=o[2]?a2:b2;
+        var n=packGrid(nw,nh,p.qty,sh.w,sh.h).sheets.length;
+        if(n<Nsh&&(!best||n<best.n||(n===best.n&&da+db<best.red)))best={w:nw,h:nh,n:n,red:da+db};
+      });
+    });
+    if(!best)return '';
+    var st=window._ppState,pr=st?pccPrecio(st.dim):0,ahorro=pr?(Nsh-best.n)*pr:0;
+    pccCostoSierra=pr?best.n*pr:0;
+    return '<div class="pcc-al al-ok" style="display:block">&#128161; <strong>Si tus piezas miden '+pccFmtCm(best.w)+' &times; '+pccFmtCm(best.h)+' cm, te caben las '+p.qty+' en '+best.n+(best.n===1?' plancha':' planchas')+' (en vez de '+Nsh+').</strong> '+
+      'La sierra consume 3 mm en cada corte, por eso la medida exacta no alcanza.'+(ahorro>0?' Ahorras '+pccMoneda(ahorro)+'.':'')+
+      '<br><button type="button" onclick="pccUsarMedida('+best.w+','+best.h+')" style="margin-top:8px;background:#1B7A3E;color:#fff;border:0;border-radius:4px;padding:8px 12px;font-weight:700;font-size:.8rem;cursor:pointer">Usar '+pccFmtCm(best.w)+' &times; '+pccFmtCm(best.h)+' cm</button></div>';
+  }
+  window.pccUsarMedida=function(wmm,hmm){
+    document.querySelectorAll('#pccList .pcc-row').forEach(function(row){
+      var id=row.id.replace('pccR_','');
+      var wi=g('pccW_'+id),hi=g('pccH_'+id);
+      if(wi){wi.value=wmm/10;wi.classList.remove('err');}
+      if(hi){hi.value=hmm/10;hi.classList.remove('err');}
+    });
+    if(window.ppPaso)try{window.ppPaso('conf_sugerencia_sierra','calc',{ancho:wmm/10,alto:hmm/10});}catch(e){}
+    window.pccCalc();
+  };
+
+  /* Recomendador de formato: compara las medidas de plancha con stock del mismo
+     material, color y espesor. En cortes iguales también prueba combinar dos formatos
+     (ej.: 1 plancha grande + 1 chica). Muestra la opción solo si ahorra dinero. */
+  var pccUltReco=null;
+  function pccRecomendador(pieces,Nsh,iguales){
+    var st=window._ppState,P=pccPrecios();
+    pccUltReco=null;
+    if(!st||!P||!P[st.tipo]||!Nsh||!pieces||!pieces.length)return '';
+    var precioAct=pccPrecio(st.dim);if(!precioAct)return '';
+    var factor=iguales?1:1.10; // cortes distintos llevan +10% sobre las planchas
+    var costoAct=Nsh*precioAct*factor;
+    var ops=[],suf=function(d){return String(d).replace(/^\d+x\d+/,'');};
+    Object.keys(P[st.tipo]).forEach(function(dim){
+      if(suf(dim)!==suf(st.dim))return; // solo el mismo material (ej.: no mezclar acrílico con PETG)
+      if(!pccHayStock(dim))return;
+      var s=pccDimSheet(dim);if(!s)return;
+      var r;
+      try{r=iguales?packGrid(pieces[0].w,pieces[0].h,pieces[0].qty,s.w,s.h):guillotinePack(pieces,s.w,s.h);}catch(e){return;}
+      if(!r||r.unp.length||!r.sheets.length)return;
+      var pps=iguales?Math.max.apply(null,r.sheets.map(function(x){return x.placed.length;})):0;
+      ops.push({dim:dim,pr:pccPrecio(dim),n:r.sheets.length,pps:pps});
+    });
+    var best=null;
+    ops.forEach(function(o){
+      var c=o.n*o.pr*factor;
+      if(o.dim!==st.dim&&c<costoAct&&(!best||c<best.costo))best={items:[{dim:o.dim,n:o.n}],costo:c};
+    });
+    if(iguales){
+      var q=pieces[0].qty;
+      ops.forEach(function(A){ops.forEach(function(B){
+        if(A.dim===B.dim||!A.pps||!B.pps)return;
+        for(var nA=1;nA*A.pps<q;nA++){
+          var pzA=nA*A.pps,nB=Math.ceil((q-pzA)/B.pps),c=nA*A.pr+nB*B.pr;
+          if(c<costoAct&&(!best||c<best.costo))best={items:[{dim:A.dim,n:nA,pz:pzA},{dim:B.dim,n:nB,pz:q-pzA}],costo:c};
+        }
+      });});
+    }
+    // Si ajustar la medida por la sierra ya sale igual o más barato, no se muestra esta opción
+    if(!best||costoAct-best.costo<1000||(pccCostoSierra&&best.costo>=pccCostoSierra))return '';
+    pccUltReco={items:best.items,w:pieces[0].w,h:pieces[0].h,iguales:iguales};
+    var BTN='margin-top:8px;background:#004a99;color:#fff;border:0;border-radius:4px;padding:8px 12px;font-weight:700;font-size:.8rem;cursor:pointer';
+    var txt,accion;
+    if(best.items.length===1){
+      var it=best.items[0];
+      txt=it.n+(it.n===1?' plancha de ':' planchas de ')+pccDimLabel(it.dim);
+      accion='<button type="button" onclick="pccCambiarMedida(\''+it.dim+'\')" style="'+BTN+'">Cambiar a '+pccDimLabel(it.dim)+'</button>';
+    }else{
+      txt=best.items.map(function(it){return it.n+(it.n===1?' plancha de ':' planchas de ')+pccDimLabel(it.dim)+' ('+it.pz+(it.pz===1?' pieza':' piezas')+')';}).join(' + ');
+      accion=pccPuedeCombinar()
+        ?'<button type="button" onclick="pccPedirCombinacion()" style="'+BTN+'">Agregar estas planchas al carro</button>'
+        :'Para pedirla, agrega cada medida al carro con sus piezas.';
+    }
+    return '<div class="pcc-al al-info" style="display:block">&#128161; <strong>Opción más conveniente:</strong> '+txt+' por '+pccMoneda(best.costo)+
+      ', en vez de '+Nsh+(Nsh===1?' plancha':' planchas')+' de '+pccDimLabel(st.dim)+' por '+pccMoneda(costoAct)+'. Ahorras '+pccMoneda(costoAct-best.costo)+'.<br>'+accion+'</div>';
+  }
+
+  /* Un toque: cambiar la medida de plancha y recalcular con las mismas piezas */
+  window.pccCambiarMedida=function(dim){
+    var st=window._ppState;if(!st||!pccHayStock(dim))return;
+    st.dim=dim;
+    try{if(typeof window._ppUpdatePrice==='function')window._ppUpdatePrice();}catch(e){}
+    try{renderCorteResumen();}catch(e){}
+    var sh=sheet(),b=document.querySelector('#pccCalc .pcc-banner');
+    if(b&&sh)b.textContent=sh.h/10+' x '+sh.w/10+' cm'+(st.esp?(' · Espesor '+st.esp):'')+' · Sierra '+K+' mm incluida';
+    if(window.ppPaso)try{window.ppPaso('conf_cambiar_medida','calc',{dim:dim});}catch(e){}
+    window.pccCalc();
+  };
+
+  /* Un toque: agregar al carro la combinación de dos medidas (cortes iguales).
+     Cada medida queda como un ítem con su cantidad de planchas, sus piezas y su diagrama.
+     Usa el mismo camino que "Ver valor": selectCorteOption + campos de corte + addToCart. */
+  function pccPuedeCombinar(){return typeof window.addToCart==='function'&&typeof window.selectCorteOption==='function';}
+  window.pccPedirCombinacion=function(){
+    var R=pccUltReco,st=window._ppState;
+    if(!R||!R.iguales||!R.items||R.items.length<2||!st||!pccPuedeCombinar())return;
+    pccUltReco=null;
+    if(window.ppPaso)try{window.ppPaso('conf_pedir_combinacion','calc',{items:R.items});}catch(e){}
+    var items=R.items.slice();
+    (function sig(idx){
+      if(idx>=items.length){
+        setTimeout(function(){if(typeof window.ppGCOpen==='function')try{window.ppGCOpen();}catch(e){}},400);
+        return;
+      }
+      var it=items[idx],s=pccDimSheet(it.dim);
+      if(!s){sig(idx+1);return;}
+      var pcs=[{w:R.w,h:R.h,qty:it.pz}],r=packGrid(R.w,R.h,it.pz,s.w,s.h),cm=cmap(pcs);
+      st.dim=it.dim;st.qty=r.sheets.length||it.n;
+      window.selectCorteOption('iguales');
+      setTimeout(function(){
+        var vals={ancho:R.w/10,alto:R.h/10,qty:it.pz},ids={ancho:'igualSharedAncho',alto:'igualSharedAlto',qty:'igualSharedQty'};
+        Object.keys(ids).forEach(function(f){
+          var el=g(ids[f]);if(!el)return;
+          el.value=vals[f];
+          if(window.onIgualSharedInput)try{window.onIgualSharedInput(f,el);}catch(e){}
+        });
+        var o=g('igualSharedObs');if(o){o.value='';if(window.onIgualSharedInput)try{window.onIgualSharedInput('obs',o);}catch(e){}}
+        window._pccCalcInfo={pieces:pcs,Nsh:st.qty,tot:it.pz,mode:'iguales',
+          svgs:r.sheets.map(function(x){return svgSheet(x,s.w,s.h,cm);}),
+          placedSheets:r.sheets.map(function(x){return x.placed.map(function(p){return{x:p.x,y:p.y,W:p.W,H:p.H};});})};
+        window.addToCart(idx<items.length-1);
+        setTimeout(function(){sig(idx+1);},150);
+      },150);
+    })(0);
+  };
 
   /* ── SVG ── */
   var PAL=['#3b82f6','#10b981','#f59e0b','#8b5cf6','#ef4444','#06b6d4','#f97316','#ec4899'];
@@ -8897,17 +9074,18 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
     var placed=tot-res.unp.length;
     var used=0;res.sheets.forEach(function(s){s.placed.forEach(function(p){used+=p.W*p.H;});});
     var waste=res.sheets.length>0?(100-used/(sh.w*sh.h*res.sheets.length)*100):0;
-    var wc=waste<20?'wl':waste<40?'wm':'wh';
+    var wc=waste<20?'wl':'wm';
     var Nsh=res.sheets.length;
     var html='<div class="pcc-stats">'+
       '<div class="pcc-stat"><div class="n">'+Nsh+'</div><div class="l">Planchas</div></div>'+
       '<div class="pcc-stat"><div class="n">'+placed+'/'+tot+'</div><div class="l">Piezas</div></div>'+
-      '<div class="pcc-stat"><div class="n '+wc+'">'+waste.toFixed(0)+'%</div><div class="l">Desperdicio</div></div>'+
+      '<div class="pcc-stat"><div class="n '+wc+'">'+waste.toFixed(0)+'%</div><div class="l">Sobrante</div></div>'+
     '</div>';
     if(res.unp.length)html+='<div class="pcc-al al-err">&#9888; '+res.unp.length+' pieza(s) superan el tamano de la plancha.</div>';
-    html+=waste<20?'<div class="pcc-al al-ok">&#10003; Excelente aprovechamiento &mdash; '+waste.toFixed(0)+'% desperdicio</div>':
-      waste<40?'<div class="pcc-al al-warn">&#9888; '+waste.toFixed(0)+'% de desperdicio.</div>':
-      '<div class="pcc-al al-err">&#9888; '+waste.toFixed(0)+'% desperdicio alto. Revisa las medidas.</div>';
+    html+=pccMsgSobrante(waste);
+    pccCostoSierra=0;
+    if(curMode==='iguales'&&allSameNow&&!res.unp.length)html+=pccSugerenciaSierra(pieces[0],sh,Nsh);
+    if(!res.unp.length)html+=pccRecomendador(pieces,Nsh,curMode==='iguales'&&allSameNow);
     if(Nsh>0){
       var cm=cmap(pieces);
       var seen={},ley='<div class="pcc-ley">';
