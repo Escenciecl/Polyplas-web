@@ -8821,9 +8821,9 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
     if(!best)return '';
     var st=window._ppState,pr=st?pccPrecio(st.dim):0,ahorro=pr?(Nsh-best.n)*pr:0;
     pccCostoSierra=pr?best.n*pr:0;
-    return '<div class="pcc-al al-ok" style="display:block">&#128161; <strong>Si tus piezas miden '+pccFmtCm(best.w)+' &times; '+pccFmtCm(best.h)+' cm, te caben las '+p.qty+' en '+best.n+(best.n===1?' plancha':' planchas')+' (en vez de '+Nsh+').</strong> '+
-      'La sierra consume 3 mm en cada corte, por eso la medida exacta no alcanza.'+(ahorro>0?' Ahorras '+pccMoneda(ahorro)+'.':'')+
-      '<br><button type="button" onclick="pccUsarMedida('+best.w+','+best.h+')" style="margin-top:8px;background:#1B7A3E;color:#fff;border:0;border-radius:4px;padding:8px 12px;font-weight:700;font-size:.8rem;cursor:pointer">Usar '+pccFmtCm(best.w)+' &times; '+pccFmtCm(best.h)+' cm</button></div>';
+    return '<div class="pcc-al al-ok" style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:9px 12px">'+
+      '<span>&#128161; Ajusta a <strong>'+pccFmtCm(best.w)+' &times; '+pccFmtCm(best.h)+'</strong> &rarr; caben las '+p.qty+' en <strong>'+best.n+(best.n===1?' plancha':' planchas')+'</strong>'+(ahorro>0?'. Ahorras <strong>'+pccMoneda(ahorro)+'</strong>':'')+'. </span>'+
+      '<button type="button" onclick="pccUsarMedida('+best.w+','+best.h+')" style="white-space:nowrap;background:#1B7A3E;color:#fff;border:0;border-radius:20px;padding:7px 14px;font-weight:700;font-size:.78rem;cursor:pointer;flex-shrink:0">Usar esta medida</button></div>';
   }
   window.pccUsarMedida=function(wmm,hmm){
     document.querySelectorAll('#pccList .pcc-row').forEach(function(row){
@@ -9082,7 +9082,6 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
       '<div class="pcc-stat"><div class="n '+wc+'">'+waste.toFixed(0)+'%</div><div class="l">Sobrante</div></div>'+
     '</div>';
     if(res.unp.length)html+='<div class="pcc-al al-err">&#9888; '+res.unp.length+' pieza(s) superan el tamano de la plancha.</div>';
-    html+=pccMsgSobrante(waste);
     pccCostoSierra=0;
     if(curMode==='iguales'&&allSameNow&&!res.unp.length)html+=pccSugerenciaSierra(pieces[0],sh,Nsh);
     if(!res.unp.length)html+=pccRecomendador(pieces,Nsh,curMode==='iguales'&&allSameNow);
@@ -9093,7 +9092,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
       ley+='</div>';
       // Capturar SVGs para guardarlos con el pedido
       lastSvgs=res.sheets.map(function(s){return svgSheet(s,sh.w,sh.h,cm);});
-      var DIAG_PREVIEW=2;
+      var DIAG_PREVIEW=1;
       html+='<div class="pcc-viz-lbl">Como quedan en la plancha</div>'+ley;
       res.sheets.forEach(function(s,idx){
         if(idx===DIAG_PREVIEW&&Nsh>DIAG_PREVIEW+1)html+='<details class="pcc-more-sheets"><summary>Ver '+(Nsh-DIAG_PREVIEW)+' plancha'+(Nsh-DIAG_PREVIEW===1?'':'s')+' más</summary>';
@@ -9103,12 +9102,8 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
         if(idx===Nsh-1&&Nsh>DIAG_PREVIEW+1)html+='</details>';
       });
       var curQty=(window._ppState&&window._ppState.qty)||1;
-      if(Nsh>curQty)html+='<div class="pcc-al al-info">&#8593; Necesitas <strong>'+Nsh+' planchas</strong>. La cantidad se actualiza al confirmar.</div>';
       var allSame=pieces.length===1||(function(){var k0=pieces[0].w+'x'+pieces[0].h;return pieces.every(function(p){return p.w+'x'+p.h===k0;});}());
-      html+='<div style="display:flex;align-items:flex-start;gap:10px;background:#f0f7f2;border:1px solid #b7d9c4;border-radius:4px;padding:11px 13px;margin-bottom:12px">'+
-        '<span style="font-size:1rem;color:#1B7A3E;flex-shrink:0;margin-top:1px"></span>'+
-        '<span style="font-size:0.75rem;color:#1E2226;line-height:1.5"><strong style="display:block;margin-bottom:2px">El sobrante de plancha se incluye en tu pedido</strong>Como se cobra la plancha completa, el material que sobre después del corte siempre se entrega junto con tus piezas.</span>'+
-        '</div>'+
+      html+='<div style="font-size:0.72rem;color:#1B7A3E;text-align:center;margin-bottom:10px">&#10003; El sobrante siempre se entrega con tus piezas</div>'+
         '<button class="pcc-btn-ok pcc-in-anim" type="button" onclick="pccOk()">&#10003;&nbsp; Ver valor — '+Nsh+(Nsh===1?' plancha':' planchas')+' con cortes &rarr;</button>'+
         (function(){
           var surchargeLabel='Corte +10% por distintas medidas';
