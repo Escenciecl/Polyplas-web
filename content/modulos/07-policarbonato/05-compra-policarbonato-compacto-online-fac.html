@@ -9019,7 +9019,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
     row.innerHTML=
       '<div><span class="pcc-lbl">Ancho cm</span><input class="pcc-in" type="number" id="pccW_'+id+'" min="30" step="1" value="'+(w||'')+'" placeholder="ej: 30" oninput="pccV('+id+',this,0)"><div class="pcc-tip" id="pccT_'+id+'_0"></div></div>'+
       '<div><span class="pcc-lbl">Alto cm</span><input class="pcc-in" type="number" id="pccH_'+id+'" min="30" step="1" value="'+(h||'')+'" placeholder="ej: 20" oninput="pccV('+id+',this,1)"><div class="pcc-tip" id="pccT_'+id+'_1"></div></div>'+
-      '<div><span class="pcc-lbl">Cant.</span><input class="pcc-in" type="number" id="pccQ_'+id+'" min="1" value="'+(q||1)+'"></div>'+
+      '<div><span class="pcc-lbl">Cant.</span><input class="pcc-in" type="number" id="pccQ_'+id+'" min="1" value="'+(q||'')+'" placeholder="1"></div>'+
       '<button class="pcc-x" type="button" onclick="pccDel('+id+')">&#215;</button>';
     list.appendChild(row);
   };
@@ -9241,7 +9241,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
       '<div id="pccRes"></div>';
     area.parentNode.insertBefore(div,area.nextSibling);
     if(sh){
-      if(mode==='iguales'){pccAdd(Math.floor(sh.w*0.04),Math.floor(sh.h*0.04),4);}
+      if(mode==='iguales'){pccAdd();}
       else{pccAdd();pccAdd();}
     }else{pccAdd();}
   }
