@@ -4413,43 +4413,31 @@
 </div>
 <div class="pcc-guide-panel" id="corteGuideA">
 <div class="pcc-guide-header">
-<div class="pcc-guide-question">¿Quieres recibir tus planchas cortadas a medida?</div>
-<div class="pcc-guide-desc">El servicio de corte es opcional. Si prefieres la plancha entera, la recibirás en su tamaño original.</div>
+<div class="pcc-guide-question">¿Cómo quieres recibir tu plancha?</div>
 </div>
-<div class="pcc-guide-btns">
-<button class="pcc-guide-btn pcc-guide-btn--yes" onclick="corteGuideAnswer('si')" type="button">
-<span class="pcc-guide-btn-lbl">Sí, quiero cortarlas</span>
-<span class="pcc-guide-btn-sub">Diseña tus piezas y optimiza el material.</span>
-</button>
+<div class="pcc-guide-btns" style="grid-template-columns:1fr 1fr 1fr">
 <button class="pcc-guide-btn pcc-guide-btn--no" onclick="corteGuideAnswer('no')" type="button">
-<span class="pcc-guide-btn-lbl">No, la plancha completa</span>
-<span class="pcc-guide-btn-sub">Recíbela en su tamaño original.</span>
+<span class="pcc-guide-btn-lbl">Sin cortes</span>
+<span class="pcc-guide-btn-sub">Plancha entera en su tamaño original.</span>
 </button>
-</div>
-<button class="pcc-back-link" onclick="if(window.goBackToPaso2)window.goBackToPaso2();" style="margin-top:16px" type="button">← Volver</button>
-</div>
-<div class="pcc-guide-panel" id="corteGuideB" style="display:none">
-<button class="pcc-back-link" onclick="corteGuideBack('A')" type="button">← Volver</button>
-<div class="pcc-guide-header" style="margin-top:10px">
-<div class="pcc-guide-question">¿Qué tipo de corte necesitas?</div>
-<div class="pcc-guide-desc">Elige cómo quieres distribuir tus piezas.</div>
-</div>
-<div class="pcc-guide-btns">
 <button class="pcc-guide-btn pcc-guide-btn--iguales" onclick="corteGuideAnswer('iguales')" type="button">
 <span class="pcc-guide-btn-lbl">Cortes iguales</span>
-<span class="pcc-guide-btn-sub">Mismo patrón para todas las planchas.</span>
+<span class="pcc-guide-btn-sub">Mismo patrón en todas las planchas.</span>
 <span class="pp-entrega-badge badge-gratis" style="margin-top:6px">GRATIS</span>
 </button>
 <button class="pcc-guide-btn pcc-guide-btn--distintos" onclick="corteGuideAnswer('distintos')" type="button">
 <span class="pcc-guide-btn-lbl">Cortes distintos</span>
 <span class="pcc-guide-btn-sub">Medidas personalizadas por plancha.</span>
-<span class="pp-entrega-badge badge-extra" style="margin-top:6px">Cobro extra +10%</span>
+<span class="pp-entrega-badge badge-extra" style="margin-top:6px">+10%</span>
 </button>
 </div>
-<p style="margin-top:18px;font-size:0.65rem;color:var(--pp-muted);line-height:1.6;text-align:center">Consideraciones: Mínimo por corte de 30×30 cm. La sierra consume 3 mm por corte. Los recargos se calculan sobre el valor neto.</p>
+<p style="margin-top:12px;font-size:0.65rem;color:var(--pp-muted);line-height:1.6;text-align:center">Mínimo 30×30 cm por corte &middot; Sierra 3 mm por corte &middot; Recargos sobre valor neto</p>
+<button class="pcc-back-link" onclick="if(window.goBackToPaso2)window.goBackToPaso2();" style="margin-top:12px" type="button">← Volver</button>
+</div>
+<div class="pcc-guide-panel" id="corteGuideB" style="display:none">
 </div>
 <div class="pcc-guide-panel" id="corteGuideC" style="display:none">
-<button class="pcc-back-link" onclick="corteGuideBack('B')" type="button">← Volver</button>
+<button class="pcc-back-link" onclick="corteGuideBack('A')" type="button">← Volver</button>
 <div id="corteDetalle" style="margin-top:8px">
 <div id="corteModoSelector" style="display:none"></div>
 <div id="corteInstruccionesArea"></div>
@@ -8835,8 +8823,8 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
 .pcc-tip{font-size:0.67rem;color:#ef4444;margin-top:2px;display:none;}
 .pcc-x{width:28px;height:38px;border-radius:6px;border:1px solid #fecaca;background:#fff5f5;color:#ef4444;cursor:pointer;font-size:1rem;}
 .pcc-x:hover{background:#fee2e2;}
-.pcc-btn-add{width:100%;padding:9px;margin:4px 0 12px;border:1.5px dashed #cbd5e1;border-radius:8px;background:transparent;color:#004a99;font-weight:700;font-size:0.8rem;cursor:pointer;font-family:Arial,sans-serif;}
-.pcc-btn-add:hover{background:#f0f5ff;border-color:#004a99;}
+.pcc-btn-add{width:100%;padding:10px;margin:4px 0 12px;border:2px solid #004a99;border-radius:8px;background:#f0f5ff;color:#004a99;font-weight:700;font-size:0.85rem;cursor:pointer;font-family:Arial,sans-serif;transition:all .15s;}
+.pcc-btn-add:hover{background:#dbeafe;border-color:#003c7d;color:#003c7d;}
 .pcc-btn-calc{width:100%;padding:13px;border:none;border-radius:10px;background:#ff8a1f;color:#fff;font-weight:700;font-size:0.9rem;cursor:pointer;font-family:Arial,sans-serif;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:8px;}
 .pcc-btn-calc:hover{background:#e07910;}
 #pccRes{margin-top:14px;}
@@ -9765,11 +9753,12 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
     N++;var id=N,list=g('pccList');if(!list)return;
     var row=document.createElement('div');row.className='pcc-row';row.id='pccR_'+id;
     row.innerHTML=
-      '<div><span class="pcc-lbl">Ancho cm</span><input class="pcc-in" type="number" id="pccW_'+id+'" min="30" step="1" value="'+(w||'')+'" placeholder="ej: 30" oninput="pccV('+id+',this,0)"><div class="pcc-tip" id="pccT_'+id+'_0"></div></div>'+
-      '<div><span class="pcc-lbl">Alto cm</span><input class="pcc-in" type="number" id="pccH_'+id+'" min="30" step="1" value="'+(h||'')+'" placeholder="ej: 20" oninput="pccV('+id+',this,1)"><div class="pcc-tip" id="pccT_'+id+'_1"></div></div>'+
-      '<div><span class="pcc-lbl">Cant.</span><input class="pcc-in" type="number" id="pccQ_'+id+'" min="1" value="'+(q||'')+'" placeholder="1"></div>'+
+      '<div><span class="pcc-lbl">Ancho cm</span><input class="pcc-in" type="number" inputmode="numeric" id="pccW_'+id+'" min="30" step="1" value="'+(w||'')+'" placeholder="ej: 40" oninput="pccV('+id+',this,0)" onblur="pccV('+id+',this,0)"><div class="pcc-tip" id="pccT_'+id+'_0"></div></div>'+
+      '<div><span class="pcc-lbl">Alto cm</span><input class="pcc-in" type="number" inputmode="numeric" id="pccH_'+id+'" min="30" step="1" value="'+(h||'')+'" placeholder="ej: 60" oninput="pccV('+id+',this,1)" onblur="pccV('+id+',this,1)"><div class="pcc-tip" id="pccT_'+id+'_1"></div></div>'+
+      '<div><span class="pcc-lbl">Cant.</span><input class="pcc-in" type="number" inputmode="numeric" id="pccQ_'+id+'" min="1" value="'+(q||'')+'" placeholder="1"></div>'+
       '<button class="pcc-x" type="button" onclick="pccDel('+id+')">&#215;</button>';
     list.appendChild(row);
+    if(window.pccRefreshCalcBtn)window.pccRefreshCalcBtn();
   };
   window.pccDel=function(id){var el=g('pccR_'+id);if(el)el.remove();};
   window.pccV=function(id,el,axis){
@@ -9783,6 +9772,26 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
     // Limpiar resultados obsoletos cuando el usuario edita los inputs
     var resEl=g('pccRes');if(resEl&&resEl.innerHTML)resEl.innerHTML='';
     lastRes=null;lastPieces=null;
+    if(window.pccRefreshCalcBtn)window.pccRefreshCalcBtn();
+  };
+
+  window.pccRefreshCalcBtn=function(){
+    var btn=g('pccBtnCalc');if(!btn)return;
+    var rows=document.querySelectorAll('#pccList .pcc-row');
+    var ok=rows.length>0;
+    rows.forEach(function(row){
+      var id=row.id.replace('pccR_','');
+      var wEl=g('pccW_'+id),hEl=g('pccH_'+id),qEl=g('pccQ_'+id);
+      var wv=wEl&&parseFloat(wEl.value)>=30;
+      var hv=hEl&&parseFloat(hEl.value)>=30;
+      var qv=qEl&&parseInt(qEl.value,10)>=1;
+      if(!wv||!hv||!qv)ok=false;
+      if(wEl&&wEl.classList.contains('err'))ok=false;
+      if(hEl&&hEl.classList.contains('err'))ok=false;
+    });
+    btn.disabled=!ok;
+    btn.style.opacity=ok?'1':'0.45';
+    btn.style.cursor=ok?'pointer':'not-allowed';
   };
 
   /* ── Calcular ── */
@@ -9985,9 +9994,13 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
     div.innerHTML=
       '<div class="pcc-banner">'+banner+'</div>'+
       '<div class="pcc-sublbl">'+sublbl+'</div>'+
+      '<div style="font-size:0.7rem;padding:6px 10px;border-radius:6px;margin-bottom:8px;background:'+(mode==='iguales'?'#f0fdf4':'rgba(180,110,0,0.08)')+';color:'+(mode==='iguales'?'#1B7A3E':'#8a5500')+'">'+
+        (mode==='iguales'?'&#10003; El corte est\u00e1 incluido sin costo adicional':'Se agrega un 10% al valor neto por cortes de distintas medidas')+
+      '</div>'+
       '<div id="pccList"></div>'+
+      (sh?'<p style="font-size:0.65rem;color:#9ca3af;text-align:center;margin:2px 0 10px">M\u00ednimo 30&times;30 cm &middot; M\u00e1x. '+Math.floor(sh.h/10)+'&times;'+Math.floor(sh.w/10)+' cm</p>':'') +
       '<button class="pcc-btn-add" type="button" onclick="pccAdd()">'+addLbl+'</button>'+
-      '<button class="pcc-btn-calc" type="button" onclick="pccCalc()">'+calcLbl+'</button>'+
+      '<button class="pcc-btn-calc" id="pccBtnCalc" type="button" disabled style="opacity:0.45;cursor:not-allowed" onclick="pccCalc()">'+calcLbl+'</button>'+
       '<div id="pccRes"></div>';
     area.parentNode.insertBefore(div,area.nextSibling);
     if(sh){
@@ -10237,6 +10250,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
       if(A)A.style.display='none';
       if(B)B.style.display='';
     }else if(choice==='iguales'||choice==='distintos'){
+      if(A)A.style.display='none';
       if(B)B.style.display='none';
       if(C)C.style.display='';
       if(window.selectCorteOption)window.selectCorteOption(choice);
