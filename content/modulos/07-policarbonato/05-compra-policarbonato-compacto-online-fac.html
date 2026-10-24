@@ -9082,6 +9082,20 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
   #configuratorModal .p3-precio { grid-column: 2; }
   #configuratorModal .p3-mini svg, #configuratorModal .p3-mini-mas { width: 84px; height: 56px; }
 }
+
+/* Paso 2 · Sin cortes: sin cantidad ni nota (la cantidad se elige en el Resumen) */
+#configuratorModal #ppCorteSinCorteContent { display: none !important; }
+/* Paso 3 · tarjeta "Plancha completa" */
+#configuratorModal .p3-thumb { display: flex; align-items: center; justify-content: center; border: 1px solid #e2e8f0; }
+#configuratorModal .p3-thumb span { font-size: 0.68rem; font-weight: 600; color: #64748b; }
+#configuratorModal .p3-qty-tit { font-size: 0.92rem; font-weight: 700; color: #0f172a; }
+#configuratorModal .p3-qty-cu { font-size: 0.82rem; color: #94a3b8; margin-top: 4px !important; }
+#configuratorModal .p3-stepper { display: inline-flex; align-items: center; gap: 4px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 12px; padding: 4px !important; }
+#configuratorModal .p3-stepper button { width: 38px; height: 38px; border: 0; border-radius: 9px; background: #fff; color: #0f172a; font-size: 1.3rem; line-height: 1; cursor: pointer; box-shadow: 0 1px 2px rgba(15,23,42,.06); }
+#configuratorModal .p3-stepper button:hover:not(:disabled) { background: #f8fafc; }
+#configuratorModal .p3-stepper button:disabled { opacity: .45; cursor: default; }
+#configuratorModal .p3-stepper button:focus-visible { outline: 3px solid #1B3A5C; outline-offset: 1px; }
+#configuratorModal .p3-stepper span { min-width: 34px; text-align: center; font-size: 1.05rem; font-weight: 800; color: #0f172a; }
 </style>
 <script>
 (function(){
@@ -9637,7 +9651,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     var esp=String(st.esp||'').replace(/(\d)\s*mm$/,'$1 mm');
     var img=window._ppCardImg||cMeta.img||'';
     var totPz=pz.reduce(function(a,q){return a+q.qty;},0);
-    var pzTxt=!conPlano?'plancha completa'
+    var pzTxt=!conPlano?'Plancha completa'
       :iguales?totPz+(totPz===1?' pieza':' piezas')+' de '+pccFmtCm(pz[0].w)+' × '+pccFmtCm(pz[0].h)+' cm'
       :totPz+(totPz===1?' pieza':' piezas')+' en '+pz.length+' medidas';
     var base=unit*qty;
@@ -9652,9 +9666,9 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     if(prevTot)h+='<div class="p3-ya"><span>Ya en tu pedido · '+prevN+(prevN===1?' ítem':' ítems')+'</span><span>'+m(prevTot)+'</span></div>';
     h+='<div class="p3-card">'+
       '<div class="p3-prod">'+
-        '<div class="p3-thumb">'+(img?'<img src="'+img+'" alt="">':'')+'</div>'+
+        '<div class="p3-thumb">'+(img?'<img src="'+img+'" alt="">':'<span>Plancha</span>')+'</div>'+
         '<div class="p3-prod-info"><div class="p3-nombre">'+nombre+'</div><div class="p3-sub">'+dimLbl+' · '+esp+' · '+pzTxt+'</div></div>'+
-        '<div class="p3-precio">'+m(item)+'</div>'+
+        (conPlano?'<div class="p3-precio">'+m(item)+'</div>':'')+
       '</div>';
     if(conPlano){
       var sh=sheet(),n=lastRes.sheets.length,max=Math.min(n,6),mins='';
@@ -9668,10 +9682,11 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
         '<div class="p3-cap">'+n+(n===1?' plancha':' planchas')+(iguales?' · '+pps+(pps===1?' pieza':' piezas')+' por plancha':'')+' · '+(iguales?'corte calculado gratis':'corte de medidas distintas')+'</div>'+
       '</div>';
     }else{
-      h+='<div class="p3-qty"><span>Cantidad de planchas</span><div class="pp-corte-qty-row">'+
-        '<button type="button" class="pp-corte-qty-btn" aria-label="Quitar una plancha" onclick="if(window.changeQty)changeQty(-1)">−</button>'+
-        '<div class="pp-corte-qty-num">'+qty+'</div>'+
-        '<button type="button" class="pp-corte-qty-btn" aria-label="Agregar una plancha" onclick="if(window.changeQty)changeQty(1)">+</button></div></div>';
+      h+='<div class="p3-qty"><div><div class="p3-qty-tit">Cantidad de planchas</div><div class="p3-qty-cu">'+m(unit)+' c/u</div></div>'+
+        '<div class="p3-stepper" role="group" aria-label="Cantidad de planchas">'+
+        '<button type="button" aria-label="Quitar una plancha" onclick="if(window.changeQty)changeQty(-1)"'+(qty<=1?' disabled':'')+'>−</button>'+
+        '<span aria-live="polite">'+qty+'</span>'+
+        '<button type="button" aria-label="Agregar una plancha" onclick="if(window.changeQty)changeQty(1)">+</button></div></div>';
     }
     h+='</div>';
     h+='<div class="p3-card p3-detalle"><div class="p3-det-tit">Detalle</div>'+
