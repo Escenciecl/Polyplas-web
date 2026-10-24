@@ -9140,8 +9140,8 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
         }
       });});
     }
-    // Si ajustar la medida por la sierra ya sale igual o más barato, no se muestra esta opción
-    if(!best||costoAct-best.costo<1000||(pccCostoSierra&&best.costo>=pccCostoSierra))return '';
+    // Se muestra en cortes iguales y distintos, aunque también haya sugerencia de ajuste por sierra
+    if(!best||costoAct-best.costo<1000)return '';
     var key='f|'+st.dim+'|'+pieces.map(function(q){return q.w+'x'+q.h+'x'+q.qty;}).join(',');
     if(pccRecoDescartada===key)return '';
     pccUltReco={items:best.items,w:pieces[0].w,h:pieces[0].h,iguales:iguales};
