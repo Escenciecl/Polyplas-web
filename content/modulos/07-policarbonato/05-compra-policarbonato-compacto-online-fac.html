@@ -9165,6 +9165,9 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
 
 #configuratorModal #pccRes .pcc-s-precio-col { text-align: right; }
 #configuratorModal #pccRes .pcc-s-precio-cu { font-size: 0.8rem; color: #64748b; margin-top: 2px !important; white-space: nowrap; }
+
+#configuratorModal #pccRes .pcc-r-badge { display: inline-flex; align-self: flex-start; width: fit-content; align-items: center; gap: 5px; margin: 0 0 10px !important; padding: 4px 10px !important; border-radius: 999px; background: #fff; border: 1px solid #b9dcc1; color: #2e7a3e; font-size: 0.7rem; font-weight: 700; letter-spacing: .3px; text-transform: uppercase; }
+#configuratorModal #pccRes .pcc-slide-reco .pcc-r-btn { margin-bottom: 0 !important; }
 </style>
 <script>
 (function(){
@@ -9491,6 +9494,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     var otra=(iguales&&pccUltSierra&&pccUltSierra.ahorro>0)
       ?'<button type="button" class="pcc-r-otra" onclick="pccUsarMedida('+pccUltSierra.w+','+pccUltSierra.h+')">Otra opción: ajustar '+pccUltSierra.red+' mm · ahorra '+pccMoneda(pccUltSierra.ahorro)+'</button>':'';
     return '<div class="pcc-slide pcc-slide-reco" role="group" aria-label="Sugerencia de formato">'+
+      '<div class="pcc-r-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Recomendación Polyplas</div>'+
       '<div class="pcc-s-cab"><div class="pcc-r-tit">Ahorra '+pccMoneda(costoAct-best.costo)+'</div><div class="pcc-s-meta">'+pctNew+'% aprovechado</div></div>'+
       '<div class="pcc-r-sub">Cambia el formato, no tus medidas</div>'+
       '<div class="pcc-minis pcc-minis-c">'+minisNew+'</div>'+
@@ -9503,8 +9507,6 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
           }).join('')+
           '<div class="pcc-r-lista-tot"><span>'+nNew+' planchas en total</span><b>'+pccMoneda(best.costo)+'</b></div></div>')+
       accion+
-      '<button type="button" class="pcc-r-keep" onclick="pccMantenerFormato(\''+key+'\')">Mantener como está</button>'+
-      otra+
     '</div>';
   }
 
@@ -9789,7 +9791,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
         '<div class="p3-plano-cab"><div class="p3-plano-tit">Tu plano de corte</div>'+
         '<button type="button" class="p3-editar" onclick="pccEdit()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Editar piezas</button></div>'+
         '<div class="p3-minis">'+mins+'</div>'+
-        '<div class="p3-cap">'+n+(n===1?' plancha':' planchas')+(iguales?' · '+pps+(pps===1?' pieza':' piezas')+' por plancha':'')+' · '+(iguales?'corte incluido sin costo'+(totPz?' · ≈ '+m(Math.round(item/totPz))+' por pieza':''):'corte medidas distintas +10%')+'</div>'+
+        '<div class="p3-cap">'+n+(n===1?' plancha':' planchas')+(iguales?' · '+pps+(pps===1?' pieza':' piezas')+' por plancha':'')+' · '+(iguales?'corte incluido sin costo':'corte medidas distintas +10%')+'</div>'+
       '</div>';
     }else{
       h+='<div class="p3-qty"><div><div class="p3-qty-tit">Cantidad de planchas</div><div class="p3-qty-cu">'+m(unit)+' c/u</div></div>'+
@@ -10091,7 +10093,6 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
         (igualesNow?'':pccLeyenda(pieces))+
         '<div class="pcc-minis pcc-minis-c">'+pccMinis(res.sheets,sh,pieces,12,true)+'</div>'+
         '<div class="pcc-s-fila"><div><div class="pcc-s-n">'+Nsh+(Nsh===1?' plancha':' planchas')+' · '+shLbl+'</div><div class="pcc-s-sub">'+sub+'</div>'+
-          ((pp&&igualesNow&&totPz)?'<div class="pcc-s-cu">≈ '+pccMoneda(Math.round(precioAct/totPz))+' por pieza</div>':'')+
         '</div>'+
         (pp?'<div class="pcc-s-precio-col"><div class="pcc-s-precio">'+pccMoneda(precioAct)+'</div>'+
           '<div class="pcc-s-precio-cu">'+Nsh+' × '+pccMoneda(pp)+(allSameNow?'':' + 10%')+'</div></div>':'')+'</div>'+
