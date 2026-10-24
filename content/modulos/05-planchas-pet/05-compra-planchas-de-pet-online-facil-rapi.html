@@ -9484,7 +9484,7 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
     var igualesNow=curMode==='iguales'&&allSameNow;
     if(res.unp.length)html+='<div class="pcc-al al-err">&#9888; '+res.unp.length+(res.unp.length===1?' pieza no cabe':' piezas no caben')+' en la plancha. Revisa sus medidas.</div>';
     pccCostoSierra=0;
-    var sug=(igualesNow&&!res.unp.length)?pccSugerenciaSierra(pieces[0],sh,Nsh):'';
+    var sug=''; // sin sugerencia de achicar la pieza: solo se recomienda el formato de plancha (mejor precio)
     var reco=!res.unp.length?pccRecomendador(pieces,Nsh,igualesNow):'';
     pccUltPlano=null;
     if(Nsh>0){
