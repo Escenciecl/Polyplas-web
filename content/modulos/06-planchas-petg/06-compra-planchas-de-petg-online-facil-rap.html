@@ -4958,7 +4958,7 @@ function buildDimSelector() {
       document.querySelectorAll("#dimSelector .pp-pill").forEach(x => x.classList.remove("active"));
       b.classList.add("active");
       if (presetColor) {
-        history.replaceState(null, '', window.location.pathname + window.location.search + '#color=' + presetColor + '&medida=' + k + '&mat=' + (state.material || 'PETG'));
+        history.replaceState(history.state, '', window.location.pathname + window.location.search + '#color=' + presetColor + '&medida=' + k + '&mat=' + (state.material || 'PETG'));
         state.esp = "";
         const espSection = document.getElementById("espesorInlineSection");
         if (espSection) espSection.style.display = "";
@@ -5078,7 +5078,7 @@ function buildEspesorSelector() {
         document.querySelectorAll("#espesorSelector .pp-esp-btn").forEach(x => x.classList.remove("active"));
         b.classList.add("active");
         if (presetColor) {
-          if (state.dim) history.replaceState(null, '', window.location.pathname + window.location.search + '#color=' + presetColor + '&medida=' + state.dim + '&espesor=' + esp + '&mat=' + (state.material || 'PETG'));
+          if (state.dim) history.replaceState(history.state, '', window.location.pathname + window.location.search + '#color=' + presetColor + '&medida=' + state.dim + '&espesor=' + esp + '&mat=' + (state.material || 'PETG'));
           state.color = presetColor;
           showComboPricePreview();
         } else {
@@ -5105,7 +5105,7 @@ function showComboPricePreview() {
           '<div class="pp-corte-footer-desc">' + dimLabel + ' &middot; ' + state.esp + '</div>' +
           '<div class="pp-corte-footer-iva">IVA incluido</div>' +
         '</div>' +
-        '<div class="pp-corte-footer-price">' + fmtFn(price) + '</div>' +
+        '<div class="pp-corte-footer-price">' + (typeof fmtFn === 'function' ? fmtFn : fmt)(price) + '</div>' +
       '</div>' +
       '<div class="pp-corte-footer-btns">' +
         '<button type="button" class="pp-corte-cta-back" onclick="var b=document.querySelector(\'#stepperBody > .pp-stepper-back\');if(b)b.click();else if(window.closeConfigurator)closeConfigurator();">Atrás</button>' +
@@ -8016,7 +8016,7 @@ function openConfigurator(colorKey, espKey, tipoKey) {
   var _dlHash = '#color=' + color + '&mat=' + mat;
   if (_cardDim) _dlHash += '&medida=' + _cardDim;
   if (_cardEsp) _dlHash += '&espesor=' + _cardEsp;
-  history.replaceState(null, '', window.location.pathname + window.location.search + _dlHash);
+  history.replaceState(history.state, '', window.location.pathname + window.location.search + _dlHash);
 
   // Con selección de card: ir directo al paso 2 (pedido/corte). Sin selección: paso 1 (medida+espesor)
   setTimeout(function() {
@@ -8029,7 +8029,7 @@ function _closeConfiguratorDOM() {
   window._ppCardImg = '';
   document.getElementById('configuratorModal').classList.remove('open');
   document.body.style.overflow = '';
-  history.replaceState(null, '', window.location.pathname + window.location.search);
+  history.replaceState(history.state, '', window.location.pathname + window.location.search);
   var lp = document.getElementById('cartLivePreview');
   if (lp) lp.style.display = 'none';
   if (window.renderCart) window.renderCart();
@@ -8038,53 +8038,104 @@ function _closeConfiguratorDOM() {
 
 function closeConfigurator() {
   _closeConfiguratorDOM();
-  if (!window._ppInPopstate && window.history.state && window.history.state.ppModal === 'configurador') {
-    window._ppSkipPopstate = true;
-    window.history.go(-1);
-  }
 }
 
-// Wrapper de goToStep: empuja historial solo al avanzar (no al retroceder)
-(function() {
-  var _orig = window.goToStep;
-  if (!_orig) return;
-  window.goToStep = function(n) {
-    _orig(n);
-    if (!window._ppWizardGoingBack && !window._pccGoingBack && !window._ppInPopstate) {
-      history.pushState({ppModal:'configurador', step:n}, '');
+/* ══ Navegación del configurador (botón Atrás/Adelante del navegador) ══
+   Una entrada de historial por paso: 1 Medida y espesor · 2 Cortes · 3 Resumen.
+   - Atrás del navegador retrocede un paso (desde el paso 1 cierra el modal).
+   - Los botones "Atrás" del modal y la X mantienen el historial sincronizado.
+   - Al cerrar el modal se limpia todo el estado de cortes/resumen (nada queda "pegado"). */
+(function () {
+  var navPaso = 0;           // paso que refleja el historial
+  var t = null;
+  function modal() { return document.getElementById('configuratorModal'); }
+  function abierto() { var m = modal(); return !!(m && m.classList.contains('open')); }
+  function pasoActual() {
+    if (!abierto()) return 0;
+    var H = document.documentElement;
+    return H.classList.contains('pcc-paso4') ? 3 : (H.classList.contains('pcc-paso3') ? 2 : 1);
+  }
+  function checkoutAbierto() { var c = document.getElementById('checkoutModal'); return !!(c && c.classList.contains('open')); }
+  function sync() {
+    var n = pasoActual();
+    if (n === 0) {
+      var H = document.documentElement;
+      if (H.classList.contains('pcc-paso3') || H.classList.contains('pcc-paso4') || window._pccCalcInfo || window._pccPend) {
+        try { if (window.pccReset) window.pccReset(); } catch (e) {}
+      }
     }
-  };
+    if (window._ppNav) return;
+    if (n === navPaso) return;
+    if (n > navPaso) {
+      for (var k = navPaso + 1; k <= n; k++) history.pushState({ ppModal: 'configurador', ppPaso: k }, '');
+      navPaso = n;
+    } else {
+      if (n === 0 && checkoutAbierto()) { navPaso = 0; return; } // el checkout ya puso su propia entrada encima
+      window._ppSkipPopstate = true;
+      history.go(n - navPaso);
+      navPaso = n;
+    }
+  }
+  function programar() { clearTimeout(t); t = setTimeout(sync, 0); }
+  window._ppNavSync = programar;
+  function vigilar() {
+    var m = modal(); if (!m) return;
+    var obs = new MutationObserver(programar);
+    obs.observe(m, { attributes: true, attributeFilter: ['class'] });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', vigilar); else vigilar();
+
+  function irAtras(destino) {
+    var actual = pasoActual();
+    if (destino <= 0) { _closeConfiguratorDOM(); return; }
+    if (actual === 3 && destino < 3) { if (window.pccEdit) window.pccEdit(); actual = pasoActual(); }
+    if (actual === 2 && destino < 2) { if (window.goBackToPaso2) window.goBackToPaso2(); }
+  }
+  function irAdelante(destino) {
+    var actual = pasoActual();
+    if (actual === 1 && destino >= 2) {
+      var b = document.querySelector('#configuratorModal .pp-p1-footer .pp-corte-cta-next');
+      if (b) b.click();
+      actual = pasoActual();
+    }
+    if (actual === 2 && destino >= 3 && window.pccVerResumen) window.pccVerResumen();
+  }
+
+  window.addEventListener('popstate', function (e) {
+    if (window._ppSkipPopstate) {
+      window._ppSkipPopstate = false;
+      if (!abierto() && location.hash) history.replaceState(history.state, '', location.pathname + location.search); // sin #color=… tras cerrar
+      return;
+    }
+    var s = e.state || {};
+    if (checkoutAbierto()) {
+      window._ppInPopstate = true;
+      if (window.closeCheckout) window.closeCheckout();
+      window._ppInPopstate = false;
+      return;
+    }
+    var destino = s.ppModal === 'configurador' ? (s.ppPaso || 1) : 0;
+    if (!abierto()) {
+      // Entrada vieja de un modal ya cerrado: saltarla para que "Atrás" salga de la página de una vez
+      if (destino > 0) { window._ppSkipPopstate = true; history.go(-destino); }
+      navPaso = 0;
+      return;
+    }
+    var actual0 = pasoActual();
+    navPaso = destino; // el historial ya está en el paso de destino
+    window._ppNav = true; window._ppInPopstate = true; window._ppWizardGoingBack = true;
+    try {
+      var actual = actual0;
+      if (destino < actual) irAtras(destino); else if (destino > actual) irAdelante(destino);
+    } finally {
+      window._ppNav = false; window._ppInPopstate = false; window._ppWizardGoingBack = false;
+    }
+    setTimeout(function () {
+      if (pasoActual() !== navPaso) programar(); // si no se pudo llegar (p. ej. faltan piezas), se corrige el historial
+    }, 450);
+  });
 })();
-
-// Interceptar el botón "Atrás" del navegador
-window.addEventListener('popstate', function() {
-  if (window._ppSkipPopstate) { window._ppSkipPopstate = false; return; }
-
-  var confModal = document.getElementById('configuratorModal');
-  if (confModal && confModal.classList.contains('open')) {
-    // Activar flags para que closeConfigurator y goToStep no re-empujen historial
-    window._ppInPopstate = true;
-    window._ppWizardGoingBack = true;
-    // Buscar el botón "← Volver" visible en el modal y simularlo
-    var btns = confModal.querySelectorAll('.pp-stepper-back, .pcc-back-link');
-    var clicked = false;
-    for (var i = 0; i < btns.length; i++) {
-      if (btns[i].offsetParent !== null) { btns[i].click(); clicked = true; break; }
-    }
-    if (!clicked) _closeConfiguratorDOM();
-    window._ppWizardGoingBack = false;
-    window._ppInPopstate = false;
-    return;
-  }
-
-  var checkModal = document.getElementById('checkoutModal');
-  if (checkModal && checkModal.classList.contains('open')) {
-    window._ppInPopstate = true;
-    if (window.closeCheckout) window.closeCheckout();
-    window._ppInPopstate = false;
-    return;
-  }
-});
 </script>
 <script>
 (function(){
@@ -9117,6 +9168,8 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
 #configuratorModal .p3-stepper button:disabled { opacity: .45; cursor: default; }
 #configuratorModal .p3-stepper button:focus-visible { outline: 3px solid #1B3A5C; outline-offset: 1px; }
 #configuratorModal .p3-stepper span { min-width: 34px; text-align: center; font-size: 1.05rem; font-weight: 800; color: #0f172a; }
+
+#configuratorModal .p3-pend { font-size: 0.78rem; color: #2e7a3e; margin-top: 4px !important; }
 </style>
 <script>
 (function(){
@@ -9511,21 +9564,26 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     if(!R||!R.items||!R.items.length||!st)return;
     if(window.ppPaso)try{window.ppPaso('conf_continuar_recomendada','calc',{items:R.items});}catch(e){}
     var items=R.items.slice(),last=items.pop();
-    var irAlResumen=function(){
-      st.dim=last.dim;
-      try{if(typeof window._ppUpdatePrice==='function')window._ppUpdatePrice();}catch(e){}
-      if(R.iguales&&last.pz){
-        var row=document.querySelector('#pccList .pcc-row');
-        if(row){
-          var id=row.id.replace('pccR_',''),wq=g('pccW_'+id),hq=g('pccH_'+id),qq=g('pccQ_'+id);
-          if(wq)wq.value=R.w/10;if(hq)hq.value=R.h/10;if(qq)qq.value=last.pz;
-        }
+    var totalPz=R.items.reduce(function(a,it){return a+(it.pz||0);},0);
+    // Dos formatos: la parte extra queda "pendiente" y se agrega recién al pagar / agregar al carro
+    window._pccPend=items.length?{items:items,w:R.w,h:R.h,orig:{dim:st.dim,qty:totalPz}}:null;
+    st.dim=last.dim;
+    try{if(typeof window._ppUpdatePrice==='function')window._ppUpdatePrice();}catch(e){}
+    if(R.iguales&&last.pz){
+      var row=document.querySelector('#pccList .pcc-row');
+      if(row){
+        var id=row.id.replace('pccR_',''),wq=g('pccW_'+id),hq=g('pccH_'+id),qq=g('pccQ_'+id);
+        if(wq)wq.value=R.w/10;if(hq)hq.value=R.h/10;if(qq)qq.value=last.pz;
       }
-      window.pccCalc();
-      setTimeout(function(){if(lastRes&&lastRes.sheets&&lastRes.sheets.length&&!lastRes.unp.length)window.pccOk();},60);
-    };
+    }
+    window.pccCalc();
+    setTimeout(function(){if(lastRes&&lastRes.sheets&&lastRes.sheets.length&&!lastRes.unp.length)window.pccOk();},60);
+  };
+  /* Agrega al carro una lista de formatos (cortes iguales) y luego llama a "listo" */
+  function pccAgregarItems(items,R,listo){
+    var st=window._ppState;
     (function sig(idx){
-      if(idx>=items.length){irAlResumen();return;}
+      if(idx>=items.length){if(listo)listo();return;}
       var it=items[idx],s=pccDimSheet(it.dim);
       if(!s){sig(idx+1);return;}
       var pcs=[{w:R.w,h:R.h,qty:it.pz}],r=packGrid(R.w,R.h,it.pz,s.w,s.h),cm=cmap(pcs);
@@ -9545,6 +9603,21 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
         setTimeout(function(){sig(idx+1);},150);
       },150);
     })(0);
+  }
+  /* Botones del Resumen: con formato pendiente, se agrega todo junto al confirmar */
+  window.pccFinalizar=function(modo){
+    var P=window._pccPend;
+    if(!P){
+      var b=g(modo==='pago'?'btnGoCheckout':'btnAddToOrder');if(b)b.click();
+      return;
+    }
+    window.addToCart(true); // primero el ítem que se está viendo
+    pccAgregarItems(P.items,P,function(){
+      window._pccPend=null;
+      if(window.closeConfigurator)window.closeConfigurator();
+      if(modo==='pago'){if(window.openCheckout)window.openCheckout();}
+      else if(window.openCartDrawer)window.openCartDrawer();
+    });
   };
 
   /* ── SVG ── */
@@ -9678,17 +9751,30 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     var base=unit*qty;
     var item=pccNum((g('paso3Price')||{}).textContent)||base;
     var corte=Math.max(0,item-base);
-    var prevEl=g('paso3CartPreview'),prevVis=prevEl&&prevEl.style.display!=='none';
-    var prevTot=prevVis?pccNum((g('paso3CartSubtotal')||{}).textContent):0;
-    var prevN=prevVis?((g('paso3CartItems')||{children:[]}).children.length||1):0;
-    var total=item+prevTot;
+    // "Ya en tu pedido": se lee del carrito global (sobrevive a recargar la página)
+    var prevTot=0,prevN=0;
+    try{
+      var _raw=localStorage.getItem('pp_global_cart')||sessionStorage.getItem('pp_global_cart');
+      var _d=_raw?JSON.parse(_raw):null,_its=Array.isArray(_d)?_d:((_d&&_d.items)||[]);
+      _its.forEach(function(it){prevN++;prevTot+=Number(it.subtotal)||((Number(it.precio_unit)||0)*(Number(it.qty)||1)+(Number(it.corte_costo)||0));});
+    }catch(e){}
+    var pend=conPlano&&window._pccPend,pendTot=0,pendRows='',pendTxt='';
+    if(pend){
+      pend.items.forEach(function(it){
+        var pr=pccPrecio(it.dim)*it.n,lbl=((window._ppDimMeta||{})[it.dim]||{}).label||it.dim;
+        pendTot+=pr;
+        pendRows+='<div class="p3-row"><span>'+it.n+(it.n===1?' plancha':' planchas')+' · '+lbl+' · '+it.pz+' piezas</span><b>'+pccMoneda(pr)+'</b></div>';
+        pendTxt+='<div class="p3-pend">+ '+it.n+(it.n===1?' plancha':' planchas')+' de '+lbl+' con '+it.pz+' piezas (se agrega al confirmar)</div>';
+      });
+    }
+    var total=item+prevTot+pendTot;
     var m=pccMoneda;
     var h='';
     if(prevTot)h+='<div class="p3-ya"><span>Ya en tu pedido · '+prevN+(prevN===1?' ítem':' ítems')+'</span><span>'+m(prevTot)+'</span></div>';
     h+='<div class="p3-card">'+
       '<div class="p3-prod">'+
         '<div class="p3-thumb">'+(img?'<img src="'+img+'" alt="">':'<span>Plancha</span>')+'</div>'+
-        '<div class="p3-prod-info"><div class="p3-nombre">'+nombre+'</div><div class="p3-sub">'+dimLbl+' · '+esp+' · '+pzTxt+'</div></div>'+
+        '<div class="p3-prod-info"><div class="p3-nombre">'+nombre+'</div><div class="p3-sub">'+dimLbl+' · '+esp+' · '+pzTxt+'</div>'+pendTxt+'</div>'+
         (conPlano?'<div class="p3-precio">'+m(item)+'</div>':'')+
       '</div>';
     if(conPlano){
@@ -9712,6 +9798,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     h+='</div>';
     h+='<div class="p3-card p3-detalle"><div class="p3-det-tit">Detalle</div>'+
       '<div class="p3-row"><span>'+qty+(qty===1?' plancha':' planchas')+' · '+dimLbl+'</span><b>'+m(base)+'</b></div>'+
+      pendRows+
       (conPlano?'<div class="p3-row"><span>Corte a medida</span>'+(corte>0?'<b>+'+m(corte)+'</b>':'<b class="p3-gratis">Gratis</b>')+'</div>':'')+
       (prevTot?'<div class="p3-row"><span>Ya en tu pedido</span><b>'+m(prevTot)+'</b></div>':'')+
       '<div class="p3-total"><span>Total · IVA incluido</span><b>'+m(total)+'</b></div>'+
@@ -9728,9 +9815,9 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
         '<div class="pp-corte-footer-price">'+m(total)+'</div></div>'+
         '<div class="pp-corte-footer-btns">'+
           '<button type="button" class="pp-corte-cta-back" onclick="var b=document.querySelector(\'#paso4BackBtn button\');if(b)b.click();">Atrás</button>'+
-          '<button type="button" class="pp-corte-cta-next" onclick="var b=document.getElementById(\'btnGoCheckout\');if(b)b.click();">Ir al pago</button>'+
+          '<button type="button" class="pp-corte-cta-next" onclick="pccFinalizar(\'pago\')">Ir al pago</button>'+
         '</div>'+
-        '<button type="button" class="p3-seguir" onclick="var b=document.getElementById(\'btnAddToOrder\');if(b)b.click();">Agregar al carro y seguir comprando</button>';
+        '<button type="button" class="p3-seguir" onclick="pccFinalizar(\'seguir\')">Agregar al carro y seguir comprando</button>';
     }
   }
   /* Mantener el resumen al día si cambian precio, cantidad o carrito */
@@ -10214,6 +10301,13 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       return;
     }
     var savedInfo=window._pccCalcInfo; // guardar antes de que clearAll limpie el estado
+    var _pend=window._pccPend;
+    if(_pend){
+      var _st=window._ppState;
+      if(_st){_st.dim=_pend.orig.dim;try{if(typeof window._ppUpdatePrice==='function')window._ppUpdatePrice();}catch(e){}}
+      savedInfo={pieces:[{w:_pend.w,h:_pend.h,qty:_pend.orig.qty}],mode:'iguales'};
+      window._pccPend=null;
+    }
     paso4Ready=false;
     enterPaso3(true);
     lastRes=null;lastPieces=null;N=0;
@@ -10239,6 +10333,24 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     window.pccCalc();
   }
   function pccClaveActual(){var st=window._ppState||{};return [st.tipo,st.dim,st.color,st.esp].join('|');}
+
+  /* Deja cortes y resumen en blanco (se usa al cerrar el modal) */
+  window.pccReset=function(){
+    try{clearAll();}catch(e){}
+    lastRes=null;lastPieces=null;curMode=null;paso4Ready=false;N=0;
+    window._pccCurrentModo='none';window._pccCalcInfo=null;window._pccClave=null;window._pccPend=null;
+    pccSugDescartada='';pccRecoDescartada='';
+    H.classList.remove('pcc-paso3','pcc-paso4');
+    var w=g('corteSectionWrapper');if(w)w.style.display='none';
+    var sum=g('paso3SummarySection');if(sum)sum.style.display='none';
+    var rp=g('pccResumenPlano');if(rp)rp.innerHTML='';
+    var pb=g('paso4BackBtn');if(pb)pb.style.display='none';
+    var pi=g('paso3PiezasInfo');if(pi){pi.innerHTML='';pi.style.display='none';}
+    ['none','iguales','distintos'].forEach(function(m){var tab=g('corteTab_'+m);if(tab)tab.classList.toggle('active',m==='none');});
+    var gA=g('corteGuideA'),gC=g('corteGuideC');if(gA)gA.style.display='';if(gC)gC.style.display='none';
+    try{blocked=true;if(window.selectCorteOption)window.selectCorteOption('none');}catch(e){}
+    setTimeout(function(){blocked=false;},300);
+  };
 
   /* ── Utilidades ── */
   function clearAll(){
@@ -10334,7 +10446,8 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
   /* ── Gestión de pasos ── */
   function enterPaso3(fromEdit){
     if(window._pccGoingBack)return;
-    if(!fromEdit&&!window._ppInPopstate)history.pushState({ppModal:'configurador',step:'paso3'},'');
+    var _m=g('configuratorModal');if(!_m||!_m.classList.contains('open'))return; // modal cerrado: no reactivar Cortes
+
     paso4Ready=false;
     H.classList.add('pcc-paso3');H.classList.remove('pcc-paso4');
     if(window.ppSyncWizardHeader)window.ppSyncWizardHeader();
@@ -10361,7 +10474,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
   }
 
   function showPaso4(){
-    if(!window._ppInPopstate)history.pushState({ppModal:'configurador',step:'paso4'},'');
+
     paso4Ready=true;
     H.classList.remove('pcc-paso3');H.classList.add('pcc-paso4');
     if(window.ppSyncWizardHeader)window.ppSyncWizardHeader();
@@ -10466,6 +10579,13 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
 <script>
 /* ── DEEP LINK: #color=clear&medida=1800x1200&espesor=2mm&mat=PETG ── */
 (function ppDeepLink() {
+  try {
+    var _nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+    if (_nav && (_nav.type === 'reload' || _nav.type === 'back_forward')) {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+      return;
+    }
+  } catch (e) {}
   var hashStr = window.location.hash.replace(/^#/, '').replace(/&amp(?:;|%3B)/gi, '&');
   var params  = new URLSearchParams((hashStr || window.location.search).replace(/&amp(?:;|%3B)/gi, '&'));
   var color   = params.get('color') || params.get('c');
