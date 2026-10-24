@@ -8751,6 +8751,65 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
 #configuratorModal #pccRes .pcc-sug-badge { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); background: #2e7a3e; color: #fff; font-size: 0.66rem; font-weight: 700; letter-spacing: .5px; padding: 2px 8px !important; border-radius: 999px; white-space: nowrap; }
 
 #configuratorModal #pccRes .pcc-sug-box.pcc-sug-new { padding-top: 20px !important; }
+
+/* ═══ Cortes · carrusel: "Así queda tu corte" ⇄ "Ahorra…" (iguales y distintos) ═══ */
+#configuratorModal #pccRes .pcc-carr { position: relative; margin: 16px 0 14px !important; }
+#configuratorModal #pccRes .pcc-carr-track { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+#configuratorModal #pccRes .pcc-carr-track::-webkit-scrollbar { display: none; }
+#configuratorModal #pccRes .pcc-slide { flex: 0 0 100%; scroll-snap-align: start; box-sizing: border-box; border-radius: 16px; padding: 18px 20px !important; display: flex; flex-direction: column; }
+#configuratorModal #pccRes .pcc-slide-plan { background: #fff; border: 1px solid #e2e8f0; }
+#configuratorModal #pccRes .pcc-slide-reco { background: #eaf6ec; border: 1px solid #bfe0c6; }
+#configuratorModal #pccRes .pcc-s-cab { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+#configuratorModal #pccRes .pcc-s-tit { font-size: 1.05rem; font-weight: 800; color: #0f172a; }
+#configuratorModal #pccRes .pcc-s-meta { font-size: 0.88rem; color: #64748b; white-space: nowrap; }
+#configuratorModal #pccRes .pcc-minis-c { justify-content: center; margin: 18px 0 16px !important; }
+#configuratorModal #pccRes .pcc-s-fila { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+#configuratorModal #pccRes .pcc-s-n { font-size: 1rem; font-weight: 800; color: #0f172a; }
+#configuratorModal #pccRes .pcc-s-sub { font-size: 0.88rem; color: #64748b; margin-top: 2px !important; }
+#configuratorModal #pccRes .pcc-s-precio { font-size: 1.45rem; font-weight: 800; color: #0f172a; white-space: nowrap; }
+#configuratorModal #pccRes .pcc-s-cap { font-size: 0.82rem; color: #64748b; margin-top: 12px !important; }
+#configuratorModal #pccRes .pcc-r-tit { font-size: 1.5rem; font-weight: 800; color: #2e7a3e; line-height: 1.15; }
+#configuratorModal #pccRes .pcc-r-ico { color: #2e7a3e; font-size: 1.2rem; }
+#configuratorModal #pccRes .pcc-r-sub { font-size: 0.92rem; color: #64748b; margin-top: 4px !important; }
+#configuratorModal #pccRes .pcc-r-precio { font-size: 1.45rem; font-weight: 800; color: #2e7a3e; white-space: nowrap; }
+#configuratorModal #pccRes .pcc-r-btn { width: 100%; margin-top: 14px !important; padding: 13px !important; border: 0; border-radius: 10px; background: #2f7a3e; color: #fff; font: inherit; font-weight: 700; font-size: 0.98rem; cursor: pointer; }
+#configuratorModal #pccRes .pcc-r-btn:hover { background: #276834; }
+#configuratorModal #pccRes .pcc-r-keep { display: block; width: 100%; margin-top: 8px !important; padding: 6px !important; background: none; border: 0; font: inherit; font-size: 0.9rem; color: #64748b; cursor: pointer; }
+#configuratorModal #pccRes .pcc-r-keep:hover { text-decoration: underline; }
+#configuratorModal #pccRes .pcc-r-otra { display: block; width: 100%; margin-top: 6px !important; padding: 6px !important; background: none; border: 0; font: inherit; font-size: 0.85rem; font-weight: 600; color: #2e7a3e; cursor: pointer; }
+#configuratorModal #pccRes .pcc-r-otra:hover { text-decoration: underline; }
+#configuratorModal #pccRes .pcc-carr-btn { display: none; position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(30,41,59,.78); color: #fff; font-size: 1.3rem; line-height: 1; cursor: pointer; align-items: center; justify-content: center; }
+#configuratorModal #pccRes .pcc-carr.multi .pcc-carr-btn { display: flex; }
+#configuratorModal #pccRes .pcc-carr-prev { left: -12px; }
+#configuratorModal #pccRes .pcc-carr-next { right: -12px; }
+#configuratorModal #pccRes .pcc-carr.at-start .pcc-carr-prev, #configuratorModal #pccRes .pcc-carr.at-end .pcc-carr-next { opacity: .35; pointer-events: none; }
+#configuratorModal #pccRes .pcc-slide button:focus-visible, #configuratorModal #pccRes .pcc-carr-btn:focus-visible { outline: 3px solid #1B3A5C; outline-offset: 2px; }
+#configuratorModal #pccRes .pcc-slide .pcc-leyenda { margin: 10px 0 0 !important; }
+@media (max-width: 560px) {
+  #configuratorModal #pccRes .pcc-slide { padding: 16px !important; }
+  #configuratorModal #pccRes .pcc-s-precio, #configuratorModal #pccRes .pcc-r-precio { font-size: 1.25rem; }
+  #configuratorModal #pccRes .pcc-r-tit { font-size: 1.3rem; }
+  #configuratorModal #pccRes .pcc-carr-prev { left: -8px; }
+  #configuratorModal #pccRes .pcc-carr-next { right: -8px; }
+}
+
+#configuratorModal #pccRes .pcc-carr.at-start .pcc-carr-prev, #configuratorModal #pccRes .pcc-carr.at-end .pcc-carr-next { display: none !important; }
+#configuratorModal #pccRes .pcc-carr-btn { width: 30px; height: 30px; font-size: 1.15rem; box-shadow: 0 2px 6px rgba(15,23,42,.2); }
+#configuratorModal #pccRes .pcc-carr-prev { left: -15px; }
+#configuratorModal #pccRes .pcc-carr-next { right: -15px; }
+@media (max-width: 560px) {
+  #configuratorModal #pccRes .pcc-carr-btn { width: 28px; height: 28px; }
+  #configuratorModal #pccRes .pcc-carr-prev { left: -13px; }
+  #configuratorModal #pccRes .pcc-carr-next { right: -13px; }
+}
+
+/* El carrusel no debe mover el modal hacia los lados */
+#configuratorModal .pp-configurator-inner { overflow-x: hidden !important; overscroll-behavior-x: contain; }
+#configuratorModal #pccRes .pcc-carr-track { overscroll-behavior-x: contain; }
+
+/* Que el carrusel no ensanche la columna (los hijos de grid no se encogen por defecto) */
+#configuratorModal .pp-configurator-content .pp-grid > * { min-width: 0; }
+#configuratorModal #pccRes, #configuratorModal #pccRes .pcc-carr { min-width: 0; max-width: 100%; }
 </style>
 <script>
 (function(){
@@ -8971,6 +9030,7 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
     if(!best)return '';
     var st=window._ppState,pr=st?pccPrecio(st.dim):0,ahorro=pr?(Nsh-best.n)*pr:0;
     pccCostoSierra=pr?best.n*pr:0;
+    pccUltSierra=ahorro>0?{w:best.w,h:best.h,red:best.red,ahorro:ahorro}:null;
     var key=p.w+'x'+p.h+'x'+p.qty;
     if(pccSugDescartada===key)return '';
     var ahora=packGrid(p.h,p.w,p.qty,sh.w,sh.h),ajuste=packGrid(best.h,best.w,p.qty,sh.w,sh.h);
@@ -9070,31 +9130,20 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
       lblNew=best.items.map(function(it){return it.n+' × '+pccDimLabel(it.dim);}).join(' + ');
       pctNew=area?Math.round(usado/area*100):0;
     }
-    var caja=function(k,minis,n,lbl,pc,precio,nuevo){
-      return '<div class="pcc-sug-box'+(nuevo?' pcc-sug-new':'')+'">'+(nuevo?'<span class="pcc-sug-badge">Mejor precio</span>':'')+
-        '<div class="pcc-sug-k">'+k+'</div>'+
-        '<div class="pcc-minis pcc-minis-sm">'+minis+'</div>'+
-        '<div class="pcc-sug-n">'+n+(n===1?' plancha':' planchas')+'</div>'+
-        '<div class="pcc-sug-m">'+lbl+'</div>'+
-        '<div class="pcc-sug-m">'+pc+'% aprovechado</div>'+
-        '<div class="pcc-sug-p'+(nuevo?'':' pcc-sug-tach')+'">'+pccMoneda(precio)+'</div>'+
-      '</div>';
-    };
     var accion=best.items.length===1
-      ?'<button type="button" class="pcc-sug-btn" onclick="pccCambiarMedida(\''+best.items[0].dim+'\')">Usar plancha de '+lblNew+'</button>'
-      :(pccPuedeCombinar()?'<button type="button" class="pcc-sug-btn" onclick="pccPedirCombinacion()">Agregar estas planchas al carro</button>'
-        :'<div class="pcc-sug-nota">Para pedirla, agrega cada medida al carro con sus piezas.</div>');
-    return '<div class="pcc-sug" role="region" aria-label="Sugerencia de formato">'+
-      '<div class="pcc-sug-tit">Ahorra '+pccMoneda(costoAct-best.costo)+'</div>'+
-      '<div class="pcc-sug-sub">'+(best.items.length===1?'Cambiando a plancha de '+lblNew:'Combinando formatos de plancha')+'</div>'+
-      '<div class="pcc-sug-cmp">'+
-        caja('Ahora',actual?minisDe(actual.r,actual.s,6):'',Nsh,pccDimLabel(st.dim),shAct?pct(Nsh,shAct):0,costoAct,false)+
-        '<div class="pcc-sug-arrow" aria-hidden="true">&rarr;</div>'+
-        caja('Con cambio',minisNew,nNew,lblNew,pctNew,best.costo,true)+
-      '</div>'+
+      ?'<button type="button" class="pcc-r-btn" onclick="pccCambiarMedida(\''+best.items[0].dim+'\')">Usar plancha de '+lblNew+'</button>'
+      :(pccPuedeCombinar()?'<button type="button" class="pcc-r-btn" onclick="pccPedirCombinacion()">Agregar estas planchas al carro</button>'
+        :'<div class="pcc-s-cap">Para pedirla, agrega cada medida al carro con sus piezas.</div>');
+    var otra=(iguales&&pccUltSierra&&pccUltSierra.ahorro>0)
+      ?'<button type="button" class="pcc-r-otra" onclick="pccUsarMedida('+pccUltSierra.w+','+pccUltSierra.h+')">Otra opción: ajustar '+pccUltSierra.red+' mm · ahorra '+pccMoneda(pccUltSierra.ahorro)+'</button>':'';
+    return '<div class="pcc-slide pcc-slide-reco" role="group" aria-label="Sugerencia de formato">'+
+      '<div class="pcc-s-cab"><div class="pcc-r-tit">Ahorra '+pccMoneda(costoAct-best.costo)+'</div><span class="pcc-r-ico" aria-hidden="true">&rarr;</span></div>'+
+      '<div class="pcc-r-sub">Cambia el formato, no tus medidas</div>'+
+      '<div class="pcc-minis pcc-minis-c">'+minisNew+'</div>'+
+      '<div class="pcc-s-fila"><div class="pcc-s-n">'+nNew+(nNew===1?' plancha':' planchas')+' · '+lblNew+'</div><div class="pcc-r-precio">'+pccMoneda(best.costo)+'</div></div>'+
       accion+
-      '<button type="button" class="pcc-sug-keep" onclick="pccMantenerFormato(\''+key+'\')">Mantener '+pccDimLabel(st.dim)+'</button>'+
-      '<div class="pcc-sug-nota">&#9432; Cada corte de sierra consume '+K+' mm · mínimo 30 × 30 cm por pieza</div>'+
+      '<button type="button" class="pcc-r-keep" onclick="pccMantenerFormato(\''+key+'\')">Mantener como está</button>'+
+      otra+
     '</div>';
   }
 
@@ -9299,12 +9348,25 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
     box.setAttribute('data-i',String(i));
     box.innerHTML='<div class="pcc-det-cab"><span>Plancha '+(i+1)+' de '+n+'</span><button type="button" onclick="pccVerDetalle('+i+')">Cerrar</button></div>'+
       '<div class="pcc-svg-w pcc-plano">'+pccPlanoSvg(P.sheets[i],P.sh.w,P.sh.h,P.pieces)+'</div>';
-    document.querySelectorAll('#pccRes .pcc-minis .pcc-mini').forEach(function(b,k){b.classList.toggle('sel',k===i);});
+    document.querySelectorAll('#pccRes .pcc-slide-plan .pcc-mini').forEach(function(b,k){b.classList.toggle('sel',k===i);});
   };
-  var pccRecoDescartada='';
+  var pccRecoDescartada='',pccUltSierra=null;
+  window.pccCarr=function(d){
+    var t=g('pccCarrTrack');if(!t)return;
+    t.scrollBy({left:d*t.clientWidth,behavior:'smooth'});
+  };
+  window.pccCarrUpd=function(){
+    var t=g('pccCarrTrack');if(!t)return;
+    var c=t.parentNode,n=t.children.length,max=t.scrollWidth-t.clientWidth;
+    c.classList.toggle('multi',n>1);
+    c.classList.toggle('at-start',t.scrollLeft<=4);
+    c.classList.toggle('at-end',t.scrollLeft>=max-4);
+  };
   window.pccMantenerFormato=function(key){
     pccRecoDescartada=key;
-    var els=document.querySelectorAll('#pccRes .pcc-sug');els.forEach(function(el){if(/formato/.test(el.getAttribute('aria-label')||''))el.remove();});
+    document.querySelectorAll('#pccRes .pcc-slide-reco').forEach(function(el){el.remove();});
+    var t=g('pccCarrTrack');if(t)t.scrollTo({left:0});
+    window.pccCarrUpd();
   };
   window.pccMantener=function(key){
     pccSugDescartada=key;
@@ -9483,8 +9545,8 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
     pccPintarFilas(pieces);
     var igualesNow=curMode==='iguales'&&allSameNow;
     if(res.unp.length)html+='<div class="pcc-al al-err">&#9888; '+res.unp.length+(res.unp.length===1?' pieza no cabe':' piezas no caben')+' en la plancha. Revisa sus medidas.</div>';
-    pccCostoSierra=0;
-    var sug=''; // sin sugerencia de achicar la pieza: solo se recomienda el formato de plancha (mejor precio)
+    pccCostoSierra=0;pccUltSierra=null;
+    if(igualesNow&&!res.unp.length)pccSugerenciaSierra(pieces[0],sh,Nsh); // solo para "Otra opción"
     var reco=!res.unp.length?pccRecomendador(pieces,Nsh,igualesNow):'';
     pccUltPlano=null;
     if(Nsh>0){
@@ -9494,23 +9556,31 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
       var totPz=pieces.reduce(function(a,q){return a+q.qty;},0);
       var maxPps=Math.max.apply(null,res.sheets.map(function(x){return x.placed.length;}));
       var shLbl=Math.round(sh.h/10)+' × '+Math.round(sh.w/10)+' cm';
-      var cap=(igualesNow
-        ?maxPps+(maxPps===1?' pieza':' piezas')+' por plancha de '+shLbl
-        :totPz+(totPz===1?' pieza':' piezas')+' en '+Nsh+(Nsh===1?' plancha':' planchas')+' de '+shLbl)+' · el sobrante es tuyo';
+      var pp=pccPrecio((window._ppState||{}).dim),precioAct=pp*Nsh+(allSameNow?0:Math.round(Math.round(pp/1.19)*Nsh*0.10*1.19));
+      var sub=igualesNow
+        ?totPz+(totPz===1?' pieza':' piezas')+' de '+pccFmtCm(pieces[0].w)+' × '+pccFmtCm(pieces[0].h)+' cm'
+        :totPz+(totPz===1?' pieza':' piezas')+' en '+pieces.length+(pieces.length===1?' medida':' medidas');
+      var cap=(igualesNow?maxPps+(maxPps===1?' pieza':' piezas')+' por plancha · ':'')+'el sobrante es tuyo';
       pccUltPlano={sheets:res.sheets,sh:sh,pieces:pieces};
-      html+='<div class="pcc-plan-card">'+
-        '<div class="pcc-plano-cab"><div class="pcc-plano-tit">Así queda tu corte</div>'+
-        '<div class="pcc-plano-meta">'+Nsh+(Nsh===1?' plancha':' planchas')+' · '+Math.round(100-waste)+'% aprovechado</div></div>'+
+      var plan='<div class="pcc-slide pcc-slide-plan" role="group" aria-label="Así queda tu corte">'+
+        '<div class="pcc-s-cab"><div class="pcc-s-tit">Así queda tu corte</div><div class="pcc-s-meta">'+Math.round(100-waste)+'% aprovechado</div></div>'+
         (igualesNow?'':pccLeyenda(pieces))+
-        '<div class="pcc-minis">'+pccMinis(res.sheets,sh,pieces,12,true)+'</div>'+
-        '<div class="pcc-plan-cap">'+cap+'</div>'+
+        '<div class="pcc-minis pcc-minis-c">'+pccMinis(res.sheets,sh,pieces,12,true)+'</div>'+
+        '<div class="pcc-s-fila"><div><div class="pcc-s-n">'+Nsh+(Nsh===1?' plancha':' planchas')+' · '+shLbl+'</div><div class="pcc-s-sub">'+sub+'</div></div>'+
+        (pp?'<div class="pcc-s-precio">'+pccMoneda(precioAct)+'</div>':'')+'</div>'+
+        '<div class="pcc-s-cap">'+cap+'</div>'+
         '<div class="pcc-plan-det" id="pccPlanDet"></div>'+
       '</div>';
+      html+='<div class="pcc-carr">'+
+        '<button type="button" class="pcc-carr-btn pcc-carr-prev" aria-label="Anterior" onclick="pccCarr(-1)">&#8249;</button>'+
+        '<div class="pcc-carr-track" id="pccCarrTrack" onscroll="pccCarrUpd()">'+plan+reco+'</div>'+
+        '<button type="button" class="pcc-carr-btn pcc-carr-next" aria-label="Siguiente" onclick="pccCarr(1)">&#8250;</button>'+
+      '</div>';
     }
-    html+=sug+reco;
     pccFooterCalc(Nsh,allSameNow);
     var resEl=g('pccRes');if(!resEl)return;
     resEl.innerHTML=html;
+    setTimeout(window.pccCarrUpd,0);
   };
 
   /* ── Confirmar desde calculadora ── */
