@@ -9733,26 +9733,65 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
       var pps=iguales?Math.max.apply(null,r.sheets.map(function(x){return x.placed.length;})):0;
       ops.push({dim:dim,pr:pccPrecio(dim),n:r.sheets.length,pps:pps,r:r,s:s});
     });
-    var best=null;
+    /* Candidatas: cada formato solo y combinaciones de dos formatos.
+       Se elige la de MENOR superficie de plancha (= mayor % aprovechado); si empatan, la más barata. */
+    var cands=[],sumPz=function(l){return l.reduce(function(a,q){return a+q.qty;},0);};
+    var factorDe=function(it){return(iguales||!it.pieces||it.pieces.length<2)?1:1.10;};
+    var costoDe=function(items){return items.reduce(function(a,it){return a+it.n*pccPrecio(it.dim)*factorDe(it);},0);};
+    var areaDe=function(items){return items.reduce(function(a,it){var z=pccDimSheet(it.dim);return a+(z?it.n*z.w*z.h:0);},0);};
     ops.forEach(function(o){
-      var c=o.n*o.pr*factor;
-      if(o.dim!==st.dim&&c<costoAct&&(!best||c<best.costo))best={items:[{dim:o.dim,n:o.n}],costo:c};
+      if(o.dim===st.dim)return;
+      cands.push({items:[iguales?{dim:o.dim,n:o.n}:{dim:o.dim,n:o.n,pz:sumPz(pieces),pieces:pieces}]});
     });
     if(iguales){
       var q=pieces[0].qty;
       ops.forEach(function(A){ops.forEach(function(B){
         if(A.dim===B.dim||!A.pps||!B.pps)return;
         for(var nA=1;nA*A.pps<q;nA++){
-          var pzA=nA*A.pps,nB=Math.ceil((q-pzA)/B.pps),c=nA*A.pr+nB*B.pr;
-          if(c<costoAct&&(!best||c<best.costo))best={items:[{dim:A.dim,n:nA,pz:pzA},{dim:B.dim,n:nB,pz:q-pzA}],costo:c};
+          var pzA=nA*A.pps,nB=Math.ceil((q-pzA)/B.pps);
+          cands.push({items:[{dim:A.dim,n:nA,pz:pzA},{dim:B.dim,n:nB,pz:q-pzA}]});
+        }
+      });});
+    }else{
+      // Distintos: las primeras planchas del formato A (las más llenas) y el resto de piezas en el formato B
+      ops.forEach(function(A){ops.forEach(function(B){
+        if(A.dim===B.dim)return;
+        var sA=A.r.sheets;
+        for(var nA=1;nA<sA.length;nA++){
+          var rest={},usadas={},orden=[];
+          pieces.forEach(function(q){var k=q.w+'x'+q.h;if(rest[k]){rest[k].qty+=q.qty;return;}rest[k]={w:q.w,h:q.h,qty:q.qty};orden.push(k);});
+          for(var si=0;si<nA;si++)sA[si].placed.forEach(function(pc){
+            var k=pc.uw+'x'+pc.uh;if(!rest[k]||!rest[k].qty)k=pc.uh+'x'+pc.uw;
+            if(!rest[k]||!rest[k].qty)return;
+            rest[k].qty--;usadas[k]=(usadas[k]||0)+1;
+          });
+          var piezasA=[],piezasB=[];
+          orden.forEach(function(k){
+            if(usadas[k])piezasA.push({w:rest[k].w,h:rest[k].h,qty:usadas[k]});
+            if(rest[k].qty)piezasB.push({w:rest[k].w,h:rest[k].h,qty:rest[k].qty});
+          });
+          if(!piezasB.length)continue;
+          var rB;try{rB=guillotinePack(piezasB,B.s.w,B.s.h);}catch(e){continue;}
+          if(!rB||rB.unp.length||!rB.sheets.length)continue;
+          cands.push({items:[{dim:A.dim,n:nA,pz:sumPz(piezasA),pieces:piezasA},{dim:B.dim,n:rB.sheets.length,pz:sumPz(piezasB),pieces:piezasB}]});
         }
       });});
     }
-    // Se muestra en cortes iguales y distintos, aunque también haya sugerencia de ajuste por sierra
-    if(!best||costoAct-best.costo<1000)return '';
+    var shAct0=pccDimSheet(st.dim),areaAct=shAct0?Nsh*shAct0.w*shAct0.h:0;
+    var usado0=pieces.reduce(function(a,q){return a+q.w*q.h*q.qty;},0);
+    var best=null;
+    cands.forEach(function(c){
+      c.area=areaDe(c.items);c.costo=costoDe(c.items);
+      if(!best||c.area<best.area-1||(Math.abs(c.area-best.area)<=1&&(c.costo<best.costo-1||(Math.abs(c.costo-best.costo)<=1&&c.items.length<best.items.length))))best=c;
+    });
+    // Solo se recomienda si aprovecha mejor el material que la opción actual
+    if(!best||!areaAct)return '';
+    var pctA0=Math.round(usado0/areaAct*100),pctB0=Math.round(usado0/best.area*100);
+    // Para no interrumpir por diferencias mínimas: debe ahorrar al menos $1.000 o mejorar al menos 5 puntos
+    if(pctB0<=pctA0||(costoAct-best.costo<1000&&pctB0-pctA0<5))return '';
     var key='f|'+st.dim+'|'+pieces.map(function(q){return q.w+'x'+q.h+'x'+q.qty;}).join(',');
     if(pccRecoDescartada===key)return '';
-    pccUltReco={items:best.items,w:pieces[0].w,h:pieces[0].h,iguales:iguales};
+    pccUltReco={items:best.items,w:pieces[0].w,h:pieces[0].h,iguales:iguales,pieces:pieces};
     // Superficie de piezas (igual en cualquier formato) → % aprovechado de cada opción
     var usado=pieces.reduce(function(a,q){return a+q.w*q.h*q.qty;},0);
     var pct=function(n,sz){return Math.round(usado/(n*sz.w*sz.h)*100);};
@@ -9768,7 +9807,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
       best.items.forEach(function(it){
         var sz=pccDimSheet(it.dim);if(!sz)return;
         nNew+=it.n;area+=it.n*sz.w*sz.h;
-        minisNew+=pccMinis(packGrid(pieces[0].h,pieces[0].w,it.pz,sz.w,sz.h).sheets,sz,pieces,4,false);
+        minisNew+=pccMinis((it.pieces&&!iguales?guillotinePack(it.pieces,sz.w,sz.h):packGrid(pieces[0].h,pieces[0].w,it.pz,sz.w,sz.h)).sheets,sz,pieces,4,false);
       });
       lblNew=best.items.map(function(it){return it.n+' × '+pccDimLabel(it.dim);}).join(' + ');
       pctNew=area?Math.round(usado/area*100):0;
@@ -9780,15 +9819,15 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
       ?'<button type="button" class="pcc-r-otra" onclick="pccUsarMedida('+pccUltSierra.w+','+pccUltSierra.h+')">Otra opción: ajustar '+pccUltSierra.red+' mm · ahorra '+pccMoneda(pccUltSierra.ahorro)+'</button>':'';
     return '<div class="pcc-slide pcc-slide-reco" role="group" aria-label="Sugerencia de formato">'+
       '<div class="pcc-r-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Recomendación Polyplas</div>'+
-      '<div class="pcc-s-cab"><div class="pcc-r-tit">Ahorra '+pccMoneda(costoAct-best.costo)+'</div><div class="pcc-s-meta">'+pctNew+'% aprovechado</div></div>'+
-      '<div class="pcc-r-sub">Cambia el formato, no tus medidas</div>'+
+      '<div class="pcc-s-cab"><div class="pcc-r-tit">'+(costoAct-best.costo>=1000?'Ahorra '+pccMoneda(costoAct-best.costo):'Menos sobrante')+'</div><div class="pcc-s-meta">'+pctNew+'% aprovechado</div></div>'+
+      '<div class="pcc-r-sub">Cambia el formato, no tus medidas'+(best.costo-costoAct>=1000?' · +'+pccMoneda(best.costo-costoAct):'')+'</div>'+
       '<div class="pcc-minis pcc-minis-c">'+minisNew+'</div>'+
       (best.items.length===1
         ?'<div class="pcc-s-fila"><div><div class="pcc-s-n">'+nNew+(nNew===1?' plancha':' planchas')+' · '+lblNew+'</div>'+
             '<div class="pcc-s-cu">'+pccMoneda(pccPrecio(best.items[0].dim)*factor)+' c/u</div></div>'+
           '<div class="pcc-r-precio">'+pccMoneda(best.costo)+'</div></div>'
         :'<div class="pcc-r-lista">'+best.items.map(function(it){
-            return '<div><span>'+it.n+' × '+pccDimLabel(it.dim)+(it.pz?' <small>('+it.pz+' piezas)</small>':'')+'</span><b>'+pccMoneda(it.n*pccPrecio(it.dim)*factor)+'</b></div>';
+            return '<div><span>'+it.n+' × '+pccDimLabel(it.dim)+(it.pz?' <small>('+it.pz+' piezas)</small>':'')+'</span><b>'+pccMoneda(it.n*pccPrecio(it.dim)*factorDe(it))+'</b></div>';
           }).join('')+
           '<div class="pcc-r-lista-tot"><span>'+nNew+' planchas en total</span><b>'+pccMoneda(best.costo)+'</b></div></div>')+
       accion+
@@ -9855,7 +9894,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
     var items=R.items.slice(),last=items.pop();
     var totalPz=R.items.reduce(function(a,it){return a+(it.pz||0);},0);
     // Dos formatos: la parte extra queda "pendiente" y se agrega recién al pagar / agregar al carro
-    window._pccPend=items.length?{items:items,w:R.w,h:R.h,orig:{dim:st.dim,qty:totalPz}}:null;
+    window._pccPend=items.length?{items:items,w:R.w,h:R.h,iguales:R.iguales,orig:{dim:st.dim,qty:totalPz,pieces:R.pieces}}:null;
     st.dim=last.dim;
     try{if(typeof window._ppUpdatePrice==='function')window._ppUpdatePrice();}catch(e){}
     if(R.iguales&&last.pz){
@@ -9864,22 +9903,64 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
         var id=row.id.replace('pccR_',''),wq=g('pccW_'+id),hq=g('pccH_'+id),qq=g('pccQ_'+id);
         if(wq)wq.value=R.w/10;if(hq)hq.value=R.h/10;if(qq)qq.value=last.pz;
       }
+    }else if(!R.iguales&&items.length&&last.pieces){
+      // Distintos combinado: en pantalla quedan solo las piezas del formato principal
+      var lst=g('pccList');if(lst){lst.innerHTML='';N=0;}
+      last.pieces.forEach(function(q){pccAdd(Math.round(q.w/10),Math.round(q.h/10),q.qty);});
     }
     window.pccCalc();
     setTimeout(function(){if(lastRes&&lastRes.sheets&&lastRes.sheets.length&&!lastRes.unp.length)window.pccOk();},60);
   };
   /* Agrega al carro una lista de formatos (cortes iguales) y luego llama a "listo" */
+  function pccLlenarDistintos(res){
+    var maxM=0;
+    res.sheets.forEach(function(sh0,pi){
+      var counts={};
+      sh0.placed.forEach(function(p){var k=p.W+'_'+p.H;if(!counts[k])counts[k]={a:p.W,h:p.H,qty:0};counts[k].qty++;});
+      var meds=Object.keys(counts).map(function(k){return counts[k];});
+      if(meds.length>maxM)maxM=meds.length;
+      meds.forEach(function(med,mi){
+        if(mi>0&&window.addMedidaToPlank)window.addMedidaToPlank(pi);
+        setTimeout((function(pii,mii,m){return function(){
+          var aEl=g('msAncho_'+pii+'_'+mii),hEl=g('msAlto_'+pii+'_'+mii);
+          if(aEl){aEl.value=Math.round(m.a/10);if(window.onMedidaSetInput)window.onMedidaSetInput(pii,mii,'ancho',aEl);}
+          if(hEl){hEl.value=Math.round(m.h/10);if(window.onMedidaSetInput)window.onMedidaSetInput(pii,mii,'alto',hEl);}
+          if(corteState.medidaSets[pii]&&corteState.medidaSets[pii].medidas[mii])corteState.medidaSets[pii].medidas[mii].qty=m.qty;
+        };})(pi,mi,med),(mi+1)*120);
+      });
+    });
+    return maxM;
+  }
+  /* Agrega al carro una lista de formatos y luego llama a "listo" */
   function pccAgregarItems(items,R,listo){
     var st=window._ppState;
     (function sig(idx){
       if(idx>=items.length){if(listo)listo();return;}
       var it=items[idx],s=pccDimSheet(it.dim);
       if(!s){sig(idx+1);return;}
-      var pcs=[{w:R.w,h:R.h,qty:it.pz}],r=packGrid(R.w,R.h,it.pz,s.w,s.h),cm=cmap(pcs);
+      var dist=!!(it.pieces&&it.pieces.length>1);
+      if(dist){
+        var pcsD=it.pieces,rD=guillotinePack(pcsD,s.w,s.h),cmD=cmap(pcsD);
+        st.dim=it.dim;st.qty=rD.sheets.length||it.n;
+        window.selectCorteOption('distintos');
+        setTimeout(function(){
+          var maxM=pccLlenarDistintos(rD);
+          setTimeout(function(){
+            window._pccCalcInfo={pieces:pcsD,Nsh:st.qty,tot:it.pz,mode:'distintos',
+              svgs:rD.sheets.map(function(x){return svgSheet(x,s.w,s.h,cmD);}),
+              placedSheets:rD.sheets.map(function(x){return x.placed.map(function(p){return{x:p.x,y:p.y,W:p.W,H:p.H};});})};
+            window.addToCart(true);
+            setTimeout(function(){sig(idx+1);},150);
+          },(maxM+1)*120+120);
+        },150);
+        return;
+      }
+      var pw=it.pieces?it.pieces[0].w:R.w,ph=it.pieces?it.pieces[0].h:R.h;
+      var pcs=[{w:pw,h:ph,qty:it.pz}],r=packGrid(ph,pw,it.pz,s.w,s.h),cm=cmap(pcs);
       st.dim=it.dim;st.qty=r.sheets.length||it.n;
       window.selectCorteOption('iguales');
       setTimeout(function(){
-        var vals={ancho:R.w/10,alto:R.h/10,qty:it.pz},ids={ancho:'igualSharedAncho',alto:'igualSharedAlto',qty:'igualSharedQty'};
+        var vals={ancho:pw/10,alto:ph/10,qty:it.pz},ids={ancho:'igualSharedAncho',alto:'igualSharedAlto',qty:'igualSharedQty'};
         Object.keys(ids).forEach(function(f){
           var el=g(ids[f]);if(!el)return;
           el.value=vals[f];
@@ -10048,21 +10129,26 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
       var _d=_raw?JSON.parse(_raw):null,_its=Array.isArray(_d)?_d:((_d&&_d.items)||[]);
       _its.forEach(function(it){prevN++;prevTot+=Number(it.subtotal)||((Number(it.precio_unit)||0)*(Number(it.qty)||1)+(Number(it.corte_costo)||0));});
     }catch(e){}
-    var pend=conPlano&&window._pccPend,pendTot=0,pendRows='',pendTxt='',pendPz=0,pendN=0,pendMinis=[];
+    var pend=conPlano&&window._pccPend,pendTot=0,pendRows='',pendTxt='',pendPz=0,pendN=0,pendMinis=[],pendCorte=0;
+    var pendDist=!!(pend&&pend.iguales===false&&pend.orig&&pend.orig.pieces);
+    var colPz=pendDist?pend.orig.pieces:pz;
     if(pend){
       pend.items.forEach(function(it){
         var pr=pccPrecio(it.dim)*it.n,lbl=((window._ppDimMeta||{})[it.dim]||{}).label||it.dim;
-        pendTot+=pr;pendPz+=it.pz;
+        var distI=!!(it.pieces&&it.pieces.length>1);
+        var rec=distI?(typeof calcRecargoBruto==='function'?calcRecargoBruto(pr):Math.round(pr*0.1)):0;
+        pendTot+=pr+rec;pendCorte+=rec;pendPz+=it.pz;
         pendRows+='<div class="p3-row"><span>'+it.n+(it.n===1?' plancha':' planchas')+' · '+lbl+' · '+it.pz+' piezas<small>'+it.n+' × '+pccMoneda(pccPrecio(it.dim))+'</small></span><b>'+pccMoneda(pr)+'</b></div>';
         var sz=pccDimSheet(it.dim);
         if(sz){
-          var pzP=[{w:pend.w,h:pend.h,qty:it.pz}],rr=packGrid(pend.h,pend.w,it.pz,sz.w,sz.h);
+          var pzP=it.pieces||[{w:pend.w,h:pend.h,qty:it.pz}];
+          var rr=distI?guillotinePack(pzP,sz.w,sz.h):packGrid(pzP[0].h,pzP[0].w,it.pz,sz.w,sz.h);
           pendN+=rr.sheets.length;
-          rr.sheets.forEach(function(x){pendMinis.push({svg:pccMiniSvg(x,sz.w,sz.h,pzP),lbl:pccDimLabel(it.dim)});});
+          rr.sheets.forEach(function(x){pendMinis.push({svg:pccMiniSvg(x,sz.w,sz.h,pendDist?colPz:pzP),lbl:pccDimLabel(it.dim)});});
         }
       });
     }
-    var totAll=totPz+(pend?pendPz:0);
+    var totAll=totPz+(pend?pendPz:0),corteTot=corte+pendCorte;
     var total=item+prevTot+pendTot;
     var m=pccMoneda;
     var h='';
@@ -10071,13 +10157,13 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
       '<div class="p3-prod">'+
         '<div class="p3-thumb">'+(img?'<img src="'+img+'" alt="">':'<span>Plancha</span>')+'</div>'+
         '<div class="p3-prod-info"><div class="p3-nombre">'+nombre+'</div><div class="p3-sub">'+
-          (pend?esp+' · '+totAll+' piezas de '+pccFmtCm(pz[0].w)+' × '+pccFmtCm(pz[0].h)+' cm':dimLbl+' · '+esp+' · '+pzTxt)+'</div></div>'+
+          (pend?esp+' · '+(pendDist?totAll+' piezas en '+pend.orig.pieces.length+' medidas':totAll+' piezas de '+pccFmtCm(pz[0].w)+' × '+pccFmtCm(pz[0].h)+' cm'):dimLbl+' · '+esp+' · '+pzTxt)+'</div></div>'+
         (conPlano?'<div class="p3-precio">'+m(item+pendTot)+'</div>':'')+
       '</div>';
     if(conPlano){
       var sh=sheet(),n=lastRes.sheets.length,mins='';
       var todas=pend?pendMinis.slice():[];
-      lastRes.sheets.forEach(function(x){todas.push({svg:pccMiniSvg(x,sh.w,sh.h,pz),lbl:pend?pccDimLabel(st.dim):''});});
+      lastRes.sheets.forEach(function(x){todas.push({svg:pccMiniSvg(x,sh.w,sh.h,colPz),lbl:pend?pccDimLabel(st.dim):''});});
       var nT=todas.length,max=Math.min(nT,6);
       for(var i=0;i<max;i++)mins+='<div class="p3-mini">'+todas[i].svg+'<span>Plancha '+(i+1)+(todas[i].lbl?'<small>'+todas[i].lbl+'</small>':'')+'</span></div>';
       if(nT>max)mins+='<div class="p3-mini p3-mini-mas"><b>+'+(nT-max)+'</b></div>';
@@ -10086,7 +10172,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
         '<div class="p3-plano-cab"><div class="p3-plano-tit">Tu plano de corte</div>'+
         '<button type="button" class="p3-editar" onclick="pccEdit()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Editar piezas</button></div>'+
         '<div class="p3-minis">'+mins+'</div>'+
-        '<div class="p3-cap">'+(pend?(n+pendN)+' planchas · '+totAll+' piezas':n+(n===1?' plancha':' planchas')+(iguales?' · '+pps+(pps===1?' pieza':' piezas')+' por plancha':''))+' · '+(iguales?'corte incluido sin costo':'corte medidas distintas +10%')+'</div>'+
+        '<div class="p3-cap">'+(pend?(n+pendN)+' planchas · '+totAll+' piezas':n+(n===1?' plancha':' planchas')+(iguales?' · '+pps+(pps===1?' pieza':' piezas')+' por plancha':''))+' · '+((pend?corteTot===0:iguales)?'corte incluido sin costo':'corte medidas distintas +10%')+'</div>'+
       '</div>';
     }else{
       h+='<div class="p3-qty"><div><div class="p3-qty-tit">Cantidad de planchas</div><div class="p3-qty-cu">'+m(unit)+' c/u</div></div>'+
@@ -10099,7 +10185,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
     h+='<div class="p3-card p3-detalle"><div class="p3-det-tit">Detalle</div>'+
       pendRows+
       '<div class="p3-row"><span>'+qty+(qty===1?' plancha':' planchas')+' · '+dimLbl+(pend?' · '+totPz+' piezas':'')+'<small>'+qty+' × '+m(unit)+'</small></span><b>'+m(base)+'</b></div>'+
-      (conPlano?'<div class="p3-row"><span>'+(corte>0?'Corte medidas distintas (10%)':'Corte a medida ('+totAll+(totAll===1?' pieza':' piezas')+')')+'</span>'+(corte>0?'<b>+'+m(corte)+'</b>':'<b class="p3-gratis">Gratis</b>')+'</div>':'')+
+      (conPlano?'<div class="p3-row"><span>'+(corteTot>0?'Corte medidas distintas (10%)':'Corte a medida ('+totAll+(totAll===1?' pieza':' piezas')+')')+'</span>'+(corteTot>0?'<b>+'+m(corteTot)+'</b>':'<b class="p3-gratis">Gratis</b>')+'</div>':'')+
       (prevTot?'<div class="p3-row"><span>Ya en tu pedido</span><b>'+m(prevTot)+'</b></div>':'')+
       '<div class="p3-total"><span>Total · IVA incluido</span><b>'+m(total)+'</b></div>'+
     '</div>';
@@ -10618,7 +10704,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
     if(_pend){
       var _st=window._ppState;
       if(_st){_st.dim=_pend.orig.dim;try{if(typeof window._ppUpdatePrice==='function')window._ppUpdatePrice();}catch(e){}}
-      savedInfo={pieces:[{w:_pend.w,h:_pend.h,qty:_pend.orig.qty}],mode:'iguales'};
+      savedInfo=(_pend.iguales===false&&_pend.orig.pieces)?{pieces:_pend.orig.pieces,mode:'distintos'}:{pieces:[{w:_pend.w,h:_pend.h,qty:_pend.orig.qty}],mode:'iguales'};
       window._pccPend=null;
     }
     paso4Ready=false;
