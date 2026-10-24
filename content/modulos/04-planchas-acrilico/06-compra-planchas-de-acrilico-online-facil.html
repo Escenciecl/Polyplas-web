@@ -9933,19 +9933,99 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
   }
   window.pccFooterPending=pccFooterPending;
   /* Resumen (paso 3): con plano calculado, la cantidad queda fija y se muestra el plano en chico */
+  /* ── Paso 3 · Resumen desglosado (producto + plano + detalle + total) y franja de abajo como en los pasos 1 y 2 ── */
+  function pccNum(t){var n=String(t||'').replace(/[^\d]/g,'');return n?parseInt(n,10):0;}
   function pccResumenCorte(){
-    var row=g('paso3QtyRow');
+    var sec=g('paso3SummarySection');if(!sec)return;
     var box=g('pccResumenPlano');
-    if(!box&&row){box=document.createElement('div');box.id='pccResumenPlano';row.parentNode.insertBefore(box,row.nextSibling);}
+    if(!box){box=document.createElement('div');box.id='pccResumenPlano';sec.insertBefore(box,sec.firstChild);}
+    var st=window._ppState||{},unit=pccPrecio(st.dim),qty=st.qty||1;
     var conPlano=!!(lastRes&&lastRes.sheets&&lastRes.sheets.length&&g('pccCalc'));
-    if(row)row.style.display=conPlano?'none':'';
-    if(!box)return;
-    if(!conPlano){box.innerHTML='';box.style.display='none';return;}
-    var n=lastRes.sheets.length;
-    box.style.display='';
-    box.innerHTML='<div class="pcc-rs-qty">Cantidad: <b>'+n+(n===1?' plancha':' planchas')+'</b> según tu plano de corte · <button type="button" onclick="pccEdit()">Editar piezas</button></div>'+
-      (lastPlanoHtml?'<div class="pcc-rs-plano">'+lastPlanoHtml+(n>1?'<div class="pcc-rs-mas">+ '+(n-1)+(n-1===1?' plancha más':' planchas más')+' con el mismo plano</div>':'')+'</div>':'');
+    var pz=conPlano?(lastPieces||[]):[];
+    var iguales=conPlano&&pz.length===1;
+    var mats=window._ppMatInfo||{},info=mats[st.material]||mats[st.tipo]||{};
+    var cMeta=(window._ppColorMeta||{})[st.color]||{};
+    var nombre=(info.label||st.material||'')+(cMeta.label?' · '+cMeta.label:'');
+    var dimLbl=((window._ppDimMeta||{})[st.dim]||{}).label||st.dim||'';
+    var esp=String(st.esp||'').replace(/(\d)\s*mm$/,'$1 mm');
+    var img=window._ppCardImg||cMeta.img||'';
+    var totPz=pz.reduce(function(a,q){return a+q.qty;},0);
+    var pzTxt=!conPlano?'plancha completa'
+      :iguales?totPz+(totPz===1?' pieza':' piezas')+' de '+pccFmtCm(pz[0].w)+' × '+pccFmtCm(pz[0].h)+' cm'
+      :totPz+(totPz===1?' pieza':' piezas')+' en '+pz.length+' medidas';
+    var base=unit*qty;
+    var item=pccNum((g('paso3Price')||{}).textContent)||base;
+    var corte=Math.max(0,item-base);
+    var prevEl=g('paso3CartPreview'),prevVis=prevEl&&prevEl.style.display!=='none';
+    var prevTot=prevVis?pccNum((g('paso3CartSubtotal')||{}).textContent):0;
+    var prevN=prevVis?((g('paso3CartItems')||{children:[]}).children.length||1):0;
+    var total=item+prevTot;
+    var m=pccMoneda;
+    var h='';
+    if(prevTot)h+='<div class="p3-ya"><span>Ya en tu pedido · '+prevN+(prevN===1?' ítem':' ítems')+'</span><span>'+m(prevTot)+'</span></div>';
+    h+='<div class="p3-card">'+
+      '<div class="p3-prod">'+
+        '<div class="p3-thumb">'+(img?'<img src="'+img+'" alt="">':'')+'</div>'+
+        '<div class="p3-prod-info"><div class="p3-nombre">'+nombre+'</div><div class="p3-sub">'+dimLbl+' · '+esp+' · '+pzTxt+'</div></div>'+
+        '<div class="p3-precio">'+m(item)+'</div>'+
+      '</div>';
+    if(conPlano){
+      var sh=sheet(),n=lastRes.sheets.length,max=Math.min(n,6),mins='';
+      for(var i=0;i<max;i++)mins+='<div class="p3-mini">'+pccMiniSvg(lastRes.sheets[i],sh.w,sh.h,pz)+'<span>Plancha '+(i+1)+'</span></div>';
+      if(n>max)mins+='<div class="p3-mini p3-mini-mas"><b>+'+(n-max)+'</b></div>';
+      var pps=Math.max.apply(null,lastRes.sheets.map(function(x){return x.placed.length;}));
+      h+='<div class="p3-plano">'+
+        '<div class="p3-plano-cab"><div class="p3-plano-tit">Tu plano de corte</div>'+
+        '<button type="button" class="p3-editar" onclick="pccEdit()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Editar piezas</button></div>'+
+        '<div class="p3-minis">'+mins+'</div>'+
+        '<div class="p3-cap">'+n+(n===1?' plancha':' planchas')+(iguales?' · '+pps+(pps===1?' pieza':' piezas')+' por plancha':'')+' · '+(iguales?'corte calculado gratis':'corte de medidas distintas')+'</div>'+
+      '</div>';
+    }else{
+      h+='<div class="p3-qty"><span>Cantidad de planchas</span><div class="pp-corte-qty-row">'+
+        '<button type="button" class="pp-corte-qty-btn" aria-label="Quitar una plancha" onclick="if(window.changeQty)changeQty(-1)">−</button>'+
+        '<div class="pp-corte-qty-num">'+qty+'</div>'+
+        '<button type="button" class="pp-corte-qty-btn" aria-label="Agregar una plancha" onclick="if(window.changeQty)changeQty(1)">+</button></div></div>';
+    }
+    h+='</div>';
+    h+='<div class="p3-card p3-detalle"><div class="p3-det-tit">Detalle</div>'+
+      '<div class="p3-row"><span>'+qty+(qty===1?' plancha':' planchas')+' · '+dimLbl+'</span><b>'+m(base)+'</b></div>'+
+      (conPlano?'<div class="p3-row"><span>Corte a medida</span>'+(corte>0?'<b>+'+m(corte)+'</b>':'<b class="p3-gratis">Gratis</b>')+'</div>':'')+
+      (prevTot?'<div class="p3-row"><span>Ya en tu pedido</span><b>'+m(prevTot)+'</b></div>':'')+
+      '<div class="p3-total"><span>Total · IVA incluido</span><b>'+m(total)+'</b></div>'+
+    '</div>';
+    box.innerHTML=h;
+    // Franja de abajo (igual que pasos 1 y 2)
+    var cta=g('stepperCtaGroup'),foot=g('pccP3Footer');
+    if(!foot&&cta){
+      foot=document.createElement('div');foot.id='pccP3Footer';foot.className='pp-corte-footer pp-p3-footer';
+      cta.parentNode.insertBefore(foot,cta.nextSibling);
+    }
+    if(foot){
+      foot.innerHTML='<div class="pp-corte-footer-sum"><div class="pp-corte-footer-info"><div class="pp-corte-footer-desc">Total del pedido</div><div class="pp-corte-footer-iva">IVA incluido</div></div>'+
+        '<div class="pp-corte-footer-price">'+m(total)+'</div></div>'+
+        '<div class="pp-corte-footer-btns">'+
+          '<button type="button" class="pp-corte-cta-back" onclick="var b=document.querySelector(\'#paso4BackBtn button\');if(b)b.click();">Atrás</button>'+
+          '<button type="button" class="pp-corte-cta-next" onclick="var b=document.getElementById(\'btnGoCheckout\');if(b)b.click();">Ir al pago</button>'+
+        '</div>'+
+        '<button type="button" class="p3-seguir" onclick="var b=document.getElementById(\'btnAddToOrder\');if(b)b.click();">Agregar al carro y seguir comprando</button>';
+    }
   }
+  /* Mantener el resumen al día si cambian precio, cantidad o carrito */
+  (function(){
+    var t=null,obs=null;
+    function vigilar(){
+      var ids=['paso3Price','paso3CartSubtotal','paso3Qty'];
+      if(obs)return;
+      obs=new MutationObserver(function(){
+        if(!document.documentElement.classList.contains('pcc-paso4'))return;
+        clearTimeout(t);t=setTimeout(pccResumenCorte,40);
+      });
+      ids.forEach(function(id){var el=g(id);if(el)obs.observe(el,{childList:true,characterData:true,subtree:true});});
+      var pv=g('paso3CartPreview');if(pv)obs.observe(pv,{attributes:true,attributeFilter:['style']});
+    }
+    if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',vigilar);else setTimeout(vigilar,0);
+  })();
+
 
   /* ── Miniaturas de planchas (vista rápida) ── */
   var pccUltPlano=null,pccSugDescartada='';
@@ -10568,7 +10648,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
     H.classList.remove('pcc-paso3');H.classList.add('pcc-paso4');
     if(window.ppSyncWizardHeader)window.ppSyncWizardHeader();
     var resEl=g('corteProductoResumen');if(resEl)resEl.style.display='none';
-    pccResumenCorte();
+    pccResumenCorte();setTimeout(pccResumenCorte,120);
     var backBtn=g('paso4BackBtn');if(backBtn)backBtn.style.display='block';
     setTimeout(function(){
       var sum=g('paso3SummarySection');
@@ -11606,5 +11686,63 @@ html.pcc-paso4 #configuratorModal #stepperCtaGroup {
 @media (max-width: 560px) {
   #configuratorModal #paso3CurrentLabel + div { flex-wrap: wrap; }
   #configuratorModal #paso3CurrentLabel + div > div:last-child { width: 100%; text-align: left !important; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; border-top: 1px solid #eef2f7; padding-top: 10px !important; flex-wrap: wrap; }
+}
+
+/* ═══ Paso 3 · Resumen desglosado ═══ */
+/* Se ocultan los bloques anteriores: el nuevo resumen los reemplaza (siguen funcionando por debajo) */
+html.pcc-paso4 #configuratorModal #paso3CartPreview,
+html.pcc-paso4 #configuratorModal #paso3CurrentLabel,
+html.pcc-paso4 #configuratorModal #paso3CurrentLabel + div,
+html.pcc-paso4 #configuratorModal #paso3QtyRow,
+html.pcc-paso4 #configuratorModal #paso3TotalCombinado,
+html.pcc-paso4 #configuratorModal #paso3QtyWarn,
+html.pcc-paso4 #configuratorModal #paso4BackBtn,
+html.pcc-paso4 #configuratorModal #stepperCtaGroup { display: none !important; }
+#configuratorModal #pccP3Footer { display: none; }
+html.pcc-paso4 #configuratorModal #pccP3Footer { display: block; }
+#configuratorModal #pccResumenPlano { margin: 4px 0 0 !important; }
+#configuratorModal .p3-ya { display: flex; justify-content: space-between; align-items: center; background: #f1f5f9; border-radius: 12px; padding: 10px 14px !important; margin-bottom: 12px !important; font-size: 0.85rem; color: #64748b; }
+#configuratorModal .p3-ya span:last-child { font-weight: 700; color: #475569; }
+#configuratorModal .p3-card { border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; padding: 16px !important; margin-bottom: 12px !important; }
+#configuratorModal .p3-prod { display: grid; grid-template-columns: 52px 1fr auto; gap: 12px; align-items: center; }
+#configuratorModal .p3-thumb { width: 52px; height: 52px; border-radius: 10px; background: #f1f5f9; overflow: hidden; }
+#configuratorModal .p3-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+#configuratorModal .p3-nombre { font-size: 0.95rem; font-weight: 800; color: #0f172a; line-height: 1.25; }
+#configuratorModal .p3-sub { font-size: 0.8rem; color: #64748b; margin-top: 3px !important; line-height: 1.35; }
+#configuratorModal .p3-precio { font-size: 1rem; font-weight: 800; color: #0f172a; white-space: nowrap; align-self: start; }
+#configuratorModal .p3-plano, #configuratorModal .p3-qty { border-top: 1px solid #eef2f7; margin-top: 14px !important; padding-top: 14px !important; }
+#configuratorModal .p3-plano-cab { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px !important; }
+#configuratorModal .p3-plano-tit { font-size: 0.88rem; font-weight: 800; color: #0f172a; }
+#configuratorModal .p3-editar { display: inline-flex; align-items: center; gap: 6px; background: none; border: 0; padding: 0; font: inherit; font-size: 0.85rem; font-weight: 600; color: #2e7a3e; cursor: pointer; }
+#configuratorModal .p3-editar:hover { text-decoration: underline; }
+#configuratorModal .p3-minis { display: flex; flex-wrap: wrap; gap: 10px; }
+#configuratorModal .p3-mini { display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 0.72rem; color: #64748b; }
+#configuratorModal .p3-mini svg { width: 96px; height: 64px; border: 1px solid #c9d5e4; border-radius: 6px; background: #eef2f7; display: block; }
+#configuratorModal .p3-mini-mas { width: 96px; height: 64px; border: 1px dashed #c9d5e4; border-radius: 6px; justify-content: center; color: #64748b; }
+#configuratorModal .p3-cap { font-size: 0.8rem; color: #64748b; margin-top: 10px !important; }
+#configuratorModal .p3-qty { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #475569; }
+#configuratorModal .p3-qty .pp-corte-qty-btn { width: 42px; height: 42px; }
+#configuratorModal .p3-qty .pp-corte-qty-num { width: 42px; }
+#configuratorModal .p3-det-tit { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--pp-muted, #6b7280); font-weight: 700; margin-bottom: 8px !important; }
+#configuratorModal .p3-row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0 !important; font-size: 0.88rem; color: #64748b; }
+#configuratorModal .p3-row b { color: #0f172a; font-weight: 700; white-space: nowrap; }
+#configuratorModal .p3-row b.p3-gratis { color: #2e7a3e; }
+#configuratorModal .p3-total { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; border-top: 1px solid #eef2f7; margin-top: 8px !important; padding-top: 12px !important; font-size: 0.95rem; font-weight: 800; color: #0f172a; }
+#configuratorModal .p3-total b { font-size: 1.25rem; font-weight: 800; }
+/* Franja del Resumen */
+html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
+#configuratorModal .p3-seguir { display: block; width: 100%; margin-top: 8px !important; padding: 6px !important; background: none; border: 0; font: inherit; font-size: 0.85rem; color: #64748b; cursor: pointer; }
+#configuratorModal .p3-seguir:hover { text-decoration: underline; }
+@media (max-width: 560px) {
+  html.pcc-paso4 #configuratorModal #pccP3Footer {
+    position: fixed !important; left: 0; right: 0; bottom: 0; margin: 0 !important;
+    padding: 10px 16px calc(8px + env(safe-area-inset-bottom)) !important; border-radius: 0 !important;
+    box-shadow: 0 -6px 18px rgba(15,23,42,0.08); z-index: 20;
+  }
+  html.pcc-paso4 #configuratorModal .pp-configurator-content { padding-bottom: 175px !important; }
+  #configuratorModal .p3-prod { grid-template-columns: 44px 1fr; }
+  #configuratorModal .p3-thumb { width: 44px; height: 44px; }
+  #configuratorModal .p3-precio { grid-column: 2; }
+  #configuratorModal .p3-mini svg, #configuratorModal .p3-mini-mas { width: 84px; height: 56px; }
 }
 </style>
