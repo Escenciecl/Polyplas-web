@@ -9067,6 +9067,9 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
 #configuratorModal #pccRes .pcc-r-lista-tot { border-top: 1px solid #d6eadb; margin-top: 4px !important; padding-top: 6px !important; font-weight: 800; color: #0f172a; }
 #configuratorModal #pccRes .pcc-r-lista-tot b { color: #2e7a3e; font-size: 1.1rem; }
 #configuratorModal .p3-row span small { display: block; font-size: 0.75rem; color: #94a3b8; margin-top: 1px !important; }
+
+#configuratorModal #pccRes .pcc-s-precio-col { text-align: right; }
+#configuratorModal #pccRes .pcc-s-precio-cu { font-size: 0.8rem; color: #64748b; margin-top: 2px !important; white-space: nowrap; }
 </style>
 <script>
 (function(){
@@ -9628,6 +9631,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     if(!pp){resEl.style.display='none';return;}
     descEl.textContent='Ingresa tus piezas · precio por plancha';
     priceEl.textContent='$ '+Math.round(pp).toLocaleString('es-CL');
+    pccIvaTxt('IVA incluido');
     resEl.style.display='';
   }
   window.pccFooterPending=pccFooterPending;
@@ -9817,6 +9821,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     return o+'</svg>';
   }
   /* Precio del pie según las planchas que calcula el plano (+10% si son cortes distintos) */
+  function pccIvaTxt(t){var el=document.querySelector('#corteFooter .pp-corte-footer-iva');if(el)el.textContent=t;}
   function pccFooterCalc(Nsh,same){
     var st=window._ppState||{},pp=pccPrecio(st.dim);
     var resEl=g('corteProductoResumen'),descEl=g('corteResumenDesc'),priceEl=g('corteResumenPrice');
@@ -9826,7 +9831,8 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     if(!same)total+=Math.round(Math.round(pp/1.19)*Nsh*0.10*1.19);
     var dimLabel=((window._ppDimMeta||{})[st.dim]||{}).label||st.dim||'';
     var rec=same?0:Math.round(Math.round(pp/1.19)*Nsh*0.10*1.19);
-    descEl.textContent=Nsh+(Nsh===1?' plancha':' planchas')+' · '+dimLabel+(st.esp?' · '+st.esp:'')+(same?'':' · cortes +'+pccMoneda(rec));
+    descEl.textContent=Nsh+(Nsh===1?' plancha':' planchas')+' · '+dimLabel+(st.esp?' · '+st.esp:'');
+    pccIvaTxt(Nsh+' × '+pccMoneda(pp)+(same?'':' + corte 10% ('+pccMoneda(rec)+')')+' · IVA incluido');
     priceEl.textContent='$ '+Math.round(total).toLocaleString('es-CL');
     resEl.style.display='';
   }
@@ -9990,9 +9996,10 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
         (igualesNow?'':pccLeyenda(pieces))+
         '<div class="pcc-minis pcc-minis-c">'+pccMinis(res.sheets,sh,pieces,12,true)+'</div>'+
         '<div class="pcc-s-fila"><div><div class="pcc-s-n">'+Nsh+(Nsh===1?' plancha':' planchas')+' · '+shLbl+'</div><div class="pcc-s-sub">'+sub+'</div>'+
-          (pp?'<div class="pcc-s-cu">'+pccMoneda(pp)+' c/u'+(igualesNow&&totPz?' · ≈ '+pccMoneda(Math.round(precioAct/totPz))+' por pieza':'')+'</div>':'')+
+          ((pp&&igualesNow&&totPz)?'<div class="pcc-s-cu">≈ '+pccMoneda(Math.round(precioAct/totPz))+' por pieza</div>':'')+
         '</div>'+
-        (pp?'<div class="pcc-s-precio">'+pccMoneda(precioAct)+'</div>':'')+'</div>'+
+        (pp?'<div class="pcc-s-precio-col"><div class="pcc-s-precio">'+pccMoneda(precioAct)+'</div>'+
+          '<div class="pcc-s-precio-cu">'+Nsh+' × '+pccMoneda(pp)+(allSameNow?'':' + 10%')+'</div></div>':'')+'</div>'+
         ((pp&&!allSameNow)?'<div class="pcc-s-desg">'+
           '<div><span>'+Nsh+(Nsh===1?' plancha':' planchas')+' × '+pccMoneda(pp)+'</span><span>'+pccMoneda(pp*Nsh)+'</span></div>'+
           '<div><span>Corte medidas distintas (10%)</span><span>+'+pccMoneda(precioAct-pp*Nsh)+'</span></div>'+
@@ -10346,8 +10353,10 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     if(!precio){resEl.style.display='none';return;}
     var dimLabel=((window._ppDimMeta||{})[s.dim]||{}).label||s.dim||'';
     var fmtP=function(v){return '$ '+Math.round(v).toLocaleString('es-CL');};
-    descEl.textContent=dimLabel+(s.esp?' · '+s.esp:'')+(s.qty&&s.qty>1?' × '+s.qty+' u.':'');
-    priceEl.textContent=fmtP(precio*(s.qty||1));
+    var q=s.qty||1;
+    descEl.textContent=q+(q===1?' plancha':' planchas')+' · '+dimLabel+(s.esp?' · '+s.esp:'');
+    pccIvaTxt(q+' × '+pccMoneda(precio)+' · IVA incluido');
+    priceEl.textContent=fmtP(precio*q);
     resEl.style.display='';
   }
 
