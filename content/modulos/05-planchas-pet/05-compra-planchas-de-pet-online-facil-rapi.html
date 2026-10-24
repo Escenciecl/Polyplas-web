@@ -9054,6 +9054,19 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
 #configuratorModal .p3-stepper span { min-width: 34px; text-align: center; font-size: 1.05rem; font-weight: 800; color: #0f172a; }
 
 #configuratorModal .p3-pend { font-size: 0.78rem; color: #2e7a3e; margin-top: 4px !important; }
+
+/* Precios unitarios y desgloses */
+#configuratorModal #pccRes .pcc-s-cu { font-size: 0.8rem; color: #94a3b8; margin-top: 3px !important; }
+#configuratorModal #pccRes .pcc-s-desg { margin-top: 12px !important; padding-top: 10px !important; border-top: 1px dashed #e2e8f0; font-size: 0.82rem; color: #64748b; }
+#configuratorModal #pccRes .pcc-s-desg > div { display: flex; justify-content: space-between; gap: 10px; padding: 2px 0 !important; }
+#configuratorModal #pccRes .pcc-s-desg span:last-child { color: #334155; font-weight: 600; white-space: nowrap; }
+#configuratorModal #pccRes .pcc-r-lista { background: rgba(255,255,255,.7); border-radius: 10px; padding: 10px 12px !important; font-size: 0.88rem; color: #334155; }
+#configuratorModal #pccRes .pcc-r-lista > div { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0 !important; }
+#configuratorModal #pccRes .pcc-r-lista small { color: #64748b; }
+#configuratorModal #pccRes .pcc-r-lista b { white-space: nowrap; }
+#configuratorModal #pccRes .pcc-r-lista-tot { border-top: 1px solid #d6eadb; margin-top: 4px !important; padding-top: 6px !important; font-weight: 800; color: #0f172a; }
+#configuratorModal #pccRes .pcc-r-lista-tot b { color: #2e7a3e; font-size: 1.1rem; }
+#configuratorModal .p3-row span small { display: block; font-size: 0.75rem; color: #94a3b8; margin-top: 1px !important; }
 </style>
 <script>
 (function(){
@@ -9383,7 +9396,14 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       '<div class="pcc-s-cab"><div class="pcc-r-tit">Ahorra '+pccMoneda(costoAct-best.costo)+'</div><div class="pcc-s-meta">'+pctNew+'% aprovechado</div></div>'+
       '<div class="pcc-r-sub">Cambia el formato, no tus medidas</div>'+
       '<div class="pcc-minis pcc-minis-c">'+minisNew+'</div>'+
-      '<div class="pcc-s-fila"><div class="pcc-s-n">'+nNew+(nNew===1?' plancha':' planchas')+' · '+lblNew+'</div><div class="pcc-r-precio">'+pccMoneda(best.costo)+'</div></div>'+
+      (best.items.length===1
+        ?'<div class="pcc-s-fila"><div><div class="pcc-s-n">'+nNew+(nNew===1?' plancha':' planchas')+' · '+lblNew+'</div>'+
+            '<div class="pcc-s-cu">'+pccMoneda(pccPrecio(best.items[0].dim)*factor)+' c/u</div></div>'+
+          '<div class="pcc-r-precio">'+pccMoneda(best.costo)+'</div></div>'
+        :'<div class="pcc-r-lista">'+best.items.map(function(it){
+            return '<div><span>'+it.n+' × '+pccDimLabel(it.dim)+(it.pz?' <small>('+it.pz+' piezas)</small>':'')+'</span><b>'+pccMoneda(it.n*pccPrecio(it.dim)*factor)+'</b></div>';
+          }).join('')+
+          '<div class="pcc-r-lista-tot"><span>'+nNew+' planchas en total</span><b>'+pccMoneda(best.costo)+'</b></div></div>')+
       accion+
       '<button type="button" class="pcc-r-keep" onclick="pccMantenerFormato(\''+key+'\')">Mantener como está</button>'+
       otra+
@@ -9647,7 +9667,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       pend.items.forEach(function(it){
         var pr=pccPrecio(it.dim)*it.n,lbl=((window._ppDimMeta||{})[it.dim]||{}).label||it.dim;
         pendTot+=pr;
-        pendRows+='<div class="p3-row"><span>'+it.n+(it.n===1?' plancha':' planchas')+' · '+lbl+' · '+it.pz+' piezas</span><b>'+pccMoneda(pr)+'</b></div>';
+        pendRows+='<div class="p3-row"><span>'+it.n+(it.n===1?' plancha':' planchas')+' · '+lbl+' · '+it.pz+' piezas<small>'+it.n+' × '+pccMoneda(pccPrecio(it.dim))+'</small></span><b>'+pccMoneda(pr)+'</b></div>';
         pendTxt+='<div class="p3-pend">+ '+it.n+(it.n===1?' plancha':' planchas')+' de '+lbl+' con '+it.pz+' piezas (se agrega al confirmar)</div>';
       });
     }
@@ -9670,7 +9690,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
         '<div class="p3-plano-cab"><div class="p3-plano-tit">Tu plano de corte</div>'+
         '<button type="button" class="p3-editar" onclick="pccEdit()"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Editar piezas</button></div>'+
         '<div class="p3-minis">'+mins+'</div>'+
-        '<div class="p3-cap">'+n+(n===1?' plancha':' planchas')+(iguales?' · '+pps+(pps===1?' pieza':' piezas')+' por plancha':'')+' · '+(iguales?'corte calculado gratis':'corte de medidas distintas')+'</div>'+
+        '<div class="p3-cap">'+n+(n===1?' plancha':' planchas')+(iguales?' · '+pps+(pps===1?' pieza':' piezas')+' por plancha':'')+' · '+(iguales?'corte incluido sin costo'+(totPz?' · ≈ '+m(Math.round(item/totPz))+' por pieza':''):'corte medidas distintas +10%')+'</div>'+
       '</div>';
     }else{
       h+='<div class="p3-qty"><div><div class="p3-qty-tit">Cantidad de planchas</div><div class="p3-qty-cu">'+m(unit)+' c/u</div></div>'+
@@ -9681,9 +9701,9 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     }
     h+='</div>';
     h+='<div class="p3-card p3-detalle"><div class="p3-det-tit">Detalle</div>'+
-      '<div class="p3-row"><span>'+qty+(qty===1?' plancha':' planchas')+' · '+dimLbl+'</span><b>'+m(base)+'</b></div>'+
+      '<div class="p3-row"><span>'+qty+(qty===1?' plancha':' planchas')+' · '+dimLbl+'<small>'+qty+' × '+m(unit)+'</small></span><b>'+m(base)+'</b></div>'+
       pendRows+
-      (conPlano?'<div class="p3-row"><span>Corte a medida</span>'+(corte>0?'<b>+'+m(corte)+'</b>':'<b class="p3-gratis">Gratis</b>')+'</div>':'')+
+      (conPlano?'<div class="p3-row"><span>'+(corte>0?'Corte medidas distintas (10%)':'Corte a medida ('+totPz+(totPz===1?' pieza':' piezas')+')')+'</span>'+(corte>0?'<b>+'+m(corte)+'</b>':'<b class="p3-gratis">Gratis</b>')+'</div>':'')+
       (prevTot?'<div class="p3-row"><span>Ya en tu pedido</span><b>'+m(prevTot)+'</b></div>':'')+
       '<div class="p3-total"><span>Total · IVA incluido</span><b>'+m(total)+'</b></div>'+
     '</div>';
@@ -9969,8 +9989,14 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
         '<div class="pcc-s-cab"><div class="pcc-s-tit">Así queda tu corte</div><div class="pcc-s-meta">'+Math.round(100-waste)+'% aprovechado</div></div>'+
         (igualesNow?'':pccLeyenda(pieces))+
         '<div class="pcc-minis pcc-minis-c">'+pccMinis(res.sheets,sh,pieces,12,true)+'</div>'+
-        '<div class="pcc-s-fila"><div><div class="pcc-s-n">'+Nsh+(Nsh===1?' plancha':' planchas')+' · '+shLbl+'</div><div class="pcc-s-sub">'+sub+'</div></div>'+
+        '<div class="pcc-s-fila"><div><div class="pcc-s-n">'+Nsh+(Nsh===1?' plancha':' planchas')+' · '+shLbl+'</div><div class="pcc-s-sub">'+sub+'</div>'+
+          (pp?'<div class="pcc-s-cu">'+pccMoneda(pp)+' c/u'+(igualesNow&&totPz?' · ≈ '+pccMoneda(Math.round(precioAct/totPz))+' por pieza':'')+'</div>':'')+
+        '</div>'+
         (pp?'<div class="pcc-s-precio">'+pccMoneda(precioAct)+'</div>':'')+'</div>'+
+        ((pp&&!allSameNow)?'<div class="pcc-s-desg">'+
+          '<div><span>'+Nsh+(Nsh===1?' plancha':' planchas')+' × '+pccMoneda(pp)+'</span><span>'+pccMoneda(pp*Nsh)+'</span></div>'+
+          '<div><span>Corte medidas distintas (10%)</span><span>+'+pccMoneda(precioAct-pp*Nsh)+'</span></div>'+
+        '</div>':'')+
         '<div class="pcc-s-cap">'+cap+'</div>'+
         '<div class="pcc-plan-det" id="pccPlanDet"></div>'+
       '</div>';
