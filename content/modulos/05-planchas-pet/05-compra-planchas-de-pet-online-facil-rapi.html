@@ -5363,7 +5363,10 @@ function updatePrice() {
       // Sincronizar cart[] con sessionStorage para eliminar items ya removidos del carrito global
       (function() {
         try {
-          var _gcGids = JSON.parse(sessionStorage.getItem('pp_global_cart') || '[]').map(function(i){ return i.gid; });
+          var _gcRaw = localStorage.getItem('pp_global_cart') || sessionStorage.getItem('pp_global_cart'); // el carrito global hoy vive en localStorage
+          if (!_gcRaw) return;
+          var _gcObj = JSON.parse(_gcRaw), _gcArr = Array.isArray(_gcObj) ? _gcObj : (_gcObj && _gcObj.items) || [];
+          var _gcGids = _gcArr.map(function(i){ return i.gid; });
           cart = cart.filter(function(i) { return i._gid && _gcGids.indexOf(i._gid) !== -1; });
         } catch(e) {}
       })();
@@ -9136,14 +9139,13 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
       lblNew=best.items.map(function(it){return it.n+' × '+pccDimLabel(it.dim);}).join(' + ');
       pctNew=area?Math.round(usado/area*100):0;
     }
-    var accion=best.items.length===1
-      ?'<button type="button" class="pcc-r-btn" onclick="pccCambiarMedida(\''+best.items[0].dim+'\')">Usar plancha de '+lblNew+'</button>'
-      :(pccPuedeCombinar()?'<button type="button" class="pcc-r-btn" onclick="pccPedirCombinacion()">Agregar estas planchas al carro</button>'
-        :'<div class="pcc-s-cap">Para pedirla, agrega cada medida al carro con sus piezas.</div>');
+    var accion=(best.items.length===1||pccPuedeCombinar())
+      ?'<button type="button" class="pcc-r-btn" onclick="pccContinuarRecomendada()">Continuar con opción recomendada</button>'
+      :'<div class="pcc-s-cap">Para pedirla, agrega cada medida al carro con sus piezas.</div>';
     var otra=(iguales&&pccUltSierra&&pccUltSierra.ahorro>0)
       ?'<button type="button" class="pcc-r-otra" onclick="pccUsarMedida('+pccUltSierra.w+','+pccUltSierra.h+')">Otra opción: ajustar '+pccUltSierra.red+' mm · ahorra '+pccMoneda(pccUltSierra.ahorro)+'</button>':'';
     return '<div class="pcc-slide pcc-slide-reco" role="group" aria-label="Sugerencia de formato">'+
-      '<div class="pcc-s-cab"><div class="pcc-r-tit">Ahorra '+pccMoneda(costoAct-best.costo)+'</div><span class="pcc-r-ico" aria-hidden="true">&rarr;</span></div>'+
+      '<div class="pcc-s-cab"><div class="pcc-r-tit">Ahorra '+pccMoneda(costoAct-best.costo)+'</div><div class="pcc-s-meta">'+pctNew+'% aprovechado</div></div>'+
       '<div class="pcc-r-sub">Cambia el formato, no tus medidas</div>'+
       '<div class="pcc-minis pcc-minis-c">'+minisNew+'</div>'+
       '<div class="pcc-s-fila"><div class="pcc-s-n">'+nNew+(nNew===1?' plancha':' planchas')+' · '+lblNew+'</div><div class="pcc-r-precio">'+pccMoneda(best.costo)+'</div></div>'+
@@ -9197,6 +9199,51 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
           svgs:r.sheets.map(function(x){return svgSheet(x,s.w,s.h,cm);}),
           placedSheets:r.sheets.map(function(x){return x.placed.map(function(p){return{x:p.x,y:p.y,W:p.W,H:p.H};});})};
         window.addToCart(idx<items.length-1);
+        setTimeout(function(){sig(idx+1);},150);
+      },150);
+    })(0);
+  };
+
+  /* Continuar con la opción recomendada → Resumen (paso 3).
+     Un formato: cambia la plancha y va al Resumen.
+     Dos formatos (cortes iguales): agrega el primero al carro y abre el Resumen con el último,
+     donde aparece "Ya en tu pedido" con lo agregado. */
+  window.pccContinuarRecomendada=function(){
+    var R=pccUltReco,st=window._ppState;
+    if(!R||!R.items||!R.items.length||!st)return;
+    if(window.ppPaso)try{window.ppPaso('conf_continuar_recomendada','calc',{items:R.items});}catch(e){}
+    var items=R.items.slice(),last=items.pop();
+    var irAlResumen=function(){
+      st.dim=last.dim;
+      try{if(typeof window._ppUpdatePrice==='function')window._ppUpdatePrice();}catch(e){}
+      if(R.iguales&&last.pz){
+        var row=document.querySelector('#pccList .pcc-row');
+        if(row){
+          var id=row.id.replace('pccR_',''),wq=g('pccW_'+id),hq=g('pccH_'+id),qq=g('pccQ_'+id);
+          if(wq)wq.value=R.w/10;if(hq)hq.value=R.h/10;if(qq)qq.value=last.pz;
+        }
+      }
+      window.pccCalc();
+      setTimeout(function(){if(lastRes&&lastRes.sheets&&lastRes.sheets.length&&!lastRes.unp.length)window.pccOk();},60);
+    };
+    (function sig(idx){
+      if(idx>=items.length){irAlResumen();return;}
+      var it=items[idx],s=pccDimSheet(it.dim);
+      if(!s){sig(idx+1);return;}
+      var pcs=[{w:R.w,h:R.h,qty:it.pz}],r=packGrid(R.w,R.h,it.pz,s.w,s.h),cm=cmap(pcs);
+      st.dim=it.dim;st.qty=r.sheets.length||it.n;
+      window.selectCorteOption('iguales');
+      setTimeout(function(){
+        var vals={ancho:R.w/10,alto:R.h/10,qty:it.pz},ids={ancho:'igualSharedAncho',alto:'igualSharedAlto',qty:'igualSharedQty'};
+        Object.keys(ids).forEach(function(f){
+          var el=g(ids[f]);if(!el)return;
+          el.value=vals[f];
+          if(window.onIgualSharedInput)try{window.onIgualSharedInput(f,el);}catch(e){}
+        });
+        window._pccCalcInfo={pieces:pcs,Nsh:st.qty,tot:it.pz,mode:'iguales',
+          svgs:r.sheets.map(function(x){return svgSheet(x,s.w,s.h,cm);}),
+          placedSheets:r.sheets.map(function(x){return x.placed.map(function(p){return{x:p.x,y:p.y,W:p.W,H:p.H};});})};
+        window.addToCart(true);
         setTimeout(function(){sig(idx+1);},150);
       },150);
     })(0);
