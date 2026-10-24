@@ -8600,6 +8600,11 @@ html.pcc-paso3 #configuratorModal #stepperPrice { padding-left: 0 !important; pa
   #configuratorModal .pp-corte-footer { margin: 20px -16px 0 !important; padding: 14px 16px 16px !important; border-radius: 0; }
   #configuratorModal .pp-corte-footer-price { font-size: 1.6rem; }
 }
+
+/* ═══ Paso 2 · Cortes: calculador sin banner de medida ni botón "Ver cuántas planchas necesito"
+   (el cálculo es automático vía pccAutoCalc; el botón queda oculto porque otras funciones lo referencian) ═══ */
+#configuratorModal #pccCalc .pcc-banner { display: none !important; }
+#configuratorModal #pccCalc #pccBtnCalc { display: none !important; }
 </style>
 <script>
 (function(){
@@ -9245,7 +9250,7 @@ html.pcc-paso3 #configuratorModal #stepperPrice { padding-left: 0 !important; pa
     var sh=sheet();
     var _esp=(window._ppState&&window._ppState.esp)?(' · Espesor '+window._ppState.esp):'';
     var banner=sh?(Math.floor(sh.w/10)+' x '+Math.floor(sh.h/10)+' cm'+_esp+' · Sierra '+K+' mm incluida'):'Plancha seleccionada';
-    var sublbl=mode==='iguales'?'¿De qué tamaño son las piezas que necesitás?':'Ingresá cada pieza que necesitás';
+    var sublbl=mode==='iguales'?'Ingresa las piezas que necesitas':'Ingresá cada pieza que necesitás';
     var addLbl=mode==='iguales'?'+ Agregar medida':'+ Agregar pieza';
     var calcLbl=mode==='iguales'?'Ver cuántas planchas necesito →':'Ver cuántas planchas necesito →';
     var div=document.createElement('div');
