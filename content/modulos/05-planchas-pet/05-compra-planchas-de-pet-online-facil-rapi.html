@@ -4532,6 +4532,8 @@ let corteState = {
   igualItems: [],
   igualShared: { ancho: "", alto: "", obs: "" }
 };
+// Disponible para el calculador de cortes (corre en otro bloque de script)
+window.corteState = corteState;
 
 // ── Flujo guiado: helpers ──────────────────────────────────
 function unlockStep(n) {
@@ -8696,6 +8698,54 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
   #configuratorModal #pccCalc .pcc-plano-ico { width: 20px; height: 20px; font-size: 0.65rem; }
   #configuratorModal #pccCalc .pcc-plano-meta { font-size: 0.72rem; white-space: nowrap; }
 }
+
+/* ═══ Cortes · "Así queda tu corte" con miniaturas + sugerencia Ahora → Con ajuste ═══ */
+#configuratorModal #pccRes .pcc-plan-card { border: 1px solid #e2e8f0; border-radius: 14px; background: #fff; padding: 16px !important; margin: 16px 0 14px !important; }
+#configuratorModal #pccRes .pcc-plan-card .pcc-plano-cab { margin: 0 0 12px !important; flex-wrap: nowrap; }
+#configuratorModal #pccRes .pcc-plan-card .pcc-plano-tit { font-size: 1.02rem !important; white-space: nowrap; }
+#configuratorModal #pccRes .pcc-plan-card .pcc-plano-meta { font-family: inherit !important; font-size: 0.85rem; color: #64748b; white-space: nowrap; }
+#configuratorModal #pccRes .pcc-minis { display: flex; flex-wrap: wrap; gap: 8px; }
+#configuratorModal #pccRes .pcc-mini { width: 74px; aspect-ratio: 3 / 2; border: 1px solid #c9d5e4; border-radius: 9px; background: #eef2f7; padding: 3px !important; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; }
+#configuratorModal #pccRes button.pcc-mini { cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+#configuratorModal #pccRes button.pcc-mini:hover, #configuratorModal #pccRes button.pcc-mini.sel { border-color: #1B3A5C; box-shadow: 0 0 0 2px rgba(27,58,92,.15); }
+#configuratorModal #pccRes .pcc-mini svg { width: 100%; height: 100%; display: block; border-radius: 6px; }
+#configuratorModal #pccRes .pcc-mini-mas { font-size: 0.8rem; font-weight: 700; color: #64748b; }
+#configuratorModal #pccRes .pcc-plan-cap { font-size: 0.82rem; color: #64748b; margin-top: 12px !important; }
+#configuratorModal #pccRes .pcc-plan-det:empty { display: none; }
+#configuratorModal #pccRes .pcc-plan-det { margin-top: 14px !important; }
+#configuratorModal #pccRes .pcc-det-cab { display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #4b5563; margin-bottom: 8px !important; }
+#configuratorModal #pccRes .pcc-det-cab button { background: none; border: none; padding: 0; font: inherit; font-weight: 700; color: #1B3A5C; text-decoration: underline; cursor: pointer; }
+#configuratorModal #pccRes .pcc-plan-card .pcc-leyenda { margin-bottom: 10px !important; }
+/* Sugerencia */
+#configuratorModal #pccRes .pcc-sug { background: #ebf6ed; border: 1px solid #bfe0c6; border-radius: 16px; padding: 18px !important; margin: 0 0 14px !important; }
+#configuratorModal #pccRes .pcc-sug-tit { font-size: 1.45rem; font-weight: 800; color: #2e7a3e; line-height: 1.15; }
+#configuratorModal #pccRes .pcc-sug-sub { font-size: 0.95rem; color: #4b5563; margin: 4px 0 14px !important; }
+#configuratorModal #pccRes .pcc-sug-cmp { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; }
+#configuratorModal #pccRes .pcc-sug-box { background: #fff; border-radius: 12px; padding: 12px 10px !important; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+#configuratorModal #pccRes .pcc-sug-k { font-size: 0.72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #64748b; margin-bottom: 4px !important; }
+#configuratorModal #pccRes .pcc-minis-sm { justify-content: center; gap: 5px; margin-bottom: 6px !important; }
+#configuratorModal #pccRes .pcc-minis-sm .pcc-mini { width: 38px; border-radius: 7px; padding: 2px !important; }
+#configuratorModal #pccRes .pcc-sug-n { font-size: 0.95rem; font-weight: 800; color: #0f172a; }
+#configuratorModal #pccRes .pcc-sug-m { font-size: 0.82rem; color: #64748b; }
+#configuratorModal #pccRes .pcc-sug-p { font-size: 1.05rem; font-weight: 800; color: #2e7a3e; margin-top: 4px !important; }
+#configuratorModal #pccRes .pcc-sug-tach { color: #64748b; text-decoration: line-through; font-weight: 700; }
+#configuratorModal #pccRes .pcc-sug-arrow { color: #64748b; font-size: 1.1rem; }
+#configuratorModal #pccRes .pcc-sug-btn { width: 100%; margin-top: 16px !important; padding: 14px !important; border: 0; border-radius: 10px; background: #3f7d48; color: #fff; font: inherit; font-weight: 700; font-size: 1rem; cursor: pointer; }
+#configuratorModal #pccRes .pcc-sug-btn:hover { background: #356b3d; }
+#configuratorModal #pccRes .pcc-sug-keep { display: block; width: 100%; margin-top: 8px !important; padding: 8px !important; background: none; border: 0; font: inherit; font-size: 0.9rem; color: #4b5563; cursor: pointer; }
+#configuratorModal #pccRes .pcc-sug-keep:hover { text-decoration: underline; }
+#configuratorModal #pccRes .pcc-sug-nota { text-align: center; font-size: 0.8rem; color: #64748b; margin-top: 4px !important; }
+#configuratorModal #pccRes .pcc-sug button:focus-visible, #configuratorModal #pccRes button.pcc-mini:focus-visible { outline: 3px solid #1B3A5C; outline-offset: 2px; }
+@media (max-width: 560px) {
+  #configuratorModal #pccRes .pcc-mini { width: 60px; }
+  #configuratorModal #pccRes .pcc-minis-sm .pcc-mini { width: 32px; }
+  #configuratorModal #pccRes .pcc-plan-card .pcc-plano-tit { font-size: 0.95rem !important; }
+  #configuratorModal #pccRes .pcc-plan-card .pcc-plano-meta { font-size: 0.75rem; }
+  #configuratorModal #pccRes .pcc-sug { padding: 14px !important; }
+  #configuratorModal #pccRes .pcc-sug-tit { font-size: 1.3rem; }
+  #configuratorModal #pccRes .pcc-sug-cmp { gap: 6px; }
+  #configuratorModal #pccRes .pcc-sug-box { padding: 10px 6px !important; }
+}
 </style>
 <script>
 (function(){
@@ -8916,9 +8966,31 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
     if(!best)return '';
     var st=window._ppState,pr=st?pccPrecio(st.dim):0,ahorro=pr?(Nsh-best.n)*pr:0;
     pccCostoSierra=pr?best.n*pr:0;
-    return '<div class="pcc-al al-ok" style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:9px 12px">'+
-      '<span>&#128161; Si achicas la pieza <strong>'+best.red+' mm</strong> (a '+pccFmtCm(best.w)+' &times; '+pccFmtCm(best.h)+' cm), las '+p.qty+' caben en <strong>'+best.n+(best.n===1?' plancha':' planchas')+'</strong>'+(ahorro>0?' y ahorras <strong>'+pccMoneda(ahorro)+'</strong>':'')+'.</span>'+
-      '<button type="button" onclick="pccUsarMedida('+best.w+','+best.h+')" style="white-space:nowrap;background:#1B7A3E;color:#fff;border:0;border-radius:20px;padding:7px 14px;font-weight:700;font-size:.78rem;cursor:pointer;flex-shrink:0">Usar esta medida</button></div>';
+    var key=p.w+'x'+p.h+'x'+p.qty;
+    if(pccSugDescartada===key)return '';
+    var ahora=packGrid(p.h,p.w,p.qty,sh.w,sh.h),ajuste=packGrid(best.h,best.w,p.qty,sh.w,sh.h);
+    var pz1=[{w:p.w,h:p.h,qty:p.qty}],pz2=[{w:best.w,h:best.h,qty:p.qty}];
+    var medAct=pccFmtCm(p.w)+' × '+pccFmtCm(p.h)+' cm',medNew=pccFmtCm(best.w)+' × '+pccFmtCm(best.h)+' cm';
+    var caja=function(k,res,n,med,precio,nuevo){
+      return '<div class="pcc-sug-box'+(nuevo?' pcc-sug-new':'')+'"><div class="pcc-sug-k">'+k+'</div>'+
+        '<div class="pcc-minis pcc-minis-sm">'+pccMinis(res.sheets,sh,nuevo?pz2:pz1,6,false)+'</div>'+
+        '<div class="pcc-sug-n">'+n+(n===1?' plancha':' planchas')+'</div>'+
+        '<div class="pcc-sug-m">'+med+'</div>'+
+        (precio?'<div class="pcc-sug-p'+(nuevo?'':' pcc-sug-tach')+'">'+pccMoneda(precio)+'</div>':'')+
+      '</div>';
+    };
+    return '<div class="pcc-sug" role="region" aria-label="Sugerencia de ahorro">'+
+      '<div class="pcc-sug-tit">'+(ahorro>0?'Ahorra '+pccMoneda(ahorro):'Usa menos planchas')+'</div>'+
+      '<div class="pcc-sug-sub">Achicando tus piezas solo '+best.red+' mm</div>'+
+      '<div class="pcc-sug-cmp">'+
+        caja('Ahora',ahora,Nsh,medAct,pr?Nsh*pr:0,false)+
+        '<div class="pcc-sug-arrow" aria-hidden="true">&rarr;</div>'+
+        caja('Con ajuste',ajuste,best.n,medNew,pr?best.n*pr:0,true)+
+      '</div>'+
+      '<button type="button" class="pcc-sug-btn" onclick="pccUsarMedida('+best.w+','+best.h+')">Usar '+medNew+'</button>'+
+      '<button type="button" class="pcc-sug-keep" onclick="pccMantener(\''+key+'\')">Mantener '+medAct+'</button>'+
+      '<div class="pcc-sug-nota">&#9432; Cada corte de sierra consume '+K+' mm</div>'+
+    '</div>';
   }
   window.pccUsarMedida=function(wmm,hmm){
     document.querySelectorAll('#pccList .pcc-row').forEach(function(row){
@@ -9158,6 +9230,43 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
       (lastPlanoHtml?'<div class="pcc-rs-plano">'+lastPlanoHtml+(n>1?'<div class="pcc-rs-mas">+ '+(n-1)+(n-1===1?' plancha más':' planchas más')+' con el mismo plano</div>':'')+'</div>':'');
   }
 
+  /* ── Miniaturas de planchas (vista rápida) ── */
+  var pccUltPlano=null,pccSugDescartada='';
+  function pccMiniSvg(sheetRes,sw,shh,pieces){
+    var W=shh,H=sw;
+    var o='<svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">';
+    o+='<rect x="0" y="0" width="'+W+'" height="'+H+'" fill="#eef2f7"/>';
+    sheetRes.placed.forEach(function(q){
+      var ci=pccIdxPieza(pieces,q.H,q.W),fill=(ci>=0&&pieces.length>1)?PCC_COLORES[ci%PCC_COLORES.length]:'#a8d5b0';
+      o+='<rect x="'+(q.y+12)+'" y="'+(q.x+12)+'" width="'+Math.max(q.H-24,8)+'" height="'+Math.max(q.W-24,8)+'" rx="34" fill="'+fill+'" stroke="#5f9b6b" stroke-width="1.2" vector-effect="non-scaling-stroke"/>';
+    });
+    return o+'</svg>';
+  }
+  function pccMinis(sheets,sh,pieces,max,clic){
+    var out='',n=sheets.length,lim=Math.min(n,max);
+    for(var i=0;i<lim;i++){
+      var svg=pccMiniSvg(sheets[i],sh.w,sh.h,pieces);
+      out+=clic
+        ?'<button type="button" class="pcc-mini" aria-label="Ver plancha '+(i+1)+' de '+n+' en detalle" onclick="pccVerDetalle('+i+')">'+svg+'</button>'
+        :'<span class="pcc-mini">'+svg+'</span>';
+    }
+    if(n>lim)out+='<span class="pcc-mini pcc-mini-mas">+'+(n-lim)+'</span>';
+    return out;
+  }
+  window.pccVerDetalle=function(i){
+    var box=g('pccPlanDet');if(!box||!pccUltPlano)return;
+    var P=pccUltPlano,n=P.sheets.length;
+    if(box.getAttribute('data-i')===String(i)&&box.innerHTML){box.innerHTML='';box.removeAttribute('data-i');return;}
+    box.setAttribute('data-i',String(i));
+    box.innerHTML='<div class="pcc-det-cab"><span>Plancha '+(i+1)+' de '+n+'</span><button type="button" onclick="pccVerDetalle('+i+')">Cerrar</button></div>'+
+      '<div class="pcc-svg-w pcc-plano">'+pccPlanoSvg(P.sheets[i],P.sh.w,P.sh.h,P.pieces)+'</div>';
+    document.querySelectorAll('#pccRes .pcc-minis .pcc-mini').forEach(function(b,k){b.classList.toggle('sel',k===i);});
+  };
+  window.pccMantener=function(key){
+    pccSugDescartada=key;
+    var el=document.querySelector('#pccRes .pcc-sug');if(el)el.remove();
+  };
+
   /* ── Plano de corte (dibujo horizontal, piezas en verde con borde azul, como la maqueta) ── */
   var _pccPlanoN=0;
   function pccPlanoSvg(sheetRes,sw,shh,pieces){
@@ -9326,50 +9435,35 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
     var wc=waste<20?'wl':'wm';
     var Nsh=res.sheets.length;
     var html='';
-    var pccCab=Nsh>0?'<div class="pcc-plano-cab"><div class="pcc-plano-tit"><span class="pcc-plano-ico" aria-hidden="true">&#10003;</span>Así queda tu corte</div>'+
-      '<div class="pcc-plano-meta">'+Nsh+(Nsh===1?' plancha':' planchas')+' · '+Math.round(100-waste)+'% aprovechado</div></div>'+
-      ((curMode==='iguales'&&allSameNow)?'':pccLeyenda(pieces)):'';
     lastPlanoHtml='';
     pccPintarFilas(pieces);
-    if(res.unp.length)html+='<div class="pcc-al al-err">&#9888; '+res.unp.length+' pieza(s) superan el tamano de la plancha.</div>';
+    var igualesNow=curMode==='iguales'&&allSameNow;
+    if(res.unp.length)html+='<div class="pcc-al al-err">&#9888; '+res.unp.length+(res.unp.length===1?' pieza no cabe':' piezas no caben')+' en la plancha. Revisa sus medidas.</div>';
     pccCostoSierra=0;
-    if(curMode==='iguales'&&allSameNow&&!res.unp.length)html+=pccSugerenciaSierra(pieces[0],sh,Nsh);
-    if(!res.unp.length)html+=pccRecomendador(pieces,Nsh,curMode==='iguales'&&allSameNow);
+    var sug=(igualesNow&&!res.unp.length)?pccSugerenciaSierra(pieces[0],sh,Nsh):'';
+    var reco=!res.unp.length?pccRecomendador(pieces,Nsh,igualesNow):'';
+    pccUltPlano=null;
     if(Nsh>0){
       var cm=cmap(pieces);
-      var seen={},ley='<div class="pcc-ley">';
-      pieces.forEach(function(p){var k=p.w+'x'+p.h;if(!seen[k]){seen[k]=true;ley+='<span><i style="background:'+cm[k]+'"></i>'+(p.w/10)+' x '+(p.h/10)+' cm</span>';}});
-      ley+='</div>';
-      // Capturar SVGs para guardarlos con el pedido
       lastSvgs=res.sheets.map(function(s){return svgSheet(s,sh.w,sh.h,cm);});
-      var DIAG_PREVIEW=3;
-      html+=pccCab;
-
-      res.sheets.forEach(function(s,idx){
-        if(idx===DIAG_PREVIEW&&Nsh>DIAG_PREVIEW)html+='<details class="pcc-more-sheets"><summary>Ver '+(Nsh-DIAG_PREVIEW)+' plancha'+(Nsh-DIAG_PREVIEW===1?'':'s')+' más</summary>';
-        html+='<div class="pcc-svg-w pcc-plano pcc-in-anim">'+
-          '<div class="pcc-svg-lbl">Plancha '+(idx+1)+(Nsh>1?' de '+Nsh:'')+'</div>'+
-          pccPlanoSvg(s,sh.w,sh.h,pieces)+'</div>';
-        if(idx===0)lastPlanoHtml=pccPlanoSvg(s,sh.w,sh.h,pieces);
-        if(idx===Nsh-1&&Nsh>DIAG_PREVIEW)html+='</details>';
-      });
-      var curQty=(window._ppState&&window._ppState.qty)||1;
-      var allSame=pieces.length===1||(function(){var k0=pieces[0].w+'x'+pieces[0].h;return pieces.every(function(p){return p.w+'x'+p.h===k0;});}());
-      html+='<div style="font-size:0.72rem;color:#1B7A3E;text-align:center;margin-bottom:10px">&#10003; El sobrante siempre se entrega con tus piezas</div>'+
-
-        (function(){
-          var surchargeLabel='Corte +10% por distintas medidas';
-          if(!allSame){
-            var st=window._ppState;
-            var pp=st?pccPrecio(st.dim):0;
-            if(pp&&Nsh>0){
-              var recargo=Math.round(Math.round(pp/1.19)*Nsh*0.10*1.19);
-              surchargeLabel='Corte de medidas distintas: +'+pccMoneda(recargo)+' (10%)';
-            }
-          }
-          return '<div style="font-size:0.7rem;color:#6b7280;text-align:center;margin-top:5px">'+(allSame?'Corte gratis incluido':surchargeLabel)+'</div>';
-        })();
+      lastPlanoHtml=pccPlanoSvg(res.sheets[0],sh.w,sh.h,pieces);
+      var totPz=pieces.reduce(function(a,q){return a+q.qty;},0);
+      var maxPps=Math.max.apply(null,res.sheets.map(function(x){return x.placed.length;}));
+      var shLbl=Math.round(sh.h/10)+' × '+Math.round(sh.w/10)+' cm';
+      var cap=(igualesNow
+        ?maxPps+(maxPps===1?' pieza':' piezas')+' por plancha de '+shLbl
+        :totPz+(totPz===1?' pieza':' piezas')+' en '+Nsh+(Nsh===1?' plancha':' planchas')+' de '+shLbl)+' · el sobrante es tuyo';
+      pccUltPlano={sheets:res.sheets,sh:sh,pieces:pieces};
+      html+='<div class="pcc-plan-card">'+
+        '<div class="pcc-plano-cab"><div class="pcc-plano-tit">Así queda tu corte</div>'+
+        '<div class="pcc-plano-meta">'+Nsh+(Nsh===1?' plancha':' planchas')+' · '+Math.round(100-waste)+'% aprovechado</div></div>'+
+        (igualesNow?'':pccLeyenda(pieces))+
+        '<div class="pcc-minis">'+pccMinis(res.sheets,sh,pieces,12,true)+'</div>'+
+        '<div class="pcc-plan-cap">'+cap+'</div>'+
+        '<div class="pcc-plan-det" id="pccPlanDet"></div>'+
+      '</div>';
     }
+    html+=sug+reco;
     pccFooterCalc(Nsh,allSameNow);
     var resEl=g('pccRes');if(!resEl)return;
     resEl.innerHTML=html;
