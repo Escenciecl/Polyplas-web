@@ -8810,6 +8810,12 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
 /* Que el carrusel no ensanche la columna (los hijos de grid no se encogen por defecto) */
 #configuratorModal .pp-configurator-content .pp-grid > * { min-width: 0; }
 #configuratorModal #pccRes, #configuratorModal #pccRes .pcc-carr { min-width: 0; max-width: 100%; }
+
+/* Ambas tarjetas visibles a la vez (una debajo de la otra), sin flechas */
+#configuratorModal #pccRes .pcc-carr-track { display: flex !important; flex-direction: column; gap: 12px; overflow: visible !important; scroll-snap-type: none !important; }
+#configuratorModal #pccRes .pcc-slide { flex: 0 0 auto !important; width: 100%; }
+#configuratorModal #pccRes .pcc-carr-btn { display: none !important; }
+#configuratorModal #pccRes .pcc-r-ico { display: none; }
 </style>
 <script>
 (function(){
