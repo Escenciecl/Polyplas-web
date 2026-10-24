@@ -3866,23 +3866,23 @@
 </div>
 <div class="pp-configurator-overlay" id="configuratorModal">
 <div class="pp-configurator-inner">
-<div class="pp-configurator-topbar">
-<div style="display:flex;align-items:center;gap:10px">
-<div id="confTopThumb" style="width:36px;height:36px;border-radius:8px;overflow:hidden;background:#eee;flex-shrink:0"></div>
-<span class="pp-configurator-topbar-title" id="configuratorTopbarTitle">Configura tu plancha</span>
+<div class="pp-configurator-topbar pp-wz-top">
+<div class="pp-wz-row">
+<div class="pp-wz-id">
+<div class="pp-wz-thumb" id="confTopThumb"></div>
+<div class="pp-wz-names">
+<span class="pp-wz-eyebrow" id="confTopEyebrow"></span>
+<span class="pp-wz-title" id="confTopProduct">Configura tu plancha</span>
 </div>
-<button aria-label="Cerrar configurador" class="pp-configurator-close-btn" onclick="closeConfigurator()">×</button>
 </div>
-<div class="pp-conf-progress">
-<div class="pp-conf-step active" id="confStep1">
-<div class="pp-conf-step-num">1</div>
-<div class="pp-conf-step-label">Medida y espesor</div>
+<button aria-label="Cerrar configurador" class="pp-configurator-close-btn pp-wz-close" onclick="closeConfigurator()">×</button>
 </div>
-<div class="pp-conf-step-line" id="confLine1"></div>
-<div class="pp-conf-step" id="confStep2">
-<div class="pp-conf-step-num">2</div>
-<div class="pp-conf-step-label">Pedido</div>
-</div>
+<span class="pp-configurator-topbar-title pp-wz-sr" id="configuratorTopbarTitle" aria-live="polite">Paso 1 de 3 — Medida y espesor</span>
+<ol class="pp-wz-steps" aria-label="Pasos de la compra">
+<li class="pp-wz-step active" id="confStep1"><span class="pp-wz-bar"></span><span class="pp-wz-label">1. Medida y espesor</span></li>
+<li class="pp-wz-step" id="confStep2"><span class="pp-wz-bar"></span><span class="pp-wz-label">2. Cortes</span></li>
+<li class="pp-wz-step" id="confStep3"><span class="pp-wz-bar"></span><span class="pp-wz-label">3. Resumen</span></li>
+</ol>
 </div>
 <div class="pp-configurator-content">
 <div class="pp-grid">
@@ -4609,6 +4609,50 @@ function editStep(n) {
 // ── Stepper: estado actual ──────────────────────────────────
 let currentStep = 1;
 
+/* ── Encabezado del configurador: 3 pasos (Medida y espesor → Cortes → Resumen) ──
+   La etapa se deduce de las clases que ya usa el flujo de corte:
+   html.pcc-paso3 = Cortes, html.pcc-paso4 = Resumen, sin clase = Medida y espesor. */
+function ppSyncWizardHeader() {
+  var H = document.documentElement;
+  var stage = H.classList.contains('pcc-paso4') ? 3 : (H.classList.contains('pcc-paso3') ? 2 : 1);
+  var names = ['Medida y espesor', 'Cortes', 'Resumen'];
+  for (var i = 1; i <= 3; i++) {
+    var el = document.getElementById('confStep' + i);
+    if (!el) continue;
+    el.className = 'pp-wz-step' + (i < stage ? ' done' : (i === stage ? ' active' : ''));
+    if (i === stage) el.setAttribute('aria-current', 'step'); else el.removeAttribute('aria-current');
+  }
+  var tb = document.getElementById('configuratorTopbarTitle');
+  var txt = 'Paso ' + stage + ' de 3 — ' + names[stage - 1];
+  if (tb && tb.textContent !== txt) tb.textContent = txt;
+  // Identidad del producto: "AA · MIX" + "Transparente / Clear"
+  var st = window._ppState || {};
+  var mats = window._ppMatInfo || {};
+  var info = mats[st.material] || mats[st.tipo] || null;
+  var eyebrow = '';
+  if (info) {
+    var nom = String(info.nombre || '');
+    if (nom.indexOf('·') !== -1) eyebrow = nom; // ej. "PET · Plancha", "Policarbonato · Compacto"
+    else {
+      nom = nom.replace(/^Acr[ií]lico\s+/i, ''); // "Acrílico Mix" → "Mix"
+      eyebrow = (info.tag || st.material || '') + (nom ? ' · ' + nom : '');
+    }
+  }
+  var cMeta = (window._ppColorMeta || {})[st.color] || (typeof colorMeta !== 'undefined' ? colorMeta[st.color] : null);
+  var eb = document.getElementById('confTopEyebrow');
+  var pr = document.getElementById('confTopProduct');
+  if (eb) { eb.textContent = eyebrow; eb.style.display = eyebrow ? '' : 'none'; }
+  if (pr) pr.textContent = (cMeta && cMeta.label) || 'Configura tu plancha';
+}
+window.ppSyncWizardHeader = ppSyncWizardHeader;
+(function () {
+  // Mantener el encabezado al día ante cualquier cambio de etapa (atrás, editar, popstate…)
+  try {
+    new MutationObserver(function () { ppSyncWizardHeader(); })
+      .observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+  } catch (e) {}
+})();
+
 function renderStep(n) {
   if (window.ppPaso && n >= 3) window.ppPaso('conf_pedido', 'pet', state);
   currentStep = n;
@@ -4807,21 +4851,7 @@ function renderStep(n) {
       th.innerHTML = imgSrc ? `<img src="${imgSrc}" style="width:100%;height:100%;object-fit:cover;">` : "";
       th.style.display = imgSrc ? "block" : "none";
     }
-    if (!s1 || !s2) return;
-    [s1,s2].forEach(function(el){ el.className = "pp-conf-step"; });
-    if (l1) l1.className = "pp-conf-step-line";
-    if (n === 2) {
-      s1.classList.add("active");
-      if (tb) tb.textContent = "Paso 1 de 2 — Elige medida y espesor";
-    } else if (n === 3 || n === 4) {
-      s1.classList.add("done"); if(l1) l1.classList.add("done");
-      s2.classList.add("active");
-      if (tb) tb.textContent = "Paso 2 de 2 — Tu pedido";
-    } else if (n === 5) {
-      s1.classList.add("done"); if(l1) l1.classList.add("done");
-      s2.classList.add("active");
-      if (tb) tb.textContent = "Paso 2 de 2 — Tu pedido";
-    }
+    ppSyncWizardHeader();
   })();
 
   // Nudge: activa timer en paso 4 y 5, cancela en el resto
@@ -5391,17 +5421,8 @@ function updatePrice() {
         if (btnKeep) btnKeep.textContent = "Agregar al carro y seguir comprando";
       }
     })();
-    // Activar paso 3 (Pedido) en la barra de progreso
-    (function(){
-      const s1=document.getElementById("confStep1"),s2=document.getElementById("confStep2");
-      const l1=document.getElementById("confLine1");
-      const tb=document.getElementById("configuratorTopbarTitle");
-      [s1,s2].forEach(function(el){if(el)el.className="pp-conf-step";});
-      if(l1)l1.className="pp-conf-step-line";
-      if(s1)s1.classList.add("done"); if(l1)l1.classList.add("done");
-      if(s2)s2.classList.add("active");
-      if(tb && !document.documentElement.classList.contains('pcc-paso4')) tb.textContent = "Paso 2 de 2 — Tu pedido";
-    })();
+    // Barra de pasos: se calcula según la etapa real (medida / cortes / resumen)
+    ppSyncWizardHeader();
     // Mostrar resumen y sección de corte solo cuando stepperPrice ya está en pantalla (paso 5)
     var _sum3 = document.getElementById("paso3SummarySection");
     if (_sum3) _sum3.style.display = "";
@@ -8492,6 +8513,66 @@ function openConfiguratorPA(colorKey) {
 
 /* ── Notice / aviso ──────────────────────────────────────── */
 .pp-notice { border-radius: var(--pp-radius) !important; }
+
+/* ═══ Encabezado del configurador · 3 pasos (Medida y espesor → Cortes → Resumen) ═══ */
+#configuratorModal .pp-configurator-topbar.pp-wz-top {
+  display: block !important;
+  background: var(--pp-accent, #1B3A5C) !important;
+  padding: 20px 24px 18px !important;
+  border-bottom: none !important;
+  border-radius: 20px 20px 0 0;
+  position: sticky; top: 0; z-index: 5;
+}
+#configuratorModal .pp-wz-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+#configuratorModal .pp-wz-id { display: flex; align-items: center; gap: 14px; min-width: 0; }
+#configuratorModal .pp-wz-thumb {
+  width: 52px; height: 52px; border-radius: 12px; overflow: hidden; flex-shrink: 0;
+  background: linear-gradient(135deg, #f4f7fb, #d9e1ec);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.25);
+}
+#configuratorModal .pp-wz-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+#configuratorModal .pp-wz-names { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+#configuratorModal .pp-wz-eyebrow {
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(255,255,255,0.65); line-height: 1.2;
+}
+#configuratorModal .pp-wz-title {
+  font-size: 1.35rem; font-weight: 800; color: #fff; line-height: 1.15;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+#configuratorModal .pp-configurator-close-btn.pp-wz-close {
+  background: transparent !important; color: #fff !important;
+  width: 36px; height: 36px; font-size: 1.9rem; font-weight: 300;
+}
+#configuratorModal .pp-configurator-close-btn.pp-wz-close:hover { background: rgba(255,255,255,0.12) !important; }
+#configuratorModal .pp-wz-sr {
+  position: absolute !important; width: 1px !important; height: 1px !important; overflow: hidden !important;
+  clip: rect(0 0 0 0) !important; white-space: nowrap !important; margin: -1px !important; padding: 0 !important;
+}
+#configuratorModal .pp-wz-steps {
+  list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  margin: 18px 0 0 !important; padding: 0 !important;
+}
+#configuratorModal .pp-wz-step { display: flex; flex-direction: column; gap: 9px; min-width: 0; }
+#configuratorModal .pp-wz-bar {
+  display: block; height: 5px; border-radius: 3px;
+  background: rgba(255,255,255,0.22); transition: background 0.25s;
+}
+#configuratorModal .pp-wz-label {
+  font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.2;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.25s;
+}
+#configuratorModal .pp-wz-step.active .pp-wz-bar { background: #FF8A1F; }
+#configuratorModal .pp-wz-step.active .pp-wz-label { color: #fff; font-weight: 600; }
+#configuratorModal .pp-wz-step.done .pp-wz-bar { background: rgba(255,138,31,0.55); }
+#configuratorModal .pp-wz-step.done .pp-wz-label { color: rgba(255,255,255,0.8); }
+@media (max-width: 560px) {
+  #configuratorModal .pp-configurator-topbar.pp-wz-top { padding: 16px 16px 14px !important; }
+  #configuratorModal .pp-wz-thumb { width: 44px; height: 44px; border-radius: 10px; }
+  #configuratorModal .pp-wz-title { font-size: 1.12rem; }
+  #configuratorModal .pp-wz-steps { gap: 8px; margin-top: 14px !important; }
+  #configuratorModal .pp-wz-label { font-size: 0.74rem; }
+}
 </style>
 <script>
 (function(){
@@ -9325,8 +9406,7 @@ function openConfiguratorPA(colorKey) {
     if(!fromEdit&&!window._ppInPopstate)history.pushState({ppModal:'configurador',step:'paso3'},'');
     paso4Ready=false;
     H.classList.add('pcc-paso3');H.classList.remove('pcc-paso4');
-    setup4Steps();
-    setTopbar('Paso 2 de 2 — Tu pedido');
+    if(window.ppSyncWizardHeader)window.ppSyncWizardHeader();
     if(!fromEdit){
       var gA=g('corteGuideA'),gB=g('corteGuideB'),gC=g('corteGuideC');
       if(gA)gA.style.display='';
@@ -9336,21 +9416,13 @@ function openConfiguratorPA(colorKey) {
       if(window.selectCorteModo)window.selectCorteModo('none');
     }
     var backBtn=g('paso4BackBtn');if(backBtn)backBtn.style.display='none';
-    var s3=g('confStep3'),l3=g('confLine3'),s4=g('confStep4');
-    if(s3)s3.className='pp-conf-step active';
-    if(l3)l3.className='pp-conf-step-line';
-    if(s4)s4.className='pp-conf-step';
   }
 
   function showPaso4(){
     if(!window._ppInPopstate)history.pushState({ppModal:'configurador',step:'paso4'},'');
     paso4Ready=true;
     H.classList.remove('pcc-paso3');H.classList.add('pcc-paso4');
-    setTopbar('Paso 2 de 2 — Tu pedido');
-    var s3=g('confStep3'),l3=g('confLine3'),s4=g('confStep4');
-    if(s3)s3.className='pp-conf-step done';
-    if(l3)l3.className='pp-conf-step-line done';
-    if(s4)s4.className='pp-conf-step active';
+    if(window.ppSyncWizardHeader)window.ppSyncWizardHeader();
     var backBtn=g('paso4BackBtn');if(backBtn)backBtn.style.display='block';
     setTimeout(function(){
       var sum=g('paso3SummarySection');
@@ -9363,6 +9435,7 @@ function openConfiguratorPA(colorKey) {
   }
 
   function setup4Steps(){
+    return; // obsoleto: el encabezado ya tiene 3 pasos fijos (ver ppSyncWizardHeader)
     if(g('confStep4'))return;
     var s3=g('confStep3');if(!s3)return;
     var lbl3=s3.querySelector('.pp-conf-step-label');
@@ -9376,6 +9449,7 @@ function openConfiguratorPA(colorKey) {
 
   /* ── Observers ── */
   function watchTopbar(){
+    return; // obsoleto: ppSyncWizardHeader controla el texto del paso
     var tb=g('configuratorTopbarTitle');if(!tb)return;
     new MutationObserver(function(){
       if(!paso4Ready&&g('confStep4')){
