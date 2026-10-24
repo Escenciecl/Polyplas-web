@@ -4011,6 +4011,7 @@
 <div id="ppQtyDisplay" class="pp-corte-qty-num">1</div>
 <button class="pp-corte-qty-btn" onclick="pccQtyChange(1)" type="button">+</button>
 </div>
+<div class="pcc-sc-nota" id="pccScNota"></div>
 </div>
 </div>
 <div id="corteGuideB" style="display:none"></div>
@@ -8679,6 +8680,22 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
 }
 
 #configuratorModal #pccCalc.pcc-iguales .pcc-x { display: none !important; }
+
+/* ═══ Cortes · versión minimalista ═══ */
+#configuratorModal .pcc-sc-nota { font-size: 0.8rem; color: #6b7280; margin-top: 12px !important; line-height: 1.4; }
+#configuratorModal #pccCalc .pcc-hint:empty { display: none; }
+#configuratorModal #pccCalc .pcc-plano-cab { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 22px 0 12px !important; }
+#configuratorModal #pccCalc .pcc-plano-tit { display: flex; align-items: center; gap: 10px; margin: 0 !important; font-size: 1.05rem !important; font-weight: 800 !important; letter-spacing: 0 !important; text-transform: none !important; color: #0f172a !important; }
+#configuratorModal #pccCalc .pcc-plano-ico { width: 24px; height: 24px; border-radius: 50%; background: #1B3A5C; color: #fff; font-size: 0.75rem; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+#configuratorModal #pccCalc .pcc-plano-meta { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.85rem; color: #4b5563; }
+#configuratorModal #pccCalc .pcc-plano .pcc-svg-lbl { text-transform: none !important; font-size: 0.85rem !important; color: #4b5563 !important; margin-bottom: 8px !important; }
+
+@media (max-width: 560px) {
+  #configuratorModal #pccCalc .pcc-plano-cab { flex-wrap: nowrap; gap: 8px; }
+  #configuratorModal #pccCalc .pcc-plano-tit { font-size: 0.95rem !important; gap: 8px; white-space: nowrap; }
+  #configuratorModal #pccCalc .pcc-plano-ico { width: 20px; height: 20px; font-size: 0.65rem; }
+  #configuratorModal #pccCalc .pcc-plano-meta { font-size: 0.72rem; white-space: nowrap; }
+}
 </style>
 <script>
 (function(){
@@ -9189,12 +9206,13 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
       var row=document.querySelector('#pccList .pcc-row'),id=row?row.id.replace('pccR_',''):'';
       var w=parseFloat((g('pccW_'+id)||{}).value),h=parseFloat((g('pccH_'+id)||{}).value),q=parseInt((g('pccQ_'+id)||{}).value,10);
       var n=(w>=30&&h>=30)?pccPorPlancha(Math.round(w*10),Math.round(h*10),sh.w,sh.h):0;
-      if(w>=30&&h>=30)out+=n>0
-        ?'<div class="pcc-hint-main">Caben hasta <b>'+n+'</b> piezas por plancha.'+(q!==n?' <button type="button" class="pcc-hint-max" onclick="pccUsarMaximo('+n+')">Usar máximo</button>':'')+'</div>'
-        :'<div class="pcc-hint-main">Esta pieza no cabe en la plancha.</div>';
+      if(w>=30&&h>=30&&n===0)out+='<div class="pcc-hint-main">Esta pieza no cabe en la plancha.</div>';
     }
-    out+='<div class="pcc-hint-sub">Mínimo 30×30 cm · Máx. '+Math.floor((sh.h-K)/10)+'×'+Math.floor((sh.w-K)/10)+' cm · La sierra consume '+K+' mm en cada corte.</div>';
     el.innerHTML=out;
+  }
+  function pccNotaSinCorte(){
+    var el=g('pccScNota'),sh=sheet();if(!el)return;
+    el.textContent=sh?'Mínimo 30×30 cm · Máx. '+Math.floor((sh.h-K)/10)+'×'+Math.floor((sh.w-K)/10)+' cm · La sierra consume '+K+' mm en cada corte.':'';
   }
   window.pccUsarMaximo=function(n){
     var row=document.querySelector('#pccList .pcc-row');if(!row)return;
@@ -9307,9 +9325,11 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
     var waste=res.sheets.length>0?(100-used/(sh.w*sh.h*res.sheets.length)*100):0;
     var wc=waste<20?'wl':'wm';
     var Nsh=res.sheets.length;
-    var html=Nsh>0?'<div class="pcc-plano-tit">Plano de corte · '+Nsh+(Nsh===1?' plancha':' planchas')+' · aprovechamiento '+Math.round(100-waste)+'%</div>':'';
+    var html='';
+    var pccCab=Nsh>0?'<div class="pcc-plano-cab"><div class="pcc-plano-tit"><span class="pcc-plano-ico" aria-hidden="true">&#10003;</span>Así queda tu corte</div>'+
+      '<div class="pcc-plano-meta">'+Nsh+(Nsh===1?' plancha':' planchas')+' · '+Math.round(100-waste)+'% aprovechado</div></div>'+
+      ((curMode==='iguales'&&allSameNow)?'':pccLeyenda(pieces)):'';
     lastPlanoHtml='';
-    if(Nsh>0&&!(curMode==='iguales'&&allSameNow))html+=pccLeyenda(pieces);
     pccPintarFilas(pieces);
     if(res.unp.length)html+='<div class="pcc-al al-err">&#9888; '+res.unp.length+' pieza(s) superan el tamano de la plancha.</div>';
     pccCostoSierra=0;
@@ -9323,11 +9343,12 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
       // Capturar SVGs para guardarlos con el pedido
       lastSvgs=res.sheets.map(function(s){return svgSheet(s,sh.w,sh.h,cm);});
       var DIAG_PREVIEW=3;
+      html+=pccCab;
 
       res.sheets.forEach(function(s,idx){
         if(idx===DIAG_PREVIEW&&Nsh>DIAG_PREVIEW)html+='<details class="pcc-more-sheets"><summary>Ver '+(Nsh-DIAG_PREVIEW)+' plancha'+(Nsh-DIAG_PREVIEW===1?'':'s')+' más</summary>';
         html+='<div class="pcc-svg-w pcc-plano pcc-in-anim">'+
-          '<div class="pcc-svg-lbl">PLANCHA '+(idx+1)+(Nsh>1?' DE '+Nsh:'')+' — '+Math.round(sh.h/10)+'×'+Math.round(sh.w/10)+' cm</div>'+
+          '<div class="pcc-svg-lbl">Plancha '+(idx+1)+(Nsh>1?' de '+Nsh:'')+'</div>'+
           pccPlanoSvg(s,sh.w,sh.h,pieces)+'</div>';
         if(idx===0)lastPlanoHtml=pccPlanoSvg(s,sh.w,sh.h,pieces);
         if(idx===Nsh-1&&Nsh>DIAG_PREVIEW)html+='</details>';
@@ -9606,6 +9627,7 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
   window.pccAutoCalc=pccAutoCalc;
   window.selectCorteModo=function(mode){
     window._pccCurrentModo=mode;
+    pccNotaSinCorte();
     try{renderCorteResumen();}catch(e){}
     ['none','iguales','distintos'].forEach(function(m){
       var tab=g('corteTab_'+m);if(tab)tab.classList.toggle('active',m===mode);
