@@ -5635,16 +5635,20 @@ function showComboPricePreview() {
   const fmtFn = typeof fmt !== "undefined" ? fmt : function(v) { return "$ " + Math.round(v).toLocaleString("es-CL"); };
   const dimLabel = (window._ppDimMeta || dimMeta)?.[state.dim]?.label || state.dim;
   pp.innerHTML =
-    '<div style="margin-top:18px;padding:16px;background:#eef3fc;border-radius:12px;border:1px solid rgba(0,74,153,0.2)">' +
-      '<div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--pp-accent);font-weight:700;margin-bottom:4px">Precio</div>' +
-      '<div style="font-size:1.8rem;font-weight:800;color:var(--pp-success,#2d7a3a);letter-spacing:1px">' + fmtFn(price) + '</div>' +
-      '<div style="font-size:0.72rem;color:var(--pp-muted);margin-top:2px">IVA incluido &middot; ' + dimLabel + ' &middot; ' + state.esp + '</div>' +
-      '<button onclick="goToStep(5)" class="pp-x-cta" style="width:100%;margin-top:14px;padding:14px;background:#ff8a1f;color:#fff;border:none;border-radius:10px;font-size:0.95rem;font-weight:700;letter-spacing:1px;cursor:pointer;transition:background 0.15s">' +
-        'Continuar a cortes →' +
-      '</button>' +
-      '<div class="pp-x-conf"><span>Retiro el mismo día</span><span>3 y 6 cuotas sin interés</span><span>Despacho gratis en la RM desde $350.000</span></div>' +
+    '<div class="pp-x-conf pp-p1-conf"><span>Retiro el mismo día</span><span>3 y 6 cuotas sin interés</span><span>Despacho gratis en la RM desde $350.000</span></div>' +
+    '<div class="pp-corte-footer pp-p1-footer">' +
+      '<div class="pp-corte-footer-sum">' +
+        '<div class="pp-corte-footer-info">' +
+          '<div class="pp-corte-footer-desc">' + dimLabel + ' &middot; ' + state.esp + '</div>' +
+          '<div class="pp-corte-footer-iva">IVA incluido</div>' +
+        '</div>' +
+        '<div class="pp-corte-footer-price">' + fmtFn(price) + '</div>' +
+      '</div>' +
+      '<div class="pp-corte-footer-btns">' +
+        '<button type="button" class="pp-corte-cta-back" onclick="var b=document.querySelector(\'#stepperBody > .pp-stepper-back\');if(b)b.click();else if(window.closeConfigurator)closeConfigurator();">Atrás</button>' +
+        '<button type="button" class="pp-corte-cta-next pp-x-cta" onclick="goToStep(5)">Continuar a cortes</button>' +
+      '</div>' +
     '</div>';
-  setTimeout(() => pp.scrollIntoView({ behavior: "smooth", block: "nearest" }), 80);
 }
 
 // ── Precio por m² ─────────────────────────────────────────
@@ -11498,4 +11502,109 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
 #configuratorModal #pccRes .pcc-slide { flex: 0 0 auto !important; width: 100%; }
 #configuratorModal #pccRes .pcc-carr-btn { display: none !important; }
 #configuratorModal #pccRes .pcc-r-ico { display: none; }
+
+/* ═══ Coherencia visual de los 3 pasos (mismo lenguaje que "Cortes") ═══ */
+/* Títulos de sección: como "¿NECESITAS CORTES?" */
+#configuratorModal #stepperBody > div:first-child:not([class]):not([id]),
+#configuratorModal #espesorInlineSection > div:first-child,
+#configuratorModal #paso3CurrentLabel,
+#configuratorModal #paso3QtyRow > span:first-child {
+  font-size: 0.65rem !important; text-transform: uppercase !important; letter-spacing: 1.5px !important;
+  color: var(--pp-muted, #6b7280) !important; font-weight: 700 !important; margin-bottom: 10px !important;
+}
+#configuratorModal #stepperStepTitle { display: none !important; }
+
+/* Paso 1 · medidas y espesores con el mismo cuadro que las opciones de corte */
+#configuratorModal .pp-configurator-content .pp-pill,
+#configuratorModal .pp-configurator-content .pp-esp-btn {
+  background: #fff !important; border: 2px solid #e2e8f0 !important; border-radius: 12px !important;
+  color: #1a1a2e !important; font-weight: 700 !important; box-shadow: none !important;
+  transition: border-color .15s, background .15s !important;
+}
+#configuratorModal .pp-configurator-content .pp-pill:hover:not(:disabled),
+#configuratorModal .pp-configurator-content .pp-esp-btn:hover:not(:disabled) { border-color: #cbd5e1 !important; }
+#configuratorModal .pp-configurator-content .pp-pill.active,
+#configuratorModal .pp-configurator-content .pp-esp-btn.active {
+  background: #eff6ff !important; border-color: #1B3A5C !important; color: #1B3A5C !important;
+}
+#configuratorModal .pp-configurator-content .pp-esp-btn .esp-use,
+#configuratorModal .pp-configurator-content .pp-esp-btn.active .esp-use { color: #64748b !important; }
+#configuratorModal .pp-configurator-content .pp-pill:disabled,
+#configuratorModal .pp-configurator-content .pp-esp-btn:disabled,
+#configuratorModal .pp-configurator-content .pp-esp-btn.disabled { opacity: .45 !important; }
+#configuratorModal .pp-p1-conf { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px; margin: 18px 0 0 !important; font-size: 0.75rem; color: #64748b !important; }
+#configuratorModal .pp-p1-conf span { color: #64748b !important; }
+/* La franja del paso 1 queda pegada abajo igual que en Cortes */
+#configuratorModal .pp-configurator-content:has(.pp-p1-footer) { padding-bottom: 0 !important; }
+#configuratorModal #stepperBody:has(.pp-p1-footer) > .pp-stepper-back { display: none !important; }
+#configuratorModal .pp-p1-footer { margin-top: 16px !important; }
+
+/* Paso 3 · Resumen */
+#configuratorModal #paso3CurrentLabel + div {
+  border: 1px solid #e2e8f0 !important; border-radius: 14px !important; background: #fff !important;
+  padding: 16px !important; margin-bottom: 16px !important;
+}
+#configuratorModal #paso3Price { color: #0f172a !important; letter-spacing: 0 !important; }
+#configuratorModal #paso3PiezasInfo { background: #f1f5f9 !important; color: #475569 !important; font-weight: 500 !important; }
+#configuratorModal #paso3QtyRow .pp-qty { display: inline-flex; align-items: center; border: 2px solid #e2e8f0 !important; border-radius: 12px !important; overflow: hidden; background: #fff; }
+#configuratorModal #paso3QtyRow .pp-qty-btn { width: 44px !important; height: 44px !important; border: 0 !important; border-radius: 0 !important; background: #f8fafc !important; color: #374151 !important; font-size: 1.3rem !important; }
+#configuratorModal #paso3QtyRow .pp-qty-btn:hover { background: #e2e8f0 !important; }
+#configuratorModal #paso3QtyRow .pp-qty-num { width: 44px !important; height: 44px !important; border: 0 !important; background: #fff !important; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #0f172a; }
+#configuratorModal #paso3TotalCombinado { background: #fff !important; border: 1px solid #e2e8f0 !important; border-radius: 14px !important; }
+#configuratorModal #paso3TotalCombinadoVal { color: #0f172a !important; letter-spacing: 0 !important; }
+#configuratorModal #paso3CartPreview { background: #fff !important; border: 1px solid #e2e8f0 !important; border-radius: 14px !important; }
+#configuratorModal #paso4BackBtn .pcc-back-link { color: #64748b !important; font-weight: 600; }
+/* Botones del Resumen en una franja gris como la de Cortes */
+html.pcc-paso4 #configuratorModal .pp-configurator-content { padding-bottom: 0 !important; }
+html.pcc-paso4 #configuratorModal #stepperPrice { padding-left: 0 !important; padding-right: 0 !important; padding-bottom: 0 !important; }
+html.pcc-paso4 #configuratorModal #stepperCtaGroup {
+  position: sticky; bottom: 0; z-index: 4; margin: 18px -24px 0 !important; padding: 16px 24px 18px !important;
+  background: #f4f5f7; border-top: 1px solid var(--pp-border, #e2e8f0); border-radius: 0 0 20px 20px; gap: 8px !important;
+}
+#configuratorModal #btnGoCheckout {
+  display: block; background: #ff8a1f !important; color: #fff !important; border: 0 !important; border-radius: 12px !important;
+  padding: 15px !important; font-family: 'Inter', Arial, sans-serif !important; font-size: 0.95rem !important; font-weight: 800 !important;
+  letter-spacing: .3px !important; text-transform: lowercase;
+}
+#configuratorModal #btnGoCheckout::first-letter { text-transform: uppercase; }
+#configuratorModal #btnGoCheckout:hover { background: #e07910 !important; }
+#configuratorModal #btnAddToOrder {
+  background: #fff !important; color: #374151 !important; border: 2px solid #e2e8f0 !important; border-radius: 12px !important;
+  padding: 13px !important; font-family: 'Inter', Arial, sans-serif !important; font-size: 0.88rem !important; font-weight: 600 !important; letter-spacing: 0 !important; text-transform: none !important; box-shadow: none !important;
+}
+#configuratorModal #btnAddToOrder:hover { border-color: #94a3b8 !important; background: #f8fafc !important; }
+#configuratorModal #stepperCtaGroup > p { color: #64748b !important; }
+
+@media (max-width: 560px) {
+  /* Paso 1 y Resumen: franja fija abajo, igual que Cortes */
+  #configuratorModal .pp-configurator-content:has(.pp-p1-footer) { padding-bottom: 150px !important; }
+  #configuratorModal .pp-configurator-content:has(.pp-p1-footer) .pp-stepper-card,
+  #configuratorModal .pp-configurator-content:has(.pp-p1-footer) #stepperBody,
+  html.pcc-paso4 #configuratorModal .pp-stepper-card,
+  html.pcc-paso4 #configuratorModal #stepperBody,
+  html.pcc-paso4 #configuratorModal #stepperPrice { transform: none !important; animation: none !important; }
+  #configuratorModal .pp-p1-footer,
+  html.pcc-paso4 #configuratorModal #stepperCtaGroup {
+    position: fixed !important; left: 0; right: 0; bottom: 0; margin: 0 !important;
+    padding: 10px 16px calc(12px + env(safe-area-inset-bottom)) !important; border-radius: 0 !important;
+    box-shadow: 0 -6px 18px rgba(15,23,42,0.08); z-index: 20;
+  }
+  html.pcc-paso4 #configuratorModal .pp-configurator-content { padding-bottom: 190px !important; }
+}
+
+/* Paso 1: reglas antiguas del celular ocultaban el resumen de precio */
+#configuratorModal #comboPricePreview .pp-p1-footer > .pp-corte-footer-sum { display: flex !important; }
+#configuratorModal #comboPricePreview .pp-p1-footer .pp-corte-cta-next { border-radius: 12px !important; width: 100%; }
+
+#configuratorModal #comboPricePreview > div.pp-p1-footer { display: block !important; margin: 16px -24px 0 !important; padding: 16px 24px 20px !important; }
+#configuratorModal #btnGoCheckout { text-transform: lowercase !important; }
+#configuratorModal #btnGoCheckout::first-letter { text-transform: uppercase !important; }
+@media (max-width: 560px) {
+  #configuratorModal #comboPricePreview > div.pp-p1-footer { margin: 0 !important; padding: 10px 16px calc(12px + env(safe-area-inset-bottom)) !important; }
+}
+
+@media (max-width: 560px) {
+  #configuratorModal #paso3CurrentLabel + div { flex-wrap: wrap; }
+  #configuratorModal #paso3CurrentLabel + div > div:last-child { width: 100%; text-align: left !important; display: flex; justify-content: space-between; align-items: baseline; gap: 8px; border-top: 1px solid #eef2f7; padding-top: 10px !important; flex-wrap: wrap; }
+}
 </style>
