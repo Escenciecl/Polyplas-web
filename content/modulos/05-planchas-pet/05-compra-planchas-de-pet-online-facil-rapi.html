@@ -4806,19 +4806,6 @@ function renderStep(n) {
     body.innerHTML = '<div id="colorSelector" class="pp-swatches"></div>';
     buildColorSelector();
   } else if (n === 5) {
-    // Tarjeta compacta "PLANCHA SELECCIONADA"
-    const _price5 = prices[state.tipo]?.[state.dim]?.[state.color]?.[state.esp];
-    const _dimLbl = state.dim ? (dimMeta[state.dim]?.label || state.dim) : "";
-    const _espLbl = state.esp || "";
-    const summaryCard = document.createElement("div");
-    summaryCard.style.cssText = "background:#f1f5f9;border:1.5px solid #dde4ef;border-radius:10px;padding:14px 16px;margin-bottom:20px;";
-    summaryCard.innerHTML =
-      '<div style="font-size:0.6rem;text-transform:uppercase;letter-spacing:2px;color:var(--pp-accent);font-weight:700;margin-bottom:6px">Plancha Seleccionada</div>' +
-      '<div style="display:flex;justify-content:space-between;align-items:center">' +
-        '<div style="font-size:1rem;font-weight:700;color:var(--pp-accent)">' + _dimLbl + ' · ' + _espLbl + '</div>' +
-        '<div style="font-size:1.1rem;font-weight:800;color:var(--pp-success,#2d7a3a)">' + (_price5 ? fmt(_price5) : "") + '</div>' +
-      '</div>';
-    body.appendChild(summaryCard);
     if (priceEl) {
       priceEl.style.display = "block";
       priceEl.style.animation = "none";
@@ -7349,6 +7336,7 @@ window._ppMatInfo             = materialesInfo;
 window._ppPrices              = prices;
 window._ppDimMeta             = dimMeta;
 window._ppAllEsp              = allEspesores;
+window._ppColorMeta           = (typeof colorMeta !== 'undefined') ? colorMeta : {};
 window.changeQty              = changeQty;
 window.onQtyInput             = onQtyInput;
 window.addToCart              = addToCart;
@@ -8150,6 +8138,37 @@ function openConfiguratorPA(colorKey) {
 .pp-corte-cta-next{width:100%;padding:14px;border:none;border-radius:12px;background:#ff8a1f;color:#fff;font-family:'Inter',Arial,sans-serif;font-size:0.95rem;font-weight:800;cursor:pointer;transition:all .2s;letter-spacing:.5px;}
 .pp-corte-cta-next:hover{background:#e07910;}</style>
 <style>
+/* Igual que acrílico: ocultar bloques viejos en Cortes/Resumen */
+html.pcc-paso3 #stepperStepTitle                    { display: none !important; }
+html.pcc-paso3 #paso3SummarySection                 { display: none !important; }
+html.pcc-paso3 #stepperCtaGroup                     { display: none !important; }
+html.pcc-paso3 #stepperBody > .pp-color-preview     { display: none !important; }
+html.pcc-paso3 #stepperBody > .pp-stepper-back      { display: none !important; }
+html.pcc-paso3 #confProgressBar                     { display: none !important; }
+html.pcc-paso3 .pp-stepper-header                   { display: none !important; }
+html.pcc-paso3 #stepperCrumbs                       { display: none !important; }
+html.pcc-paso3 #corteSectionWrapper { margin-top: 0 !important; border-top: none !important; padding-top: 0 !important; }
+html.pcc-paso3 #stepperPrice        { padding-top: 4px !important; }
+html.pcc-paso4 #stepperStepTitle    { display: none !important; }
+html.pcc-paso4 #corteSectionWrapper { display: none !important; }
+html.pcc-paso4 #stepperBody > .pp-stepper-back { display: none !important; }
+
+
+#pccGateway{font-family:Arial,sans-serif;margin-top:14px;}
+.pcc-gw-title{font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;color:#004a99;font-weight:700;margin-bottom:10px;}
+.pcc-gw-opt{width:100%;display:flex;align-items:flex-start;gap:12px;background:#fff;border:1.5px solid #e2e8f0;border-radius:11px;padding:14px;cursor:pointer;font-family:Arial,sans-serif;text-align:left;transition:all .15s;margin-bottom:8px;box-sizing:border-box;}
+.pcc-gw-opt:hover{border-color:#004a99;background:#f0f5ff;}
+.pcc-gw-opt.pcc-gw-primary{border-color:#c7d7f5;background:#f8faff;}
+.pcc-gw-opt.pcc-gw-primary:hover{border-color:#004a99;background:#e8f0fe;}
+.pcc-gw-ico{font-size:1.4rem;flex-shrink:0;margin-top:1px;}
+.pcc-gw-opt strong{display:block;font-size:0.88rem;color:#1a1a2e;font-weight:700;margin-bottom:3px;}
+.pcc-gw-opt span{display:block;font-size:0.74rem;color:#6b7280;line-height:1.45;}
+
+
+.pp-x-conf { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px; margin-top: 12px; font-size: .74rem; font-weight: 600; color: #003366; }
+.pp-x-conf span::before { content: "✓ "; color: #0a7a3d; }
+.pp-fb2-paso{font-size:.72rem;font-weight:600;color:#5b6b80}
+
 /* ══════════════════════════════════════════════════════════════
    POLYPLAS — TEMA INDUSTRIAL
    ══════════════════════════════════════════════════════════════ */
@@ -9986,7 +10005,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       lastPlanoHtml=pccPlanoSvg(res.sheets[0],sh.w,sh.h,pieces);
       var totPz=pieces.reduce(function(a,q){return a+q.qty;},0);
       var maxPps=Math.max.apply(null,res.sheets.map(function(x){return x.placed.length;}));
-      var shLbl=Math.round(sh.h/10)+' × '+Math.round(sh.w/10)+' cm';
+      var shLbl=(Math.round(sh.h)/10)+' × '+(Math.round(sh.w)/10)+' cm';
       var pp=pccPrecio((window._ppState||{}).dim),precioAct=pp*Nsh+(allSameNow?0:Math.round(Math.round(pp/1.19)*Nsh*0.10*1.19));
       var sub=igualesNow
         ?totPz+(totPz===1?' pieza':' piezas')+' de '+pccFmtCm(pieces[0].w)+' × '+pccFmtCm(pieces[0].h)+' cm'

@@ -10366,7 +10366,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
       lastPlanoHtml=pccPlanoSvg(res.sheets[0],sh.w,sh.h,pieces);
       var totPz=pieces.reduce(function(a,q){return a+q.qty;},0);
       var maxPps=Math.max.apply(null,res.sheets.map(function(x){return x.placed.length;}));
-      var shLbl=Math.round(sh.h/10)+' × '+Math.round(sh.w/10)+' cm';
+      var shLbl=(Math.round(sh.h)/10)+' × '+(Math.round(sh.w)/10)+' cm';
       var pp=pccPrecio((window._ppState||{}).dim),precioAct=pp*Nsh+(allSameNow?0:Math.round(Math.round(pp/1.19)*Nsh*0.10*1.19));
       var sub=igualesNow
         ?totPz+(totPz===1?' pieza':' piezas')+' de '+pccFmtCm(pieces[0].w)+' × '+pccFmtCm(pieces[0].h)+' cm'
