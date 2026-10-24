@@ -10179,6 +10179,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
     var cur=parseInt(disp.textContent)||1,next=Math.max(1,cur+d);
     disp.textContent=next;
     if(window.changeQty)window.changeQty(d);
+    renderCorteResumen(); // actualiza el precio según la cantidad
   };
   window.pccVerResumen=function(){
     var mode=window._pccCurrentModo||'none';
