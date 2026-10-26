@@ -7347,18 +7347,38 @@ window.resetCorteBadge        = function() {
   updateCorteBadge();
 };
 
+// Precios del CRM compartidos por todo el sitio (PreciosCrm): cada vez que el sitio los lee
+// (al abrir, cada 30 s y al volver a la pestaña) se aplican también en este configurador.
+// Solo se aplica si algo cambió, para no redibujar el configurador mientras el cliente lo usa.
+var _ppFirmaCRM = '';
+document.addEventListener('pp:crm', function() {
+  var api = window.ppCRM;
+  if (!api || !Array.isArray(api.filas) || !api.filas.length) return;
+  var firma = '';
+  try { firma = JSON.stringify(api.filas.map(function(r) { return [r.tipo, r.dim, r.color, r.espesor, r.cantidad, r.precio]; })); } catch (e) {}
+  if (firma && firma === _ppFirmaCRM) return;
+  _ppFirmaCRM = firma;
+  setTimeout(function() { try { loadStockFromSupabase(api.filas); } catch (e) {} }, 30);
+});
+
 // ── Carga precios y stock desde Supabase ─────────────────
-function loadStockFromSupabase() {
-  if (!window.supabase || !window.POLYPLAS_CONFIG) {
-    setTimeout(loadStockFromSupabase, 400);
-    return;
-  }
-  var _sb = window.supabase.createClient(
-    window.POLYPLAS_CONFIG.SUPABASE_URL,
-    window.POLYPLAS_CONFIG.SUPABASE_ANON_KEY
-  );
-  _sb.from('pp_stock').select('tipo,dim,color,espesor,cantidad,precio').then(function(res) {
-    if (!res.data || !res.data.length) return;
+function loadStockFromSupabase(filasYa) {
+  // filasYa: filas que el sitio ya leyó del CRM (evento pp:crm); si no vienen, se leen aquí.
+  // Lectura directa de pp_stock (REST). No espera al SDK de Supabase, que se carga 2–4 s después
+  // a propósito: así el configurador y la recomendación usan el precio del CRM desde el primer momento.
+  var _cfg = window.POLYPLAS_CONFIG || {
+    SUPABASE_URL:      'https://gdrkscedvkjtcvexnhzg.supabase.co',
+    SUPABASE_ANON_KEY: 'sb_publishable_qT9WuJK5Wi6VghgMvcYIMw_IGBtn1Tc'
+  };
+  (filasYa ? Promise.resolve(filasYa) : fetch(_cfg.SUPABASE_URL + '/rest/v1/pp_stock?select=tipo,dim,color,espesor,cantidad,precio&limit=5000', {
+    headers: { apikey: _cfg.SUPABASE_ANON_KEY, Authorization: 'Bearer ' + _cfg.SUPABASE_ANON_KEY },
+    cache: 'no-store'
+  }).then(function(r) {
+    if (!r.ok) throw new Error('pp_stock ' + r.status);
+    return r.json();
+  })).then(function(filas) {
+    var res = { data: filas };
+    if (!res.data || !res.data.length) { if (!filasYa) setTimeout(loadStockFromSupabase, 120000); return; }
     // Limpiar outOfStock antes de repoblar para reflejar reposición de stock
     outOfStock.PC   = {};
     outOfStock.PCPA = {};
@@ -7401,10 +7421,22 @@ function loadStockFromSupabase() {
     updatePrice();
     updateCardSpecs('PC');
     if (document.getElementById('tipoSelector')) buildTipoSelector();
-    setTimeout(loadStockFromSupabase, 120000);
+    // Carrito interno del módulo: siempre con el precio actual
+    try {
+      if (typeof cart !== 'undefined' && Array.isArray(cart) && cart.length) {
+        var _cc = false;
+        cart.forEach(function(it) {
+          var _p = prices[it.tipo] && prices[it.tipo][it.dim] && prices[it.tipo][it.dim][it.color] && prices[it.tipo][it.dim][it.color][it.esp];
+          if (_p && _p !== it.price) { it.price = _p; _cc = true; }
+        });
+        if (_cc && typeof renderCart === 'function') renderCart();
+      }
+    } catch (e) {}
+    if (window.pccPreciosActualizados) { try { window.pccPreciosActualizados(); } catch (e) {} }
+    if (!filasYa) setTimeout(loadStockFromSupabase, 120000);
   }).catch(function(e) {
     console.warn('PP stock load:', e);
-    setTimeout(loadStockFromSupabase, 120000);
+    if (!filasYa) setTimeout(loadStockFromSupabase, 120000);
   });
 }
 
@@ -9733,6 +9765,18 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       if(reco)descEl.textContent='Tu selección: '+descEl.textContent+' · tus medidas';
     }
   }
+  /* Llegaron precios del CRM: si hay un cálculo en pantalla y algún precio cambió,
+     se recalcula (plano, recomendación y barra) manteniendo la opción que eligió el cliente. */
+  var pccFirmaPrecios='';
+  window.pccPreciosActualizados=function(){
+    if(document.documentElement.classList.contains('pcc-paso4')){try{pccResumenCorte();}catch(e){}}
+    if(!lastRes||!document.querySelector('#pccRes .pcc-slide-plan'))return;
+    var firma='';try{firma=JSON.stringify(pccPrecios()||{});}catch(e){}
+    if(firma===pccFirmaPrecios)return; // mismos precios con los que se dibujó: no se toca nada
+    var selAntes=pccSel;
+    window.pccCalc();
+    if(selAntes==='reco'&&document.querySelector('#pccRes .pcc-slide-reco')){pccSel='reco';pccAplicarSel();}
+  };
   window.pccElegir=function(cual){
     if(cual!=='reco'&&cual!=='actual')return;
     if(pccSel===cual)return;
@@ -10452,6 +10496,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     var resEl=g('pccRes');if(!resEl)return;
     resEl.innerHTML=html;
     pccSel='actual';pccAplicarSel();
+    try{pccFirmaPrecios=JSON.stringify(pccPrecios()||{});}catch(e){}
     setTimeout(window.pccCarrUpd,0);
   };
 

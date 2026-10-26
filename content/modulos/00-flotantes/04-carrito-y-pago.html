@@ -1127,8 +1127,26 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
   document.addEventListener('pp:crm', function() {
     gcLoad();
     var r = gcSyncCRM();
+    if (r.precios || r.agotados) gcUpdateBadge();
     var abierto = gEl('ppGC-cart-modal') && gEl('ppGC-cart-modal').style.display === 'flex';
     if (abierto && (r.precios || r.agotados)) gcRenderCartItems();
+    // Pago abierto y cambió un precio o el stock: el total mostrado debe ser siempre el actual
+    var co = gEl('ppGC-co-modal'), coAbierto = co && co.style.display === 'flex';
+    if (coAbierto && (r.precios || r.agotados)) {
+      var enDatos = gEl('ppGC-s1') && gEl('ppGC-s1').style.display !== 'none';
+      if (enDatos && !gcHayAgotados()) {
+        // Paso 1 (datos): se actualizan el resumen y el total sin interrumpir al cliente
+        gcCurrentGrand = gcTotal();
+        gcRenderSummary();
+        gcUpdateModalTotal();
+      } else {
+        // Entrega o pago: el despacho gratis depende del total, así que se vuelve al carrito con aviso
+        ppGCCloseCheckout();
+        ppGCOpen();
+        var _av = gEl('ppGC-cart-items');
+        if (_av) _av.insertAdjacentHTML('afterbegin', '<div style="margin-bottom:12px;padding:10px 12px;border-radius:8px;background:#fff7ed;color:#9a3412;font-size:.85rem;font-weight:600">' + (gcHayAgotados() ? 'Un producto de tu carrito se quedó sin stock. Quítalo para continuar.' : 'Actualizamos los precios de tu carrito. Revisa el total antes de pagar.') + '</div>');
+      }
+    }
   });
 
   /* ── Cambiar cantidad dentro del carrito ─────────────────── */

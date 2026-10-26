@@ -23,7 +23,8 @@ import { useEffect } from "react";
 const SB_URL = "https://gdrkscedvkjtcvexnhzg.supabase.co";
 const SB_KEY = "sb_publishable_qT9WuJK5Wi6VghgMvcYIMw_IGBtn1Tc";
 const CACHE = "pp_crm_stock";
-const VIGENCIA = 60_000; // 1 minuto
+const VIGENCIA = 15_000; // 15 segundos: un cambio de precio en el CRM se ve casi de inmediato
+const CADA = 30_000; // relectura automática mientras la página está a la vista
 
 type Fila = { tipo: string; dim: string; color: string; espesor: string; cantidad: number | null; precio: number | null; precio_antes: number | null };
 export type CrmApi = { get: (clave: string) => Fila | null; desde: (tipos: string) => number; filas: Fila[] };
@@ -135,8 +136,12 @@ export default function PreciosCrm() {
     };
     // El carrito lo llama justo antes de pagar: vuelve a leer el CRM (datos de no más de 10 segundos)
     w.ppCRMActualizar = () => cargar(10_000).then(aplicar).catch(() => api);
-    // Si la página queda abierta, se refresca sola cada 2 minutos
-    const reloj = setInterval(() => { if (!document.hidden) cargar().then((f) => vivo && aplicar(f)).catch(() => {}); }, 120_000);
+    // Si la página queda abierta, se refresca sola cada 30 segundos (solo si está a la vista)
+    const refrescar = () => { if (!document.hidden) cargar().then((f) => vivo && aplicar(f)).catch(() => {}); };
+    const reloj = setInterval(refrescar, CADA);
+    // Al volver a la pestaña o a la ventana, se lee de nuevo (respetando la caché de 15 s)
+    document.addEventListener("visibilitychange", refrescar);
+    window.addEventListener("focus", refrescar);
     cargar()
       .then((filas) => {
         if (!vivo) return;
@@ -150,6 +155,8 @@ export default function PreciosCrm() {
     return () => {
       vivo = false;
       clearInterval(reloj);
+      document.removeEventListener("visibilitychange", refrescar);
+      window.removeEventListener("focus", refrescar);
       document.removeEventListener("pp:legacy-ready", repintar);
     };
   }, []);
