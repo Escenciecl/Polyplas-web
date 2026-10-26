@@ -8865,6 +8865,18 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
 #configuratorModal #pccRes .pcc-slide-reco[data-modo="exacta"] .pcc-r-panel[data-op="ajustar"] { display: none; }
 #configuratorModal #pccRes .pcc-r-sub b { color: #0f172a; }
 #configuratorModal #pccRes .pcc-r-nota { margin-top: 8px !important; font-size: 0.78rem; color: #64748b; text-align: center; }
+#configuratorModal #pccRes .pcc-r-preg { margin: 0 0 6px !important; font-size: 0.88rem; font-weight: 700; color: #0f172a; }
+/* Selección visual de la opción (sus medidas / recomendación) */
+#configuratorModal #pccRes .pcc-opcion { cursor: pointer; transition: box-shadow .15s ease, border-color .15s ease; }
+#configuratorModal #pccRes .pcc-slide-plan.pcc-sel-on { border-color: #1B3A5C; box-shadow: 0 0 0 2px #1B3A5C; }
+#configuratorModal #pccRes .pcc-slide-reco.pcc-sel-on { border-color: #2f7a3e; box-shadow: 0 0 0 2px #2f7a3e; }
+#configuratorModal #pccRes .pcc-elegir { display: block; width: 100%; margin-top: 14px !important; padding: 11px !important; border: 2px solid #1B3A5C; border-radius: 10px; background: #fff; color: #1B3A5C; font: inherit; font-size: 0.95rem; font-weight: 700; cursor: pointer; }
+#configuratorModal #pccRes .pcc-slide-reco .pcc-elegir { border-color: #2f7a3e; color: #2f7a3e; }
+#configuratorModal #pccRes .pcc-elegir .pcc-elegir-si { display: none; }
+#configuratorModal #pccRes .pcc-sel-on .pcc-elegir { background: #1B3A5C; color: #fff; cursor: default; }
+#configuratorModal #pccRes .pcc-slide-reco.pcc-sel-on .pcc-elegir { background: #2f7a3e; }
+#configuratorModal #pccRes .pcc-sel-on .pcc-elegir .pcc-elegir-no { display: none; }
+#configuratorModal #pccRes .pcc-sel-on .pcc-elegir .pcc-elegir-si { display: inline; }
 #configuratorModal #pccRes .pcc-carr-btn { display: none; position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(30,41,59,.78); color: #fff; font-size: 1.3rem; line-height: 1; cursor: pointer; align-items: center; justify-content: center; }
 #configuratorModal #pccRes .pcc-carr.multi .pcc-carr-btn { display: flex; }
 #configuratorModal #pccRes .pcc-carr-prev { left: -12px; }
@@ -9463,10 +9475,10 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       pctNew=area?Math.round(usado/area*100):0;
     }
     var accion=(best.items.length===1||pccPuedeCombinar())
-      ?'<button type="button" class="pcc-r-btn" onclick="pccContinuarRecomendada()">Continuar con opción recomendada</button>'
+      ?''
       :'<div class="pcc-s-cap">Para pedirla, agrega cada medida al carro con sus piezas.</div>';
-    return '<div class="pcc-r-panel" data-op="exacta">'+
-      '<div class="pcc-s-cab"><div class="pcc-r-tit">'+(costoAct-best.costo>=1000?'Ahorra '+pccMoneda(costoAct-best.costo):'Menos sobrante')+'</div><div class="pcc-s-meta">'+pctNew+'% aprovechado</div></div>'+
+    return '<div class="pcc-r-panel" data-op="exacta" data-precio="'+Math.round(best.costo)+'" data-desc="'+nNew+(nNew===1?' plancha':' planchas')+' · '+lblNew+' · tus medidas exactas">'+
+      '<div class="pcc-s-cab"><div class="pcc-r-tit">'+(costoAct-best.costo>=1000?'Ahorra '+pccMoneda(costoAct-best.costo):'Menos sobrante')+'</div><div class="pcc-s-meta">'+pccSobraTxt(pctNew)+'</div></div>'+
       '<div class="pcc-r-sub">Cambia el formato, no tus medidas'+(best.costo-costoAct>=1000?' · +'+pccMoneda(best.costo-costoAct):'')+'</div>'+
       '<div class="pcc-minis pcc-minis-c">'+minisNew+'</div>'+
       (best.items.length===1
@@ -9551,28 +9563,75 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       var pzAj=[{w:aj.w,h:aj.h,qty:p.qty}],medNew=pccFmtCm(aj.w)+' × '+pccFmtCm(aj.h)+' cm';
       var pctAj=Math.round(aj.w*aj.h*p.qty/(aj.n*aj.s.w*aj.s.h)*100);
       var otroFmt=aj.dim!==st.dim;
-      ajHtml='<div class="pcc-r-panel" data-op="ajustar">'+
-        '<div class="pcc-s-cab"><div class="pcc-r-tit">Ahorra '+pccMoneda(costoAct-aj.costo)+'</div><div class="pcc-s-meta">'+pctAj+'% aprovechado</div></div>'+
+      ajHtml='<div class="pcc-r-panel" data-op="ajustar" data-precio="'+Math.round(aj.costo)+'" data-desc="'+aj.n+(aj.n===1?' plancha':' planchas')+' · '+pccDimLabel(aj.dim)+' · piezas de '+medNew+'">'+
+        '<div class="pcc-s-cab"><div class="pcc-r-tit">Ahorra '+pccMoneda(costoAct-aj.costo)+'</div><div class="pcc-s-meta">'+pccSobraTxt(pctAj)+'</div></div>'+
         '<div class="pcc-r-sub">Tus piezas a <b>'+medNew+'</b> ('+pccDifTxt(p,aj)+')'+(otroFmt?' en otro formato':'')+'</div>'+
         '<div class="pcc-minis pcc-minis-c">'+pccMinis(aj.r.sheets,aj.s,pzAj,6,false)+'</div>'+
         '<div class="pcc-s-fila"><div><div class="pcc-s-n">'+aj.n+(aj.n===1?' plancha':' planchas')+' · '+pccDimLabel(aj.dim)+'</div>'+
           '<div class="pcc-s-cu">'+pccMoneda(pccPrecio(aj.dim))+' c/u</div></div>'+
         '<div class="pcc-r-precio">'+pccMoneda(aj.costo)+'</div></div>'+
-        '<button type="button" class="pcc-r-btn" onclick="pccContinuarAjuste()">Continuar con '+medNew+'</button>'+
         '<div class="pcc-r-nota">Pediste '+pccFmtCm(p.w)+' × '+pccFmtCm(p.h)+' cm. Cada corte de sierra consume '+K+' mm.</div>'+
       '</div>';
     }
     var ambos=!!(fmt&&ajHtml),modo=ambos?pccModoInicial(p):(ajHtml?'ajustar':'exacta');
     var sel=ambos
-      ?'<div class="pcc-r-sel" role="group" aria-label="¿Tus medidas pueden variar unos milímetros?">'+
-          '<button type="button" data-m="ajustar" aria-pressed="'+(modo==='ajustar')+'" onclick="pccModoReco(this,\'ajustar\')">Ajustar medidas</button>'+
-          '<button type="button" data-m="exacta" aria-pressed="'+(modo==='exacta')+'" onclick="pccModoReco(this,\'exacta\')">Mantener mis medidas</button>'+
+      ?'<div class="pcc-r-preg" id="pccRecoPreg">¿Tus medidas pueden variar unos milímetros?</div>'+
+        '<div class="pcc-r-sel" role="group" aria-labelledby="pccRecoPreg">'+
+          '<button type="button" data-m="ajustar" aria-pressed="'+(modo==='ajustar')+'" onclick="pccModoReco(this,\'ajustar\')">Sí, ajústalas</button>'+
+          '<button type="button" data-m="exacta" aria-pressed="'+(modo==='exacta')+'" onclick="pccModoReco(this,\'exacta\')">No, son exactas</button>'+
         '</div>':'';
-    return '<div class="pcc-slide pcc-slide-reco" role="group" aria-label="Recomendación de ahorro" data-modo="'+modo+'">'+
+    return '<div class="pcc-slide pcc-slide-reco pcc-opcion" role="group" aria-label="Recomendación de ahorro" data-modo="'+modo+'" onclick="pccElegir(\'reco\')">'+
       '<div class="pcc-r-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Recomendación Polyplas</div>'+
       sel+(fmt||'')+ajHtml+
+      '<button type="button" class="pcc-elegir" onclick="pccElegir(\'reco\')"><span class="pcc-elegir-no">Elegir esta opción</span><span class="pcc-elegir-si">&#10003; Opción elegida</span></button>'+
     '</div>';
   }
+  /* "Sobra 67%" / "Casi sin sobrante": más claro que "% aprovechado" */
+  function pccSobraTxt(pctUsado){var s=100-Math.round(pctUsado);return s<=3?'Casi sin sobrante':'Sobra '+s+'%';}
+  /* Cuántas piezas caben por plancha con y sin los 3 mm de sierra (para explicar el resultado) */
+  function pccPorSierra(p,sh){
+    if(!p||!sh)return null;
+    var con=Math.max(Math.floor((sh.w+K)/(p.w+K))*Math.floor((sh.h+K)/(p.h+K)),Math.floor((sh.w+K)/(p.h+K))*Math.floor((sh.h+K)/(p.w+K)));
+    var sin=Math.max(Math.floor(sh.w/p.w)*Math.floor(sh.h/p.h),Math.floor(sh.w/p.h)*Math.floor(sh.h/p.w));
+    return sin>con?{con:con,sin:sin}:null;
+  }
+  /* ── Selección visual de la opción ──
+     El cliente ve sus opciones como tarjetas: "Así queda tu corte" (sus medidas) y la recomendación.
+     La elegida queda marcada y la barra de abajo dice "Tu selección" con su precio real.
+     Siempre parte elegida la de sus medidas: nada cambia sin que el cliente lo elija. */
+  var pccSel='actual';
+  function pccMismaMedida(pz){if(!pz||!pz.length)return true;var k0=pz[0].w+'x'+pz[0].h;return pz.every(function(p){return p.w+'x'+p.h===k0;});}
+  function pccAplicarSel(){
+    var plan=document.querySelector('#pccRes .pcc-slide-plan'),reco=document.querySelector('#pccRes .pcc-slide-reco');
+    if(!plan)return;
+    if(!reco)pccSel='actual';
+    plan.classList.toggle('pcc-sel-on',pccSel==='actual'&&!!reco);
+    if(reco)reco.classList.toggle('pcc-sel-on',pccSel==='reco');
+    document.querySelectorAll('#pccRes .pcc-opcion .pcc-elegir').forEach(function(b){
+      b.setAttribute('aria-pressed',String(b.closest('.pcc-sel-on')!==null));
+    });
+    var descEl=g('corteResumenDesc'),priceEl=g('corteResumenPrice');
+    if(!descEl||!priceEl)return;
+    if(pccSel==='reco'&&reco){
+      var modo=reco.getAttribute('data-modo');
+      var pan=reco.querySelector('.pcc-r-panel[data-op="'+modo+'"]')||reco.querySelector('.pcc-r-panel');
+      var precio=pan?Number(pan.getAttribute('data-precio'))||0:0;
+      if(!pan||!precio)return;
+      descEl.textContent='Tu selección: '+pan.getAttribute('data-desc');
+      pccIvaTxt('Opción recomendada · IVA incluido');
+      priceEl.textContent='$ '+Math.round(precio).toLocaleString('es-CL');
+    }else if(lastRes&&lastRes.sheets&&lastRes.sheets.length){
+      pccFooterCalc(lastRes.sheets.length,pccMismaMedida(lastPieces));
+      if(reco)descEl.textContent='Tu selección: '+descEl.textContent+' · tus medidas';
+    }
+  }
+  window.pccElegir=function(cual){
+    if(cual!=='reco'&&cual!=='actual')return;
+    if(pccSel===cual)return;
+    pccSel=cual;
+    pccAplicarSel();
+    if(window.ppPaso)try{window.ppPaso('conf_elegir_opcion','calc',{opcion:cual});}catch(e){}
+  };
   window.pccModoReco=function(btn,modo){
     var card=btn&&btn.closest('.pcc-slide-reco');if(!card)return;
     card.setAttribute('data-modo',modo);
@@ -9580,6 +9639,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     pccPrefMedida=modo;
     try{sessionStorage.setItem('pccPrefMedida',modo);}catch(e){}
     if(window.ppPaso)try{window.ppPaso('conf_reco_modo','calc',{modo:modo});}catch(e){}
+    pccSel='reco';pccAplicarSel();
     setTimeout(window.pccCarrUpd,0);
   };
   /* Un toque: aplicar las medidas ajustadas (y el formato, si cambia) y seguir al resumen */
@@ -10253,9 +10313,11 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
         ?totPz+(totPz===1?' pieza':' piezas')+' de '+pccFmtCm(pieces[0].w)+' × '+pccFmtCm(pieces[0].h)+' cm'
         :totPz+(totPz===1?' pieza':' piezas')+' en '+pieces.length+(pieces.length===1?' medida':' medidas');
       var cap=(igualesNow?maxPps+(maxPps===1?' pieza':' piezas')+' por plancha · ':'')+'el sobrante es tuyo';
+      var porSierra=igualesNow?pccPorSierra(pieces[0],sh):null;
+      if(porSierra&&totPz>porSierra.con)cap='Caben '+porSierra.con+' por plancha y no '+porSierra.sin+': cada corte de sierra consume '+K+' mm · el sobrante es tuyo';
       pccUltPlano={sheets:res.sheets,sh:sh,pieces:pieces};
-      var plan='<div class="pcc-slide pcc-slide-plan" role="group" aria-label="Así queda tu corte">'+
-        '<div class="pcc-s-cab"><div class="pcc-s-tit">Así queda tu corte</div><div class="pcc-s-meta">'+Math.round(100-waste)+'% aprovechado</div></div>'+
+      var plan='<div class="pcc-slide pcc-slide-plan'+(reco?' pcc-opcion':'')+'" role="group" aria-label="Así queda tu corte"'+(reco?' onclick="pccElegir(\'actual\')"':'')+'>'+
+        '<div class="pcc-s-cab"><div class="pcc-s-tit">Así queda tu corte</div><div class="pcc-s-meta">'+pccSobraTxt(100-waste)+'</div></div>'+
         (igualesNow?'':pccLeyenda(pieces))+
         '<div class="pcc-minis pcc-minis-c">'+pccMinis(res.sheets,sh,pieces,12,true)+'</div>'+
         '<div class="pcc-s-fila"><div><div class="pcc-s-n">'+Nsh+(Nsh===1?' plancha':' planchas')+' · '+shLbl+'</div><div class="pcc-s-sub">'+sub+'</div>'+
@@ -10268,6 +10330,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
         '</div>':'')+
         '<div class="pcc-s-cap">'+cap+'</div>'+
         '<div class="pcc-plan-det" id="pccPlanDet"></div>'+
+        (reco?'<button type="button" class="pcc-elegir" onclick="pccElegir(\'actual\')"><span class="pcc-elegir-no">Elegir esta opción</span><span class="pcc-elegir-si">&#10003; Opción elegida</span></button>':'')+
       '</div>';
       html+='<div class="pcc-carr">'+
         '<button type="button" class="pcc-carr-btn pcc-carr-prev" aria-label="Anterior" onclick="pccCarr(-1)">&#8249;</button>'+
@@ -10278,6 +10341,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     pccFooterCalc(Nsh,allSameNow);
     var resEl=g('pccRes');if(!resEl)return;
     resEl.innerHTML=html;
+    pccSel='actual';pccAplicarSel();
     setTimeout(window.pccCarrUpd,0);
   };
 
@@ -10587,6 +10651,13 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     renderCorteResumen(); // actualiza el precio según la cantidad
   };
   window.pccVerResumen=function(){
+    if(pccSel==='reco'){
+      var rc=document.querySelector('#pccRes .pcc-slide-reco');
+      if(rc){
+        if(rc.getAttribute('data-modo')==='ajustar'&&pccUltAjuste){window.pccContinuarAjuste();return;}
+        if(pccUltReco){window.pccContinuarRecomendada();return;}
+      }
+    }
     var mode=window._pccCurrentModo||'none';
     if(mode==='none'){
       window._pccClave=null; // eligió sin cortes: no restaurar un plano anterior
