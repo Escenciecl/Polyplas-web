@@ -6134,7 +6134,7 @@ function addToCart(keepOpen) {
   const _corteMode     = _tieneCorte ? corteState.modo : null;
   const _corteMedidas  = (_tieneCorte && corteState.modo === "distintos") ? buildCorteMedidasSnapshot() : null;
   const _corteInstr    = _tieneCorte
-    ? (corteState.modo === "distintos" ? buildCorteMedidasText() : buildIgualItemsText())
+    ? (corteState.modo === "distintos" ? buildCorteMedidasText() : buildIgualItemsText() + (typeof window.pccNotaAjuste === "function" ? window.pccNotaAjuste() : ""))
     : "";
   const _calcInfo = (window._pccCalcInfo && window._pccCalcInfo.Nsh === state.qty) ? window._pccCalcInfo : null;
   const _gcGid = 'gc-' + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
@@ -8964,6 +8964,15 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
 #configuratorModal #pccRes .pcc-r-keep:hover { text-decoration: underline; }
 #configuratorModal #pccRes .pcc-r-otra { display: block; width: 100%; margin-top: 6px !important; padding: 6px !important; background: none; border: 0; font: inherit; font-size: 0.85rem; font-weight: 600; color: #2e7a3e; cursor: pointer; }
 #configuratorModal #pccRes .pcc-r-otra:hover { text-decoration: underline; }
+/* Recomendación inteligente: selector "Ajustar medidas" / "Mantener mis medidas" */
+#configuratorModal #pccRes .pcc-r-sel { display: flex; gap: 4px; margin: 0 0 12px !important; padding: 4px !important; border-radius: 10px; background: #fff; border: 1px solid #bfe0c6; }
+#configuratorModal #pccRes .pcc-r-sel button { flex: 1 1 0; min-width: 0; padding: 8px 6px !important; border: 0; border-radius: 7px; background: transparent; font: inherit; font-size: 0.85rem; font-weight: 700; color: #2e7a3e; cursor: pointer; line-height: 1.2; }
+#configuratorModal #pccRes .pcc-r-sel button[aria-pressed="true"] { background: #2f7a3e; color: #fff; }
+#configuratorModal #pccRes .pcc-r-sel button:focus-visible { outline: 2px solid #1B3A5C; outline-offset: 1px; }
+#configuratorModal #pccRes .pcc-slide-reco[data-modo="ajustar"] .pcc-r-panel[data-op="exacta"],
+#configuratorModal #pccRes .pcc-slide-reco[data-modo="exacta"] .pcc-r-panel[data-op="ajustar"] { display: none; }
+#configuratorModal #pccRes .pcc-r-sub b { color: #0f172a; }
+#configuratorModal #pccRes .pcc-r-nota { margin-top: 8px !important; font-size: 0.78rem; color: #64748b; text-align: center; }
 #configuratorModal #pccRes .pcc-carr-btn { display: none; position: absolute; top: 50%; transform: translateY(-50%); z-index: 2; width: 34px; height: 34px; border-radius: 50%; border: 0; background: rgba(30,41,59,.78); color: #fff; font-size: 1.3rem; line-height: 1; cursor: pointer; align-items: center; justify-content: center; }
 #configuratorModal #pccRes .pcc-carr.multi .pcc-carr-btn { display: flex; }
 #configuratorModal #pccRes .pcc-carr-prev { left: -12px; }
@@ -9464,7 +9473,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
      material, color y espesor. En cortes iguales también prueba combinar dos formatos
      (ej.: 1 plancha grande + 1 chica). Muestra la opción solo si ahorra dinero. */
   var pccUltReco=null;
-  function pccRecomendador(pieces,Nsh,iguales){
+  function pccRecoFormato(pieces,Nsh,iguales){
     var st=window._ppState,P=pccPrecios();
     pccUltReco=null;
     if(!st||!P||!P[st.tipo]||!Nsh||!pieces||!pieces.length)return '';
@@ -9540,7 +9549,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     if(pctB0<=pctA0||(costoAct-best.costo<1000&&pctB0-pctA0<5))return '';
     var key='f|'+st.dim+'|'+pieces.map(function(q){return q.w+'x'+q.h+'x'+q.qty;}).join(',');
     if(pccRecoDescartada===key)return '';
-    pccUltReco={items:best.items,w:pieces[0].w,h:pieces[0].h,iguales:iguales,pieces:pieces};
+    pccUltReco={items:best.items,w:pieces[0].w,h:pieces[0].h,iguales:iguales,pieces:pieces,costo:best.costo};
     // Superficie de piezas (igual en cualquier formato) → % aprovechado de cada opción
     var usado=pieces.reduce(function(a,q){return a+q.w*q.h*q.qty;},0);
     var pct=function(n,sz){return Math.round(usado/(n*sz.w*sz.h)*100);};
@@ -9564,10 +9573,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     var accion=(best.items.length===1||pccPuedeCombinar())
       ?'<button type="button" class="pcc-r-btn" onclick="pccContinuarRecomendada()">Continuar con opción recomendada</button>'
       :'<div class="pcc-s-cap">Para pedirla, agrega cada medida al carro con sus piezas.</div>';
-    var otra=(iguales&&pccUltSierra&&pccUltSierra.ahorro>0)
-      ?'<button type="button" class="pcc-r-otra" onclick="pccUsarMedida('+pccUltSierra.w+','+pccUltSierra.h+')">Otra opción: ajustar '+pccUltSierra.red+' mm · ahorra '+pccMoneda(pccUltSierra.ahorro)+'</button>':'';
-    return '<div class="pcc-slide pcc-slide-reco" role="group" aria-label="Sugerencia de formato">'+
-      '<div class="pcc-r-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Recomendación Polyplas</div>'+
+    return '<div class="pcc-r-panel" data-op="exacta">'+
       '<div class="pcc-s-cab"><div class="pcc-r-tit">'+(costoAct-best.costo>=1000?'Ahorra '+pccMoneda(costoAct-best.costo):'Menos sobrante')+'</div><div class="pcc-s-meta">'+pctNew+'% aprovechado</div></div>'+
       '<div class="pcc-r-sub">Cambia el formato, no tus medidas'+(best.costo-costoAct>=1000?' · +'+pccMoneda(best.costo-costoAct):'')+'</div>'+
       '<div class="pcc-minis pcc-minis-c">'+minisNew+'</div>'+
@@ -9582,6 +9588,142 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       accion+
     '</div>';
   }
+
+  /* ── Recomendación inteligente: una sola tarjeta para dos tipos de cliente ──
+     • "Mantener mis medidas": cambia el formato de plancha y respeta la medida exacta (pccRecoFormato).
+     • "Ajustar medidas": achica cada pieza hasta PCC_MAX_AJUSTE mm para que quepan más por plancha,
+       en el mismo formato o en otro (pccMejorAjuste). Solo en cortes iguales.
+     Si existen las dos, la tarjeta muestra un selector. El lado que se ve primero lo decide el sistema:
+     la preferencia que el cliente ya eligió o, si no hay, las medidas que escribió
+     (centímetros enteros = quiere repartir la plancha → "Ajustar"; con decimales = midió algo real → "Mantener").
+     Nunca se cambian medidas sin que el cliente apriete el botón, que dice la medida nueva. */
+  var pccUltAjuste=null,pccPrefMedida=null;
+  try{pccPrefMedida=sessionStorage.getItem('pccPrefMedida');}catch(e){}
+  function pccAjusteEn(p,s){
+    var best=null;
+    [[p.w,p.h,false],[p.h,p.w,true]].forEach(function(o){
+      var a=o[0],b=o[1];
+      var c0=Math.floor((s.w+K)/(a+K)),r0=Math.floor((s.h+K)/(b+K));
+      [[c0,r0+1],[c0+1,r0],[c0+1,r0+1]].forEach(function(cr){
+        var c=cr[0],r=cr[1];if(c<1||r<1)return;
+        var a2=Math.min(a,Math.floor((s.w-(c-1)*K)/c)),b2=Math.min(b,Math.floor((s.h-(r-1)*K)/r));
+        var da=a-a2,db=b-b2;
+        if(da<0||db<0||da>PCC_MAX_AJUSTE||db>PCC_MAX_AJUSTE||(da===0&&db===0)||a2<300||b2<300)return;
+        var nw=o[2]?b2:a2,nh=o[2]?a2:b2;
+        var r2=packGrid(nh,nw,p.qty,s.w,s.h);if(!r2||r2.unp.length||!r2.sheets.length)return;
+        var n=r2.sheets.length;
+        if(!best||n<best.n||(n===best.n&&da+db<best.red))best={w:nw,h:nh,n:n,red:da+db,r:r2};
+      });
+    });
+    return best;
+  }
+  function pccMejorAjuste(p){
+    var st=window._ppState,P=pccPrecios();
+    if(!st||!P||!P[st.tipo]||!p)return null;
+    var suf=function(d){return String(d).replace(/^\d+x\d+/,'');},best=null;
+    Object.keys(P[st.tipo]).forEach(function(dim){
+      if(suf(dim)!==suf(st.dim)||!pccHayStock(dim))return;
+      var s=pccDimSheet(dim);if(!s)return;
+      var r=pccAjusteEn(p,s);if(!r)return;
+      var costo=r.n*pccPrecio(dim);if(!costo)return;
+      var mejor=!best||costo<best.costo-1||(Math.abs(costo-best.costo)<=1&&(r.red<best.red||(r.red===best.red&&dim===st.dim)));
+      if(mejor)best={dim:dim,s:s,w:r.w,h:r.h,n:r.n,red:r.red,r:r.r,costo:costo};
+    });
+    return best;
+  }
+  function pccModoInicial(p){
+    if(pccPrefMedida==='ajustar'||pccPrefMedida==='exacta')return pccPrefMedida;
+    return(p.w%10===0&&p.h%10===0)?'ajustar':'exacta';
+  }
+  function pccDifTxt(p,a){
+    var dw=p.w-a.w,dh=p.h-a.h;
+    if(dw===dh)return '−'+dw+' mm por lado';
+    var t=[];if(dw)t.push('−'+dw+' mm de ancho');if(dh)t.push('−'+dh+' mm de alto');
+    return t.join(' y ');
+  }
+  function pccRecomendador(pieces,Nsh,iguales){
+    pccUltAjuste=null;
+    var st=window._ppState;
+    var fmt=pccRecoFormato(pieces,Nsh,iguales),fmtCosto=(fmt&&pccUltReco)?pccUltReco.costo:null;
+    var aj=null,p=pieces&&pieces[0];
+    if(iguales&&p&&st&&Nsh){
+      var costoAct=Nsh*pccPrecio(st.dim),key='a|'+st.dim+'|'+p.w+'x'+p.h+'x'+p.qty;
+      aj=pccMejorAjuste(p);
+      // Solo si ahorra de verdad ($1.000 o más) y, si hay recomendación de formato, si es más barata que esa
+      if(aj&&(costoAct-aj.costo<1000||(fmtCosto!==null&&aj.costo>=fmtCosto-1)||pccRecoDescartada===key))aj=null;
+    }
+    if(!fmt&&!aj)return '';
+    var ajHtml='';
+    if(aj){
+      pccUltAjuste={dim:aj.dim,w:aj.w,h:aj.h,qty:p.qty,de:{w:p.w,h:p.h}};
+      var pzAj=[{w:aj.w,h:aj.h,qty:p.qty}],medNew=pccFmtCm(aj.w)+' × '+pccFmtCm(aj.h)+' cm';
+      var pctAj=Math.round(aj.w*aj.h*p.qty/(aj.n*aj.s.w*aj.s.h)*100);
+      var otroFmt=aj.dim!==st.dim;
+      ajHtml='<div class="pcc-r-panel" data-op="ajustar">'+
+        '<div class="pcc-s-cab"><div class="pcc-r-tit">Ahorra '+pccMoneda(costoAct-aj.costo)+'</div><div class="pcc-s-meta">'+pctAj+'% aprovechado</div></div>'+
+        '<div class="pcc-r-sub">Tus piezas a <b>'+medNew+'</b> ('+pccDifTxt(p,aj)+')'+(otroFmt?' en otro formato':'')+'</div>'+
+        '<div class="pcc-minis pcc-minis-c">'+pccMinis(aj.r.sheets,aj.s,pzAj,6,false)+'</div>'+
+        '<div class="pcc-s-fila"><div><div class="pcc-s-n">'+aj.n+(aj.n===1?' plancha':' planchas')+' · '+pccDimLabel(aj.dim)+'</div>'+
+          '<div class="pcc-s-cu">'+pccMoneda(pccPrecio(aj.dim))+' c/u</div></div>'+
+        '<div class="pcc-r-precio">'+pccMoneda(aj.costo)+'</div></div>'+
+        '<button type="button" class="pcc-r-btn" onclick="pccContinuarAjuste()">Continuar con '+medNew+'</button>'+
+        '<div class="pcc-r-nota">Pediste '+pccFmtCm(p.w)+' × '+pccFmtCm(p.h)+' cm. Cada corte de sierra consume '+K+' mm.</div>'+
+      '</div>';
+    }
+    var ambos=!!(fmt&&ajHtml),modo=ambos?pccModoInicial(p):(ajHtml?'ajustar':'exacta');
+    var sel=ambos
+      ?'<div class="pcc-r-sel" role="group" aria-label="¿Tus medidas pueden variar unos milímetros?">'+
+          '<button type="button" data-m="ajustar" aria-pressed="'+(modo==='ajustar')+'" onclick="pccModoReco(this,\'ajustar\')">Ajustar medidas</button>'+
+          '<button type="button" data-m="exacta" aria-pressed="'+(modo==='exacta')+'" onclick="pccModoReco(this,\'exacta\')">Mantener mis medidas</button>'+
+        '</div>':'';
+    return '<div class="pcc-slide pcc-slide-reco" role="group" aria-label="Recomendación de ahorro" data-modo="'+modo+'">'+
+      '<div class="pcc-r-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Recomendación Polyplas</div>'+
+      sel+(fmt||'')+ajHtml+
+    '</div>';
+  }
+  window.pccModoReco=function(btn,modo){
+    var card=btn&&btn.closest('.pcc-slide-reco');if(!card)return;
+    card.setAttribute('data-modo',modo);
+    card.querySelectorAll('.pcc-r-sel button').forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-m')===modo));});
+    pccPrefMedida=modo;
+    try{sessionStorage.setItem('pccPrefMedida',modo);}catch(e){}
+    if(window.ppPaso)try{window.ppPaso('conf_reco_modo','calc',{modo:modo});}catch(e){}
+    setTimeout(window.pccCarrUpd,0);
+  };
+  /* Un toque: aplicar las medidas ajustadas (y el formato, si cambia) y seguir al resumen */
+  window.pccContinuarAjuste=function(){
+    var A=pccUltAjuste,st=window._ppState;
+    if(!A||!st)return;
+    if(A.dim!==st.dim&&pccHayStock(A.dim)){
+      st.dim=A.dim;
+      try{if(typeof window._ppUpdatePrice==='function')window._ppUpdatePrice();}catch(e){}
+      try{renderCorteResumen();}catch(e){}
+      var sh=sheet(),bn=document.querySelector('#pccCalc .pcc-banner');
+      if(bn&&sh)bn.textContent=sh.h/10+' x '+sh.w/10+' cm'+(st.esp?(' · Espesor '+st.esp):'')+' · Sierra '+K+' mm incluida';
+    }
+    var row=document.querySelector('#pccList .pcc-row');
+    if(row){
+      var id=row.id.replace('pccR_',''),wq=g('pccW_'+id),hq=g('pccH_'+id),qq=g('pccQ_'+id);
+      if(wq){wq.value=A.w/10;wq.classList.remove('err');}
+      if(hq){hq.value=A.h/10;hq.classList.remove('err');}
+      if(qq)qq.value=A.qty;
+    }
+    window._pccAjuste={de:A.de,a:{w:A.w,h:A.h}};
+    if(window.ppPaso)try{window.ppPaso('conf_continuar_ajuste','calc',{dim:A.dim,ancho:A.w/10,alto:A.h/10,de_ancho:A.de.w/10,de_alto:A.de.h/10});}catch(e){}
+    window.pccCalc();
+    setTimeout(function(){if(lastRes&&lastRes.sheets&&lastRes.sheets.length&&!lastRes.unp.length)window.pccOk();},60);
+  };
+  /* Nota para el taller: si el cliente aceptó el ajuste, el pedido dice la medida original */
+  function pccAjusteVigente(pieces){
+    var A=window._pccAjuste;
+    if(!A||!pieces||pieces.length!==1)return null;
+    return(pieces[0].w===A.a.w&&pieces[0].h===A.a.h)?A:null;
+  }
+  window.pccNotaAjuste=function(){
+    var A=window._pccCalcInfo&&window._pccCalcInfo.ajuste;
+    if(!A)return '';
+    return ' · Medida ajustada por el cliente (pidió '+pccFmtCm(A.de.w)+'×'+pccFmtCm(A.de.h)+' cm)';
+  };
 
   /* Un toque: cambiar la medida de plancha y recalcular con las mismas piezas */
   window.pccCambiarMedida=function(dim){
@@ -10205,7 +10347,6 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     var igualesNow=curMode==='iguales'&&allSameNow;
     if(res.unp.length)html+='<div class="pcc-al al-err">&#9888; '+res.unp.length+(res.unp.length===1?' pieza no cabe':' piezas no caben')+' en la plancha. Revisa sus medidas.</div>';
     pccCostoSierra=0;pccUltSierra=null;
-    if(igualesNow&&!res.unp.length)pccSugerenciaSierra(pieces[0],sh,Nsh); // solo para "Otra opción"
     var reco=!res.unp.length?pccRecomendador(pieces,Nsh,igualesNow):'';
     pccUltPlano=null;
     if(Nsh>0){
@@ -10293,7 +10434,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       // Guardar info de piezas para el resumen del pedido
       var tot=pieces.reduce(function(s,p){return s+p.qty;},0);
       window._pccClave=pccClaveActual();
-      window._pccCalcInfo = {pieces:pieces, Nsh:Nsh, tot:tot, mode:mode, svgs:lastSvgs||[],
+      window._pccCalcInfo = {pieces:pieces, Nsh:Nsh, tot:tot, mode:mode, svgs:lastSvgs||[], ajuste:(mode==='iguales'?pccAjusteVigente(pieces):null),
         placedSheets:res.sheets.map(function(s){return s.placed.map(function(p){return{x:p.x,y:p.y,W:p.W,H:p.H};});})
       };
       var pInfo=g('paso3PiezasInfo');
@@ -10485,7 +10626,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
   window.pccReset=function(){
     try{clearAll();}catch(e){}
     lastRes=null;lastPieces=null;curMode=null;paso4Ready=false;N=0;
-    window._pccCurrentModo='none';window._pccCalcInfo=null;window._pccClave=null;window._pccPend=null;
+    window._pccCurrentModo='none';window._pccCalcInfo=null;window._pccClave=null;window._pccPend=null;window._pccAjuste=null;
     pccSugDescartada='';pccRecoDescartada='';
     H.classList.remove('pcc-paso3','pcc-paso4');
     var w=g('corteSectionWrapper');if(w)w.style.display='none';
