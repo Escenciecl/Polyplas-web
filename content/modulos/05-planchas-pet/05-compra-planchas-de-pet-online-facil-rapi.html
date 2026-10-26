@@ -10314,7 +10314,9 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
         :totPz+(totPz===1?' pieza':' piezas')+' en '+pieces.length+(pieces.length===1?' medida':' medidas');
       var cap=(igualesNow?maxPps+(maxPps===1?' pieza':' piezas')+' por plancha · ':'')+'el sobrante es tuyo';
       var porSierra=igualesNow?pccPorSierra(pieces[0],sh):null;
-      if(porSierra&&totPz>porSierra.con)cap='Caben '+porSierra.con+' por plancha y no '+porSierra.sin+': cada corte de sierra consume '+K+' mm · el sobrante es tuyo';
+      // Solo se explica si la sierra hace que el pedido necesite más planchas, y en relación a SU pedido
+      var nSin=porSierra?Math.ceil(totPz/porSierra.sin):0;
+      if(porSierra&&nSin<Nsh)cap='Necesitas '+Nsh+(Nsh===1?' plancha':' planchas')+' y no '+nSin+' porque cada corte de sierra consume '+K+' mm: caben '+porSierra.con+(porSierra.con===1?' pieza':' piezas')+' por plancha · el sobrante es tuyo';
       pccUltPlano={sheets:res.sheets,sh:sh,pieces:pieces};
       var plan='<div class="pcc-slide pcc-slide-plan'+(reco?' pcc-opcion':'')+'" role="group" aria-label="Así queda tu corte"'+(reco?' onclick="pccElegir(\'actual\')"':'')+'>'+
         '<div class="pcc-s-cab"><div class="pcc-s-tit">Así queda tu corte</div><div class="pcc-s-meta">'+pccSobraTxt(100-waste)+'</div></div>'+
