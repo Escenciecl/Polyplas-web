@@ -147,7 +147,7 @@ Volver al inicio
 <div class="ppG-detail-row"><span>Mensaje / glosa</span><strong id="ppG-tr-glosa"></strong></div>
 </div>
 <button class="ppG-btn ppG-btn--outline" id="ppG-tr-copiar" type="button">Copiar datos de la cuenta</button>
-<a data-wa-fijo="" href="https://wa.me/56942086751" id="ppG-tr-wa" rel="noopener" style="text-decoration:none;display:block" target="_blank"><button class="ppG-btn ppG-btn--solid" type="button">Enviar comprobante por WhatsApp</button></a>
+<button class="ppG-btn ppG-btn--solid" data-wa-fijo="" id="ppG-tr-wa" type="button">Enviar comprobante por WhatsApp</button>
 <p style="font-size:0.8rem;color:#666;margin:-2px 0 12px">Se abre WhatsApp con el mensaje listo. Solo adjunta la foto o PDF del comprobante.</p>
 <p style="font-size:0.85rem;color:#666">O escríbenos a <a href="mailto:ventas@polyplas.cl">ventas@polyplas.cl</a>. Preparamos tu pedido apenas confirmemos el pago.</p>
 <button class="ppG-btn ppG-btn--outline" onclick="window.location.href='/'">Volver al inicio</button>
@@ -254,9 +254,15 @@ var trMsg = '🏦 COMPROBANTE DE TRANSFERENCIA\n' +
   (trDatos.nombre ? '• A nombre de: ' + trDatos.nombre + '\n' : '') +
   (trDatos.rut ? '• RUT: ' + trDatos.rut + '\n' : '') +
   '\n📎 Adjunto la imagen o PDF del comprobante.';
-if (trWa) trWa.href = 'https://wa.me/56942086751?text=' + encodeURIComponent(trMsg);
-// Por si otro script cambia el enlace de WhatsApp: al tocar se vuelve a poner este mensaje
-if (trWa) trWa.addEventListener('click', function () { trWa.href = 'https://wa.me/56942086751?text=' + encodeURIComponent(trMsg); });
+// Es un botón (no un enlace a wa.me) a propósito: una etiqueta de Google Tag Manager intercepta
+// los clics en enlaces de WhatsApp y abre su propio mensaje genérico. Así el comprobante sale con su texto.
+if (trWa) trWa.addEventListener('click', function (ev) {
+  ev.preventDefault(); ev.stopPropagation();
+  var url = 'https://wa.me/56942086751?text=' + encodeURIComponent(trMsg);
+  var w = null; try { w = window.open(url, '_blank'); if (w) w.opener = null; } catch (e) {}
+  if (!w) window.location.href = url;
+  try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'whatsapp_comprobante', transaction_id: trOrden }); } catch (e) {}
+});
 // Aún no es una compra pagada: se registra como pedido pendiente (no "purchase")
 try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'pedido_transferencia', transaction_id: trOrden, value: parseInt(params.get('monto') || '0'), currency: 'CLP' }); } catch (e) {}
 window.history.replaceState({}, '', window.location.pathname + '#pedido');
