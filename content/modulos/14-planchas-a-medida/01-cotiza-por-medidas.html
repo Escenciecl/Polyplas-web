@@ -453,7 +453,7 @@ function fitInfo(){
 }
 function step2Ready(){const f=fitInfo();return !!(f&&f.ok);}
 function renderP2(){
-  const mats=MATS.map(m=>{const has=inStock(rowsFor(m.k));return `<button type="button" class="opt" data-mat="${m.k}" aria-pressed="${S.mat===m.k}" ${has?"":"disabled"}><strong>${m.n}</strong><span>${m.u}</span></button>`;}).join("")+
+  const mats=MATS.map(m=>{const has=inStock(rowsFor(m.k));return `<button type="button" class="opt" data-mat="${m.k}" aria-pressed="${S.mat===m.k&&!S.help}" ${has?"":"disabled"}><strong>${m.n}</strong><span>${m.u}</span></button>`;}).join("")+
     `<button type="button" class="opt help" id="ppcm-helpbtn" aria-pressed="${S.help}"><strong>No sé, ayúdame</strong><span>Te sugerimos según el uso</span></button>`;
   let html=`<h2>¿Qué plancha quieres?</h2><p class="lead">Elige el material, el color y el espesor. Solo te mostramos lo que tenemos disponible.</p>
     <div><div class="label">Material</div><div class="mats">${mats}</div></div>`;
@@ -581,7 +581,7 @@ ROOT.addEventListener("click",e=>{
   if(t.dataset.go){go(+t.dataset.go);return;}
   if(t.id==="ppcm-add"){S.pieces.push({w:"",h:"",q:"1"});S.example=false;render();const i=S.pieces.length-1;document.getElementById(`ppcm-p${i}w`).focus();return;}
   if(t.dataset.del){S.pieces.splice(+t.dataset.del,1);render();return;}
-  if(t.dataset.mat){setMat(t.dataset.mat);render();return;}
+  if(t.dataset.mat){S.help=false;setMat(t.dataset.mat);render();return;}
   if(t.id==="ppcm-helpbtn"){S.help=!S.help;render();return;}
   if(t.dataset.uso){const u=USOS[+t.dataset.uso];setMat(u.mat);if(!S.color)S.color="clear";if(inStock(rowsFor(S.mat,S.color,u.esp)))S.esp=u.esp;else autoEsp();S.help=false;render();return;}
   if(t.dataset.color){S.color=t.dataset.color;S.chosen=null;autoEsp();render();return;}
