@@ -422,5 +422,9 @@
  {
   "source": "/politicas-de-devolucion-y-garantia/",
   "destination": "/terminos-y-condiciones/"
+ },
+ {
+  "source": "/planchas-a-medida/",
+  "destination": "/acrilico-a-medida/"
  }
 ]
