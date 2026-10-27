@@ -104,7 +104,7 @@
 #ppcm .lead{margin:-12px 0 0;color:var(--muted);font-size:15px}
 #ppcm .label{font-size:10.4px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:var(--label);margin-bottom:10px}
 #ppcm .prow{display:grid;grid-template-columns:28px 1fr 1fr 1fr 36px;gap:12px;align-items:end}
-#ppcm .prow .n{font-size:12px;font-weight:700;color:var(--muted);padding-bottom:30px}
+#ppcm .prow .n{font-size:12px;font-weight:700;color:var(--muted);padding-bottom:38px}
 #ppcm .field label{display:block;font-size:14px;color:#374151;margin-bottom:6px}
 #ppcm .field input{width:100%;font:inherit;font-size:16px;padding:13px 14px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
 #ppcm .field input:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(27,58,92,.15)}
@@ -300,6 +300,12 @@
 #ppcm .ab-sel{display:block;font-size:13px;font-weight:600;color:var(--muted)}
 #ppcm .ab-iva{font-size:12.5px;color:var(--muted);font-weight:500}
 #ppcm .ab-info b{margin-left:0}
+
+/* En esta página la barra del cotizador va pegada abajo: el botón del chat sube para no taparla (solo computador; en celular el chat ya va al costado) */
+@media (min-width:481px){
+  body:has(#ppcm) #polyplas-fab{bottom:calc(110px + env(safe-area-inset-bottom,0px))!important}
+  body:has(#ppcm) #polyplas-window{bottom:calc(182px + env(safe-area-inset-bottom,0px))!important;max-height:calc(100vh - 210px)}
+}
 </style>
 <script>
 (function(){
@@ -383,7 +389,7 @@ function pack(items,W,H){
 const fits=(p,r)=>(p.w<=r.W&&p.h<=r.H)||(p.h<=r.W&&p.w<=r.H);
 
 /* ---------- Estado ---------- */
-const S={step:1,pieces:[{w:"60",h:"40",q:"9"}],example:true,mat:null,color:null,esp:null,tol:false,help:false,chosen:null,added:false,touched:false};
+const S={step:1,pieces:[{w:"",h:"",q:"1"}],example:false,mat:null,color:null,esp:null,tol:false,help:false,chosen:null,added:false,touched:false};
 
 function validPieces(){
   return S.pieces.map(p=>{const w=parseFloat(String(p.w).replace(",",".")),h=parseFloat(String(p.h).replace(",",".")),q=parseInt(p.q,10);
@@ -475,7 +481,7 @@ function renderP1(){
     <div class="tiles">${tiles||'<p class="hint">Escribe una medida y la verás dibujada aquí.</p>'}${total>drawn?`<div class="tile more-t">+${total-drawn} más</div>`:""}</div>
   </aside></div>`;
   const tot=ok.reduce((s,p)=>s+p.q,0);
-  actionbar(`<b>${tot}</b> pieza${tot===1?"":"s"} en ${ok.length} medida${ok.length===1?"":"s"}`,null,"Continuar",v.every(p=>p.ok),()=>{S.touched=true;if(validPieces().every(p=>p.ok))go(2);else render();});
+  actionbar(tot?`<b>${tot}</b> pieza${tot===1?"":"s"} en ${ok.length} medida${ok.length===1?"":"s"}`:"Ingresa tus medidas para continuar",null,"Continuar",v.every(p=>p.ok),()=>{S.touched=true;if(validPieces().every(p=>p.ok))go(2);else render();});
 }
 
 /* Paso 2 */
