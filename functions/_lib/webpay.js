@@ -152,7 +152,7 @@ function corteHtml(item) {
 }
 
 /* ------------------------------------------------------------------ comprobante */
-export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, entrega, nSheets, inlineCid, imgUrl, pendiente = false, extraHtml = "" }) {
+export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, entrega, nSheets, inlineCid, imgUrl, pendiente = false, extraHtml = "", medioPago = "", intro = "" }) {
   const c = client || {};
   const tipo = c.tipo || "Persona Natural";
   const empresa = tipo === "Empresa";
@@ -206,7 +206,7 @@ export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, ent
         <td style="background:#004a99;padding:32px 40px;text-align:center;">
             <img src="https://polyplas.cl/wp-content/uploads/2022/07/marca-polyplas-1.svg" alt="Polyplas" width="140" style="display:block;margin:0 auto 16px;">
             <div style="display:inline-block;background:${pendiente ? "#f0a500" : "#34a853"};padding:6px 18px;border-radius:20px;">
-                <span style="color:#ffffff;font-size:0.78rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;">${pendiente ? "&#9203; &nbsp;Pendiente de pago" : "&#10003; &nbsp;Pago aprobado"}</span>
+                <span style="color:#ffffff;font-size:0.78rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;">${pendiente ? "&#9203; &nbsp;Pendiente de pago" : medioPago === "Transferencia" ? "&#10003; &nbsp;Transferencia recibida" : "&#10003; &nbsp;Pago aprobado"}</span>
             </div>
             <h1 style="color:#ffffff;font-size:1.5rem;margin:16px 0 4px;">${pendiente ? "Pedido recibido" : "Comprobante de compra"}</h1>
             <p style="color:rgba(255,255,255,0.7);margin:0;font-size:0.88rem;">Orden N&deg; ${esc(buyOrder)}</p>
@@ -215,7 +215,7 @@ export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, ent
     <tr>
         <td style="padding:32px 40px 0;">
             <p style="font-size:1rem;color:#1a1a2e;margin:0 0 8px;">${saludo},</p>
-            <p style="font-size:0.92rem;color:#555;margin:0;">${pendiente ? "Recibimos tu pedido. Para completarlo, transfiere el total a la cuenta que aparece abajo y env&iacute;anos el comprobante." : "Tu pago fue procesado correctamente. Aqu&iacute; tienes el detalle de tu compra."}</p>
+            <p style="font-size:0.92rem;color:#555;margin:0;">${intro ? intro : pendiente ? "Recibimos tu pedido. Para completarlo, transfiere el total a la cuenta que aparece abajo y env&iacute;anos el comprobante." : "Tu pago fue procesado correctamente. Aqu&iacute; tienes el detalle de tu compra."}</p>
         </td>
     </tr>
     <tr>
@@ -225,11 +225,11 @@ export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, ent
                     <table width="100%" cellpadding="0" cellspacing="0">
                         <tr>
                             <td style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:1px;">${pendiente ? "Total a transferir" : "Total pagado"}</td>
-                            <td style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:1px;text-align:right;">${pendiente ? "Medio de pago" : "C&oacute;digo autorizaci&oacute;n"}</td>
+                            <td style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:1px;text-align:right;">${pendiente || medioPago ? "Medio de pago" : "C&oacute;digo autorizaci&oacute;n"}</td>
                         </tr>
                         <tr>
                             <td style="font-size:1.8rem;font-weight:700;color:#004a99;letter-spacing:1px;">${esc(montoFmt)}</td>
-                            <td style="font-size:1rem;font-weight:600;color:#1a1a2e;text-align:right;">${pendiente ? "Transferencia" : esc(auth)}</td>
+                            <td style="font-size:1rem;font-weight:600;color:#1a1a2e;text-align:right;">${pendiente ? "Transferencia" : medioPago ? esc(medioPago) : esc(auth)}</td>
                         </tr>
                         <tr><td style="font-size:0.72rem;color:#888;padding-top:2px;">IVA incluido</td><td></td></tr>
                     </table>
@@ -341,6 +341,8 @@ export async function enviarComprobante(env, order, tbk, opts = {}) {
     imgUrl,
     pendiente: !!opts.pendiente,
     extraHtml: opts.extraHtml || "",
+    medioPago: opts.medioPago || "",
+    intro: opts.intro || "",
   });
 
   // Adjuntos iguales a WordPress: comprobante HTML + diagrama-cortes.pdf

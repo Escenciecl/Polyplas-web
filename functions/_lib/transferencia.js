@@ -135,3 +135,46 @@ export async function registrarTransferenciaEnSupabase(order) {
   });
   return convId;
 }
+
+/* ------------------------------------------------------------ confirmación del pago */
+const sbHeaders = (extra = {}) => ({
+  apikey: SUPABASE_KEY,
+  Authorization: `Bearer ${SUPABASE_KEY}`,
+  "Content-Type": "application/json",
+  ...extra,
+});
+
+/** Lee el pedido (conversación) del CRM. */
+export async function leerPedidoCRM(convId) {
+  const r = await fetch(`${SUPABASE_URL}/conversations?id=eq.${encodeURIComponent(convId)}&select=id,client_name,client_email,metadata`, { headers: sbHeaders() });
+  if (!r.ok) throw new Error("crm " + r.status);
+  const filas = await r.json();
+  return filas && filas[0] ? filas[0] : null;
+}
+
+/**
+ * Marca el pedido como "transferencia recibida" SOLO si aún no se había avisado.
+ * El filtro confirmacion_enviada=is.null hace que dos clics seguidos no manden dos correos:
+ * el segundo no encuentra filas para actualizar.
+ * Devuelve true si este llamado es el que debe enviar el correo.
+ */
+export async function marcarTransferenciaRecibida(conv) {
+  const md = conv.metadata || {};
+  const nuevo = { ...md, estado_pago: "pagado", confirmacion_enviada: new Date().toISOString() };
+  const r = await fetch(
+    `${SUPABASE_URL}/conversations?id=eq.${encodeURIComponent(conv.id)}&metadata->>confirmacion_enviada=is.null`,
+    { method: "PATCH", headers: sbHeaders({ Prefer: "return=representation" }), body: JSON.stringify({ metadata: nuevo }) },
+  );
+  if (!r.ok) throw new Error("crm " + r.status + " " + (await r.text()).slice(0, 200));
+  const filas = await r.json();
+  return Array.isArray(filas) && filas.length > 0;
+}
+
+/** Deja una nota en la conversación del CRM (historial). */
+export async function notaCRM(convId, texto) {
+  await fetch(`${SUPABASE_URL}/messages`, {
+    method: "POST",
+    headers: sbHeaders({ Prefer: "return=minimal" }),
+    body: JSON.stringify({ conversation_id: convId, sender: "client", content: texto }),
+  });
+}
