@@ -279,7 +279,7 @@
 #ppcm .oc-diff{font-size:13px;font-weight:600;color:var(--muted)}
 #ppcm .ocard.is-best .oc-diff{color:var(--ok)}
 #ppcm .oc-fmt{font-size:15.5px;font-weight:700;color:var(--ink-2);margin-top:6px}
-#ppcm .oc-mat{font-size:13.5px;color:#475569}
+#ppcm .oc-mat{display:grid;gap:4px;justify-items:start}#ppcm .oc-line{font-size:12.5px;font-weight:700;padding:3px 9px;border-radius:6px;border:1px solid}#ppcm .line-aa{background:#eef4f8;color:#1f4e6b;border-color:#cfe0ea}#ppcm .line-pa{background:#f1efff;color:#4338a8;border-color:#d6d1f7}#ppcm .oc-desc{font-size:13px;color:var(--muted)}#ppcm .oc-foot{flex-direction:column;align-items:stretch}#ppcm .oc-use{display:grid;gap:6px}#ppcm .oc-bar{display:block;height:8px;border-radius:4px;background:var(--line);overflow:hidden}#ppcm .oc-bar i{display:block;height:100%;background:var(--navy);border-radius:4px}#ppcm .ocard.is-best .oc-bar i{background:var(--ok-strong)}#ppcm .oc-foot .pill{align-self:flex-start}
 #ppcm .oc-thumb{display:flex;align-items:flex-end;gap:6px;margin-top:6px}
 #ppcm .oc-thumb svg{width:120px;height:auto}
 #ppcm .oc-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px;margin-top:4px}
@@ -428,7 +428,7 @@ function rank(opts){
   const cards=[{o:ok[0],tag:"Recomendada",best:true}];
   const lw=ok.slice(1).filter(o=>o.waste<ok[0].waste-0.05).sort((a,b)=>a.waste-b.waste)[0];
   if(lw)cards.push({o:lw,tag:"Menos sobrante"});
-  if(S.mat==="acrilico"&&ok[0].r.linea!=="PA"){const pa=ok.find(o=>o.r.linea==="PA"&&!cards.some(c=>c.o===o));if(pa)cards.push({o:pa,tag:"Mejor calidad"});}
+  if(S.mat==="acrilico"&&ok[0].r.linea!=="PA"){const pa=ok.find(o=>o.r.linea==="PA"&&!cards.some(c=>c.o===o));if(pa)cards.push({o:pa,tag:"100% virgen"});}
   const used=new Set(cards.map(c=>c.o));
   return {cards,rest:opts.filter(o=>!used.has(o))};
 }
@@ -531,8 +531,10 @@ function autoEsp(){if(!S.color){S.esp=null;return;}const es=espsFor(S.mat,S.colo
 
 /* Paso 3 */
 function plainMat(r){
-  if(r.mat==="acrilico")return r.linea==="PA"?"Acrílico 100% virgen · más transparente y duradero":"Acrílico económico (línea AA)";
-  return MATS.find(m=>m.k===r.mat).n;
+  if(r.mat==="acrilico")return r.linea==="PA"
+    ?'<span class="oc-line line-pa">Acrílico 100% virgen (PA)</span><span class="oc-desc">Máxima transparencia y brillo</span>'
+    :'<span class="oc-line line-aa">Acrílico Mix (AA)</span><span class="oc-desc">El más económico, para la mayoría de los usos</span>';
+  return `<span class="oc-line line-aa">${MATS.find(m=>m.k===r.mat).n}</span>`;
 }
 const m2=mm2=>(mm2/1e6).toFixed(1).replace(".",",");
 function renderP3(){
@@ -580,7 +582,7 @@ function renderP3(){
 function optCard(o,tag,isBest,best){
   const r=o.r,on=o.r.id===S.sel;
   const diff=o.total-best.total;
-  const sobra=o.N*r.W*r.H*o.waste;
+  const uso=Math.round((1-o.waste)*100);
   return `<button type="button" class="ocard ${on?"on":""} ${isBest?"is-best":""}" role="radio" aria-checked="${on}" data-sel="${r.id}">
     <span class="oc-top"><span class="oc-tag">${tag||"Otro formato"}</span><span class="oc-radio" aria-hidden="true"></span></span>
     <span class="oc-price">${money(o.total)}</span>
@@ -588,7 +590,7 @@ function optCard(o,tag,isBest,best){
     <span class="oc-fmt">${o.N} plancha${o.N===1?"":"s"} de ${fmtDim(r)}</span>
     <span class="oc-mat">${plainMat(r)}</span>
     <span class="oc-thumb">${sheetSVG(r,o.sheets[0],120)}${o.N>1?`<span class="more">×${o.N}</span>`:""}</span>
-    <span class="oc-foot"><span>Te sobran <b>${m2(sobra)} m²</b>, que te llevas</span>${r.cant<=5?`<span class="pill warn">Quedan ${r.cant}</span>`:""}</span>
+    <span class="oc-foot"><span class="oc-use"><span class="oc-bar" aria-hidden="true"><i style="width:${uso}%"></i></span><span>Aprovechas el <b>${uso}%</b> · sobra ${100-uso}% (te lo llevas)</span></span>${r.cant<=5?`<span class="pill warn">Quedan ${r.cant}</span>`:""}</span>
   </button>`;
 }
 
