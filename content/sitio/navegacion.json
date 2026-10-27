@@ -20,7 +20,7 @@
         { "texto": "Planchas PET", "enlace": "/categoria-producto/planchas-pet/", "detalle": "Económicas y rígidas" },
         { "texto": "Planchas PETG", "enlace": "/categoria-producto/planchas-petg/", "detalle": "Grado alimenticio, termoformables" },
         { "texto": "Policarbonato compacto", "enlace": "/categoria-producto/policarbonato-compacto/", "detalle": "Alta resistencia al impacto" },
-        { "texto": "Cotiza por medidas", "enlace": "/planchas-a-medida/", "detalle": "Ingresa tus medidas y te decimos qué plancha comprar" }
+        { "texto": "Acrílico a medida", "enlace": "/acrilico-a-medida/", "detalle": "Ingresa tus medidas y te decimos qué plancha comprar" }
       ]
     },
     { "texto": "Cúpulas", "enlace": "/categoria-producto/cupulas/" },
