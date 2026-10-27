@@ -11166,7 +11166,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
 (function(){
   var _r='PP-'+Math.random().toString(36).slice(2,7).toUpperCase();
   var _m=encodeURIComponent('Hola, vengo de la web de Polyplas y quiero hacer una consulta. (Ref: '+_r+')');
-  function _upd(){document.querySelectorAll('a[href*="wa.me"],a[href*="whatsapp.com/send"]').forEach(function(a){a.href=a.href.split('?')[0]+'?text='+_m;});}
+  function _upd(){document.querySelectorAll('a[href*="wa.me"]:not([data-wa-fijo]),a[href*="whatsapp.com/send"]:not([data-wa-fijo])').forEach(function(a){a.href=a.href.split('?')[0]+'?text='+_m;});}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',_upd);else _upd();
 })();
 </script>
