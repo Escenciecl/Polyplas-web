@@ -109,7 +109,7 @@
 #ppcm .field input{width:100%;font:inherit;font-size:16px;padding:13px 14px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
 #ppcm .field input:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(27,58,92,.15)}
 #ppcm .field.err input{border-color:var(--bad)}
-#ppcm .ferr{font-size:12px;color:var(--bad);margin-top:4px;min-height:18px}
+#ppcm .ferr{font-size:12px;color:var(--bad);margin-top:4px;min-height:18px}#ppcm .prow-note{grid-column:1/-1;margin:-6px 0 14px;font-size:13px;font-weight:600;color:var(--bad);background:var(--bad-soft);border:1px solid var(--bad-line);border-radius:8px;padding:8px 12px}#ppcm .ab-err{color:var(--bad);font-weight:700}
 #ppcm .icon-btn{all:unset;cursor:pointer;width:36px;height:46px;margin-bottom:22px;display:grid;place-items:center;border-radius:10px;color:var(--muted);font-size:20px}
 #ppcm .icon-btn:hover{background:var(--sunk);color:var(--bad)}
 #ppcm .icon-btn:focus-visible{outline:2px solid var(--navy)}
@@ -393,8 +393,8 @@ const S={step:1,pieces:[{w:"",h:"",q:"1"}],example:false,mat:null,color:null,esp
 
 function validPieces(){
   return S.pieces.map(p=>{const w=parseFloat(String(p.w).replace(",",".")),h=parseFloat(String(p.h).replace(",",".")),q=parseInt(p.q,10);
-    const e={};if(!(w>0))e.w="Ingresa el ancho";else if(w<MIN_CM)e.w="Mín. 30 cm";
-    if(!(h>0))e.h="Ingresa el alto";else if(h<MIN_CM)e.h="Mín. 30 cm";
+    const e={};if(!(w>0))e.w="Ingresa el ancho";else if(w<MIN_CM)e.w="Mínimo 30 cm";
+    if(!(h>0))e.h="Ingresa el alto";else if(h<MIN_CM)e.h="Mínimo 30 cm";
     if(!(q>=1))e.q="Mín. 1";else if(q>300)e.q="Máx. 300";
     return {w,h,q,e,ok:!Object.keys(e).length};});
 }
@@ -459,10 +459,12 @@ function render(){
 /* Paso 1 */
 function renderP1(){
   const v=validPieces();
-  const rows=S.pieces.map((p,i)=>{const e=S.touched?v[i].e:{};return `<div class="prow">
+  const chica=x=>/^Mínimo/.test(x.e.w||"")||/^Mínimo/.test(x.e.h||"");
+  const rows=S.pieces.map((p,i)=>{const e=S.touched?v[i].e:Object.fromEntries(Object.entries(v[i].e).filter(([,m])=>/^M[íá]/.test(m)));return `<div class="prow">
     <div class="n">${String(i+1).padStart(2,"0")}</div>
     ${["w","h","q"].map(f=>`<div class="field ${e[f]?"err":""}"><label for="ppcm-p${i}${f}">${{w:"Ancho (cm)",h:"Alto (cm)",q:"Cantidad"}[f]}</label><input id="ppcm-p${i}${f}" data-i="${i}" data-f="${f}" inputmode="${f==="q"?"numeric":"decimal"}" value="${esc(p[f])}" placeholder="${{w:"ej: 80",h:"ej: 60",q:"1"}[f]}" autocomplete="off"><div class="ferr">${e[f]||""}</div></div>`).join("")}
     <button type="button" class="icon-btn" data-del="${i}" aria-label="Quitar pieza ${i+1}" ${S.pieces.length<2?"hidden":""}>×</button>
+    ${chica(v[i])?`<div class="prow-note" role="alert">El corte mínimo es 30 × 30 cm: piezas más chicas no se pueden cortar con la sierra y no entran en el cálculo.</div>`:""}
   </div>`;}).join("");
   const ok=v.filter(p=>p.ok);const maxD=Math.max(1,...ok.map(p=>Math.max(p.w,p.h)));
   const k=Math.min(1.7,150/maxD);const LIMIT=40;let drawn=0,total=0,tiles="";
@@ -481,7 +483,7 @@ function renderP1(){
     <div class="tiles">${tiles||'<p class="hint">Escribe una medida y la verás dibujada aquí.</p>'}${total>drawn?`<div class="tile more-t">+${total-drawn} más</div>`:""}</div>
   </aside></div>`;
   const tot=ok.reduce((s,p)=>s+p.q,0);
-  actionbar(tot?`<b>${tot}</b> pieza${tot===1?"":"s"} en ${ok.length} medida${ok.length===1?"":"s"}`:"Ingresa tus medidas para continuar",null,"Continuar",v.every(p=>p.ok),()=>{S.touched=true;if(validPieces().every(p=>p.ok))go(2);else render();});
+  actionbar(v.some(chica)?`<span class="ab-err">El corte mínimo es 30 × 30 cm</span>`:tot?`<b>${tot}</b> pieza${tot===1?"":"s"} en ${ok.length} medida${ok.length===1?"":"s"}`:"Ingresa tus medidas para continuar",null,"Continuar",v.every(p=>p.ok),()=>{S.touched=true;if(validPieces().every(p=>p.ok))go(2);else render();});
 }
 
 /* Paso 2 */
