@@ -1847,7 +1847,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
       }
       if (!data || !data.ok || !data.orden) { if (e2){ e2.textContent=(data&&data.message)||'No pudimos registrar tu pedido. Intenta de nuevo.'; e2.style.display='block'; } listo(); return; }
       if (window.ppPaso) try { window.ppPaso('pedido_transferencia', 'gc', { valor: total, orden: data.orden }); } catch(e){}
-      try { sessionStorage.setItem('pp_transferencia', JSON.stringify({ orden: data.orden, total: data.total, email: client.email || '' })); } catch(e){}
+      try { sessionStorage.setItem('pp_transferencia', JSON.stringify({ orden: data.orden, total: data.total, email: client.email || '', nombre: client.nombre || client.razon || '', rut: client.rut || '' })); } catch(e){}
       // Pedido registrado: se vacía el carrito y se muestran los datos para transferir
       gcItems = []; gcClearStore();
       document.dispatchEvent(new CustomEvent('ppGCCartCleared'));

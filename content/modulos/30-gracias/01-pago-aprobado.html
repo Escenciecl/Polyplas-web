@@ -148,6 +148,7 @@ Volver al inicio
 </div>
 <button class="ppG-btn ppG-btn--outline" id="ppG-tr-copiar" type="button">Copiar datos de la cuenta</button>
 <a href="https://wa.me/56942086751" id="ppG-tr-wa" rel="noopener" style="text-decoration:none;display:block" target="_blank"><button class="ppG-btn ppG-btn--solid" type="button">Enviar comprobante por WhatsApp</button></a>
+<p style="font-size:0.8rem;color:#666;margin:-2px 0 12px">Se abre WhatsApp con el mensaje listo. Solo adjunta la foto o PDF del comprobante.</p>
 <p style="font-size:0.85rem;color:#666">O escríbenos a <a href="mailto:ventas@polyplas.cl">ventas@polyplas.cl</a>. Preparamos tu pedido apenas confirmemos el pago.</p>
 <button class="ppG-btn ppG-btn--outline" onclick="window.location.href='/'">Volver al inicio</button>
 </div>
@@ -243,7 +244,17 @@ if (trBtn) trBtn.onclick = function () {
   try { navigator.clipboard.writeText(trTexto).then(ok, function () { window.prompt('Copia los datos:', trTexto); }); } catch (e) { window.prompt('Copia los datos:', trTexto); }
 };
 var trWa = document.getElementById('ppG-tr-wa');
-if (trWa) trWa.href = 'https://wa.me/56942086751?text=' + encodeURIComponent('Hola, envío el comprobante de transferencia del pedido ' + trOrden + ' por ' + trMonto + '.');
+// Mensaje listo para ventas: deja claro que es un COMPROBANTE DE TRANSFERENCIA y de qué pedido
+var trDatos = {}; try { trDatos = JSON.parse(sessionStorage.getItem('pp_transferencia') || '{}') || {}; } catch (e) {}
+if (trDatos.orden && trDatos.orden !== trOrden) trDatos = {};
+var trMsg = '🏦 COMPROBANTE DE TRANSFERENCIA\n' +
+  'Hola Polyplas, les envío el comprobante de la transferencia de mi pedido web.\n\n' +
+  '• N° de pedido: ' + trOrden + '\n' +
+  '• Monto transferido: ' + trMonto + '\n' +
+  (trDatos.nombre ? '• A nombre de: ' + trDatos.nombre + '\n' : '') +
+  (trDatos.rut ? '• RUT: ' + trDatos.rut + '\n' : '') +
+  '\n📎 Adjunto la imagen o PDF del comprobante.';
+if (trWa) trWa.href = 'https://wa.me/56942086751?text=' + encodeURIComponent(trMsg);
 // Aún no es una compra pagada: se registra como pedido pendiente (no "purchase")
 try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'pedido_transferencia', transaction_id: trOrden, value: parseInt(params.get('monto') || '0'), currency: 'CLP' }); } catch (e) {}
 window.history.replaceState({}, '', window.location.pathname + '#pedido');
