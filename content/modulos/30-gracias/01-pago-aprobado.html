@@ -70,6 +70,13 @@
 .ppG-detail-row strong { color: #1a1a2e; }
 .ppG-detail-row strong.ok    { color: #004a99; }
 .ppG-detail-row strong.green { color: #28a745; }
+.ppG-cuenta .ppG-detail-row strong { text-align: right; overflow-wrap: anywhere; }
+.ppG-cuenta .ppG-detail-row { gap: 12px; align-items: center; line-height: 1.35; padding: 8px 0 !important; }
+#ppG-tr .ppG-detail { padding: 10px 16px !important; margin-bottom: 18px !important; }
+#ppG-tr .ppG-btn { display: block; width: 100%; padding: 14px 16px !important; margin: 0 0 10px !important; letter-spacing: .3px; }
+#ppG-tr #ppG-tr-glosa, #ppG-tr #ppG-tr-orden { white-space: nowrap; }
+#ppG-tr p { margin-bottom: 18px !important; }
+#ppG-tr .ppG-icon { margin: 0 auto 16px !important; }
 
 .ppG-btn {
   padding: 14px 32px;
@@ -121,6 +128,28 @@
 <button class="ppG-btn ppG-btn--outline" onclick="window.location.href='/'">
 Volver al inicio
 </button>
+</div>
+<div id="ppG-tr" style="display:none">
+<div class="ppG-icon ppG-icon--ok" style="background:#fff3cd">
+<svg fill="none" height="34" stroke="#b7791f" stroke-width="2.2" viewbox="0 0 24 24" width="34"><path d="M3 10h18M5 10V20M19 10V20M9 10v10M15 10v10M2 21h20M12 3 2 9h20z"></path></svg>
+</div>
+<h1 class="pp-was-h2">Pedido recibido</h1>
+<p>Para completarlo, transfiere el total a esta cuenta y envíanos el comprobante.<br/>También te enviamos estos datos a tu correo.</p>
+<div class="ppG-detail ppG-cuenta">
+<div class="ppG-detail-row"><span>N° de pedido</span><strong class="ok" id="ppG-tr-orden"></strong></div>
+<div class="ppG-detail-row"><span>Monto a transferir</span><strong class="green" id="ppG-tr-monto"></strong></div>
+<div class="ppG-detail-row"><span>Titular</span><strong>POLYPLAS LTDA</strong></div>
+<div class="ppG-detail-row"><span>RUT</span><strong>78.844.390-0</strong></div>
+<div class="ppG-detail-row"><span>Banco</span><strong>Banco de Chile</strong></div>
+<div class="ppG-detail-row"><span>Tipo de cuenta</span><strong>Cuenta Corriente</strong></div>
+<div class="ppG-detail-row"><span>N° de cuenta</span><strong>159-02784-05</strong></div>
+<div class="ppG-detail-row"><span>Email</span><strong>ventas@polyplas.cl</strong></div>
+<div class="ppG-detail-row"><span>Mensaje / glosa</span><strong id="ppG-tr-glosa"></strong></div>
+</div>
+<button class="ppG-btn ppG-btn--outline" id="ppG-tr-copiar" type="button">Copiar datos de la cuenta</button>
+<a href="https://wa.me/56942086751" id="ppG-tr-wa" rel="noopener" style="text-decoration:none;display:block" target="_blank"><button class="ppG-btn ppG-btn--solid" type="button">Enviar comprobante por WhatsApp</button></a>
+<p style="font-size:0.85rem;color:#666">O escríbenos a <a href="mailto:ventas@polyplas.cl">ventas@polyplas.cl</a>. Preparamos tu pedido apenas confirmemos el pago.</p>
+<button class="ppG-btn ppG-btn--outline" onclick="window.location.href='/'">Volver al inicio</button>
 </div>
 <div id="ppG-fail" style="display:none">
 <div class="ppG-icon ppG-icon--fail">
@@ -199,6 +228,27 @@ if (!pago) return; // No hay resultado de pago: el bloque permanece oculto
 
 // Mostrar overlay a pantalla completa
 document.getElementById('ppG-wrap').style.display = 'block';
+
+if (pago === 'transferencia') {
+var trOrden = params.get('orden') || '—';
+var trMonto = '$ ' + parseInt(params.get('monto') || '0').toLocaleString('es-CL');
+document.getElementById('ppG-tr').style.display = 'block';
+document.getElementById('ppG-tr-orden').textContent = trOrden;
+document.getElementById('ppG-tr-monto').textContent = trMonto;
+document.getElementById('ppG-tr-glosa').textContent = 'Pedido ' + trOrden;
+var trTexto = 'POLYPLAS LTDA\nRUT 78.844.390-0\nBanco de Chile\nCuenta Corriente\nN° 159-02784-05\nventas@polyplas.cl\nMonto: ' + trMonto + '\nMensaje: Pedido ' + trOrden;
+var trBtn = document.getElementById('ppG-tr-copiar');
+if (trBtn) trBtn.onclick = function () {
+  var ok = function () { trBtn.textContent = '✓ Datos copiados'; setTimeout(function () { trBtn.textContent = 'Copiar datos de la cuenta'; }, 2500); };
+  try { navigator.clipboard.writeText(trTexto).then(ok, function () { window.prompt('Copia los datos:', trTexto); }); } catch (e) { window.prompt('Copia los datos:', trTexto); }
+};
+var trWa = document.getElementById('ppG-tr-wa');
+if (trWa) trWa.href = 'https://wa.me/56942086751?text=' + encodeURIComponent('Hola, envío el comprobante de transferencia del pedido ' + trOrden + ' por ' + trMonto + '.');
+// Aún no es una compra pagada: se registra como pedido pendiente (no "purchase")
+try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'pedido_transferencia', transaction_id: trOrden, value: parseInt(params.get('monto') || '0'), currency: 'CLP' }); } catch (e) {}
+window.history.replaceState({}, '', window.location.pathname + '#pedido');
+return;
+}
 
 if (pago === 'aprobado') {
 var monto = parseInt(params.get('monto') || '0');

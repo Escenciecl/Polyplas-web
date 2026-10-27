@@ -413,6 +413,17 @@
 .ppGC-btn-webpay:hover { background: #218838; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(40,167,69,.45); }
 .ppGC-btn-webpay:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
 .ppGC-webpay-note { text-align: center; font-size: 0.72rem; color: #888; margin-top: 10px; }
+/* Medio de pago: Webpay o transferencia */
+.ppGC-pay-opts { display: grid; gap: 8px; margin: 4px 0 2px; }
+.ppGC-pay-opt { display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 14px; border: 1.5px solid #ccd8ee; border-radius: 12px; background: #fff; font: inherit; text-align: left; cursor: pointer; transition: border-color .15s, background .15s; }
+.ppGC-pay-opt:hover { border-color: #004a99; }
+.ppGC-pay-opt.sel { border-color: #004a99; background: #f0f4fb; box-shadow: 0 0 0 1px #004a99; }
+.ppGC-pay-opt:focus-visible { outline: 3px solid #004a99; outline-offset: 2px; }
+.ppGC-pay-radio { flex: 0 0 18px; height: 18px; border-radius: 50%; border: 2px solid #9fb3d1; background: #fff; }
+.ppGC-pay-opt.sel .ppGC-pay-radio { border-color: #004a99; box-shadow: inset 0 0 0 4px #fff; background: #004a99; }
+.ppGC-pay-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.ppGC-pay-txt b { font-size: 0.95rem; color: #1a1a2e; }
+.ppGC-pay-txt small { font-size: 0.78rem; color: #666; line-height: 1.35; }
 
 @media (max-width: 480px) {
   #ppGC-fab { top: 14px; right: 16px; }
@@ -817,10 +828,15 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
 <div class="ppGC-terms-content" id="ppGC-terms-content"></div>
 </div>
 <div class="ppGC-form-error" id="ppGC-s2-err"></div>
-<p class="ppGC-webpay-note">Pago 100% seguro · Tarjetas de crédito y débito · SSL</p>
+<div class="ppGC-section-divider">Medio de pago</div>
+<div aria-label="Medio de pago" class="ppGC-pay-opts" role="radiogroup">
+<button aria-checked="true" class="ppGC-pay-opt sel" data-pago="webpay" onclick="ppGCSetPago('webpay')" role="radio" type="button"><span class="ppGC-pay-radio"></span><span class="ppGC-pay-txt"><b>Webpay</b><small>Tarjetas de crédito y débito · pago inmediato</small></span></button>
+<button aria-checked="false" class="ppGC-pay-opt" data-pago="transferencia" onclick="ppGCSetPago('transferencia')" role="radio" type="button"><span class="ppGC-pay-radio"></span><span class="ppGC-pay-txt"><b>Transferencia bancaria</b><small>Te damos los datos de la cuenta y nos envías el comprobante</small></span></button>
+</div>
+<p class="ppGC-webpay-note" id="ppGC-pay-note">Pago 100% seguro · Tarjetas de crédito y débito · SSL</p>
 <div class="ppGC-foot">
 <div class="ppGC-foot-row">
-<div class="ppGC-foot-total">Pagas ahora<b class="ppGC-foot-val" id="ppGC-modal-total">$ 0</b></div>
+<div class="ppGC-foot-total"><span id="ppGC-pay-lbl">Pagas ahora</span><b class="ppGC-foot-val" id="ppGC-modal-total">$ 0</b></div>
 <button class="ppGC-btn-webpay" disabled id="ppGC-btn-wp" onclick="ppGCSubmitCheckout()">Pagar con Webpay</button>
 </div>
 <div class="ppGC-foot-links">
@@ -949,7 +965,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     if (gcSelectedEntrega) {
       h += '<div class="ppGC-confirm-row"><span>' + gcEsc(gcSelectedEntrega.label) + (gcEsRegion() ? '<small>El flete lo pagas al recibir, a tu empresa de transporte</small>' : '') + (gcSelectedEntrega.needsAddress ? '<small>' + gcEsc(((gEl('ppgc_pn_dir')||{}).value||'') + ', ' + ((gEl('ppgc_pn_ciudad')||{}).value||'')) + '</small>' : '') + '</span><b>' + (gcEsRegion() ? 'Por pagar' : (gcSelectedEntrega.costo ? fmt(gcSelectedEntrega.costo) : 'Gratis')) + '</b></div>';
     }
-    h += '<div class="ppGC-confirm-row tot"><span>Pagas ahora</span><b>' + fmt(gcTotalPagar()) + '</b></div>';
+    h += '<div class="ppGC-confirm-row tot"><span>' + (gcPago === 'transferencia' ? 'Total a transferir' : 'Pagas ahora') + '</span><b>' + fmt(gcTotalPagar()) + '</b></div>';
     box.innerHTML = h;
   }
 
@@ -995,7 +1011,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     var faltaT = gcTermsModules().length && !gcTermsAccepted;
     var ok = selOk && !faltaT;
     wb.disabled = !ok; wb.style.opacity = ''; wb.style.cursor = '';
-    wb.textContent = faltaT ? 'Acepta los términos para pagar' : 'Pagar con Webpay';
+    wb.textContent = faltaT ? 'Acepta los términos para pagar' : (gcPago === 'transferencia' ? 'Confirmar pedido' : 'Pagar con Webpay');
   }
   window.ppGCToggleTerms = function() {
     gcSetTerms(!gcTermsAccepted);
@@ -1004,6 +1020,22 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
   };
   window.ppGCExpandTerms = function() { var c = gEl('ppGC-terms-content'); if (c) c.classList.toggle('open'); };
   var gcCurrentGrand = 0;
+  var gcPago = 'webpay'; // 'webpay' | 'transferencia'
+  window.ppGCSetPago = function(m) {
+    gcPago = m === 'transferencia' ? 'transferencia' : 'webpay';
+    document.querySelectorAll('.ppGC-pay-opt').forEach(function(b) {
+      var on = b.getAttribute('data-pago') === gcPago;
+      b.classList.toggle('sel', on); b.setAttribute('aria-checked', String(on));
+    });
+    var nt = gEl('ppGC-pay-note');
+    if (nt) nt.textContent = gcPago === 'transferencia'
+      ? 'Al confirmar te mostramos los datos de la cuenta y te los enviamos por correo. Preparamos tu pedido cuando confirmemos el pago.'
+      : 'Pago 100% seguro · Tarjetas de crédito y débito · SSL';
+    var lb = gEl('ppGC-pay-lbl'); if (lb) lb.textContent = gcPago === 'transferencia' ? 'Total a transferir' : 'Pagas ahora';
+    var e2 = gEl('ppGC-s2-err'); if (e2) e2.style.display = 'none';
+    gcRenderConfirm();
+    gcCheckPayBtn();
+  };
 
   /* ── Helpers ─────────────────────────────────────────────── */
   function fmt(n) { return '$ ' + Math.round(n || 0).toLocaleString('es-CL'); }
@@ -1779,8 +1811,57 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
     return { tipo:'Empresa', rut:g('ppgc_emp_rut'), razon:g('ppgc_emp_razon'), giro:g('ppgc_emp_giro'), tel:g('ppgc_emp_tel'), email:g('ppgc_emp_email'), dir:g('ppgc_emp_dir'), region:g('ppgc_emp_region'), ciudad:g('ppgc_emp_ciudad'), dir_despacho:g('ppgc_pn_dir'), region_despacho:g('ppgc_pn_region'), ciudad_despacho:g('ppgc_pn_ciudad') };
   }
 
+  /* ── Pedido con pago por transferencia ───────────────────── */
+  // Mismas validaciones que Webpay. El servidor verifica el total con el CRM, registra el pedido en
+  // Supabase como "transferencia pendiente" y envía los datos de la cuenta por correo.
+  async function gcSubmitTransferencia() {
+    var e2=gEl('ppGC-s2-err'), btn=gEl('ppGC-btn-wp');
+    var listo=function(){ if (btn){ btn.disabled=false; btn.textContent='Confirmar pedido'; } };
+    if (!gcSelectedEntrega || gcSelectedEntrega.bloqueado) { if (e2) { e2.textContent='Elige una modalidad de entrega.'; e2.style.display='block'; } return; }
+    if (gcTermsModules().length && !gcTermsAccepted) { if (e2) { e2.textContent='Debes aceptar los Términos y Condiciones para continuar.'; e2.style.display='block'; } return; }
+    if (gcSelectedEntrega.needsAddress) {
+      var dd=gEl('ppgc_pn_dir'), dr=gEl('ppgc_pn_region'), dc=gEl('ppgc_pn_ciudad');
+      if (!dd||!dd.value||!dr||!dr.value||!dc||!dc.value) { if (e2){e2.textContent='Completa la dirección de despacho.';e2.style.display='block';} return; }
+    }
+    if (btn) { btn.disabled=true; btn.textContent='Verificando precios y stock...'; }
+    await new Promise(function(ok){ gcRevisarCRM(ok); });
+    if (gcHayAgotados() || gcTotal() !== gcCurrentGrand) {
+      listo(); ppGCCloseCheckout(); ppGCOpen();
+      var _av = gEl('ppGC-cart-items');
+      if (_av) _av.insertAdjacentHTML('afterbegin', '<div style="margin-bottom:12px;padding:10px 12px;border-radius:8px;background:#fff7ed;color:#9a3412;font-size:.85rem;font-weight:600">' + (gcHayAgotados() ? 'Un producto de tu carrito se quedó sin stock. Quítalo para continuar.' : 'Actualizamos los precios de tu carrito. Revisa el total antes de confirmar.') + '</div>');
+      return;
+    }
+    var client=gcGetClientData(), total=gcTotalPagar(), itemsPedido=gcItemsPedido();
+    gcDlPush('add_payment_info', { currency: 'CLP', value: total, payment_type: 'Transferencia', shipping_tier: gcSelectedEntrega.id, customer_type: gcClientType, items: gcItems.map(gcDlItem) });
+    if (btn) { btn.disabled=true; btn.textContent='Registrando tu pedido...'; }
+    if (e2) e2.style.display='none';
+    try {
+      var res=await fetch('/wp-json/polyplas/v1/transferencia-init',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({total:Math.round(total),entrega:gcSelectedEntrega.label,client:client,terms_accepted:gcTermsAccepted,items:itemsPedido.map(function(i){return{sku:i.sku||'',embalaje:!!i.embalaje,nombre:i.nombre,qty:i.qty,precio_unit:i.precio_unit||0,corte_costo:i.corte_costo||0,subtotal:i.subtotal||0,corteMode:i.corteMode||'',tieneRecargo:i.tieneRecargo||false,corteInstrucciones:i.corteInstrucciones||'',corteMedidas:i.corteMedidas||null,calcInfo:i.calcInfo||null};})})});
+      var data=await res.json();
+      if (data && data.code==='precio_cambio') {
+        await new Promise(function(ok){ gcRevisarCRM(ok); });
+        listo(); ppGCCloseCheckout(); ppGCOpen();
+        var _avp = gEl('ppGC-cart-items');
+        if (_avp) _avp.insertAdjacentHTML('afterbegin', '<div style="margin-bottom:12px;padding:10px 12px;border-radius:8px;background:#fff7ed;color:#9a3412;font-size:.85rem;font-weight:600">' + (data.message || 'Los precios de tu carrito se actualizaron. Revísalo antes de confirmar.') + '</div>');
+        return;
+      }
+      if (!data || !data.ok || !data.orden) { if (e2){ e2.textContent=(data&&data.message)||'No pudimos registrar tu pedido. Intenta de nuevo.'; e2.style.display='block'; } listo(); return; }
+      if (window.ppPaso) try { window.ppPaso('pedido_transferencia', 'gc', { valor: total, orden: data.orden }); } catch(e){}
+      try { sessionStorage.setItem('pp_transferencia', JSON.stringify({ orden: data.orden, total: data.total, email: client.email || '' })); } catch(e){}
+      // Pedido registrado: se vacía el carrito y se muestran los datos para transferir
+      gcItems = []; gcClearStore();
+      document.dispatchEvent(new CustomEvent('ppGCCartCleared'));
+      gcUpdateBadge();
+      window.location.href = '/gracias/?pp_pago=transferencia&orden=' + encodeURIComponent(data.orden) + '&monto=' + encodeURIComponent(data.total);
+    } catch(e) {
+      if (e2){ e2.textContent='No pudimos conectar. Revisa tu internet e intenta de nuevo.'; e2.style.display='block'; }
+      listo();
+    }
+  }
+
   /* ── Submit Webpay ───────────────────────────────────────── */
   async function ppGCSubmitCheckout() {
+    if (gcPago === 'transferencia') return gcSubmitTransferencia();
     var e2=gEl('ppGC-s2-err'), btn=gEl('ppGC-btn-wp');
     if (!gcSelectedEntrega || gcSelectedEntrega.bloqueado) { if (e2) { e2.textContent='Elige una modalidad de entrega.'; e2.style.display='block'; } return; }
     if (gcTermsModules().length && !gcTermsAccepted) { if (e2) { e2.textContent='Debes aceptar los Términos y Condiciones para continuar.'; e2.style.display='block'; } return; }

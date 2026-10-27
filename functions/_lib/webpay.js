@@ -152,7 +152,7 @@ function corteHtml(item) {
 }
 
 /* ------------------------------------------------------------------ comprobante */
-export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, entrega, nSheets, inlineCid, imgUrl }) {
+export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, entrega, nSheets, inlineCid, imgUrl, pendiente = false, extraHtml = "" }) {
   const c = client || {};
   const tipo = c.tipo || "Persona Natural";
   const empresa = tipo === "Empresa";
@@ -205,17 +205,17 @@ export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, ent
     <tr>
         <td style="background:#004a99;padding:32px 40px;text-align:center;">
             <img src="https://polyplas.cl/wp-content/uploads/2022/07/marca-polyplas-1.svg" alt="Polyplas" width="140" style="display:block;margin:0 auto 16px;">
-            <div style="display:inline-block;background:#34a853;padding:6px 18px;border-radius:20px;">
-                <span style="color:#ffffff;font-size:0.78rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;">&#10003; &nbsp;Pago aprobado</span>
+            <div style="display:inline-block;background:${pendiente ? "#f0a500" : "#34a853"};padding:6px 18px;border-radius:20px;">
+                <span style="color:#ffffff;font-size:0.78rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;">${pendiente ? "&#9203; &nbsp;Pendiente de pago" : "&#10003; &nbsp;Pago aprobado"}</span>
             </div>
-            <h1 style="color:#ffffff;font-size:1.5rem;margin:16px 0 4px;">Comprobante de compra</h1>
+            <h1 style="color:#ffffff;font-size:1.5rem;margin:16px 0 4px;">${pendiente ? "Pedido recibido" : "Comprobante de compra"}</h1>
             <p style="color:rgba(255,255,255,0.7);margin:0;font-size:0.88rem;">Orden N&deg; ${esc(buyOrder)}</p>
         </td>
     </tr>
     <tr>
         <td style="padding:32px 40px 0;">
             <p style="font-size:1rem;color:#1a1a2e;margin:0 0 8px;">${saludo},</p>
-            <p style="font-size:0.92rem;color:#555;margin:0;">Tu pago fue procesado correctamente. Aqu&iacute; tienes el detalle de tu compra.</p>
+            <p style="font-size:0.92rem;color:#555;margin:0;">${pendiente ? "Recibimos tu pedido. Para completarlo, transfiere el total a la cuenta que aparece abajo y env&iacute;anos el comprobante." : "Tu pago fue procesado correctamente. Aqu&iacute; tienes el detalle de tu compra."}</p>
         </td>
     </tr>
     <tr>
@@ -224,12 +224,12 @@ export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, ent
                 <tr><td style="padding:16px 20px;">
                     <table width="100%" cellpadding="0" cellspacing="0">
                         <tr>
-                            <td style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:1px;">Total pagado</td>
-                            <td style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:1px;text-align:right;">C&oacute;digo autorizaci&oacute;n</td>
+                            <td style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:1px;">${pendiente ? "Total a transferir" : "Total pagado"}</td>
+                            <td style="font-size:0.75rem;color:#666;text-transform:uppercase;letter-spacing:1px;text-align:right;">${pendiente ? "Medio de pago" : "C&oacute;digo autorizaci&oacute;n"}</td>
                         </tr>
                         <tr>
                             <td style="font-size:1.8rem;font-weight:700;color:#004a99;letter-spacing:1px;">${esc(montoFmt)}</td>
-                            <td style="font-size:1rem;font-weight:600;color:#1a1a2e;text-align:right;">${esc(auth)}</td>
+                            <td style="font-size:1rem;font-weight:600;color:#1a1a2e;text-align:right;">${pendiente ? "Transferencia" : esc(auth)}</td>
                         </tr>
                         <tr><td style="font-size:0.72rem;color:#888;padding-top:2px;">IVA incluido</td><td></td></tr>
                     </table>
@@ -237,6 +237,7 @@ export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, ent
             </table>
         </td>
     </tr>
+    ${extraHtml || ""}
     <tr>
         <td style="padding:0 40px 24px;">
             <h2 style="font-size:0.8rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;margin:0 0 12px;">Productos</h2>
@@ -297,7 +298,7 @@ export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, ent
 }
 
 /** Envía el comprobante al cliente y a ventas con Brevo (o Resend si es lo que está configurado). */
-export async function enviarComprobante(env, order, tbk) {
+export async function enviarComprobante(env, order, tbk, opts = {}) {
   const brevoKey = (env.BREVO_API_KEY || "").trim();
   const resendKey = (env.RESEND_API_KEY || "").trim();
   if (!brevoKey && !resendKey) {
@@ -338,17 +339,19 @@ export async function enviarComprobante(env, order, tbk) {
     entrega: order.entrega,
     nSheets: pngs.length,
     imgUrl,
+    pendiente: !!opts.pendiente,
+    extraHtml: opts.extraHtml || "",
   });
 
   // Adjuntos iguales a WordPress: comprobante HTML + diagrama-cortes.pdf
   const safeOrder = String(tbk.buy_order).replace(/[^A-Za-z0-9_-]/g, "");
-  const adjuntos = [{ name: `comprobante-${safeOrder}.html`, content: bytesToB64(new TextEncoder().encode(html)) }];
+  const adjuntos = [{ name: `${opts.pendiente ? "pedido" : "comprobante"}-${safeOrder}.html`, content: bytesToB64(new TextEncoder().encode(html)) }];
   if (pdf) adjuntos.push({ name: "diagrama-cortes.pdf", content: bytesToB64(pdf) });
 
   const fromEmail = (env.MAIL_FROM_EMAIL || "ventas@polyplas.cl").trim();
   const fromName = (env.MAIL_FROM_NAME || "Polyplas").trim();
   const sales = (env.MAIL_SALES || "ventas@polyplas.cl").trim();
-  const asunto = `Comprobante de compra Polyplas - ${tbk.buy_order}`;
+  const asunto = opts.asunto || `Comprobante de compra Polyplas - ${tbk.buy_order}`;
 
   // Aviso interno si el total pagado no coincide con la suma de productos
   // (el total lo calcula el navegador; ver nota de seguridad en README).
@@ -400,7 +403,7 @@ export async function enviarComprobante(env, order, tbk) {
   // Copia a ventas: por el SMTP de cPanel si está configurado (el antispam del hosting bloquea a Brevo);
   // si falla, se intenta igual por Brevo.
   const sendSales = async () => {
-    const subject = `[VENTA] ${asunto}`;
+    const subject = `${opts.prefijoVentas || "[VENTA]"} ${asunto}`;
     const body = alerta + html;
     if (env.SMTP_PASS) {
       try {
