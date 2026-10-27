@@ -1,3 +1,20 @@
+<script data-pp-inline>
+/* Si el cliente toca "Comprar" antes de que termine de cargar el configurador,
+   se guarda el toque y se abre apenas esté listo (antes no pasaba nada). */
+(function(){
+  ['openConfigurator','openConfiguratorPA'].forEach(function(n){
+    if (typeof window[n] === 'function') return;
+    var stub = function(){
+      var args = arguments, t0 = Date.now();
+      (function esperar(){
+        if (typeof window[n] === 'function' && window[n] !== stub) { window[n].apply(window, args); return; }
+        if (Date.now() - t0 < 15000) setTimeout(esperar, 100);
+      })();
+    };
+    window[n] = stub;
+  });
+})();
+</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600;700&display=swap');
 /* ============================================================
@@ -9026,6 +9043,7 @@ html.pcc-paso3 #ppNudge, html.pcc-paso4 #ppNudge { display: none !important; }
 #configuratorModal #pccRes .pcc-slide-reco[data-modo="exacta"] .pcc-r-panel[data-op="ajustar"] { display: none; }
 #configuratorModal #pccRes .pcc-r-sub b { color: #0f172a; }
 #configuratorModal #pccRes .pcc-r-nota { margin-top: 8px !important; font-size: 0.78rem; color: #64748b; text-align: center; }
+#configuratorModal #pccCalc .pcc-tip-btn { display: block; margin-top: 4px !important; padding: 0 !important; border: 0; background: none; font: inherit; font-size: 0.78rem; font-weight: 700; color: #2f7a3e; text-decoration: underline; text-align: left; cursor: pointer; }
 #configuratorModal #pccRes .pcc-r-preg { margin: 0 0 6px !important; font-size: 0.88rem; font-weight: 700; color: #0f172a; }
 /* Selección visual de la opción (sus medidas / recomendación) */
 #configuratorModal #pccRes .pcc-opcion { cursor: pointer; transition: box-shadow .15s ease, border-color .15s ease; }
@@ -9283,6 +9301,8 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
   var K=3;
   var H=document.documentElement;
   function g(id){return document.getElementById(id);}
+  // Ancho/alto: acepta coma o punto (59,5 o 59.5). Vacío o con letras = NaN
+  function pccNumVal(el){if(!el)return NaN;var v=String(el.value==null?'':el.value).trim().replace(',','.');return v===''?NaN:Number(v);}
 
   function sheet(){
     var s=window._ppState;if(!s||!s.dim)return null;
@@ -9338,14 +9358,20 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       function(a,b){return b.h-a.h;}
     ];
     // Generar combinaciones de rotación: probar cada tipo apaisado rotado individualmente
-    var rotCombos=[[]];
-    pieces.forEach(function(p,pi){
-      if(p.w>p.h){
+    var rotCombos=[[]],apais=[];
+    pieces.forEach(function(p,pi){if(p.w>p.h)apais.push(pi);});
+    if(apais.length<=6){
+      apais.forEach(function(pi){
         var newCombos=[];
         rotCombos.forEach(function(c){newCombos.push(c);newCombos.push(c.concat([pi]));});
         rotCombos=newCombos;
-      }
-    });
+      });
+    }else{
+      // Muchas medidas: probar todas las combinaciones congelaba la página (15 medidas = 32 s).
+      // Se prueban: ninguna girada, todas giradas y cada una girada por separado (y al revés).
+      rotCombos=[[],apais.slice()];
+      apais.forEach(function(pi){rotCombos.push([pi]);rotCombos.push(apais.filter(function(x){return x!==pi;}));});
+    }
     var best=null,bestKey=null;
     rotCombos.forEach(function(rotSet){
       var rotMap={};rotSet.forEach(function(i){rotMap[i]=true;});
@@ -9932,15 +9958,15 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     var maxM=0;
     res.sheets.forEach(function(sh0,pi){
       var counts={};
-      sh0.placed.forEach(function(p){var k=p.W+'_'+p.H;if(!counts[k])counts[k]={a:p.W,h:p.H,qty:0};counts[k].qty++;});
+      sh0.placed.forEach(function(p){var k=Math.min(p.W,p.H)+'_'+Math.max(p.W,p.H);if(!counts[k]){var o=pccOrient(lastPieces||[],p.W,p.H);counts[k]={a:o.w,h:o.h,qty:0};}counts[k].qty++;});
       var meds=Object.keys(counts).map(function(k){return counts[k];});
       if(meds.length>maxM)maxM=meds.length;
       meds.forEach(function(med,mi){
         if(mi>0&&window.addMedidaToPlank)window.addMedidaToPlank(pi);
         setTimeout((function(pii,mii,m){return function(){
           var aEl=g('msAncho_'+pii+'_'+mii),hEl=g('msAlto_'+pii+'_'+mii);
-          if(aEl){aEl.value=Math.round(m.a/10);if(window.onMedidaSetInput)window.onMedidaSetInput(pii,mii,'ancho',aEl);}
-          if(hEl){hEl.value=Math.round(m.h/10);if(window.onMedidaSetInput)window.onMedidaSetInput(pii,mii,'alto',hEl);}
+          if(aEl){aEl.value=(Math.round(m.a)/10);if(window.onMedidaSetInput)window.onMedidaSetInput(pii,mii,'ancho',aEl);}
+          if(hEl){hEl.value=(Math.round(m.h)/10);if(window.onMedidaSetInput)window.onMedidaSetInput(pii,mii,'alto',hEl);}
           if(corteState.medidaSets[pii]&&corteState.medidaSets[pii].medidas[mii])corteState.medidaSets[pii].medidas[mii].qty=m.qty;
         };})(pi,mi,med),(mi+1)*120);
       });
@@ -10079,6 +10105,8 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
   /* ── Colores por medida (cortes distintos) ── */
   var PCC_COLORES=['#93c9ac','#9cc3f0','#f5c98a','#c9b5f2','#f2a9c4','#8fd6d1','#f7b38a','#c8e39a'];
   var lastPlanoHtml='';
+  // Medida tal como la escribió el cliente (la pieza puede ir girada en el plano)
+  function pccOrient(pieces,W,H){var i=pccIdxPieza(pieces||[],W,H);return i>=0?{w:pieces[i].w,h:pieces[i].h}:{w:W,h:H};}
   function pccIdxPieza(pieces,w,h){
     for(var i=0;i<pieces.length;i++){var q=pieces[i];if((q.w===w&&q.h===h)||(q.w===h&&q.h===w))return i;}
     return -1;
@@ -10095,7 +10123,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     rows.forEach(function(row,i){
       var t=row.querySelector('.pcc-row-tit');if(!t)return;
       var id=row.id.replace('pccR_','');
-      var w=parseFloat((g('pccW_'+id)||{}).value)*10,h=parseFloat((g('pccH_'+id)||{}).value)*10;
+      var w=pccNumVal((g('pccW_'+id)||{}))*10,h=pccNumVal((g('pccH_'+id)||{}))*10;
       var ci=pieces?pccIdxPieza(pieces,Math.round(w),Math.round(h)):-1;
       var col=PCC_COLORES[(ci>=0?ci:i)%PCC_COLORES.length];
       t.innerHTML='<i style="background:'+col+'"></i>Pieza '+(i+1);
@@ -10342,7 +10370,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     var out='';
     if(curMode==='iguales'){
       var row=document.querySelector('#pccList .pcc-row'),id=row?row.id.replace('pccR_',''):'';
-      var w=parseFloat((g('pccW_'+id)||{}).value),h=parseFloat((g('pccH_'+id)||{}).value),q=parseInt((g('pccQ_'+id)||{}).value,10);
+      var w=pccNumVal((g('pccW_'+id)||{})),h=pccNumVal((g('pccH_'+id)||{})),q=parseInt((g('pccQ_'+id)||{}).value,10);
       var n=(w>=30&&h>=30)?pccPorPlancha(Math.round(w*10),Math.round(h*10),sh.w,sh.h):0;
       if(w>=30&&h>=30&&n===0)out+='<div class="pcc-hint-main">Esta pieza no cabe en la plancha.</div>';
     }
@@ -10364,36 +10392,81 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     var row=document.createElement('div');row.className='pcc-row';row.id='pccR_'+id;
     row.innerHTML=
       '<div class="pcc-row-tit"></div>'+
-      '<div><span class="pcc-lbl">Ancho</span><input class="pcc-in" type="number" inputmode="numeric" id="pccW_'+id+'" min="30" step="1" value="'+(w||'')+'" placeholder="" oninput="pccV('+id+',this,0);if(window.pccAutoCalc)window.pccAutoCalc()" onblur="pccV('+id+',this,0,1)"><div class="pcc-tip" id="pccT_'+id+'_0"></div></div>'+
-      '<div><span class="pcc-lbl">Alto</span><input class="pcc-in" type="number" inputmode="numeric" id="pccH_'+id+'" min="30" step="1" value="'+(h||'')+'" placeholder="" oninput="pccV('+id+',this,1);if(window.pccAutoCalc)window.pccAutoCalc()" onblur="pccV('+id+',this,1,1)"><div class="pcc-tip" id="pccT_'+id+'_1"></div></div>'+
-      '<div><span class="pcc-lbl">Cantidad</span><input class="pcc-in" type="number" inputmode="numeric" id="pccQ_'+id+'" min="1" value="'+(q||'')+'" placeholder="" oninput="if(window.pccRefreshCalcBtn)window.pccRefreshCalcBtn();if(window.pccAutoCalc)window.pccAutoCalc()"></div>'+
+      '<div><span class="pcc-lbl">Ancho</span><input class="pcc-in" type="text" inputmode="decimal" autocomplete="off" id="pccW_'+id+'" value="'+(w||'')+'" placeholder="" oninput="pccV('+id+',this,0);if(window.pccAutoCalc)window.pccAutoCalc()" onblur="pccV('+id+',this,0,1)"><div class="pcc-tip" id="pccT_'+id+'_0"></div></div>'+
+      '<div><span class="pcc-lbl">Alto</span><input class="pcc-in" type="text" inputmode="decimal" autocomplete="off" id="pccH_'+id+'" value="'+(h||'')+'" placeholder="" oninput="pccV('+id+',this,1);if(window.pccAutoCalc)window.pccAutoCalc()" onblur="pccV('+id+',this,1,1)"><div class="pcc-tip" id="pccT_'+id+'_1"></div></div>'+
+      '<div><span class="pcc-lbl">Cantidad</span><input class="pcc-in" type="number" inputmode="numeric" id="pccQ_'+id+'" min="1" value="'+(q||'')+'" placeholder="" oninput="pccVQ(this);if(window.pccRefreshCalcBtn)window.pccRefreshCalcBtn();if(window.pccAutoCalc)window.pccAutoCalc()"><div class="pcc-tip" id="pccT_'+id+'_2"></div></div>'+
       '<button class="pcc-x" type="button" aria-label="Quitar pieza" title="Quitar pieza" onclick="pccDel('+id+')"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg></button>';
     list.appendChild(row);
     pccPintarFilas(null);
     if(window.pccRefreshCalcBtn)window.pccRefreshCalcBtn();
   };
   window.pccDel=function(id){var el=g('pccR_'+id);if(el)el.remove();pccPintarFilas(null);if(window.pccAutoCalc)window.pccAutoCalc();if(window.pccRefreshCalcBtn)window.pccRefreshCalcBtn();};
+  /* Pieza que no cabe en la plancha elegida: busca el formato más chico (mismo material, color y espesor,
+     con stock) donde sí cabe. Si no cabe en ninguno, lo dice con la medida máxima disponible. */
+  /* Cantidad: entero de 1 o más; si no, se marca y se explica (y el cálculo no la ignora en silencio) */
+  window.pccVQ=function(el){
+    if(!el)return;
+    var v=String(el.value||'').trim(),n=Number(v);
+    var msg=v===''?'':(!/^-?\d+$/.test(v)?'Solo números enteros':(n<1?'Mínimo 1':''));
+    el.classList.toggle('err',!!msg);
+    var tip=g(el.id.replace('pccQ_','pccT_')+'_2');
+    if(tip){tip.textContent=msg;tip.style.display=msg?'block':'none';}
+    if(msg){var resEl=g('pccRes');if(resEl&&resEl.innerHTML)resEl.innerHTML='';lastRes=null;lastPieces=null;}
+  };
+  function pccTipNoCabe(v1,v2,msg,sub){
+    sub=sub||0;
+    var st=window._ppState,P=pccPrecios();if(!st||!P||!P[st.tipo])return msg;
+    var a=Math.round(v1*10),b=v2>0?Math.round(v2*10):0,suf=function(d){return String(d).replace(/^\d+x\d+/,'');};
+    var mejor=null,mayor=null;
+    Object.keys(P[st.tipo]).forEach(function(dim){
+      if(dim===st.dim||suf(dim)!==suf(st.dim)||!pccHayStock(dim))return;
+      var s=pccDimSheet(dim);if(!s)return;
+      if(!mayor||s.w*s.h>mayor.s.w*mayor.s.h)mayor={dim:dim,s:s};
+      var cabe=b?(Math.max(a,b)<=s.h-sub&&Math.min(a,b)<=s.w-sub):(a<=s.h-sub);
+      if(cabe&&(!mejor||s.w*s.h<mejor.s.w*mejor.s.h))mejor={dim:dim,s:s};
+    });
+    var shAct=sheet();
+    if(mejor)return msg+'<button type="button" class="pcc-tip-btn" onclick="pccCambiarYValidar(\''+mejor.dim+'\')">Cabe en '+pccDimLabel(mejor.dim)+' · Cambiar a esa plancha</button>';
+    var max=mayor&&shAct&&mayor.s.w*mayor.s.h>shAct.w*shAct.h?mayor.s:shAct;
+    return max?'No cabe en ninguna plancha de '+(st.esp||'este espesor')+' (máx. '+Math.floor((max.h-sub)/10)+'×'+Math.floor((max.w-sub)/10)+' cm)':msg;
+  }
+  window.pccCambiarYValidar=function(dim){
+    window.pccCambiarMedida(dim);
+    document.querySelectorAll('#pccList .pcc-row').forEach(function(row){
+      var id=row.id.replace('pccR_',''),w=g('pccW_'+id),h=g('pccH_'+id);
+      if(w)window.pccV(id,w,0,1);if(h)window.pccV(id,h,1,1);
+    });
+    window.pccCalc();
+  };
   window.pccV=function(id,el,axis,alSalir){
     var sh=sheet();if(!sh)return;
     // La pieza puede girarse: el límite de cada lado es el lado largo de la plancha
     var SUB=K,LARGO=Math.floor((sh.h-SUB)/10),CORTO=Math.floor((sh.w-SUB)/10);
-    var val=parseFloat(el.value),max=LARGO;
-    var tooLarge=val>0&&val>max,tooSmall=val>0&&val<30,bad=tooLarge||tooSmall;
+    var val=pccNumVal(el),max=LARGO;
+    // Al salir del campo se deja con 1 decimal y coma (lo que se ve es lo que se corta)
+    if(alSalir&&val>0){var _nv=String(Math.round(val*10)/10).replace('.',',');if(el.value!==_nv)el.value=_nv;val=Math.round(val*10)/10;}
+    var noNum=String(el.value||'').trim()!==''&&isNaN(val);
+    var tooLarge=val>0&&val>max,tooSmall=!noNum&&String(el.value||'').trim()!==''&&val<30,bad=tooLarge||tooSmall||noNum;
     el.classList.toggle('err',bad);
     var tip=g('pccT_'+id+'_'+axis);
-    var msg=tooLarge?'Máx '+max+' cm':tooSmall?'Mín 30 cm':'';
+    var msg=noNum?'Solo números (ej: 59,5)':tooLarge?'Máx '+max+' cm':tooSmall?'Mín 30 cm':'';
     // Con ancho y alto escritos: comprobar que la pieza quepa (derecha o girada)
     if(!bad){
-      var otherEl=g(axis===0?'pccH_'+id:'pccW_'+id),ov=otherEl?parseFloat(otherEl.value):0;
+      var otherEl=g(axis===0?'pccH_'+id:'pccW_'+id),ov=otherEl?pccNumVal(otherEl):0;
       if(val>=30&&ov>=30){
         var a=Math.max(val,ov),b=Math.min(val,ov);
         if(a>LARGO||b>CORTO){bad=true;el.classList.add('err');msg='No cabe: máx. '+LARGO+'×'+CORTO+' cm';}
-        else if(otherEl&&otherEl.classList.contains('err')&&parseFloat(otherEl.value)<=LARGO){
+        else if(otherEl&&otherEl.classList.contains('err')&&pccNumVal(otherEl)<=LARGO){
           otherEl.classList.remove('err');var ot=g('pccT_'+id+'_'+(axis===0?1:0));if(ot){ot.textContent='';ot.style.display='none';}
         }
       }
     }
-    if(tip){tip.textContent=msg;tip.style.display=msg?'block':'none';}
+    if(tip){
+      tip.textContent=msg;
+      // No cabe en esta plancha: ofrecer el formato (con stock) donde sí cabe
+      if(bad&&!tooSmall&&!noNum){var _o=g(axis===0?'pccH_'+id:'pccW_'+id);tip.innerHTML=pccTipNoCabe(val,_o?pccNumVal(_o):NaN,msg,SUB);}
+      tip.style.display=msg?'block':'none';
+    }
     // Limpiar resultados obsoletos cuando el usuario edita los inputs.
     // Al salir del campo (blur) no se borra: si no, el clic en la recomendación o en el plano se pierde.
     if(!alSalir){
@@ -10411,8 +10484,8 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     rows.forEach(function(row){
       var id=row.id.replace('pccR_','');
       var wEl=g('pccW_'+id),hEl=g('pccH_'+id),qEl=g('pccQ_'+id);
-      var wv=wEl&&parseFloat(wEl.value)>=30;
-      var hv=hEl&&parseFloat(hEl.value)>=30;
+      var wv=wEl&&pccNumVal(wEl)>=30;
+      var hv=hEl&&pccNumVal(hEl)>=30;
       var qv=qEl&&parseInt(qEl.value,10)>=1;
       if(!wv||!hv||!qv)ok=false;
       if(wEl&&wEl.classList.contains('err'))ok=false;
@@ -10426,6 +10499,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
 
   /* ── Calcular ── */
   window.pccCalc=function(){
+    pccGuardarBorrador();
     var sh=sheet();
     if(!sh){alert('Completa la seleccion de plancha primero.');return;}
     // Bug 3: bloquear si algún input tiene error de validación
@@ -10438,8 +10512,8 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     var rows=document.querySelectorAll('#pccList .pcc-row'),pieces=[];
     rows.forEach(function(row){
       var id=row.id.replace('pccR_','');
-      var w=parseFloat((g('pccW_'+id)||{}).value),h=parseFloat((g('pccH_'+id)||{}).value),q=parseInt((g('pccQ_'+id)||{}).value,10);
-      if(w>=30&&h>=30&&q>=1)pieces.push({w:w*10,h:h*10,qty:q});
+      var w=pccNumVal((g('pccW_'+id)||{})),h=pccNumVal((g('pccH_'+id)||{})),q=parseInt((g('pccQ_'+id)||{}).value,10);
+      if(w>=30&&h>=30&&q>=1)pieces.push({w:Math.round(w*10),h:Math.round(h*10),qty:q});
     });
     if(!pieces.length){
       var resEl3=g('pccRes');
@@ -10447,7 +10521,9 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       pccFooterPending();
       return;
     }
-    var allSameNow=pieces.length===1||(function(){var k0=pieces[0].w+'x'+pieces[0].h;return pieces.every(function(p){return p.w+'x'+p.h===k0;});}());
+    // Piezas repetidas (misma medida en varias filas, o la misma girada) cuentan como una sola medida
+    pieces=(function(){var m={},o=[];pieces.forEach(function(p){var k=Math.min(p.w,p.h)+'x'+Math.max(p.w,p.h);if(m[k]){m[k].qty+=p.qty;}else{m[k]={w:p.w,h:p.h,qty:p.qty};o.push(m[k]);}});return o;})();
+    var allSameNow=pieces.length===1;
     var res;
     if(curMode==='iguales'&&allSameNow){
       var totQty=pieces.reduce(function(s,p){return s+p.qty;},0);
@@ -10480,7 +10556,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       lastPlanoHtml=pccPlanoSvg(res.sheets[0],sh.w,sh.h,pieces);
       var totPz=pieces.reduce(function(a,q){return a+q.qty;},0);
       var maxPps=Math.max.apply(null,res.sheets.map(function(x){return x.placed.length;}));
-      var shLbl=(Math.round(sh.h)/10)+' × '+(Math.round(sh.w)/10)+' cm';
+      var shLbl=pccFmtCm(sh.h)+' × '+pccFmtCm(sh.w)+' cm';
       var pp=pccPrecio((window._ppState||{}).dim),precioAct=pp*Nsh+(allSameNow?0:Math.round(Math.round(pp/1.19)*Nsh*0.10*1.19));
       var sub=igualesNow
         ?totPz+(totPz===1?' pieza':' piezas')+' de '+pccFmtCm(pieces[0].w)+' × '+pccFmtCm(pieces[0].h)+' cm'
@@ -10541,14 +10617,14 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       }else{
         res.sheets.forEach(function(s,pi){
           var counts={};
-          s.placed.forEach(function(p){var k=p.W+'_'+p.H;if(!counts[k])counts[k]={a:p.W,h:p.H,qty:0};counts[k].qty++;});
+          s.placed.forEach(function(p){var k=Math.min(p.W,p.H)+'_'+Math.max(p.W,p.H);if(!counts[k]){var o=pccOrient(pieces,p.W,p.H);counts[k]={a:o.w,h:o.h,qty:0};}counts[k].qty++;});
           var meds=Object.keys(counts).map(function(k){return counts[k];});
           meds.forEach(function(med,mi){
             if(mi>0&&window.addMedidaToPlank)window.addMedidaToPlank(pi);
             setTimeout((function(pii,mii,m){return function(){
               var aEl=g('msAncho_'+pii+'_'+mii),hEl=g('msAlto_'+pii+'_'+mii);
-              if(aEl){aEl.value=Math.round(m.a/10);if(window.onMedidaSetInput)window.onMedidaSetInput(pii,mii,'ancho',aEl);}
-              if(hEl){hEl.value=Math.round(m.h/10);if(window.onMedidaSetInput)window.onMedidaSetInput(pii,mii,'alto',hEl);}
+              if(aEl){aEl.value=(Math.round(m.a)/10);if(window.onMedidaSetInput)window.onMedidaSetInput(pii,mii,'ancho',aEl);}
+              if(hEl){hEl.value=(Math.round(m.h)/10);if(window.onMedidaSetInput)window.onMedidaSetInput(pii,mii,'alto',hEl);}
             };})(pi,mi,med),(mi+1)*120);
           });
         });
@@ -10642,6 +10718,20 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     if(sh){
       if(mode==='iguales'){pccAdd();}
       else{pccAdd();pccAdd();}
+      var _b=window._pccBorrador;
+      if(pccBorradorLleno()){
+        var _l=g('pccList');if(_l){_l.innerHTML='';N=0;}
+        _b.filas.forEach(function(f){pccAdd(f[0],f[1],f[2]);});
+        if(mode==='distintos'&&_b.filas.length<2)pccAdd();
+        setTimeout(function(){
+          document.querySelectorAll('#pccList .pcc-row').forEach(function(row){
+            var id=row.id.replace('pccR_',''),w=g('pccW_'+id),h=g('pccH_'+id);
+            if(w&&w.value)window.pccV(id,w,0,1);if(h&&h.value)window.pccV(id,h,1,1);
+          });
+          if(window.pccRefreshCalcBtn)window.pccRefreshCalcBtn();
+          window.pccCalc();
+        },0);
+      }
     }else{pccAdd();}
     pccHintUpdate();
   }
@@ -10747,7 +10837,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     if(info&&info.pieces&&info.pieces.length){
       var list=g('pccList');
       if(list){list.innerHTML='';N=0;}
-      info.pieces.forEach(function(p){pccAdd(Math.round(p.w/10),Math.round(p.h/10),p.qty);});
+      info.pieces.forEach(function(p){pccAdd(pccFmtCm(p.w),pccFmtCm(p.h),p.qty);});
     }
     window.pccCalc();
   }
@@ -10757,7 +10847,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
   window.pccReset=function(){
     try{clearAll();}catch(e){}
     lastRes=null;lastPieces=null;curMode=null;paso4Ready=false;N=0;
-    window._pccCurrentModo='none';window._pccCalcInfo=null;window._pccClave=null;window._pccPend=null;window._pccAjuste=null;
+    window._pccCurrentModo='none';window._pccCalcInfo=null;window._pccClave=null;window._pccPend=null;window._pccAjuste=null;window._pccBorrador=null;
     pccSugDescartada='';pccRecoDescartada='';
     H.classList.remove('pcc-paso3','pcc-paso4');
     var w=g('corteSectionWrapper');if(w)w.style.display='none';
@@ -10781,7 +10871,21 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
 
   /* ─── Nuevo flujo: tabs de corte ─── */
   var _pccAutoCalcTimer=null;
+  /* Borrador de piezas: lo que el cliente escribió, para no perderlo al cambiar de modo o de paso */
+  function pccGuardarBorrador(){
+    var rows=document.querySelectorAll('#pccList .pcc-row');if(!rows.length||!curMode)return;
+    var filas=[];
+    rows.forEach(function(row){
+      var id=row.id.replace('pccR_','');
+      var v=['pccW_','pccH_','pccQ_'].map(function(p){var el=g(p+id);return el?String(el.value||'').trim():'';});
+      if(v[0]||v[1]||v[2])filas.push(v);
+    });
+    window._pccBorrador=filas.length?{modo:curMode,filas:filas}:null;
+  }
+  function pccBorradorLleno(){var b=window._pccBorrador;return !!(b&&b.filas&&b.filas.some(function(f){return f[0]&&f[1]&&f[2];}));}
+  window.pccGuardarBorrador=pccGuardarBorrador;
   function pccAutoCalc(){
+    pccGuardarBorrador();
     clearTimeout(_pccAutoCalcTimer);
     _pccAutoCalcTimer=setTimeout(function(){
       var rows=document.querySelectorAll('#pccList .pcc-row');
@@ -10790,7 +10894,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       rows.forEach(function(row){
         var id=row.id.replace('pccR_','');
         var wEl=g('pccW_'+id),hEl=g('pccH_'+id),qEl=g('pccQ_'+id);
-        if(!wEl||!hEl||!qEl||parseFloat(wEl.value)<30||parseFloat(hEl.value)<30||parseInt(qEl.value,10)<1){allFilled=false;}
+        if(!wEl||!hEl||!qEl||pccNumVal(wEl)<30||pccNumVal(hEl)<30||parseInt(qEl.value,10)<1){allFilled=false;}
         if(wEl&&wEl.classList.contains('err'))allFilled=false;
         if(hEl&&hEl.classList.contains('err'))allFilled=false;
       });
@@ -10894,9 +10998,9 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
           // Cambió la plancha: el plano anterior ya no sirve; volver a 1 plancha
           window._pccCalcInfo=null;
           var _q=(window._ppState&&window._ppState.qty)||1;if(_q!==1&&window.changeQty)window.changeQty(1-_q);
-          if(window.selectCorteModo)window.selectCorteModo('none');
+          if(window.selectCorteModo)window.selectCorteModo(pccBorradorLleno()?window._pccBorrador.modo:'none');
         }
-      }else if(window.selectCorteModo)window.selectCorteModo('none');
+      }else if(window.selectCorteModo)window.selectCorteModo(pccBorradorLleno()?window._pccBorrador.modo:'none');
     }
     var backBtn=g('paso4BackBtn');if(backBtn)backBtn.style.display='none';
   }
