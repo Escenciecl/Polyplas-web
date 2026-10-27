@@ -259,6 +259,47 @@
 }
 
 
+
+/* paso 3: opciones comparables */
+#ppcm .p3head{display:grid;gap:6px}
+#ppcm .p3head .lead{margin:0}
+#ppcm .ghost.inline{padding:0;margin-left:4px;font-size:inherit}
+#ppcm .ocards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+#ppcm .ocard{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:6px;align-content:start;background:#fff;border:2px solid var(--line);border-radius:16px;padding:16px;position:relative}
+#ppcm .ocard:hover{border-color:var(--line-2)}
+#ppcm .ocard:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+#ppcm .ocard.on{border-color:var(--navy);background:var(--sel-bg);box-shadow:0 6px 18px -10px rgba(27,58,92,.5)}
+#ppcm .oc-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+#ppcm .oc-tag{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--sunk);border:1px solid var(--line);padding:3px 9px;border-radius:999px}
+#ppcm .ocard.is-best .oc-tag{color:var(--ok);background:var(--ok-soft);border-color:var(--ok-line)}
+#ppcm .ocard.is-best .oc-tag::before{content:"✓ "}
+#ppcm .oc-radio{width:20px;height:20px;border-radius:50%;border:2px solid var(--line-2);background:#fff;flex:none}
+#ppcm .ocard.on .oc-radio{border-color:var(--navy);box-shadow:inset 0 0 0 4px #fff;background:var(--navy)}
+#ppcm .oc-price{font-size:26px;font-weight:800;color:var(--ink-2);font-variant-numeric:tabular-nums;line-height:1.1;margin-top:4px}
+#ppcm .oc-diff{font-size:13px;font-weight:600;color:var(--muted)}
+#ppcm .ocard.is-best .oc-diff{color:var(--ok)}
+#ppcm .oc-fmt{font-size:15.5px;font-weight:700;color:var(--ink-2);margin-top:6px}
+#ppcm .oc-mat{font-size:13.5px;color:#475569}
+#ppcm .oc-thumb{display:flex;align-items:flex-end;gap:6px;margin-top:6px}
+#ppcm .oc-thumb svg{width:120px;height:auto}
+#ppcm .oc-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px;margin-top:4px}
+#ppcm .oc-foot b{color:var(--ink)}
+@media (max-width:560px){#ppcm .oc-thumb{display:none}#ppcm .ocard{padding:14px}}
+#ppcm .more-label{margin:4px 0 -8px}
+#ppcm .seg{display:inline-flex;background:#fff;border:1px solid var(--ok-line);border-radius:10px;padding:3px;gap:3px;justify-self:start}
+#ppcm .seg button{all:unset;cursor:pointer;font-size:13.6px;font-weight:600;color:var(--ok);padding:8px 16px;border-radius:8px}
+#ppcm .seg button:first-child{background:var(--ok-strong);color:#fff}
+#ppcm .seg button:focus-visible{outline:2px solid var(--accent)}
+#ppcm .bigplan{display:grid;gap:12px;border:1px solid var(--line);border-radius:16px;padding:16px 18px;background:#fff}
+#ppcm .bp-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+#ppcm .bp-head .label{margin:0}
+#ppcm .legend{display:flex;gap:14px;font-size:12.5px;color:var(--muted)}
+#ppcm .legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px}
+#ppcm .lg-p{background:var(--p1);border:1px solid #5f9e6e}
+#ppcm .lg-s{background:var(--sheet);border:1px dashed var(--sheet-line)}
+#ppcm .ab-sel{display:block;font-size:13px;font-weight:600;color:var(--muted)}
+#ppcm .ab-iva{font-size:12.5px;color:var(--muted);font-weight:500}
+#ppcm .ab-info b{margin-left:0}
 </style>
 <script>
 (function(){
@@ -378,10 +419,10 @@ function computeOptions(tol){
 function rank(opts){
   const ok=opts.filter(o=>!o.nofit&&o.stockOk).sort((a,b)=>a.total-b.total||a.waste-b.waste);
   if(!ok.length)return {cards:[],rest:opts};
-  const cards=[{o:ok[0],tag:"Recomendada · más económica",best:true}];
+  const cards=[{o:ok[0],tag:"Recomendada",best:true}];
   const lw=ok.slice(1).filter(o=>o.waste<ok[0].waste-0.05).sort((a,b)=>a.waste-b.waste)[0];
   if(lw)cards.push({o:lw,tag:"Menos sobrante"});
-  if(S.mat==="acrilico"&&ok[0].r.linea!=="PA"){const pa=ok.find(o=>o.r.linea==="PA"&&!cards.some(c=>c.o===o));if(pa)cards.push({o:pa,tag:"Mejor calidad · PA virgen"});}
+  if(S.mat==="acrilico"&&ok[0].r.linea!=="PA"){const pa=ok.find(o=>o.r.linea==="PA"&&!cards.some(c=>c.o===o));if(pa)cards.push({o:pa,tag:"Mejor calidad"});}
   const used=new Set(cards.map(c=>c.o));
   return {cards,rest:opts.filter(o=>!used.has(o))};
 }
@@ -477,43 +518,70 @@ function renderP2(){
   const sel=[S.mat&&MATS.find(m=>m.k===S.mat).n,S.color&&COLORS[S.color][0],S.esp&&S.esp.replace("mm"," mm")].filter(Boolean).join(" · ");
   actionbar(sel?`<b>${esc(sel)}</b>`:"Elige material, color y espesor",()=>go(1),"Ver mis opciones",step2Ready(),()=>go(3));
 }
-function setMat(k){S.mat=k;S.chosen=null;const cols=colorsFor(k).filter(c=>inStock(rowsFor(k,c)));S.color=cols.length===1?cols[0]:(cols.includes(S.color)?S.color:null);autoEsp();}
+function setMat(k){S.mat=k;S.chosen=null;S.sel=null;S.showAll=false;const cols=colorsFor(k).filter(c=>inStock(rowsFor(k,c)));S.color=cols.length===1?cols[0]:(cols.includes(S.color)?S.color:null);autoEsp();}
 function autoEsp(){if(!S.color){S.esp=null;return;}const es=espsFor(S.mat,S.color).filter(e=>inStock(rowsFor(S.mat,S.color,e)));if(!es.includes(S.esp))S.esp=es.length===1?es[0]:null;}
 
 /* Paso 3 */
+function plainMat(r){
+  if(r.mat==="acrilico")return r.linea==="PA"?"Acrílico 100% virgen · más transparente y duradero":"Acrílico económico (línea AA)";
+  return MATS.find(m=>m.k===r.mat).n;
+}
+const m2=mm2=>(mm2/1e6).toFixed(1).replace(".",",");
 function renderP3(){
   const opts=computeOptions(S.tol);const {cards,rest}=rank(opts);
   const alt=computeOptions(!S.tol);const ra=rank(alt);
   const cur=cards[0]?cards[0].o.total:Infinity;const other=ra.cards[0]?ra.cards[0].o.total:Infinity;
   const ps=piecesMM(false);const count=ps.reduce((s,p)=>s+p.q,0);
-  let html=`    <div class="sumbar"><span><b>${count} pieza${count===1?"":"s"}</b> · ${MATS.find(m=>m.k===S.mat).n} ${COLORS[S.color][0]} ${S.esp.replace("mm"," mm")}</span><button type="button" class="ghost" data-go="1">Editar piezas</button></div>
-    <label class="toggle"><input type="checkbox" id="ppcm-tol" ${S.tol?"checked":""}><span>Mis medidas pueden ser hasta 2 mm menores<small>Ayuda a que entren más piezas por plancha considerando el corte de sierra.</small></span></label>`;
-  if(!S.tol&&other<cur)html+=`<div class="notice tip"><div><b class="t">Ahorra ${money(cur-other)}.</b> Si tus piezas pueden medir 2 mm menos por lado (por ejemplo ${cm(ps[0].w-TOL_MM)} × ${cm(ps[0].h-TOL_MM)} cm), la mejor opción pasa a ser ${ra.cards[0].o.N} plancha${ra.cards[0].o.N===1?"":"s"} de ${fmtDim(ra.cards[0].o.r)} por ${money(other)}.</div><div class="acts"><button type="button" class="btn-s" id="ppcm-tolon">Sí, ajustar mis medidas</button></div></div>`;
-  if(S.tol)html+=`<div class="notice info">Calculando con tus piezas 2 mm menores por lado${ps.length?` (ej: ${cm(ps[0].w-TOL_MM)} × ${cm(ps[0].h-TOL_MM)} cm)`:""}. Así quedarán cortadas.</div>`;
+  window._opts=opts;
+  const valid=opts.filter(o=>!o.nofit&&o.stockOk);
+  if(!valid.some(o=>o.r.id===S.sel))S.sel=cards[0]?cards[0].o.r.id:null;
+  const sel=valid.find(o=>o.r.id===S.sel);
+  const matTxt=`${MATS.find(m=>m.k===S.mat).n} ${COLORS[S.color][0].toLowerCase()} ${S.esp.replace("mm"," mm")}`;
+  let html=`<div class="p3head"><h2>Elige cómo comprar tus ${count} pieza${count===1?"":"s"}</h2>
+    <p class="lead">${matTxt} · Todas las opciones incluyen el corte. Te recomendamos la más económica. <button type="button" class="ghost inline" data-go="1">Editar piezas</button></p></div>`;
   if(!cards.length){
     html+=`<div class="notice bad" role="alert"><div><b class="t">No tenemos stock suficiente para este pedido.</b> Escríbenos y vemos cómo resolverlo.</div><div class="acts"><a class="btn-s" href="${waLink()}" target="_blank" rel="noopener">Consultar por WhatsApp</a></div></div>`;
-  }else{
-    html+=`<div class="cards">${cards.map((c,i)=>cardHTML(c,i)).join("")}</div>`;
-    const restRows=rest.filter(o=>!o.nofit).sort((a,b)=>a.total-b.total);
-    if(restRows.length)html+=`<details class="others"><summary>Ver otros formatos (${restRows.length})</summary><div class="tscroll"><table class="otable"><thead><tr><th>Formato</th><th>Línea</th><th class="r">Planchas</th><th class="r">Sobrante</th><th class="r">Total</th><th></th></tr></thead><tbody>${restRows.map(o=>`<tr><td>${fmtDim(o.r)}</td><td>${o.r.linea||"—"}</td><td class="r">${o.N}</td><td class="r">${Math.round(o.waste*100)}%</td><td class="r">${money(o.total)}</td><td>${o.stockOk?`<button type="button" class="btn-s" data-pick="${o.r.id}">Elegir</button>`:`<span class="pill warn">Stock: ${o.r.cant}</span>`}</td></tr>`).join("")}</tbody></table></div></details>`;
+    $("#ppcm-pane").innerHTML=html;
+    actionbar("Sin opciones disponibles",()=>go(2),null,false,null);return;
+  }
+  const best=cards[0].o;
+  const restOk=rest.filter(o=>!o.nofit&&o.stockOk).sort((a,b)=>a.total-b.total);
+  html+=`<div class="ocards" role="radiogroup" aria-label="Opciones de compra">${cards.map(c=>optCard(c.o,c.tag,c.best,best)).join("")}</div>`;
+  if(restOk.length){
+    html+=S.showAll?`<div class="label more-label">Otros formatos</div><div class="ocards" role="radiogroup" aria-label="Otros formatos">${restOk.map(o=>optCard(o,"",false,best)).join("")}</div>`
+      :`<button type="button" class="ghost" id="ppcm-showall">Ver otros formatos (${restOk.length})</button>`;
+  }
+  if(!S.tol&&other<cur&&!S.tolNo){
+    const p0=ps[0];
+    html+=`<div class="notice tip"><div><b class="t">Ahorra ${money(cur-other)}</b>¿Tus piezas pueden medir ${cm(p0.w-TOL_MM)} × ${cm(p0.h-TOL_MM)} cm en vez de ${cm(p0.w)} × ${cm(p0.h)} cm? Con 2 mm menos por lado entran más piezas en cada plancha${ps.length>1?" (se ajustan todas tus medidas)":""}.</div>
+      <div class="seg"><button type="button" id="ppcm-tolon">Sí, ajústalas</button><button type="button" id="ppcm-tolno">No, son exactas</button></div></div>`;
+  }
+  if(S.tol)html+=`<div class="notice info"><div>Estás viendo opciones con tus piezas <b>2 mm menores por lado</b>${ps.length?` (ej: ${cm(ps[0].w-TOL_MM)} × ${cm(ps[0].h-TOL_MM)} cm)`:""}. Así quedarán cortadas.</div><div class="acts"><button type="button" class="btn-s" id="ppcm-toloff">Volver a mis medidas exactas</button></div></div>`;
+  if(sel){
+    const sh=sel.sheets,r=sel.r,show=sh.slice(0,6);
+    html+=`<section class="bigplan" aria-label="Plano de corte de la opción elegida">
+      <div class="bp-head"><div class="label">Así quedará tu corte</div><div class="legend"><span><i class="lg-p"></i>Tus piezas</span><span><i class="lg-s"></i>Sobrante (te lo llevas)</span></div></div>
+      <div class="bigplans">${show.map((s,i)=>`<figure class="sheetfig">${sheetSVG(r,s,300)}<figcaption>Plancha ${i+1}${sh.length>1?` de ${sh.length}`:""} · ${fmtDim(r)} · ${s.length} pieza${s.length===1?"":"s"}</figcaption></figure>`).join("")}${sh.length>6?`<p class="hint">+${sh.length-6} planchas más con el mismo corte.</p>`:""}</div>
+      <p class="hint">Cada corte de sierra usa 3 mm. ${sel.distintos?`Como tus piezas tienen ${sel.sizes} medidas distintas, el corte tiene un recargo del 10%.`:"Como todas tus piezas son iguales, el corte es gratis."}</p>
+    </section>`;
   }
   html+=`<p class="hint">¿Dudas? <a href="${waLink()}" target="_blank" rel="noopener">Escríbenos por WhatsApp</a> y te ayudamos con tu pedido.</p>`;
   $("#ppcm-pane").innerHTML=html;
-  window._opts=opts;
-  const b=cards[0]&&cards[0].o;
-  actionbar(b?`Desde <b>${money(b.total)}</b> · IVA incluido`:"Sin opciones disponibles",()=>go(2),null,false,null);
+  actionbar(sel?`<span class="ab-sel">${sel.N} plancha${sel.N===1?"":"s"} de ${fmtDim(sel.r)}</span><b>${money(sel.total)}</b> <span class="ab-iva">IVA incluido</span>`:"Elige una opción",()=>go(2),"Continuar con esta opción",!!sel,()=>{if(sel){S.chosen=sel;go(4);}});
 }
-function cardHTML(c,i){
-  const o=c.o,r=o.r;const show=o.sheets.slice(0,3);const w=o.sheets.length===1?260:150;
-  const why=o.distintos?`${o.count} piezas en ${o.sizes} medidas, acomodadas en ${o.N} plancha${o.N===1?"":"s"}.`:`Caben ${o.perSheet} pieza${o.perSheet===1?"":"s"} por plancha. Cada corte de sierra usa 3 mm.`;
-  return `<article class="card ${c.best?"best":""}">
-    <div class="card-top"><div><span class="tag">${c.tag}</span><h3>${o.N} plancha${o.N===1?"":"s"} de ${fmtDim(r)}</h3><div class="line">${r.linea?LINEA[r.linea]:MATS.find(m=>m.k===r.mat).n}</div></div>
-      <div class="price"><div class="big">${money(o.total)}</div><div class="sub">${o.N} × ${money(r.precio)}${o.rec?` + corte 10% (${money(o.rec)})`:" · corte gratis"}<br>IVA incluido</div></div></div>
-    <div class="plans">${show.map(s=>sheetSVG(r,s,w)).join("")}${o.sheets.length>3?`<span class="more">+${o.sheets.length-3} más</span>`:""}</div>
-    <p class="why">${why} El sobrante es tuyo.</p>
-    <div class="card-foot"><div class="facts"><span>Sobrante <b>${Math.round(o.waste*100)}%</b></span>${r.cant<=5?`<span class="pill warn">Quedan ${r.cant}</span>`:`<span class="pill ok">En stock</span>`}</div>
-      <button type="button" class="btn" data-pick="${r.id}">Elegir esta opción</button></div>
-  </article>`;
+function optCard(o,tag,isBest,best){
+  const r=o.r,on=o.r.id===S.sel;
+  const diff=o.total-best.total;
+  const sobra=o.N*r.W*r.H*o.waste;
+  return `<button type="button" class="ocard ${on?"on":""} ${isBest?"is-best":""}" role="radio" aria-checked="${on}" data-sel="${r.id}">
+    <span class="oc-top"><span class="oc-tag">${tag||"Otro formato"}</span><span class="oc-radio" aria-hidden="true"></span></span>
+    <span class="oc-price">${money(o.total)}</span>
+    <span class="oc-diff">${isBest?"El precio más bajo":diff>0?`+${money(diff)} vs. la recomendada`:diff<0?`${money(-diff)} menos que la recomendada`:"Mismo precio"}</span>
+    <span class="oc-fmt">${o.N} plancha${o.N===1?"":"s"} de ${fmtDim(r)}</span>
+    <span class="oc-mat">${plainMat(r)}</span>
+    <span class="oc-thumb">${sheetSVG(r,o.sheets[0],120)}${o.N>1?`<span class="more">×${o.N}</span>`:""}</span>
+    <span class="oc-foot"><span>Te sobran <b>${m2(sobra)} m²</b>, que te llevas</span>${r.cant<=5?`<span class="pill warn">Quedan ${r.cant}</span>`:""}</span>
+  </button>`;
 }
 
 /* Paso 4 */
@@ -573,7 +641,7 @@ function waLink(){
 }
 
 /* ---------- Eventos ---------- */
-ROOT.addEventListener("input",e=>{const t=e.target;if(t.dataset.f!==undefined&&t.dataset.i!==undefined){S.pieces[+t.dataset.i][t.dataset.f]=t.value;S.example=false;S.chosen=null;
+ROOT.addEventListener("input",e=>{const t=e.target;if(t.dataset.f!==undefined&&t.dataset.i!==undefined){S.pieces[+t.dataset.i][t.dataset.f]=t.value;S.example=false;S.chosen=null;S.sel=null;S.tolNo=false;S.showAll=false;
   const pos=t.selectionStart,id=t.id;renderP1();renderSteps();const n=document.getElementById(id);if(n){n.focus();try{n.setSelectionRange(pos,pos);}catch(_){}}}});
 ROOT.addEventListener("change",e=>{if(e.target.id==="ppcm-tol"){S.tol=e.target.checked;S.chosen=null;render();}});
 ROOT.addEventListener("click",e=>{
@@ -584,10 +652,14 @@ ROOT.addEventListener("click",e=>{
   if(t.dataset.mat){S.help=false;setMat(t.dataset.mat);render();return;}
   if(t.id==="ppcm-helpbtn"){S.help=!S.help;render();return;}
   if(t.dataset.uso){const u=USOS[+t.dataset.uso];setMat(u.mat);if(!S.color)S.color="clear";if(inStock(rowsFor(S.mat,S.color,u.esp)))S.esp=u.esp;else autoEsp();S.help=false;render();return;}
-  if(t.dataset.color){S.color=t.dataset.color;S.chosen=null;autoEsp();render();return;}
-  if(t.dataset.esp){S.esp=t.dataset.esp;S.chosen=null;render();return;}
+  if(t.dataset.color){S.color=t.dataset.color;S.chosen=null;S.sel=null;S.showAll=false;autoEsp();render();return;}
+  if(t.dataset.esp){S.esp=t.dataset.esp;S.chosen=null;S.sel=null;S.showAll=false;render();return;}
   if(t.dataset.alt){const [c,es]=t.dataset.alt.split("|");S.color=c;S.esp=es;render();return;}
-  if(t.id==="ppcm-tolon"){S.tol=true;render();return;}
+  if(t.id==="ppcm-tolon"){S.tol=true;S.sel=null;render();return;}
+  if(t.id==="ppcm-tolno"){S.tolNo=true;render();return;}
+  if(t.id==="ppcm-toloff"){S.tol=false;S.sel=null;render();return;}
+  if(t.id==="ppcm-showall"){S.showAll=true;render();return;}
+  if(t.dataset.sel){S.sel=+t.dataset.sel;const y=window.scrollY;render();window.scrollTo(0,y);return;}
   if(t.dataset.pick){S.chosen=window._opts.find(o=>o.r.id===+t.dataset.pick);go(4);return;}
   if(t.id==="ppcm-again"){S.pieces=[{w:"",h:"",q:"1"}];S.mat=S.color=S.esp=null;S.chosen=null;S.tol=false;S.added=false;S.cartError=false;S.touched=false;go(1);return;}
 });
