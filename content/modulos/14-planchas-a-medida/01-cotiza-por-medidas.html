@@ -195,9 +195,9 @@
 #ppcm .detail{display:grid;gap:8px;font-size:15px;background:var(--sunk);border:1px solid var(--line);padding:16px 18px;border-radius:16px}
 #ppcm .detail div{display:flex;justify-content:space-between;gap:12px;font-variant-numeric:tabular-nums}
 #ppcm .detail .tot{border-top:1px solid var(--line-2);padding-top:10px;margin-top:4px;font-weight:800;font-size:18px;color:var(--ink-2)}
-#ppcm .sheetfig{display:grid;gap:4px;margin:0}
-#ppcm .sheetfig figcaption{font-size:12.5px;color:var(--muted)}
-#ppcm .bigplans{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+#ppcm .sheetfig{display:flex;flex-direction:column-reverse;gap:10px;margin:0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px 16px;box-shadow:0 1px 2px rgba(15,23,42,.06),0 8px 18px -12px rgba(15,23,42,.35)}
+#ppcm .sheetfig figcaption{font-size:13px;color:var(--muted)}#ppcm .sheetfig figcaption b{color:var(--ink-2);font-weight:700;margin-right:2px}#ppcm .sheetfig svg{width:100%;height:auto}
+#ppcm .bigplans{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,320px));gap:20px}
 #ppcm details.dev{font-size:13px;color:var(--muted)}
 #ppcm details.dev pre{background:var(--sunk);padding:12px;border-radius:8px;overflow-x:auto;font-size:12px;color:var(--ink)}
 #ppcm .actionbar{position:sticky;bottom:0;background:var(--sunk);border-top:1px solid var(--line);border-radius:0 0 20px 20px;padding:14px clamp(16px,3.5vw,24px) calc(14px + env(safe-area-inset-bottom,0px));display:flex;gap:14px;align-items:center;justify-content:space-between}
@@ -296,7 +296,7 @@
 #ppcm .legend{display:flex;gap:14px;font-size:12.5px;color:var(--muted)}
 #ppcm .legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px}
 #ppcm .lg-p{background:var(--p1);border:1px solid #5f9e6e}
-#ppcm .lg-s{background:var(--sheet);border:1px dashed var(--sheet-line)}
+#ppcm .lg-s{background:var(--sheet);border:1px solid var(--sheet-line)}
 #ppcm .ab-sel{display:block;font-size:13px;font-weight:600;color:var(--muted)}
 #ppcm .ab-iva{font-size:12.5px;color:var(--muted);font-weight:500}
 #ppcm .ab-info b{margin-left:0}
@@ -437,7 +437,7 @@ function rank(opts){
 const PCOL=["var(--p1)","var(--p2)","var(--p3)","var(--p4)","var(--p5)","var(--p6)"];
 function sheetSVG(r,rects,width){
   const s=width/r.W,hh=Math.round(r.H*s);
-  let g=`<svg viewBox="0 0 ${width} ${hh}" width="${width}" height="${hh}" role="img" aria-label="Plancha ${fmtDim(r)} con ${rects.length} piezas"><rect x=".75" y=".75" width="${width-1.5}" height="${hh-1.5}" fill="var(--sheet)" stroke="var(--sheet-line)" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+  let g=`<svg viewBox="0 0 ${width} ${hh}" width="${width}" height="${hh}" role="img" aria-label="Plancha ${fmtDim(r)} con ${rects.length} piezas"><rect x=".75" y=".75" width="${width-1.5}" height="${hh-1.5}" fill="var(--sheet)" stroke="var(--sheet-line)" stroke-width="1.5"/>`;
   for(const q of rects){const x=q.x*s,y=q.y*s,w=q.w*s,h=q.h*s;
     g+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${h.toFixed(1)}" fill="${PCOL[q.g%6]}" stroke="var(--ink)" stroke-opacity=".35" stroke-width="1"/>`;
     if(w>46&&h>18&&width>=200)g+=`<text x="${(x+w/2).toFixed(1)}" y="${(y+h/2+4).toFixed(1)}" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="10.5" fill="var(--ink)">${cm(q.w)}×${cm(q.h)}</text>`;}
@@ -567,7 +567,7 @@ function renderP3(){
     const sh=sel.sheets,r=sel.r,show=sh.slice(0,6);
     html+=`<section class="bigplan" aria-label="Plano de corte de la opción elegida">
       <div class="bp-head"><div class="label">Así quedará tu corte</div><div class="legend"><span><i class="lg-p"></i>Tus piezas</span><span><i class="lg-s"></i>Sobrante (te lo llevas)</span></div></div>
-      <div class="bigplans">${show.map((s,i)=>`<figure class="sheetfig">${sheetSVG(r,s,300)}<figcaption>Plancha ${i+1}${sh.length>1?` de ${sh.length}`:""} · ${fmtDim(r)} · ${s.length} pieza${s.length===1?"":"s"}</figcaption></figure>`).join("")}${sh.length>6?`<p class="hint">+${sh.length-6} planchas más con el mismo corte.</p>`:""}</div>
+      <div class="bigplans">${show.map((s,i)=>`<figure class="sheetfig">${sheetSVG(r,s,300)}<figcaption><b>Plancha ${i+1}${sh.length>1?` de ${sh.length}`:""}</b> · ${fmtDim(r)} · ${s.length} pieza${s.length===1?"":"s"}</figcaption></figure>`).join("")}${sh.length>6?`<p class="hint">+${sh.length-6} planchas más con el mismo corte.</p>`:""}</div>
       <p class="hint">Cada corte de sierra usa 3 mm. ${sel.distintos?`Como tus piezas tienen ${sel.sizes} medidas distintas, el corte tiene un recargo del 10%.`:"Como todas tus piezas son iguales, el corte es gratis."}</p>
     </section>`;
   }
@@ -619,7 +619,7 @@ function agregarAlCarro(o){
 }
 function renderP4(){
   const o=S.chosen,r=o.r;
-  const plans=o.sheets.map((s,i)=>`<figure class="sheetfig">${sheetSVG(r,s,280)}<figcaption>Plancha ${i+1} · ${s.length} pieza${s.length===1?"":"s"}</figcaption></figure>`).join("");
+  const plans=o.sheets.map((s,i)=>`<figure class="sheetfig">${sheetSVG(r,s,280)}<figcaption><b>Plancha ${i+1}</b> · ${s.length} pieza${s.length===1?"":"s"}</figcaption></figure>`).join("");
   const desc=o.ps.map(p=>`${p.q} × ${cm(p.w)} × ${cm(p.h)} cm`).join(" · ");
   $("#ppcm-pane").innerHTML=`<div><b>${r.mat==="acrilico"?"Acrílico "+r.linea:MATS.find(m=>m.k===r.mat).n} · ${COLORS[r.color][0]} · ${r.esp.replace("mm"," mm")}</b><div class="line">${fmtDim(r)} · ${desc}${o.tol?" · medidas ajustadas −2 mm":""}</div></div>
     <div><div class="label">Tu plano de corte</div><div class="bigplans">${plans}</div></div>
