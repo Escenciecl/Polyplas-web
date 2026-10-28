@@ -214,14 +214,10 @@
 .pp-cupola-btn-buy:hover { background: #f47a08; box-shadow: 0 4px 14px rgba(244,122,8,0.3); }
 .pp-cupola-btn-buy:disabled { background: var(--pp-surface2); color: var(--pp-muted); cursor: not-allowed; box-shadow: none; }
 
-/* Stock y cuotas en la tarjeta */
+/* Stock en la tarjeta */
 .pp-cupola-stock { font-size: 0.72rem; font-weight: 700; color: var(--pp-success); margin-bottom: 8px; }
 .pp-cupola-stock::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: currentColor; margin-right: 6px; vertical-align: 1px; }
 .pp-cupola-stock.sin-stock { color: var(--pp-muted); }
-.pp-cupola-cuotas { font-size: 0.8rem; color: var(--pp-text); margin-top: 8px; min-height: 4.2em; line-height: 1.4; }
-.pp-cupola-cuotas span { display: block; }
-.pp-cupola-cuotas b { font-weight: 700; }
-.pp-cupola-cuotas small { display: block; font-size: 0.7rem; color: var(--pp-muted); margin-top: 2px; }
 
 /* Guía de medida */
 .cup-guia { max-width: 1200px; margin: 0 auto 24px; display: grid; grid-template-columns: 140px 1fr; gap: 20px; align-items: center; background: var(--pp-surface); border: 1px solid var(--pp-border); border-radius: var(--pp-radius); padding: 16px 20px; }
@@ -1012,7 +1008,6 @@
           <div class="pp-cupola-price" id="price-54x54">
             $ 48.500<span class="pp-cupola-price-iva">c/IVA</span>
           </div>
-          <div class="pp-cupola-cuotas" data-cup-cuotas="54x54"></div>
         </div>
         <div class="pp-cupola-btns">
           <button class="pp-cupola-btn-detail" onclick="openCupolaDetail('54x54')">Ver detalle</button>
@@ -1044,7 +1039,6 @@
           <div class="pp-cupola-price" id="price-68x68">
             $ 53.000<span class="pp-cupola-price-iva">c/IVA</span>
           </div>
-          <div class="pp-cupola-cuotas" data-cup-cuotas="68x68"></div>
         </div>
         <div class="pp-cupola-btns">
           <button class="pp-cupola-btn-detail" onclick="openCupolaDetail('68x68')">Ver detalle</button>
@@ -1076,7 +1070,6 @@
           <div class="pp-cupola-price" id="price-80x80">
             $ 75.500<span class="pp-cupola-price-iva">c/IVA</span>
           </div>
-          <div class="pp-cupola-cuotas" data-cup-cuotas="80x80"></div>
         </div>
         <div class="pp-cupola-btns">
           <button class="pp-cupola-btn-detail" onclick="openCupolaDetail('80x80')">Ver detalle</button>
@@ -1108,7 +1101,6 @@
           <div class="pp-cupola-price" id="price-80x80_bronce">
             $ 75.500<span class="pp-cupola-price-iva">c/IVA</span>
           </div>
-          <div class="pp-cupola-cuotas" data-cup-cuotas="80x80_bronce"></div>
         </div>
         <div class="pp-cupola-btns">
           <button class="pp-cupola-btn-detail" onclick="openCupolaDetail('80x80_bronce')">Ver detalle</button>
@@ -1163,7 +1155,7 @@
       </div>
       <div class="cup-intro-feat">
         <strong>Pago seguro con Webpay</strong>
-        <span>3 y 6 cuotas sin interés</span>
+        <span>Débito y crédito</span>
       </div>
     </div>
   </div>
@@ -1429,7 +1421,7 @@
           PAGAR CON WEBPAY
         </button>
         <div class="pp-cup-webpay-note">
-          Pago 100% seguro · SSL · Transbank · 3 y 6 cuotas sin interés
+          Pago 100% seguro · SSL · Transbank
         </div>
       </div>
 
@@ -2341,16 +2333,11 @@ function cupulasRegistrarOrden(params) {
   } catch(e2) {}
 }
 
-// ── Cuotas, stock y precios de la tabla comparativa ───────────
+// ── Stock y precios de la tabla comparativa ───────────
 // Se recalcula cada vez que cambia el precio o el stock de una cúpula.
 function cupSyncCard(cup, cantidad) {
   var q = function(sel) { return document.querySelectorAll(sel); };
   var fmt = function(n) { return '$ ' + Math.round(n).toLocaleString('es-CL'); };
-  q('[data-cup-cuotas="' + cup.id + '"]').forEach(function(el) {
-    el.innerHTML = '<span><b>3 cuotas</b> de ' + fmt(cup.precio / 3) + '</span>' +
-      '<span><b>6 cuotas</b> de ' + fmt(cup.precio / 6) + '</span>' +
-      '<small>Sin interés, según tu banco</small>';
-  });
   q('[data-cup-precio="' + cup.id + '"]').forEach(function(el) {
     el.textContent = fmt(cup.precio);
   });

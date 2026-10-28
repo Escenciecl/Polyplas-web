@@ -747,16 +747,11 @@
 .pp-tina-acc[open] summary::after { content: "\2212"; }
 .pp-tina-acc .pp-tina-specs { margin-top: 10px; }
 .pp-tina-price-block .pp-tina-price { font-size: 1.9rem; }
-.pp-tina-cuotas b.c6 { display: block; font-size: 1rem; color: #0b2a4f; }
 
-/* Stock y cuotas en la tarjeta */
+/* Stock en la tarjeta */
 .pp-tina-stock { font-size: 0.72rem; font-weight: 700; color: var(--pp-success); margin-bottom: 8px; }
 .pp-tina-stock::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: currentColor; margin-right: 6px; vertical-align: 1px; }
 .pp-tina-stock.sin-stock { color: var(--pp-muted); }
-.pp-tina-cuotas { font-size: 0.78rem; color: var(--pp-muted); margin-top: 10px; padding: 9px 12px; background: #f1f6fd; border: 1px solid #cfe0f5; border-radius: 8px; line-height: 1.45; min-height: 4.4em; }
-.pp-tina-cuotas span { display: block; }
-.pp-tina-cuotas b { font-weight: 700; }
-.pp-tina-cuotas small { display: block; font-size: 0.7rem; color: var(--pp-muted); margin-top: 2px; }
 .pp-tina-btn-detail {
   flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px;
   padding: 11px 8px;
@@ -1508,10 +1503,6 @@
 #tv .tv-precio small{font-size:.76rem;font-weight:600;color:var(--gris)}
 #tv .tv-ahorro{font-size:.82rem;color:var(--gris)}
 #tv .tv-ahorro b{color:var(--rojo)}
-#tv .tv-cuotas{font-size:.82rem;display:flex;flex-direction:column;gap:2px}
-#tv .tv-cuotas-fila{display:flex;justify-content:space-between;gap:8px}
-#tv .tv-cuotas-fila span:first-child{color:var(--gris)}
-#tv .tv-cuotas small{font-size:.76rem;color:var(--gris)}
 #tv .tv-envio{font-size:.82rem;font-weight:600;color:var(--verde);display:flex;gap:6px;align-items:flex-start}
 #tv .tv-envio svg{width:16px;height:16px;margin-top:2px}
 #tv .tv-envio.tv-reg{color:var(--ambar-tinta);background:var(--ambar);border:1px solid var(--ambar-linea);border-radius:8px;padding:10px 12px;font-weight:500;display:flex;flex-direction:column;gap:4px}
@@ -1793,7 +1784,6 @@
 #tv .tv-tag-ahorro{background:#d92d20}
 #tv .tv-ahorro b{color:#d92d20}
 #tv .tv-garantia{color:#1b7a43}
-#tv .tv-cuotas{background:var(--azul-suave);border-radius:10px;padding:10px 12px}
 #tv .tv-envio{color:#1b7a43}
 #tv .tv-btn-video{background:rgba(4,33,63,.85)}
 
@@ -1976,12 +1966,11 @@
 <div class="tv-garantia"><svg class="tv-i" style="width:13px;height:13px"><use href="#tv-escudo"/></svg>Garantía 1 año</div>
 <div><div class="tv-precio"><span data-tv-precio="kuyen">$979.990</span> <small>c/IVA</small></div>
 <div class="tv-ahorro" data-tv-ahorro="kuyen"><s>$1.399.990</s> · <b>Ahorras 30%</b></div></div>
-<div class="tv-cuotas" data-tv-cuotas="kuyen"><div class="tv-cuotas-fila"><span>3 cuotas sin interés</span><b>$326.663</b></div><div class="tv-cuotas-fila"><span>6 cuotas sin interés</span><b>$163.332</b></div><small>Según banco emisor</small></div>
 <div data-tv-envio="kuyen"><div class="tv-envio"><svg class="tv-i"><use href="#tv-camion"/></svg>Despacho gratis en Santiago</div></div>
 <p class="tv-stock" data-tina-stock="kuyen"></p>
 <button class="tv-btn tv-btn-pri pp-tina-btn-buy" type="button" onclick="openKuyenUpsell()" aria-label="Comprar Tina Kuyen Full"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> COMPRAR</button>
 <a class="tv-link" data-tv-ficha="kuyen" href="/tina-hidromasaje-kuyen-full/" aria-label="Ver ficha completa de la Tina Kuyen Full">Ver ficha completa</a>
-<div class="tv-hooks" hidden><span id="price-kuyen"></span><span id="price-old-kuyen">Antes $ 1.399.990</span><span id="ahorro-kuyen"></span><span data-tina-cuotas="kuyen"></span><span data-tina-off="kuyen"></span></div>
+<div class="tv-hooks" hidden><span id="price-kuyen"></span><span id="price-old-kuyen">Antes $ 1.399.990</span><span id="ahorro-kuyen"></span><span data-tina-off="kuyen"></span></div>
 </div>
 </article>
 <article class="tv-card" id="tina-antuco" data-modelo="antuco">
@@ -1996,12 +1985,11 @@
 <div class="tv-garantia"><svg class="tv-i" style="width:13px;height:13px"><use href="#tv-escudo"/></svg>Garantía 1 año</div>
 <div><div class="tv-precio"><span data-tv-precio="antuco">$479.990</span> <small>c/IVA</small></div>
 <div class="tv-ahorro" data-tv-ahorro="antuco"><s>$679.990</s> · <b>Ahorras 29%</b></div></div>
-<div class="tv-cuotas" data-tv-cuotas="antuco"><div class="tv-cuotas-fila"><span>3 cuotas sin interés</span><b>$159.997</b></div><div class="tv-cuotas-fila"><span>6 cuotas sin interés</span><b>$79.998</b></div><small>Según banco emisor</small></div>
 <div data-tv-envio="antuco"><div class="tv-envio"><svg class="tv-i"><use href="#tv-camion"/></svg>Despacho gratis en Santiago</div></div>
 <p class="tv-stock" data-tina-stock="antuco"></p>
 <button class="tv-btn tv-btn-pri pp-tina-btn-buy" type="button" onclick="openQtyModal(&#x27;antuco&#x27;,&#x27;Tina Antuco&#x27;,&#x27;130×130×60 cm&#x27;,&#x27;https://polyplas.cl/wp-content/uploads/2026/08/antuco.webp&#x27;,4)" aria-label="Comprar Tina Antuco"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> COMPRAR</button>
 <a class="tv-link" data-tv-ficha="antuco" href="/tina-hidromasaje-antuco/" aria-label="Ver ficha completa de la Tina Antuco">Ver ficha completa</a>
-<div class="tv-hooks" hidden><span id="price-antuco"></span><span id="price-old-antuco">Antes $ 679.990</span><span id="ahorro-antuco"></span><span data-tina-cuotas="antuco"></span><span data-tina-off="antuco"></span></div>
+<div class="tv-hooks" hidden><span id="price-antuco"></span><span id="price-old-antuco">Antes $ 679.990</span><span id="ahorro-antuco"></span><span data-tina-off="antuco"></span></div>
 </div>
 </article>
 <article class="tv-card" id="tina-vilcun" data-modelo="vilcun">
@@ -2016,12 +2004,11 @@
 <div class="tv-garantia"><svg class="tv-i" style="width:13px;height:13px"><use href="#tv-escudo"/></svg>Garantía 1 año</div>
 <div><div class="tv-precio"><span data-tv-precio="vilcun">$479.990</span> <small>c/IVA</small></div>
 <div class="tv-ahorro" data-tv-ahorro="vilcun"><s>$669.990</s> · <b>Ahorras 28%</b></div></div>
-<div class="tv-cuotas" data-tv-cuotas="vilcun"><div class="tv-cuotas-fila"><span>3 cuotas sin interés</span><b>$159.997</b></div><div class="tv-cuotas-fila"><span>6 cuotas sin interés</span><b>$79.998</b></div><small>Según banco emisor</small></div>
 <div data-tv-envio="vilcun"><div class="tv-envio"><svg class="tv-i"><use href="#tv-camion"/></svg>Despacho gratis en Santiago</div></div>
 <p class="tv-stock" data-tina-stock="vilcun"></p>
 <button class="tv-btn tv-btn-pri pp-tina-btn-buy" type="button" onclick="openQtyModal(&#x27;vilcun&#x27;,&#x27;Tina Vilcún&#x27;,&#x27;170×75×40 cm&#x27;,&#x27;https://polyplas.cl/wp-content/uploads/2023/05/vilcun-ad.webp&#x27;,0)" aria-label="Comprar Tina Vilcún"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> COMPRAR</button>
 <a class="tv-link" data-tv-ficha="vilcun" href="/tina-hidromasaje-vilcun/" aria-label="Ver ficha completa de la Tina Vilcún">Ver ficha completa</a>
-<div class="tv-hooks" hidden><span id="price-vilcun"></span><span id="price-old-vilcun">Antes $ 669.990</span><span id="ahorro-vilcun"></span><span data-tina-cuotas="vilcun"></span><span data-tina-off="vilcun"></span></div>
+<div class="tv-hooks" hidden><span id="price-vilcun"></span><span id="price-old-vilcun">Antes $ 669.990</span><span id="ahorro-vilcun"></span><span data-tina-off="vilcun"></span></div>
 </div>
 </article>
 <article class="tv-card" id="tina-queilen" data-modelo="queilen">
@@ -2036,12 +2023,11 @@
 <div class="tv-garantia"><svg class="tv-i" style="width:13px;height:13px"><use href="#tv-escudo"/></svg>Garantía 1 año</div>
 <div><div class="tv-precio"><span data-tv-precio="queilen">$489.490</span> <small>c/IVA</small></div>
 <div class="tv-ahorro" data-tv-ahorro="queilen"><s>$669.990</s> · <b>Ahorras 27%</b></div></div>
-<div class="tv-cuotas" data-tv-cuotas="queilen"><div class="tv-cuotas-fila"><span>3 cuotas sin interés</span><b>$163.163</b></div><div class="tv-cuotas-fila"><span>6 cuotas sin interés</span><b>$81.582</b></div><small>Según banco emisor</small></div>
 <div data-tv-envio="queilen"><div class="tv-envio"><svg class="tv-i"><use href="#tv-camion"/></svg>Despacho gratis en Santiago</div></div>
 <p class="tv-stock" data-tina-stock="queilen"></p>
 <button class="tv-btn tv-btn-pri pp-tina-btn-buy" type="button" onclick="openQtyModal(&#x27;queilen&#x27;,&#x27;Tina Queilen&#x27;,&#x27;167×91,5×51 cm · 210 L&#x27;,&#x27;https://polyplas.cl/wp-content/uploads/2022/07/queilen-ad.webp&#x27;,2)" aria-label="Comprar Tina Queilen"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> COMPRAR</button>
 <a class="tv-link" data-tv-ficha="queilen" href="/tina-hidromasaje-queilen/" aria-label="Ver ficha completa de la Tina Queilen">Ver ficha completa</a>
-<div class="tv-hooks" hidden><span id="price-queilen"></span><span id="price-old-queilen">Antes $ 669.990</span><span id="ahorro-queilen"></span><span data-tina-cuotas="queilen"></span><span data-tina-off="queilen"></span></div>
+<div class="tv-hooks" hidden><span id="price-queilen"></span><span id="price-old-queilen">Antes $ 669.990</span><span id="ahorro-queilen"></span><span data-tina-off="queilen"></span></div>
 </div>
 </article>
 <article class="tv-card" id="tina-coinco" data-modelo="coinco">
@@ -2056,12 +2042,11 @@
 <div class="tv-garantia"><svg class="tv-i" style="width:13px;height:13px"><use href="#tv-escudo"/></svg>Garantía 1 año</div>
 <div><div class="tv-precio"><span data-tv-precio="coinco">$499.990</span> <small>c/IVA</small></div>
 <div class="tv-ahorro" data-tv-ahorro="coinco"><s>$679.990</s> · <b>Ahorras 26%</b></div></div>
-<div class="tv-cuotas" data-tv-cuotas="coinco"><div class="tv-cuotas-fila"><span>3 cuotas sin interés</span><b>$166.663</b></div><div class="tv-cuotas-fila"><span>6 cuotas sin interés</span><b>$83.332</b></div><small>Según banco emisor</small></div>
 <div data-tv-envio="coinco"><div class="tv-envio"><svg class="tv-i"><use href="#tv-camion"/></svg>Despacho gratis en Santiago</div></div>
 <p class="tv-stock" data-tina-stock="coinco"></p>
 <button class="tv-btn tv-btn-pri pp-tina-btn-buy" type="button" onclick="openQtyModal(&#x27;coinco&#x27;,&#x27;Tina Coinco&#x27;,&#x27;167×92×58 cm · 210 L&#x27;,&#x27;https://polyplas.cl/wp-content/uploads/2026/05/Tina-hidromasaje-coinco-scaled-e1780158950747.webp&#x27;,3)" aria-label="Comprar Tina Coinco"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> COMPRAR</button>
 <a class="tv-link" data-tv-ficha="coinco" href="/tina-hidromasaje-coinco/" aria-label="Ver ficha completa de la Tina Coinco">Ver ficha completa</a>
-<div class="tv-hooks" hidden><span id="price-coinco"></span><span id="price-old-coinco">Antes $ 679.990</span><span id="ahorro-coinco"></span><span data-tina-cuotas="coinco"></span><span data-tina-off="coinco"></span></div>
+<div class="tv-hooks" hidden><span id="price-coinco"></span><span id="price-old-coinco">Antes $ 679.990</span><span id="ahorro-coinco"></span><span data-tina-off="coinco"></span></div>
 </div>
 </article>
 </div>
@@ -2131,7 +2116,7 @@
 <div class="tv-garantias">
 <div><svg class="tv-i"><use href="#tv-escudo"/></svg><p><b>Garantía de 1 año</b><span>Respaldada directamente por Polyplas.</span></p></div>
 <div><svg class="tv-i"><use href="#tv-ok"/></svg><p><b>Se entrega probada</b><span>Si un accesorio falla, enviamos el repuesto sin costo.</span></p></div>
-<div><svg class="tv-i"><use href="#tv-tarjeta"/></svg><p><b>Pago seguro</b><span>Transbank, 3 y 6 cuotas sin interés. Factura electrónica.</span></p></div>
+<div><svg class="tv-i"><use href="#tv-tarjeta"/></svg><p><b>Pago seguro</b><span>Webpay de Transbank, débito y crédito. Factura electrónica.</span></p></div>
 <div><svg class="tv-i"><use href="#tv-camion"/></svg><p><b>Entrega clara</b><span>Gratis en Santiago. A regiones, flete por pagar.</span></p></div>
 </div>
 <div class="tv-tienda">
@@ -2148,7 +2133,7 @@
 <h2>Resolvemos tus dudas</h2>
 </div>
 <details open><summary>¿Tina, jacuzzi o bañera con hidromasaje son lo mismo?</summary><p>Sí. En Chile "jacuzzi", "tina de hidromasaje" y "bañera con hidromasaje" nombran el mismo producto: una tina con jets de agua a presión, motor y pulsador.</p></details>
-<details><summary>¿Cuánto cuesta una tina de hidromasaje?</summary><p>De $479.990 a $979.990 con IVA incluido. Las de 1 persona cuestan entre $479.990 y $499.990, y la de 2 personas $979.990. Puedes pagar en 3 o 6 cuotas sin interés.</p></details>
+<details><summary>¿Cuánto cuesta una tina de hidromasaje?</summary><p>De $479.990 a $979.990 con IVA incluido. Las de 1 persona cuestan entre $479.990 y $499.990, y la de 2 personas $979.990.</p></details>
 <details><summary>¿Cuánto cuesta el envío a regiones?</summary><p>En Santiago el despacho es gratis. A regiones, el flete lo pagas al recibir, con la empresa de transporte que elijas, y se agrega un embalaje protector obligatorio de $90.000 c/IVA.</p></details>
 <details><summary>¿Cuál es la tina más pequeña?</summary><p>La Antuco es la más corta, con 130×130 cm. La Vilcún es la más angosta, con 170×75 cm, parecida a una tina tradicional.</p></details>
 <details><summary>¿Qué tina de hidromasaje elegir para 2 personas?</summary><p>La Kuyen Full es nuestra tina de hidromasaje para 2 personas: mide 183×120×65 cm y trae jets de alto caudal, mini jets lumbares, blowers, panel digital e iluminación LED.</p></details>
@@ -2493,7 +2478,7 @@
 <svg fill="none" height="18" stroke="currentColor" stroke-width="2.3" viewbox="0 0 24 24" width="18"><rect height="16" rx="2" width="22" x="1" y="4"></rect><line x1="1" x2="23" y1="10" y2="10"></line></svg>
           PAGAR CON WEBPAY
         </button>
-<div class="pp-webpay-note">🔒 Pago 100% seguro · SSL · Transbank · 3 y 6 cuotas sin interés según tu banco</div>
+<div class="pp-webpay-note">🔒 Pago 100% seguro · SSL · Transbank</div>
 </div>
 </div>
 </div>
@@ -3743,13 +3728,9 @@ function _syncTinasJsonLd() {
 // Lee pp_stock donde tipo='TINAS' y actualiza el módulo en tiempo real.
 // Los keys en Supabase son TINAS|vilcun|na|na, TINAS|queilen|na|na, etc.
 // No interfiere con los registros AA/PA de acrílicos.
-// Cuotas y stock en la tarjeta: se recalcula cuando cambia el precio o el stock.
+// Stock en la tarjeta: se recalcula cuando cambia el precio o el stock.
 function tinaSyncCard(tina, cantidad) {
   var fmtC = function(n) { return '$ ' + Math.round(n).toLocaleString('es-CL'); };
-  document.querySelectorAll('[data-tina-cuotas="' + tina.id + '"]').forEach(function(el) {
-    el.innerHTML = '<b class="c6">6 cuotas de ' + fmtC(tina.precio / 6) + '</b>' +
-      'o 3 cuotas de ' + fmtC(tina.precio / 3) + ' · sin interés, según tu banco';
-  });
   // Descuento en % sobre la foto (solo si hay precio anterior visible)
   var oldEl = document.getElementById('price-old-' + tina.id);
   var antes = (oldEl && oldEl.style.display !== 'none') ? parseInt((oldEl.textContent || '').replace(/\D/g, ''), 10) : 0;
@@ -3983,7 +3964,7 @@ loadTinasStockFromSupabase();
       '</div>';
   }
 
-  /* ── Pinta precio, ahorro, cuotas y entrega de cada tina ──── */
+  /* ── Pinta precio, ahorro y entrega de cada tina ──── */
   var pintando = false;
   function pintar() {
     pintando = true;
@@ -3997,10 +3978,6 @@ loadTinasStockFromSupabase();
         if (d) el.innerHTML = '<s>' + fmt(a) + '</s> · <b>Ahorras ' + d + '%</b>';
       });
       all('[data-tv-off="' + id + '"]').forEach(function (el) { el.hidden = !d; el.textContent = '-' + d + '%'; });
-      all('[data-tv-cuotas="' + id + '"]').forEach(function (el) {
-        el.innerHTML = '<div class="tv-cuotas-fila"><span>3 cuotas sin interés</span><b>' + fmt(p / 3) + '</b></div>' +
-          '<div class="tv-cuotas-fila"><span>6 cuotas sin interés</span><b>' + fmt(p / 6) + '</b></div><small>Según banco emisor</small>';
-      });
       all('[data-tv-envio="' + id + '"]').forEach(function (el) { el.innerHTML = envioHtml(id); });
     });
     if (isFinite(min)) all('[data-tv-min]').forEach(function (el) { el.textContent = fmt(min); });
