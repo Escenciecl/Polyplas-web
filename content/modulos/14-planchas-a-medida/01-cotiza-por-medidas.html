@@ -403,6 +403,7 @@ function piecesMM(tol){
   const groups=[];const key=(a,b)=>Math.max(a,b)+"x"+Math.min(a,b);
   return v.map(p=>{const w=Math.round(p.w*10)-d,h=Math.round(p.h*10)-d;const kk=key(w,h);let g=groups.indexOf(kk);if(g<0){groups.push(kk);g=groups.length-1;}return {w,h,q:p.q,g};});
 }
+function piecesKey(){return validPieces().map(p=>`${p.w}x${p.h}x${p.q}`).join(",");}
 function expand(ps){const out=[];ps.forEach(p=>{for(let i=0;i<p.q;i++)out.push({w:p.w,h:p.h,g:p.g});});return out;}
 function sizesCount(ps){return new Set(ps.map(p=>p.g)).size;}
 
@@ -467,6 +468,8 @@ function renderP1(){
     ${chica(v[i])?`<div class="prow-note" role="alert">El corte mínimo es 30 × 30 cm: piezas más chicas no se pueden cortar con la sierra y no entran en el cálculo.</div>`:""}
   </div>`;}).join("");
   const ok=v.filter(p=>p.ok);const maxD=Math.max(1,...ok.map(p=>Math.max(p.w,p.h)));
+  const chicas=v.filter(chica).map(p=>`${p.w}x${p.h}`).join(",");
+  if(chicas)trackLuego("min",1500,()=>{const now=validPieces().filter(chica).map(p=>`${p.w}x${p.h}`).join(",");if(now===chicas)track("med_error_piezas",{motivo:"muy_chica",detalle:chicas},chicas);});
   const k=Math.min(1.7,150/maxD);const LIMIT=40;let drawn=0,total=0,tiles="";
   ok.forEach((p,i)=>{for(let j=0;j<p.q;j++){total++;if(drawn>=LIMIT)continue;drawn++;const W=p.w*k,H=p.h*k;
     tiles+=`<div class="tile" style="width:${W.toFixed(1)}px;height:${H.toFixed(1)}px;--c:${PCOL[i%6]}"><span>${W>46&&H>22?`${cm(p.w*10)}×${cm(p.h*10)}`:""}</span></div>`;}});
@@ -483,7 +486,7 @@ function renderP1(){
     <div class="tiles">${tiles||'<p class="hint">Escribe una medida y la verás dibujada aquí.</p>'}${total>drawn?`<div class="tile more-t">+${total-drawn} más</div>`:""}</div>
   </aside></div>`;
   const tot=ok.reduce((s,p)=>s+p.q,0);
-  actionbar(v.some(chica)?`<span class="ab-err">El corte mínimo es 30 × 30 cm</span>`:tot?`<b>${tot}</b> pieza${tot===1?"":"s"} en ${ok.length} medida${ok.length===1?"":"s"}`:"Ingresa tus medidas para continuar",null,"Continuar",v.every(p=>p.ok),()=>{S.touched=true;if(validPieces().every(p=>p.ok))go(2);else render();});
+  actionbar(v.some(chica)?`<span class="ab-err">El corte mínimo es 30 × 30 cm</span>`:tot?`<b>${tot}</b> pieza${tot===1?"":"s"} en ${ok.length} medida${ok.length===1?"":"s"}`:"Ingresa tus medidas para continuar",null,"Continuar",v.every(p=>p.ok),()=>{S.touched=true;const vv=validPieces();if(vv.every(p=>p.ok)){track("med_piezas_ok",{piezas:vv.reduce((a,p)=>a+p.q,0),medidas:vv.length,m2:+(vv.reduce((a,p)=>a+p.w*p.h*p.q,0)/1e4).toFixed(2)});go(2);}else render();});
 }
 
 /* Paso 2 */
@@ -520,11 +523,12 @@ function renderP2(){
   const f=fitInfo();
   if(f&&!f.ok){
     const msg=`Tu pieza de ${cm(f.big.w)} × ${cm(f.big.h)} cm no cabe en ${COLORS[S.color][0]} ${S.esp.replace("mm"," mm")}${f.maxR?` (plancha más grande: ${fmtDim(f.maxR)})`:""}.`;
+    track("med_no_cabe",{motivo:"no_cabe",detalle:`${cm(f.big.w)}x${cm(f.big.h)}`},`${S.mat}|${S.color}|${S.esp}|${f.big.w}x${f.big.h}`);
     html+=`<div class="notice bad" role="alert"><div><b class="t">No cabe en esta plancha.</b> ${msg}</div><div class="acts">${f.alts.map(a=>`<button type="button" class="btn-s" data-alt="${a.c}|${a.e}">Cambiar a ${COLORS[a.c][0]} ${a.e.replace("mm"," mm")}</button>`).join("")}<a class="btn-s" href="${waLink()}" target="_blank" rel="noopener">Consultar por WhatsApp</a></div></div>`;
   }
   $("#ppcm-pane").innerHTML=html;
   const sel=[S.mat&&MATS.find(m=>m.k===S.mat).n,S.color&&COLORS[S.color][0],S.esp&&S.esp.replace("mm"," mm")].filter(Boolean).join(" · ");
-  actionbar(sel?`<b>${esc(sel)}</b>`:"Elige material, color y espesor",()=>go(1),"Ver mis opciones",step2Ready(),()=>go(3));
+  actionbar(sel?`<b>${esc(sel)}</b>`:"Elige material, color y espesor",()=>go(1),"Ver mis opciones",step2Ready(),()=>{track("med_material_ok",{tipo:MATS.find(m=>m.k===S.mat).n,ayuda:S.usoAyuda?"si":"no"});go(3);});
 }
 function setMat(k){S.mat=k;S.chosen=null;S.sel=null;S.showAll=false;const cols=colorsFor(k).filter(c=>inStock(rowsFor(k,c)));S.color=cols.length===1?cols[0]:(cols.includes(S.color)?S.color:null);autoEsp();}
 function autoEsp(){if(!S.color){S.esp=null;return;}const es=espsFor(S.mat,S.color).filter(e=>inStock(rowsFor(S.mat,S.color,e)));if(!es.includes(S.esp))S.esp=es.length===1?es[0]:null;}
@@ -554,7 +558,10 @@ function renderP3(){
     $("#ppcm-pane").innerHTML=html;
     actionbar("Sin opciones disponibles",()=>go(2),null,false,null);return;
   }
+  const TAGK={"Recomendada":"recomendada","Menos sobrante":"menos_sobrante","100% virgen":"virgen"};
+  window._ppcmTags={};cards.forEach(c=>{window._ppcmTags[c.o.r.id]=TAGK[c.tag]||"otro_formato";});
   const best=cards[0].o;
+  track("med_opciones_vista",{opciones:valid.length,valor:best.total,planchas:best.N,ahorro:(!S.tol&&other<cur)?cur-other:0,tolerancia:S.tol?"si":"no"},`${piecesKey()}|${S.mat}|${S.color}|${S.esp}|${S.tol}`);
   const restOk=rest.filter(o=>!o.nofit&&o.stockOk).sort((a,b)=>a.total-b.total);
   html+=`<div class="ocards" role="radiogroup" aria-label="Opciones de compra">${cards.map(c=>optCard(c.o,c.tag,c.best,best)).join("")}</div>`;
   if(restOk.length){
@@ -577,7 +584,7 @@ function renderP3(){
   }
   html+=`<p class="hint">¿Dudas? <a href="${waLink()}" target="_blank" rel="noopener">Escríbenos por WhatsApp</a> y te ayudamos con tu pedido.</p>`;
   $("#ppcm-pane").innerHTML=html;
-  actionbar(sel?`<span class="ab-sel">${sel.N} plancha${sel.N===1?"":"s"} de ${fmtDim(sel.r)}</span><b>${money(sel.total)}</b> <span class="ab-iva">IVA incluido</span>`:"Elige una opción",()=>go(2),"Continuar con esta opción",!!sel,()=>{if(sel){S.chosen=sel;go(4);}});
+  actionbar(sel?`<span class="ab-sel">${sel.N} plancha${sel.N===1?"":"s"} de ${fmtDim(sel.r)}</span><b>${money(sel.total)}</b> <span class="ab-iva">IVA incluido</span>`:"Elige una opción",()=>go(2),"Continuar con esta opción",!!sel,()=>{if(sel){S.chosen=sel;track("med_opcion_elegida",datosOpcion(sel));go(4);}});
 }
 function optCard(o,tag,isBest,best){
   const r=o.r,on=o.r.id===S.sel;
@@ -617,12 +624,19 @@ function agregarAlCarro(o){
   if(typeof window.ppGlobalCartAdd!=="function"){S.cartError=true;render();return;}
   const item=cartItem(o);
   window.ppGlobalCartAdd(item);
-  try{(window.dataLayer=window.dataLayer||[]).push({event:"pp_flujo_medidas",flujo:"medidas",sku:item.sku,planchas:o.N,valor:o.total});}catch(_){}
+  track("med_agregar_carro",datosOpcion(o));
+  try{
+    if(typeof window.ppTrack==="function"){
+      const r=o.r;
+      window.ppTrack("add_to_cart",{currency:"CLP",value:o.total,items:[{item_id:item.sku,item_name:"Plancha "+item.nombre,item_category:r.linea?(r.linea==="PA"?"PA · 100% Virgen":"Acrílico AA"):({pet:"PET",petg:"PETG",policarbonato:"Policarbonato"})[r.mat],item_category2:fmtDim(r),item_category3:r.esp,item_variant:COLORS[r.color][0],price:r.precio,quantity:o.N,item_list_name:"Cotiza por medidas"}]},item.module);
+    }
+  }catch(_){}
   S.added=true;render();
   if(typeof window.ppGCOpen==="function")window.ppGCOpen();
 }
 function renderP4(){
   const o=S.chosen,r=o.r;
+  track("med_resumen",datosOpcion(o),`${piecesKey()}|${r.id}|${S.tol}`);
   const plans=o.sheets.map((s,i)=>`<figure class="sheetfig">${sheetSVG(r,s,280)}<figcaption><b>Plancha ${i+1}</b> · ${s.length} pieza${s.length===1?"":"s"}</figcaption></figure>`).join("");
   const desc=o.ps.map(p=>`${p.q} × ${cm(p.w)} × ${cm(p.h)} cm`).join(" · ");
   $("#ppcm-pane").innerHTML=`<div><b>${r.mat==="acrilico"?"Acrílico "+r.linea:MATS.find(m=>m.k===r.mat).n} · ${COLORS[r.color][0]} · ${r.esp.replace("mm"," mm")}</b><div class="line">${fmtDim(r)} · ${desc}${o.tol?" · medidas ajustadas −2 mm":""}</div></div>
@@ -635,12 +649,27 @@ function renderP4(){
     ${S.cartError?`<div class="notice bad" role="alert"><div><b class="t">No pudimos abrir el carrito.</b> Recarga la página o escríbenos por WhatsApp al +56 9 4208 6751.</div></div>`:""}
     ${S.added?`<div class="toast" role="status">✓ Agregado a tu pedido.</div>
       <div class="notice info"><div>¿Necesitas piezas en otro material o espesor?</div><div class="acts"><button type="button" class="btn-s" id="ppcm-again">Cotizar otra plancha</button></div></div>`:""}`;
-  actionbar(`Total <b>${money(o.total)}</b>`,()=>go(3),S.added?"Ver mi pedido":"Agregar al carro",true,()=>{if(S.added){if(typeof window.ppGCOpen==="function")window.ppGCOpen();}else agregarAlCarro(o);});
+  actionbar(`Total <b>${money(o.total)}</b>`,()=>go(3),S.added?"Ver mi pedido":"Agregar al carro",true,()=>{if(S.added){track("med_ver_pedido",{valor:o.total});if(typeof window.ppGCOpen==="function")window.ppGCOpen();}else agregarAlCarro(o);});
 }
 
+/* ---------- Marcaje (Tag Manager) ----------
+   Eventos propios med_* con flujo:"medidas" para diferenciarlos del configurador (conf_*).
+   add_to_cart va por ppTrack con item_list_name "Cotiza por medidas", que acompaña al artículo hasta el pago. */
+const TIPO_LBL={AA:"AA · Mix",PA:"PA · 100% virgen"},LINEA_LBL={acrilico:"Planchas Acrílico",pet:"Planchas PET",petg:"Planchas PETG",policarbonato:"Planchas Policarbonato Compacto"};
+const _hechos=new Set(),_esperas={};
+function track(ev,p,clave){
+  try{
+    if(clave){const k=ev+"|"+clave;if(_hechos.has(k))return;_hechos.add(k);}
+    const elegido=S.step>=2&&S.mat;
+    const base={event:ev,flujo:"medidas",paso:S.step,linea:elegido?LINEA_LBL[S.mat]:undefined,color:elegido?S.color||undefined:undefined,espesor:elegido?S.esp||undefined:undefined};
+    (window.dataLayer=window.dataLayer||[]).push(Object.assign(base,p||{}));
+  }catch(_){}
+}
+function trackLuego(id,ms,fn){clearTimeout(_esperas[id]);_esperas[id]=setTimeout(fn,ms);}
+function datosOpcion(o){const r=o.r;return {opcion:(window._ppcmTags&&window._ppcmTags[r.id])||"otro_formato",tipo:r.linea?TIPO_LBL[r.linea]:MATS.find(m=>m.k===r.mat).n,item_id:cartItem(o).sku,medida:r.dim.split("_")[0],planchas:o.N,aprovechado:Math.round((1-o.waste)*100),valor:o.total,piezas:o.count};}
 function actionbar(info,back,label,enabled,fn){
   $("#ppcm-actionbar").innerHTML=`<div class="ab-info">${info}</div><div class="ab-btns">${back?`<button type="button" class="btn sec" id="ppcm-ab-back">Atrás</button>`:""}${label?`<button type="button" class="btn" id="ppcm-ab-next" aria-disabled="${!enabled}">${label}</button>`:""}</div>`;
-  if(back)$("#ppcm-ab-back").onclick=back;
+  if(back)$("#ppcm-ab-back").onclick=()=>{track("med_atras",{});back();};
   if(label)$("#ppcm-ab-next").onclick=()=>{if(enabled||S.step===1)fn();};
 }
 function go(n){if(!canReach(n))return;S.step=n;if(n<4){S.added=false;S.cartError=false;}render();ROOT.querySelector(".wiz").scrollIntoView({behavior:"smooth",block:"start"});}
@@ -651,23 +680,24 @@ function waLink(){
 }
 
 /* ---------- Eventos ---------- */
-ROOT.addEventListener("input",e=>{const t=e.target;if(t.dataset.f!==undefined&&t.dataset.i!==undefined){S.pieces[+t.dataset.i][t.dataset.f]=t.value;S.example=false;S.chosen=null;S.sel=null;S.tolNo=false;S.showAll=false;
+ROOT.addEventListener("input",e=>{const t=e.target;if(t.dataset.f!==undefined&&t.dataset.i!==undefined){track("med_inicio",{},"1");S.pieces[+t.dataset.i][t.dataset.f]=t.value;S.example=false;S.chosen=null;S.sel=null;S.tolNo=false;S.showAll=false;
   const pos=t.selectionStart,id=t.id;renderP1();renderSteps();const n=document.getElementById(id);if(n){n.focus();try{n.setSelectionRange(pos,pos);}catch(_){}}}});
 ROOT.addEventListener("change",e=>{if(e.target.id==="ppcm-tol"){S.tol=e.target.checked;S.chosen=null;render();}});
 ROOT.addEventListener("click",e=>{
+  const wa=e.target.closest("a[href*=\"wa.me\"]");if(wa){track("med_whatsapp",{});return;}
   const t=e.target.closest("button,[data-go]");if(!t)return;
   if(t.dataset.go){go(+t.dataset.go);return;}
   if(t.id==="ppcm-add"){S.pieces.push({w:"",h:"",q:"1"});S.example=false;render();const i=S.pieces.length-1;document.getElementById(`ppcm-p${i}w`).focus();return;}
   if(t.dataset.del){S.pieces.splice(+t.dataset.del,1);render();return;}
   if(t.dataset.mat){S.help=false;setMat(t.dataset.mat);render();return;}
   if(t.id==="ppcm-helpbtn"){S.help=!S.help;render();return;}
-  if(t.dataset.uso){const u=USOS[+t.dataset.uso];setMat(u.mat);if(!S.color)S.color="clear";if(inStock(rowsFor(S.mat,S.color,u.esp)))S.esp=u.esp;else autoEsp();S.help=false;render();return;}
+  if(t.dataset.uso){const u=USOS[+t.dataset.uso];S.usoAyuda=true;track("med_ayuda_uso",{detalle:u.n});setMat(u.mat);if(!S.color)S.color="clear";if(inStock(rowsFor(S.mat,S.color,u.esp)))S.esp=u.esp;else autoEsp();S.help=false;render();return;}
   if(t.dataset.color){S.color=t.dataset.color;S.chosen=null;S.sel=null;S.showAll=false;autoEsp();render();return;}
   if(t.dataset.esp){S.esp=t.dataset.esp;S.chosen=null;S.sel=null;S.showAll=false;render();return;}
   if(t.dataset.alt){const [c,es]=t.dataset.alt.split("|");S.color=c;S.esp=es;render();return;}
-  if(t.id==="ppcm-tolon"){S.tol=true;S.sel=null;render();return;}
-  if(t.id==="ppcm-tolno"){S.tolNo=true;render();return;}
-  if(t.id==="ppcm-toloff"){S.tol=false;S.sel=null;render();return;}
+  if(t.id==="ppcm-tolon"){track("med_tolerancia",{respuesta:"si"});S.tol=true;S.sel=null;render();return;}
+  if(t.id==="ppcm-tolno"){track("med_tolerancia",{respuesta:"no"});S.tolNo=true;render();return;}
+  if(t.id==="ppcm-toloff"){track("med_tolerancia",{respuesta:"quitar"});S.tol=false;S.sel=null;render();return;}
   if(t.id==="ppcm-showall"){S.showAll=true;render();return;}
   if(t.dataset.sel){S.sel=+t.dataset.sel;const y=window.scrollY;render();window.scrollTo(0,y);return;}
   if(t.dataset.pick){S.chosen=window._opts.find(o=>o.r.id===+t.dataset.pick);go(4);return;}
