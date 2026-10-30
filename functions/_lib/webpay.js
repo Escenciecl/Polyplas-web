@@ -181,7 +181,9 @@ export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, ent
     cliente += filaDato("Nombre", nombre);
   }
   cliente += filaDato("RUT", c.rut) + filaDato("Telefono", c.tel) + filaDato("Metodo de entrega", entrega);
-  if (c.dir || c.ciudad) cliente += filaDato("Direccion", `${c.dir || ""}, ${c.ciudad || ""}, ${c.region || ""}`);
+  const dirF = c.dir_factura || c.dir, ciuF = c.ciudad_factura || c.ciudad, regF = c.region_factura || c.region;
+  if (dirF || ciuF) cliente += filaDato("Direccion de facturacion", `${dirF || ""}, ${ciuF || ""}, ${regF || ""}`);
+  if (c.dir_factura && c.dir) cliente += filaDato("Direccion de despacho", `${c.dir}, ${c.ciudad || ""}, ${c.region || ""}`);
 
   const saludo = empresa ? `Estimados ${esc(nombre)}` : `Hola ${esc(nombre)}`;
 
@@ -504,9 +506,12 @@ export async function registrarEnSupabase(order, tbk) {
     giro: c.giro || "",
     email: c.email || "",
     phone: c.tel || "",
-    dir: c.dir || "",
-    ciudad: c.ciudad || "",
-    region: c.region || "",
+    dir: c.dir || c.dir_factura || "",
+    ciudad: c.ciudad || c.ciudad_factura || "",
+    region: c.region || c.region_factura || "",
+    dir_factura: c.dir_factura || c.dir || "",
+    ciudad_factura: c.ciudad_factura || c.ciudad || "",
+    region_factura: c.region_factura || c.region || "",
     entrega: order.entrega,
     total: tbk.amount,
     items: order.items,
@@ -540,7 +545,8 @@ export async function registrarEnSupabase(order, tbk) {
     "─────────────────\n" +
     `Cliente: ${nombre}  RUT: ${c.rut || ""}\n` +
     `Email: ${c.email || ""}  Tel: ${c.tel || ""}\n` +
-    `Dirección: ${c.dir || ""}, ${c.ciudad || ""}, ${c.region || ""}`;
+    `Dirección facturación: ${c.dir_factura || c.dir || ""}, ${c.ciudad_factura || c.ciudad || ""}, ${c.region_factura || c.region || ""}` +
+    (c.dir_factura && c.dir ? `\nDirección despacho: ${c.dir}, ${c.ciudad || ""}, ${c.region || ""}` : "");
   await fetch(`${SUPABASE_URL}/messages`, {
     method: "POST",
     headers,

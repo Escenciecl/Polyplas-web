@@ -85,9 +85,15 @@ export async function registrarTransferenciaEnSupabase(order) {
     giro: c.giro || "",
     email: c.email || "",
     phone: c.tel || "",
-    dir: c.dir || "",
-    ciudad: c.ciudad || "",
-    region: c.region || "",
+    // Persona Natural manda la dirección de facturación en *_factura y deja dir/ciudad/region
+    // para el despacho (vacíos si retira en tienda). Igual que el registro de Webpay del navegador,
+    // se usa la de facturación como respaldo y además se guarda aparte para facturar.
+    dir: c.dir || c.dir_factura || "",
+    ciudad: c.ciudad || c.ciudad_factura || "",
+    region: c.region || c.region_factura || "",
+    dir_factura: c.dir_factura || c.dir || "",
+    ciudad_factura: c.ciudad_factura || c.ciudad || "",
+    region_factura: c.region_factura || c.region || "",
     entrega: order.entrega,
     total: order.total,
     items: order.items,
@@ -124,7 +130,8 @@ export async function registrarTransferenciaEnSupabase(order) {
     "─────────────────\n" +
     `Cliente: ${nombre}  RUT: ${c.rut || ""}\n` +
     `Email: ${c.email || ""}  Tel: ${c.tel || ""}\n` +
-    `Dirección: ${c.dir || ""}, ${c.ciudad || ""}, ${c.region || ""}\n` +
+    `Dirección facturación: ${c.dir_factura || c.dir || ""}, ${c.ciudad_factura || c.ciudad || ""}, ${c.region_factura || c.region || ""}\n` +
+    (c.dir_factura && c.dir ? `Dirección despacho: ${c.dir}, ${c.ciudad || ""}, ${c.region || ""}\n` : "") +
     "─────────────────\n" +
     (order.verificado === false ? "⚠ El CRM no respondió al crear el pedido: revisa los precios antes de confirmar.\n" : "") +
     "Cuando llegue la transferencia a la cuenta, usa «Cerrar venta» para que cuente como venta.";
