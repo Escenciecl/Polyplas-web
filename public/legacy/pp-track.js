@@ -293,7 +293,16 @@
    *   conf_pedido                               llegó al paso 2 "Pedido" del configurador
    *   conf_corte_si · conf_corte_no             respondió si quiere las planchas cortadas a medida
    *   compra_abre                               abrió el cuadro de cantidad (tinas, cúpulas, receptáculos)
-   *   pago_datos_ok · pago_datos_error          completó (o no) sus datos en "Finalizar pedido"
+   *   conf_ir_pago · conf_seguir_comprando      paso 2 "Cortes" de las planchas: "Continuar" (va al pago)
+   *                                             o "Agregar al carro y seguir comprando"
+   *   pago_datos_ok · pago_datos_error          pulsó "Continuar al pago" en el paso 3 "Datos y envío"
+   *                                             con los datos completos (o con datos faltantes/erróneos)
+   *   pago_resumen                              llegó al paso 4 "Resumen y pago"
+   * Embudo GA4 del pago (compra en 4 pasos):
+   *   begin_checkout     se abre el paso 3 "Datos y envío"
+   *   add_shipping_info  "Continuar al pago" con datos y entrega válidos (shipping_tier = entrega elegida)
+   *   add_payment_info   clic en "Pagar con Webpay" / "Confirmar pedido" (payment_type)
+   *   purchase           página de gracias
    *   pago_error_webpay                         falló la conexión con Webpay
    * Cada uno lleva: linea, tipo, item_id y valor (cuando aplica).
    */

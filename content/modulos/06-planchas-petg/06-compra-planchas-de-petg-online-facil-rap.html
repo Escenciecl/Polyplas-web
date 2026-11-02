@@ -3884,11 +3884,12 @@
 </div>
 <button aria-label="Cerrar configurador" class="pp-configurator-close-btn pp-wz-close" onclick="closeConfigurator()">×</button>
 </div>
-<span class="pp-configurator-topbar-title pp-wz-sr" id="configuratorTopbarTitle" aria-live="polite">Paso 1 de 3 — Medida y espesor</span>
+<span class="pp-configurator-topbar-title pp-wz-sr" id="configuratorTopbarTitle" aria-live="polite">Paso 1 de 4 — Medida y espesor</span>
 <ol class="pp-wz-steps" aria-label="Pasos de la compra">
 <li class="pp-wz-step active" id="confStep1"><span class="pp-wz-bar"></span><span class="pp-wz-label">1. Medida y espesor</span></li>
 <li class="pp-wz-step" id="confStep2"><span class="pp-wz-bar"></span><span class="pp-wz-label">2. Cortes</span></li>
-<li class="pp-wz-step" id="confStep3"><span class="pp-wz-bar"></span><span class="pp-wz-label">3. Resumen</span></li>
+<li class="pp-wz-step" id="confStep3"><span class="pp-wz-bar"></span><span class="pp-wz-label">3. Datos y envío</span></li>
+<li class="pp-wz-step" id="confStep4"><span class="pp-wz-bar"></span><span class="pp-wz-label">4. Resumen y pago</span></li>
 </ol>
 </div>
 <div class="pp-configurator-content">
@@ -4043,8 +4044,9 @@
 </div>
 <div class="pp-corte-footer-btns">
 <button class="pp-corte-cta-back" onclick="if(window.goBackToPaso2)window.goBackToPaso2();" type="button">Atrás</button>
-<button class="pp-corte-cta-next" onclick="if(window.pccVerResumen)window.pccVerResumen();" type="button">Ver resumen</button>
+<button class="pp-corte-cta-next" onclick="if(window.pp4Continuar)window.pp4Continuar('pago');else if(window.pccVerResumen)window.pccVerResumen();" type="button">Continuar</button>
 </div>
+<button class="p3-seguir" onclick="if(window.pp4Continuar)window.pp4Continuar('seguir');" type="button">Agregar al carro y seguir comprando</button>
 </div>
 </div>
 <div id="paso4BackBtn" style="display:none;margin-top:16px">
@@ -4631,7 +4633,7 @@ let currentStep = 1;
 function ppSyncWizardHeader() {
   var H = document.documentElement;
   var stage = H.classList.contains('pcc-paso4') ? 3 : (H.classList.contains('pcc-paso3') ? 2 : 1);
-  var names = ['Medida y espesor', 'Cortes', 'Resumen'];
+  var names = ['Medida y espesor', 'Cortes', 'Datos y envío'];
   for (var i = 1; i <= 3; i++) {
     var el = document.getElementById('confStep' + i);
     if (!el) continue;
@@ -4639,7 +4641,7 @@ function ppSyncWizardHeader() {
     if (i === stage) el.setAttribute('aria-current', 'step'); else el.removeAttribute('aria-current');
   }
   var tb = document.getElementById('configuratorTopbarTitle');
-  var txt = 'Paso ' + stage + ' de 3 — ' + names[stage - 1];
+  var txt = 'Paso ' + stage + ' de 4 — ' + names[stage - 1];
   if (tb && tb.textContent !== txt) tb.textContent = txt;
   // Identidad del producto: "AA · MIX" + "Transparente / Clear"
   var st = window._ppState || {};
@@ -11167,5 +11169,85 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
   var _m=encodeURIComponent('Hola, vengo de la web de Polyplas y quiero hacer una consulta. (Ref: '+_r+')');
   function _upd(){document.querySelectorAll('a[href*="wa.me"]:not([data-wa-fijo]),a[href*="whatsapp.com/send"]:not([data-wa-fijo])').forEach(function(a){a.href=a.href.split('?')[0]+'?text='+_m;});}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',_upd);else _upd();
+})();
+</script>
+
+<style>
+/* ═══ Compra en 4 pasos: 1 Medida y espesor · 2 Cortes · 3 Datos y envío · 4 Resumen y pago ═══
+   Los pasos 3 y 4 son el "Finalizar pedido" del carrito global (00-flotantes/04-carrito-y-pago.html). */
+#configuratorModal .pp-wz-steps { grid-template-columns: repeat(4, 1fr) !important; gap: 10px !important; }
+#configuratorModal .pp-wz-label { white-space: normal !important; overflow: visible !important; text-overflow: clip !important; font-size: 0.8rem !important; line-height: 1.25 !important; }
+@media (max-width: 560px) {
+  #configuratorModal .pp-wz-steps { gap: 6px !important; }
+  #configuratorModal .pp-wz-label { font-size: 0.68rem !important; }
+}
+#configuratorModal .pp-corte-footer .p3-seguir { margin-top: 10px !important; }
+/* Mientras se arma el pedido (entre "Continuar" y el pago) no se muestra el resumen anterior */
+html.pp4-preparando #configuratorModal .pp-configurator-content { position: relative; min-height: 200px; }
+html.pp4-preparando #configuratorModal .pp-configurator-content > * { display: none !important; }
+html.pp4-preparando #configuratorModal .pp-configurator-content::after {
+  content: "Preparando tu pedido…"; position: absolute; left: 0; right: 0; top: 70px;
+  text-align: center; font-family: 'Inter', Arial, sans-serif; font-size: 0.95rem; font-weight: 600; color: #1a3a6e;
+}
+html.pp4-preparando #configuratorModal .pp-configurator-content::before {
+  content: ""; position: absolute; left: 50%; top: 24px; width: 30px; height: 30px; margin-left: -15px;
+  border: 3px solid #dde4ef; border-top-color: #FF8A1F; border-radius: 50%; animation: pp4spin .8s linear infinite;
+}
+@keyframes pp4spin { to { transform: rotate(360deg); } }
+</style>
+<script>
+/* ═══ Compra en 4 pasos · paso 2 (Cortes) → paso 3 (Datos y envío) ═══
+   "Continuar" usa el mismo camino de siempre: pccVerResumen() arma el pedido (cantidad, plano de
+   corte, combinaciones) y pccFinalizar() lo agrega al carro igual que el botón "Ir al pago" del
+   resumen. Lo único nuevo: no se muestra el resumen del configurador, se pasa directo a los datos.
+   Si por cualquier motivo no se llega al resumen, no pasa nada (igual que antes con "Ver resumen"). */
+(function () {
+  if (window.pp4Continuar) return;
+  var H = document.documentElement, pend = null;
+  var RUTAS = [[/planchas-acrilico/, 'acrilico'], [/planchas-petg/, 'petg'], [/planchas-pet/, 'pet'], [/policarbonato/, 'pc']];
+  function modulo() { var m = ''; RUTAS.some(function (r) { if (r[0].test(location.pathname)) { m = r[1]; return true; } return false; }); return m; }
+  function txt(id) { var e = document.getElementById(id); return e ? String(e.textContent || '').trim() : ''; }
+  function abierto() { var m = document.getElementById('configuratorModal'); return !!(m && m.classList.contains('open')); }
+  // Cortes distintos: pccOk() sigue completando medidas unos ms después de mostrar el resumen (120 ms por medida)
+  function demora() {
+    var ci = window._pccCalcInfo, m = 0;
+    if (ci && ci.mode === 'distintos' && ci.placedSheets) {
+      ci.placedSheets.forEach(function (s) {
+        var k = {}; (s || []).forEach(function (p) { k[Math.min(p.W, p.H) + '_' + Math.max(p.W, p.H)] = 1; });
+        m = Math.max(m, Object.keys(k).length);
+      });
+    }
+    return 450 + m * 120;
+  }
+  function finalizar(p) {
+    H.classList.remove('pp4-preparando');
+    if (pend !== p) return;
+    pend = null;
+    if (!abierto() || !H.classList.contains('pcc-paso4')) return; // cerró o volvió atrás mientras tanto
+    try { if (window.ppPaso) window.ppPaso(p.modo === 'pago' ? 'conf_ir_pago' : 'conf_seguir_comprando', modulo(), window._ppState || {}); } catch (e) {}
+    if (p.modo === 'pago') {
+      // El "Finalizar pedido" muestra la misma cabecera del configurador (pasos 3 y 4)
+      window._ppGCOrigen = { t: Date.now(), img: window._ppCardImg || '', eyebrow: txt('confTopEyebrow'), title: txt('confTopProduct'), pasos: ['Medida y espesor', 'Cortes'] };
+    }
+    if (typeof window.pccFinalizar === 'function') { window.pccFinalizar(p.modo); return; }
+    var b = document.getElementById(p.modo === 'pago' ? 'btnGoCheckout' : 'btnAddToOrder'); if (b) b.click();
+  }
+  function alLlegarAlResumen() {
+    var p = pend;
+    if (!p || p.run || !H.classList.contains('pcc-paso4')) return;
+    p.run = true;
+    H.classList.add('pp4-preparando');
+    setTimeout(function () { finalizar(p); }, demora());
+  }
+  try { new MutationObserver(alLlegarAlResumen).observe(H, { attributes: true, attributeFilter: ['class'] }); } catch (e) {}
+  window.pp4Continuar = function (modo) {
+    modo = modo === 'seguir' ? 'seguir' : 'pago';
+    if (pend && pend.run) return; // ya se está armando
+    var p = pend = { modo: modo, t: Date.now() };
+    if (H.classList.contains('pcc-paso4')) { alLlegarAlResumen(); return; }
+    if (typeof window.pccVerResumen === 'function') window.pccVerResumen();
+    // Si faltan datos (ej. piezas sin medidas) nunca llega al resumen: se descarta el pedido pendiente
+    setTimeout(function () { if (pend === p && !p.run) pend = null; }, 8000);
+  };
 })();
 </script>
