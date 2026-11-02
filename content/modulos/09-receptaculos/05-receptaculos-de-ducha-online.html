@@ -1606,6 +1606,8 @@ window.closeReceptDetail = function() {
 window.openReceptCheckout = function() {
   if (!receptCart.length) { receptShowToast('Agrega al menos un producto para continuar'); return; }
   dlPushRecep('begin_checkout', { currency: 'CLP', value: receptCartTotal(), customer_type: receptClientType, items: receptCart.map(function(i, idx) { return { item_id: 'REC_' + i.id, item_name: i.nombre, item_brand: 'Polyplas', item_category: 'Receptáculos de Ducha', item_variant: i.specs || '', price: i.precio, quantity: i.qty, index: idx }; }) });
+  // Igual que en las demás líneas: "Ir al pago" abre directo los datos y envío (paso 3)
+  if (window.ppGCOpenCheckout) { window.ppGCOpenCheckout(); return; }
   if (window.ppGCOpen) { window.ppGCOpen(); return; }
   document.getElementById('recepStep1').style.display = '';
   document.getElementById('recepStep2').style.display = 'none';

@@ -1901,6 +1901,8 @@ function buildOrderItemsHTML() {
 window.openTinaCheckout = function() {
   if (!cart.length) { showToast('Agrega un casco primero', ''); return; }
   dlPushTinas('begin_checkout', { currency: 'CLP', value: cartTotal(), customer_type: tinaClientType, items: cart.map(function(i, idx) { return { item_id: 'CASCO_' + i.id, item_name: i.nombre, item_brand: 'Polyplas', item_category: 'Cascos de Tinas', item_variant: i.specs || '', price: i.precio, quantity: i.qty, index: idx }; }) });
+  // Igual que en las demás líneas: "Ir al pago" abre directo los datos y envío (paso 3)
+  if (window.ppGCOpenCheckout) { window.ppGCOpenCheckout(); return; }
   if (window.ppGCOpen) { window.ppGCOpen(); return; }
   // Reset to step 1
   document.getElementById('tinaStep1').style.display = '';
