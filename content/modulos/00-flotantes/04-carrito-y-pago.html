@@ -2170,6 +2170,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       }
       if (!data.token||!data.url) throw new Error('Respuesta inválida');
       try { sessionStorage.setItem(GC_ORDER_KEY,JSON.stringify({convId:convId,shortId:shortId,client:client,items:itemsPedido,entregaLabel:gcSelectedEntrega.label,total:total,resumen:resumen,termsAccepted:gcTermsAccepted})); } catch(e){}
+      try { sessionStorage.setItem('pp_cart_dl', JSON.stringify(itemsPedido.map(gcDlItem))); sessionStorage.setItem('pp_total_dl', String(total)); } catch(e){}
       var form=document.createElement('form'); form.method='POST'; form.action=data.url;
       var inp=document.createElement('input'); inp.type='hidden'; inp.name='token_ws'; inp.value=data.token;
       form.appendChild(inp); document.body.appendChild(form); form.submit();

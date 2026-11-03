@@ -785,6 +785,33 @@
       el.className   = map[s].cls;
     }
 
+    // ── Detección de producto/página de origen ────────────
+    function detectProductoOrigen() {
+      var log = window.ppTrackLog || [];
+      for (var i = log.length - 1; i >= 0; i--) {
+        var entry = log[i];
+        if (entry.estado === 'ENVIADO' && entry.evento === 'view_item' &&
+            entry.detalle && entry.detalle.items && entry.detalle.items[0]) {
+          var it = entry.detalle.items[0];
+          return {
+            producto_id:     it.item_id   || '',
+            producto_nombre: it.item_name || '',
+            pagina_tipo:     'ficha_producto',
+            pagina_path:     window.location.pathname
+          };
+        }
+      }
+      var path = window.location.pathname;
+      var tipo = 'otra';
+      if      (/\/categoria-producto\//.test(path))                           tipo = 'categoria';
+      else if (/tina-hidromasaje|casco-tina|cupula-acrilico|receptaculo-ducha|columna-ducha|mampara-ducha/.test(path)) tipo = 'ficha_producto';
+      else if (/planchas-acrilico|planchas-pet|planchas-petg|policarbonato/.test(path)) tipo = 'configurador';
+      else if (/carrito|cart/.test(path))                                     tipo = 'carrito';
+      else if (/gracias/.test(path))                                          tipo = 'confirmacion';
+      else if (path === '/' || /^\/?$/.test(path))                            tipo = 'home';
+      return { producto_id: '', producto_nombre: '', pagina_tipo: tipo, pagina_path: path };
+    }
+
     // ── Toggle ventana ────────────────────────────────────
     function toggle() {
       win.classList.toggle('open');
@@ -792,6 +819,17 @@
         win.style.height = ''; // reset inline height set by visualViewport handler
         return;
       }
+
+      // Empuja variables de origen al dataLayer antes de que GTM dispare click_asistencia_flotante,
+      // así el tag de GA4 en GTM puede leerlas como parámetros de evento.
+      var origen = detectProductoOrigen();
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        chat_producto_id:     origen.producto_id,
+        chat_producto_nombre: origen.producto_nombre,
+        chat_pagina_tipo:     origen.pagina_tipo,
+        chat_pagina_path:     origen.pagina_path
+      });
 
       updateHeaderStatus();
 
