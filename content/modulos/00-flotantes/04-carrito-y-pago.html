@@ -660,11 +660,13 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 #ppGC-cart-modal .ppGC-cart-actions .ppGC-btn-checkout-go:disabled { background: #e3e8f0; color: #6b7686; }
 @media (max-width: 560px) { #ppGC-cart-modal .ppGC-cart-total-row .ppGC-cart-tot { font-size: 1.6rem; } }
 #ppGC-cart-modal .ppGC-cart-foot:has(> #ppGC-cart-actions[style*="none"]) { display: none; }
-/* Aviso de despacho antes del botón "Ir al pago" */
-.ppGC-despacho-info { grid-column: 1 / -1; background: #f0f4fb; border-left: 3px solid #1B3A5C; border-radius: 8px; padding: 9px 12px; font-size: 0.78rem; line-height: 1.5; color: #374151; }
-.ppGC-despacho-info ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 2px; }
-.ppGC-despacho-info li { display: block; }
-.ppGC-despacho-info b { color: #1B3A5C; font-weight: 700; }
+/* Tarjetas de opciones de entrega */
+.ppGC-entrega-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; padding: 0 0 14px; }
+.ppGC-ec { background: #f4f7fc; border-radius: 10px; padding: 12px 13px; display: flex; align-items: flex-start; gap: 10px; }
+.ppGC-ec-ico { flex-shrink: 0; width: 22px; height: 22px; color: #1B3A5C; margin-top: 1px; }
+.ppGC-ec b { display: block; font-size: 0.84rem; font-weight: 700; color: #1B3A5C; margin-bottom: 3px; }
+.ppGC-ec span { font-size: 0.74rem; color: #5a6475; line-height: 1.4; }
+@media (max-width: 480px) { .ppGC-entrega-cards { grid-template-columns: 1fr; gap: 6px; } }
 @media (max-width: 560px) {
   /* Carrito en celular: hoja desde abajo (alto según el contenido), el pago sí ocupa toda la pantalla */
   #ppGC-cart-modal.ppGC-modal-wrap { align-items: flex-end; }
@@ -705,6 +707,20 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <div class="ppGC-sec-tit">Tu pedido</div>
 <div id="ppGC-cart-items"></div>
 <div class="ppGC-foot ppGC-cart-foot">
+<div class="ppGC-entrega-cards" id="ppGC-entrega-cards" style="display:none">
+  <div class="ppGC-ec">
+    <svg class="ppGC-ec-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+    <div><b>Despacho gratis en la RM</b><span>desde $350.000</span></div>
+  </div>
+  <div class="ppGC-ec">
+    <svg class="ppGC-ec-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+    <div><b>A regiones</b><span>lo dejamos donde nos indiques · flete por pagar en destino</span></div>
+  </div>
+  <div class="ppGC-ec">
+    <svg class="ppGC-ec-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <div><b>Retiro gratis</b><span>en Santiago Centro · el mismo día</span></div>
+  </div>
+</div>
 <div class="ppGC-shipping-bar" id="ppGC-shipping-bar" style="display:none">
 <div class="ppGC-shipping-track">
 <div class="ppGC-shipping-fill" id="ppGC-shipping-fill" style="width:0%"></div>
@@ -716,13 +732,6 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <strong class="ppGC-cart-tot" id="ppGC-cart-total-val">$ 0</strong>
 </div>
 <div class="ppGC-foot-btns ppGC-cart-actions" id="ppGC-cart-actions" style="display:none">
-<div class="ppGC-despacho-info">
-  <ul>
-    <li>🚚 <b>Despacho gratis en la RM</b> desde $350.000</li>
-    <li>📦 <b>Regiones</b> — lo dejamos donde nos indiques · flete por pagar en destino (el costo lo cobra el transportista al recibir)</li>
-    <li>🏪 <b>Retiro gratis</b> en Santiago Centro · el mismo día</li>
-  </ul>
-</div>
 <button class="ppGC-btn-back ppGC-btn-keep-shopping" onclick="ppGCCloseCart()" type="button">Seguir comprando</button>
 <button class="ppGC-btn-next ppGC-btn-checkout-go" onclick="ppGCOpenCheckout()" type="button">Ir al pago</button>
 </div>
@@ -1422,6 +1431,8 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       el.innerHTML = '<div class="ppGC-cart-empty"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><div>Tu carrito está vacío</div></div>';
       if (trow) trow.style.display = 'none';
       if (acts) acts.style.display = 'none';
+      var cards = gEl('ppGC-entrega-cards');
+      if (cards) cards.style.display = 'none';
       if (cnt)  cnt.textContent = '0';
       return;
     }
@@ -1452,6 +1463,8 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     if (total) total.textContent = fmt(gcTotal());
     if (trow)  trow.style.display = 'flex';
     if (acts)  acts.style.display = 'flex';
+    var cards = gEl('ppGC-entrega-cards');
+    if (cards) cards.style.display = '';
     // Con un producto sin stock, "Ir al pago" queda congelado
     var goBtn = acts ? acts.querySelector('.ppGC-btn-checkout-go') : null;
     if (goBtn) {
