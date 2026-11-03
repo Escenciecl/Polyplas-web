@@ -666,7 +666,13 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 .ppGC-ec-ico { flex-shrink: 0; width: 22px; height: 22px; color: #1B3A5C; margin-top: 1px; }
 .ppGC-ec b { display: block; font-size: 0.84rem; font-weight: 700; color: #1B3A5C; margin-bottom: 3px; }
 .ppGC-ec span { font-size: 0.74rem; color: #5a6475; line-height: 1.4; }
-@media (max-width: 480px) { .ppGC-entrega-cards { grid-template-columns: 1fr; gap: 6px; } }
+@media (max-width: 480px) {
+  .ppGC-entrega-cards { grid-template-columns: repeat(3,1fr); gap: 5px; }
+  .ppGC-ec { flex-direction: column; align-items: center; text-align: center; padding: 8px 6px; gap: 5px; }
+  .ppGC-ec-ico { width: 18px; height: 18px; margin-top: 0; }
+  .ppGC-ec b { font-size: 0.7rem; margin-bottom: 1px; }
+  .ppGC-ec span { font-size: 0.63rem; line-height: 1.3; }
+}
 @media (max-width: 560px) {
   /* Carrito en celular: hoja desde abajo (alto según el contenido), el pago sí ocupa toda la pantalla */
   #ppGC-cart-modal.ppGC-modal-wrap { align-items: flex-end; }
