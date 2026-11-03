@@ -10,6 +10,24 @@
 import { json, enviarComprobante, clp } from "../../../_lib/webpay.js";
 import { leerPedidoCRM, marcarTransferenciaRecibida, notaCRM } from "../../../_lib/transferencia.js";
 
+async function enviarCompraGA4(env, ga, ga_items, buy_order, amount) {
+  if (!env.GA4_API_SECRET || !ga || !ga.client_id) return false;
+  const params = { transaction_id: buy_order, currency: "CLP", value: amount, items: Array.isArray(ga_items) ? ga_items : [], origen_compra: "transferencia", engagement_time_msec: 1 };
+  if (ga.session_id) params.session_id = ga.session_id;
+  const url = "https://www.google-analytics.com/mp/collect?measurement_id=" + encodeURIComponent(env.GA4_MEASUREMENT_ID || "G-HTFZ3XVZZP") + "&api_secret=" + encodeURIComponent(env.GA4_API_SECRET);
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 3000);
+  try {
+    const r = await fetch(url, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ client_id: ga.client_id, events: [{ name: "purchase", params }] }), signal: ctrl.signal });
+    return r.ok;
+  } catch (e) {
+    console.log("[Polyplas GA4 transferencia] no se pudo enviar la compra", String(e));
+    return false;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 const ORIGENES = ["https://escenciecl.github.io", "https://polyplas.cl", "https://www.polyplas.cl"];
 function cors(request) {
   const o = request.headers.get("Origin") || "";
@@ -68,6 +86,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
   ).catch((e) => console.log("[Polyplas transferencia] Error correo confirmación", String(e)));
   waitUntil(Promise.all([
     envio,
+    enviarCompraGA4(env, md.ga, md.ga_items, orden, tbk.amount).catch(() => {}),
     notaCRM(id, `✅ TRANSFERENCIA RECIBIDA\nPedido ${orden} · ${clp(tbk.amount)}\nSe envió el correo de confirmación a ${order.client.email || "(sin correo)"} y copia a ventas.`).catch(() => {}),
   ]));
   return responder(request, { ok: true, enviadoA: order.client.email || "" });

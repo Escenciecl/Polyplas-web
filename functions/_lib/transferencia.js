@@ -98,6 +98,8 @@ export async function registrarTransferenciaEnSupabase(order) {
     total: order.total,
     items: order.items,
     verificado: order.verificado,
+    ga: order.ga || null,
+    ga_items: order.ga_items || [],
   };
   const r = await fetch(`${SUPABASE_URL}/conversations`, {
     method: "POST",
