@@ -676,7 +676,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 @media (max-width: 560px) {
   /* Carrito en celular: hoja desde abajo (alto según el contenido), el pago sí ocupa toda la pantalla */
   #ppGC-cart-modal.ppGC-modal-wrap { align-items: flex-end; }
-  #ppGC-cart-modal .ppGC-modal-box { height: auto; max-height: 68dvh; border-radius: 20px 20px 0 0; }
+  #ppGC-cart-modal .ppGC-modal-box { height: auto; max-height: 90vh; max-height: 90dvh; border-radius: 20px 20px 0 0; }
   #ppGC-cart-header { border-radius: 20px 20px 0 0; }
 }
 </style>
@@ -712,7 +712,6 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <div id="ppGC-cart-body">
 <div class="ppGC-sec-tit">Tu pedido</div>
 <div id="ppGC-cart-items"></div>
-<div class="ppGC-foot ppGC-cart-foot">
 <div class="ppGC-entrega-cards" id="ppGC-entrega-cards" style="display:none">
   <div class="ppGC-ec">
     <svg class="ppGC-ec-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
@@ -727,6 +726,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     <div><b>Retiro gratis</b><span>en Santiago Centro · el mismo día</span></div>
   </div>
 </div>
+<div class="ppGC-foot ppGC-cart-foot">
 <div class="ppGC-shipping-bar" id="ppGC-shipping-bar" style="display:none">
 <div class="ppGC-shipping-track">
 <div class="ppGC-shipping-fill" id="ppGC-shipping-fill" style="width:0%"></div>

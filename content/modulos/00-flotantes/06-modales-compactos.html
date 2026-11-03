@@ -1,0 +1,218 @@
+<style>
+/* ════════════════════════════════════════════════════════════════════
+   MODALES COMPACTOS (nov 2026)
+   Carrito, "Finalizar pedido", configurador de planchas y ventana de
+   cantidad (cúpulas, tinas, cascos, receptáculos) más livianos para que
+   la cabecera y la franja de abajo no tapen el contenido.
+   Solo cambia tamaños: IDs, botones y lógica quedan iguales.
+   Va con "html body" delante para ganarle a los estilos de cada página.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Cabecera (nombre + pasos) ─────────────────────────────────── */
+html body :is(#ppGC-co-header, #ppGC-cart-header) { padding: 14px 20px 12px !important; }
+html body #configuratorModal .pp-configurator-topbar.pp-wz-top { padding: 14px 20px 12px !important; }
+html body .ppq .ppq-top { padding: 14px 20px 12px !important; }
+
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-id,
+html body #configuratorModal .pp-wz-id,
+html body .ppq .ppq-id { gap: 12px !important; }
+
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-thumb,
+html body #configuratorModal .pp-wz-thumb,
+html body .ppq .ppq-thumb { width: 40px !important; height: 40px !important; border-radius: 10px !important; }
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-thumb svg { width: 20px; height: 20px; }
+
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-eyebrow,
+html body #configuratorModal .pp-wz-eyebrow,
+html body .ppq .ppq-eyebrow { font-size: 0.64rem !important; letter-spacing: 1.2px !important; }
+
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-title,
+html body #configuratorModal .pp-wz-title,
+html body .ppq .ppq-title { font-size: 1.1rem !important; }
+
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-close-btn,
+html body #configuratorModal .pp-configurator-close-btn.pp-wz-close,
+html body .ppq .ppq-x { width: 34px !important; height: 34px !important; font-size: 1.6rem !important; }
+
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-steps,
+html body #configuratorModal .pp-wz-steps,
+html body .ppq .ppq-steps { gap: 8px !important; margin-top: 12px !important; }
+
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-step,
+html body #configuratorModal .pp-wz-step,
+html body .ppq .ppq-step { gap: 6px !important; }
+
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-bar,
+html body #configuratorModal .pp-wz-bar,
+html body .ppq .ppq-bar { height: 4px !important; }
+
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-label,
+html body #configuratorModal .pp-wz-label,
+html body .ppq .ppq-lbl { font-size: 0.72rem !important; line-height: 1.2 !important; }
+
+/* ── 2. Cuerpo ───────────────────────────────────────────────────── */
+html body :is(#ppGC-co-body, #ppGC-cart-body) { padding: 16px 20px !important; }
+html body .ppq .ppq-body { padding: 16px 20px 8px !important; }
+
+/* ── 3. Franja de abajo (total + botones) ────────────────────────── */
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-foot { margin: 16px -20px -16px !important; padding: 12px 20px 14px !important; }
+html body #configuratorModal .pp-corte-footer { padding: 12px 20px 14px !important; }
+html body #configuratorModal #comboPricePreview > div.pp-p1-footer { padding: 12px 20px 14px !important; }
+html body.pcc-paso4 #configuratorModal #stepperCtaGroup,
+html.pcc-paso4 body #configuratorModal #stepperCtaGroup { padding: 12px 20px 14px !important; }
+html body .ppq .ppq-foot { padding: 12px 20px 14px !important; }
+
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-foot-sum,
+html body #configuratorModal .pp-corte-footer-sum,
+html body .ppq .ppq-sum { margin-bottom: 10px !important; align-items: center !important; }
+
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-foot-desc,
+html body #configuratorModal .pp-corte-footer-desc,
+html body .ppq .ppq-desc { font-size: 0.82rem !important; }
+
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-foot-iva,
+html body #configuratorModal .pp-corte-footer-iva,
+html body .ppq .ppq-iva { font-size: 0.72rem !important; }
+
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-foot-sum .ppGC-foot-val,
+html body #ppGC-cart-modal .ppGC-cart-total-row .ppGC-cart-tot,
+html body #configuratorModal .pp-corte-footer-price,
+html body .ppq .ppq-sum [id$="TotalVal"] { font-size: 1.5rem !important; }
+
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-btn-back,
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-foot .ppGC-btn-next,
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-foot .ppGC-btn-webpay,
+html body #ppGC-cart-modal .ppGC-cart-actions .ppGC-btn-checkout-go,
+html body #configuratorModal .pp-corte-cta-back,
+html body #configuratorModal .pp-corte-cta-next,
+html body .ppq .ppq-back,
+html body .ppq .ppq-go { padding-top: 11px !important; padding-bottom: 11px !important; font-size: 0.9rem !important; }
+html body #configuratorModal #btnGoCheckout,
+html body #configuratorModal #btnAddToOrder { padding-top: 11px !important; padding-bottom: 11px !important; }
+html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-foot-links { margin-top: 6px !important; }
+html body .ppq .ppq-more { margin-top: 6px !important; padding: 4px !important; }
+
+/* ── 4. Carrito: productos más compactos ─────────────────────────── */
+html body #ppGC-cart-modal .ppGC-sec-tit { margin-bottom: 0 !important; }
+html body #ppGC-cart-modal .ppGC-cart-item { padding: 10px 0 !important; gap: 10px !important; }
+html body #ppGC-cart-modal .ppGC-cart-item-name { font-size: 0.84rem !important; }
+html body #ppGC-cart-modal .ppGC-cart-item-price { font-size: 0.9rem !important; }
+html body #ppGC-cart-modal .ppGC-qty { margin-top: 6px !important; }
+html body #ppGC-cart-modal .ppGC-qty button { width: 30px !important; height: 30px !important; font-size: 1rem !important; }
+html body #ppGC-cart-modal .ppGC-qty output { min-width: 26px !important; font-size: 0.86rem !important; }
+html body #ppGC-cart-modal .ppGC-cart-item-remove { min-width: 34px !important; min-height: 34px !important; font-size: 1.2rem !important; }
+html body #ppGC-cart-modal .ppGC-cart-foot .ppGC-shipping-bar { margin: 0 0 10px !important; }
+html body #ppGC-cart-modal .ppGC-shipping-label { font-size: 0.7rem !important; margin-top: 4px !important; }
+
+/* Opciones de entrega: ahora van debajo de los productos (no en la franja fija), en una lista corta */
+html body #ppGC-cart-modal .ppGC-entrega-cards { grid-template-columns: repeat(3, 1fr) !important; gap: 6px !important; padding: 0 !important; margin: 4px 0 0 !important; }
+html body #ppGC-cart-modal .ppGC-ec { flex-direction: row !important; align-items: flex-start !important; text-align: left !important; gap: 7px !important; padding: 8px 9px !important; border-radius: 8px !important; box-shadow: none !important; background: #f8fafc !important; }
+html body #ppGC-cart-modal .ppGC-ec-ico { width: 16px !important; height: 16px !important; margin-top: 1px !important; }
+html body #ppGC-cart-modal .ppGC-ec b { font-size: 0.72rem !important; line-height: 1.25 !important; margin-bottom: 1px !important; }
+html body #ppGC-cart-modal .ppGC-ec span { font-size: 0.66rem !important; line-height: 1.3 !important; }
+
+/* ── 5. Finalizar pedido: formulario un poco más apretado ────────── */
+html body #ppGC-co-modal .ppGC-summary { padding: 10px 14px !important; margin-bottom: 14px !important; }
+html body #ppGC-co-modal .ppGC-client-toggle { margin-bottom: 12px !important; }
+html body #ppGC-co-modal .ppGC-client-toggle button { padding: 9px 10px !important; }
+html body #ppGC-co-modal .ppGC-form-grid { gap: 10px !important; }
+html body #ppGC-co-modal .ppGC-field label { margin-bottom: 4px !important; font-size: 0.78rem !important; }
+html body #ppGC-co-modal .ppGC-field input,
+html body #ppGC-co-modal .ppGC-field select { min-height: 44px !important; padding-top: 9px !important; padding-bottom: 9px !important; }
+html body #ppGC-co-modal .ppGC-entrega-sec { margin-top: 16px !important; padding-top: 14px !important; }
+html body #ppGC-co-modal .ppGC-entrega-opt { padding: 10px 12px !important; }
+
+/* ── 6. Configurador de planchas: medidas y espesores más bajos ──── */
+html body #configuratorModal .pp-configurator-content .pp-pill { min-height: 44px !important; padding: 9px 14px !important; font-size: 0.92rem !important; }
+html body #configuratorModal .pp-configurator-content .pp-esp-btn { min-height: 54px !important; padding: 8px 6px !important; font-size: 0.92rem !important; }
+html body #configuratorModal .pp-configurator-content :is(.pp-pills, .pp-espesor-grid) { gap: 8px !important; }
+html body #configuratorModal .pp-configurator-content { padding-top: 16px !important; }
+
+/* ── Celular ─────────────────────────────────────────────────────── */
+@media (max-width: 560px) {
+  html body :is(#ppGC-co-header, #ppGC-cart-header),
+  html body #configuratorModal .pp-configurator-topbar.pp-wz-top,
+  html body .ppq .ppq-top { padding: 10px 14px 10px !important; }
+
+  html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-thumb,
+  html body #configuratorModal .pp-wz-thumb,
+  html body .ppq .ppq-thumb { width: 34px !important; height: 34px !important; border-radius: 8px !important; }
+  html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-id,
+  html body #configuratorModal .pp-wz-id,
+  html body .ppq .ppq-id { gap: 10px !important; }
+  html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-eyebrow,
+  html body #configuratorModal .pp-wz-eyebrow,
+  html body .ppq .ppq-eyebrow { font-size: 0.6rem !important; }
+  html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-title,
+  html body #configuratorModal .pp-wz-title,
+  html body .ppq .ppq-title { font-size: 1rem !important; }
+  html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-close-btn,
+  html body #configuratorModal .pp-configurator-close-btn.pp-wz-close,
+  html body .ppq .ppq-x { width: 36px !important; height: 36px !important; font-size: 1.5rem !important; }
+
+  /* Pasos: barras finas y solo el nombre del paso actual (el resto se entiende por las barras) */
+  html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-steps,
+  html body #configuratorModal .pp-wz-steps,
+  html body .ppq .ppq-steps { gap: 5px !important; margin-top: 10px !important; }
+  html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-step,
+  html body #configuratorModal .pp-wz-step,
+  html body .ppq .ppq-step { gap: 5px !important; }
+  html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-bar,
+  html body #configuratorModal .pp-wz-bar,
+  html body .ppq .ppq-bar { height: 3px !important; }
+  html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-label,
+  html body #configuratorModal .pp-wz-label,
+  html body .ppq .ppq-lbl { font-size: 0.66rem !important; white-space: nowrap !important; overflow: visible !important; text-overflow: clip !important; }
+  html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-step:not(.active) .ppGC-wz-label,
+  html body #configuratorModal .pp-wz-step:not(.active) .pp-wz-label,
+  html body .ppq .ppq-step:not(.active) .ppq-lbl { visibility: hidden !important; }
+
+  html body :is(#ppGC-co-body, #ppGC-cart-body) { padding: 12px 14px !important; }
+  html body .ppq .ppq-body { padding: 14px 14px 8px !important; }
+
+  html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-foot { margin: 12px -14px -12px !important; padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px)) !important; }
+  html body #configuratorModal .pp-corte-footer,
+  html body #configuratorModal #comboPricePreview > div.pp-p1-footer,
+  html.pcc-paso4 body #configuratorModal #stepperCtaGroup,
+  html body .ppq .ppq-foot { padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px)) !important; }
+
+  html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-foot-sum,
+  html body #configuratorModal .pp-corte-footer-sum,
+  html body .ppq .ppq-sum { margin-bottom: 8px !important; }
+  html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-foot-sum .ppGC-foot-val,
+  html body #ppGC-cart-modal .ppGC-cart-total-row .ppGC-cart-tot,
+  html body #configuratorModal .pp-corte-footer-price,
+  html body .ppq .ppq-sum [id$="TotalVal"] { font-size: 1.3rem !important; }
+  html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-btn-back,
+  html body #configuratorModal .pp-corte-cta-back,
+  html body .ppq .ppq-back { padding-left: 14px !important; padding-right: 14px !important; }
+
+  /* El espacio reservado para la franja fija de abajo ahora es menor */
+  html body #configuratorModal .pp-configurator-content:has(.pp-p1-footer),
+  html.pcc-paso3 body #configuratorModal .pp-configurator-content { padding-bottom: 125px !important; }
+  html.pcc-paso4 body #configuratorModal .pp-configurator-content { padding-bottom: 160px !important; }
+  html body #configuratorModal .pp-configurator-content { padding-top: 14px !important; padding-left: 14px !important; padding-right: 14px !important; }
+
+  /* Carrito en celular: hoja desde abajo que crece según los productos */
+  html body #ppGC-cart-modal .ppGC-qty button { width: 32px !important; height: 32px !important; }
+  html body #ppGC-cart-modal .ppGC-cart-item-remove { min-width: 40px !important; min-height: 40px !important; }
+  html body #ppGC-cart-modal .ppGC-entrega-cards { grid-template-columns: 1fr !important; gap: 0 !important; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; }
+  html body #ppGC-cart-modal .ppGC-ec { align-items: center !important; padding: 7px 10px !important; border: 0 !important; border-radius: 0 !important; border-top: 1px solid #e2e8f0 !important; }
+  html body #ppGC-cart-modal .ppGC-ec:first-child { border-top: 0 !important; }
+  html body #ppGC-cart-modal .ppGC-ec > div { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 5px; }
+  html body #ppGC-cart-modal .ppGC-ec b { font-size: 0.74rem !important; margin: 0 !important; }
+  html body #ppGC-cart-modal .ppGC-ec span { font-size: 0.7rem !important; }
+
+  /* Ventana de cantidad (cúpulas, tinas, cascos, receptáculos): hoja desde abajo, alta solo lo necesario */
+  html body .ppq-ov { align-items: flex-end !important; }
+  html body .ppq-ov .ppq { height: auto !important; max-height: 92vh !important; max-height: 92dvh !important; border-radius: 18px 18px 0 0 !important; }
+  html body .ppq .ppq-body { min-height: 0 !important; }
+
+  /* Finalizar pedido */
+  html body #ppGC-co-modal .ppGC-client-toggle button { padding: 9px 10px !important; font-size: 0.86rem !important; }
+
+  /* Configurador */
+  html body #configuratorModal .pp-configurator-content .pp-pill { min-height: 42px !important; padding: 8px 10px !important; font-size: 0.88rem !important; }
+  html body #configuratorModal .pp-configurator-content .pp-esp-btn { min-height: 50px !important; font-size: 0.88rem !important; }
+}
+</style>
