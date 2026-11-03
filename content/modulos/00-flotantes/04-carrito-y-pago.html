@@ -661,11 +661,10 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 @media (max-width: 560px) { #ppGC-cart-modal .ppGC-cart-total-row .ppGC-cart-tot { font-size: 1.6rem; } }
 #ppGC-cart-modal .ppGC-cart-foot:has(> #ppGC-cart-actions[style*="none"]) { display: none; }
 /* Aviso de despacho antes del botón "Ir al pago" */
-.ppGC-despacho-info { grid-column: 1 / -1; background: #f0f4fb; border: 1px solid #ccd8ee; border-left: 3px solid #1B3A5C; border-radius: 8px; padding: 10px 13px; font-size: 0.78rem; line-height: 1.5; color: #1a1a2e; }
-.ppGC-despacho-info > strong { font-size: 0.64rem; text-transform: uppercase; letter-spacing: 1.5px; color: #1B3A5C; display: block; margin-bottom: 6px; font-weight: 700; }
-.ppGC-despacho-info ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 5px; }
-.ppGC-despacho-info li { display: flex; gap: 6px; align-items: flex-start; }
-.ppGC-despacho-info b { color: #0f172a; }
+.ppGC-despacho-info { grid-column: 1 / -1; background: #f0f4fb; border-left: 3px solid #1B3A5C; border-radius: 8px; padding: 9px 12px; font-size: 0.78rem; line-height: 1.5; color: #374151; }
+.ppGC-despacho-info ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 2px; }
+.ppGC-despacho-info li { display: block; }
+.ppGC-despacho-info b { color: #1B3A5C; font-weight: 700; }
 @media (max-width: 560px) {
   /* Carrito en celular: hoja desde abajo (alto según el contenido), el pago sí ocupa toda la pantalla */
   #ppGC-cart-modal.ppGC-modal-wrap { align-items: flex-end; }
@@ -718,11 +717,10 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 </div>
 <div class="ppGC-foot-btns ppGC-cart-actions" id="ppGC-cart-actions" style="display:none">
 <div class="ppGC-despacho-info">
-  <strong>Opciones de entrega</strong>
   <ul>
-    <li>🚚 <b>Despacho gratis en la RM</b> en compras desde $350.000</li>
-    <li>📦 <b>Despacho a regiones</b> — el costo se calcula al ingresar tu dirección</li>
-    <li>🏪 <b>Retiro en Santiago Centro</b> — sin costo, disponible el mismo día</li>
+    <li>🚚 <b>Despacho gratis en la RM</b> desde $350.000</li>
+    <li>📦 <b>A regiones</b> — costo según destino, se calcula al pagar</li>
+    <li>🏪 <b>Retiro gratis</b> en Santiago Centro · el mismo día</li>
   </ul>
 </div>
 <button class="ppGC-btn-back ppGC-btn-keep-shopping" onclick="ppGCCloseCart()" type="button">Seguir comprando</button>
