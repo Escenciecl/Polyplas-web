@@ -75,6 +75,8 @@ https://:project.pages.dev/*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
 
+# Imágenes: se guardan 1 año. Para cambiar una imagen, súbela con OTRO nombre de archivo
+# (si se reemplaza con el mismo nombre, los clientes seguirán viendo la antigua).
 /wp-content/uploads/*
   Cache-Control: public, max-age=31536000, immutable
 
@@ -90,13 +92,28 @@ https://:project.pages.dev/*
   X-Robots-Tag: noindex
   Cache-Control: public, max-age=31536000, immutable
 
+# Scripts sin hash en el nombre: el navegador pregunta en cada visita si cambiaron
+# (respuesta 304 de pocos bytes si no). Antes se guardaban 1 día + 7 días de margen,
+# y tras publicar un cambio un cliente podía correr el shim viejo con módulos nuevos.
 /legacy/shim.js
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
 
 /legacy/gtm.js
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: public, max-age=0, must-revalidate
+
+/legacy/pp-track.js
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Páginas personales: nunca se guardan en caché.
+# (Las funciones de pago /wp-json/* ya responden con "no-store" desde su propio código.)
+/cuenta/*
+  Cache-Control: private, no-store
+
+/gracias/*
+  Cache-Control: private, no-store
 
 # SDK de Supabase alojado en el sitio (antes venía de cdn.jsdelivr.net con caché corta)
+# Si se actualiza el SDK, cambiar el nombre del archivo (por ejemplo supabase-2.50.min.js)
 /legacy/supabase.min.js
   Cache-Control: public, max-age=2592000, stale-while-revalidate=604800
 `;

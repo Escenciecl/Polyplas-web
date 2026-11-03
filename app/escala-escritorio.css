@@ -1,0 +1,57 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Escala del sitio en escritorio con poca altura (notebooks 1366–1536 px)
+   Con el navegador al 100 % los módulos se veían muy grandes y la compra
+   obligaba a hacer scroll. Se achica todo el sitio al 85 %, igual que si el
+   cliente bajara el zoom del navegador. Celulares y tablets no cambian.
+
+   Para cambiar la escala: editar --pp-z (y el 1.1765 de abajo = 1 / --pp-z).
+   Para desactivarla: borrar este archivo y su import en app/layout.tsx.
+
+   Ojo: con zoom, las medidas en vh también se achican. Por eso las alturas
+   máximas de ventanas y paneles se dividen por --pp-z (se ven igual que antes).
+   ───────────────────────────────────────────────────────────────────────── */
+/* Configurador de planchas: la franja de precio y «Continuar» queda siempre a la vista.
+   Antes era «sticky» dentro de #comboPricePreview, que está al final del contenido,
+   así que en pantallas bajas el botón quedaba fuera de la ventana y había que hacer scroll. */
+@media (min-width: 1025px) {
+  #configuratorModal #comboPricePreview { display: contents; }
+}
+
+@media (min-width: 1025px) and (max-height: 900px) {
+  :root { --pp-z: 0.85; }
+  html { zoom: 0.85; }
+
+  /* Configurador de planchas (acrílico, PET, PETG, policarbonato) */
+  #configuratorModal .pp-configurator-inner { max-height: calc(92vh / var(--pp-z)) !important; }
+  .pp-modal-overlay { padding-top: calc(5vh / var(--pp-z)) !important; }
+
+  /* Ventanas de compra de tinas, cascos, cúpulas y receptáculos */
+  .pp-modal,
+  .pp-cup-modal,
+  .pp-recep-modal,
+  .pp-detail-modal,
+  .pp-upsell-modal,
+  .pp-qty-modal { max-height: calc(92vh / var(--pp-z)) !important; }
+  .pp-cup-detail-modal,
+  .pp-recep-detail-modal,
+  .pp-lightbox-img { max-height: calc(90vh / var(--pp-z)) !important; }
+  #cupolasCartDrawer { height: calc(100vh / var(--pp-z)) !important; }
+
+  /* Filtros laterales fijos (planchas y tinas) */
+  .pp-fb2,
+  #tv .tv-filtros { max-height: calc(100vh / var(--pp-z) - 172px) !important; }
+
+  /* Carrito y pago */
+  .ppGC-modal-box { max-height: calc(90vh / var(--pp-z)) !important; }
+  :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-modal-box { max-height: calc(92vh / var(--pp-z)) !important; }
+  html:root body .ppq-ov .ppq { max-height: calc(92vh / var(--pp-z)) !important; }
+
+  /* Chat */
+  #polyplas-window { max-height: calc(100vh / var(--pp-z) - 130px) !important; }
+  body:has(#ppcm) #polyplas-window { max-height: calc(100vh / var(--pp-z) - 210px) !important; }
+
+  /* Elementos que el JavaScript posiciona en píxeles de pantalla:
+     se dejan a tamaño normal para que queden donde corresponde. */
+  #colorTooltip,
+  #pp-cb { zoom: 1.1765; }
+}

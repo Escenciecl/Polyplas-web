@@ -2222,6 +2222,22 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   window.ppGCRecalcDespacho    = ppGCRecalcDespacho;
   window.ppGCSubmitCheckout    = ppGCSubmitCheckout;
 
+  /* ── Carrito al día entre pestañas y al volver con «Atrás» ──
+     El carrito vive en localStorage. Si el cliente lo cambia (o paga) en otra pestaña,
+     o vuelve a esta página con el botón «Atrás» (el navegador la restaura de memoria),
+     se vuelve a leer para no mostrar ni cobrar un carrito viejo. */
+  function gcSincronizar() {
+    gcLoad();
+    gcUpdateBadge();
+    var cm = gEl('ppGC-cart-modal');
+    if (cm && cm.style.display === 'flex') gcRenderCartItems();
+    var co = gEl('ppGC-co-modal');
+    if (!gcItems.length && co && co.style.display && co.style.display !== 'none') ppGCCloseCheckout();
+    document.dispatchEvent(new CustomEvent('ppGCCartSync', { detail: { items: gcItems.length } }));
+  }
+  window.addEventListener('storage', function(e) { if (e.key === GC_KEY || e.key === null) gcSincronizar(); });
+  window.addEventListener('pageshow', function(e) { if (e.persisted) gcSincronizar(); });
+
   /* ── Init ────────────────────────────────────────────────── */
   gcLoad();
   gcUpdateBadge();

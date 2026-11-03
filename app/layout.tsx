@@ -27,6 +27,7 @@ import "./legacy/_generado/global-inline.css";
 import "./globals.css";
 import "./site.css";
 import "./modulos.css";
+import "./escala-escritorio.css"; // escala 85 % en notebooks (escritorio con poca altura)
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
