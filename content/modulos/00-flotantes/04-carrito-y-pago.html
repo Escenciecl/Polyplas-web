@@ -1380,11 +1380,14 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   function gcUpdateBadge() {
     gcLoad();
     var cnt = gcCount();
+    var total = gcTotal();
     var bdg = gEl('ppGC-badge');
     var fab = gEl('ppGC-fab');
     if (bdg) bdg.textContent = cnt;
     // El botón flotante ya no se muestra: el carrito está en la cabecera (que copia este contador).
     if (fab) fab.style.display = 'none';
+    // Notifica al header con el total para mostrarlo en el botón de cabecera.
+    window.dispatchEvent(new CustomEvent('ppGCCartUpdate', { detail: { count: cnt, total: total } }));
   }
 
   /* ── API pública: agregar ítem ───────────────────────────── */

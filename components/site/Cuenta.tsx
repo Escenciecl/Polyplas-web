@@ -54,9 +54,36 @@ function useCantidadCarrito(): number {
   return n;
 }
 
+/** Total del carrito en CLP — se actualiza vía evento ppGCCartUpdate del módulo de carrito. */
+function useTotalCarrito(): number {
+  const [total, setTotal] = useState(0);
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const ce = e as CustomEvent<{ count: number; total: number }>;
+      setTotal(ce.detail?.total ?? 0);
+    };
+    window.addEventListener("ppGCCartUpdate", handler);
+    // Leer valor inicial desde localStorage si ya hay un carrito activo.
+    try {
+      const raw = localStorage.getItem("pp_global_cart");
+      if (raw) {
+        const data = JSON.parse(raw) as { items?: Array<{ subtotal?: number }> };
+        const items = data?.items ?? [];
+        setTotal(items.reduce((s, i) => s + (i.subtotal ?? 0), 0));
+      }
+    } catch { /* sin carrito */ }
+    return () => window.removeEventListener("ppGCCartUpdate", handler);
+  }, []);
+  return total;
+}
+
+const fmtCLP = (n: number) =>
+  "$ " + Math.round(n).toLocaleString("es-CL");
+
 export function AccionesCabecera() {
   const usuario = useUsuario();
   const cantidad = useCantidadCarrito();
+  const total = useTotalCarrito();
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
@@ -79,12 +106,15 @@ export function AccionesCabecera() {
 
   return (
     <div className="pp-mainbar__actions">
-      <button type="button" className="pp-accion" onClick={abrirCarrito} aria-label={`Ver carrito, ${cantidad} producto(s)`}>
+      <button type="button" className="pp-accion" onClick={abrirCarrito} aria-label={`Ver carrito, ${cantidad} producto(s)${total > 0 ? ", total " + fmtCLP(total) : ""}`}>
         <span className="pp-accion__icono">
           {IconoCarrito}
           {cantidad > 0 && <i className="pp-accion__num">{cantidad}</i>}
         </span>
-        <span className="pp-accion__txt">Carrito</span>
+        <span className="pp-accion__txt">
+          Carrito
+          {total > 0 && <span className="pp-accion__total">{fmtCLP(total)}</span>}
+        </span>
       </button>
 
       {usuario ? (

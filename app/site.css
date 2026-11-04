@@ -409,6 +409,8 @@ body [class*="-qty-close"], body .pp-qty-close { border-radius: 999px !important
 .pp-accion__icono { position: relative; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--pp-blue-50); }
 .pp-accion__icono svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .pp-accion__num { position: absolute; top: -4px; right: -4px; min-width: 20px; height: 20px; padding: 0 5px; box-sizing: border-box; border-radius: 999px; background: var(--pp-orange); color: #fff; font: 700 11.5px/20px var(--pp-font); font-style: normal; text-align: center; }
+.pp-accion__txt { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2; }
+.pp-accion__total { font-size: 12px; font-weight: 800; color: var(--pp-orange); letter-spacing: -0.2px; }
 .pp-btn--cuenta { border: 0; }
 .pp-btn--cuenta svg { stroke-linecap: round; }
 @media (max-width: 960px) {
