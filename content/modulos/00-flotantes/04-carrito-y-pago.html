@@ -1,41 +1,4 @@
 <style>
-/* ── Botón flotante ─────────────────────────────────────── */
-#ppGC-fab {
-  display: none;
-  position: fixed;
-  top: 20px;
-  right: 28px;
-  z-index: 10001;
-  align-items: center;
-  gap: 10px;
-  background: #00448D;
-  color: #fff;
-  border: none;
-  border-radius: 32px;
-  height: 52px;
-  padding: 0 20px 0 16px;
-  font-family: inherit;
-  font-size: 0.88rem;
-  font-weight: 700;
-  letter-spacing: .5px;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(0,68,141,0.45);
-  transition: transform .15s, box-shadow .15s;
-}
-#ppGC-fab:hover { transform: scale(1.05); box-shadow: 0 8px 28px rgba(0,68,141,0.55); }
-#ppGC-badge {
-  background: #ef4444;
-  color: #fff;
-  border-radius: 50%;
-  min-width: 22px;
-  height: 22px;
-  font-size: 0.75rem;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 4px;
-}
 
 /* ── Overlay compartido ─────────────────────────────────── */
 #ppGC-overlay {
@@ -426,7 +389,6 @@
 .ppGC-pay-txt small { font-size: 0.78rem; color: #666; line-height: 1.35; }
 
 @media (max-width: 480px) {
-  #ppGC-fab { top: 14px; right: 16px; }
   .ppGC-modal-wrap { align-items: flex-end; padding: 0; }
   .ppGC-modal-box {
     max-height: 92dvh;
@@ -680,14 +642,6 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   #ppGC-cart-header { border-radius: 20px 20px 0 0; }
 }
 </style>
-<button aria-label="Ver carrito" id="ppGC-fab" onclick="ppGCOpen()">
-<svg fill="none" height="20" stroke="currentColor" stroke-width="2.2" viewbox="0 0 24 24" width="20">
-<circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle>
-<path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-</svg>
-<span>Carrito</span>
-<span id="ppGC-badge">0</span>
-</button>
 <div id="ppGC-overlay" onclick="ppGCCloseAll()"></div>
 <div class="ppGC-modal-wrap" id="ppGC-cart-modal">
 <div class="ppGC-modal-box">
