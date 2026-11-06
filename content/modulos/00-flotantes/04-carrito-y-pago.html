@@ -532,6 +532,10 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-section-divider + .ppGC-pay-opts, :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-form-error + .ppGC-section-divider { margin-top: 0; }
 :is(#ppGC-co-modal, #ppGC-cart-modal) #ppGC-s2b .ppGC-section-divider:not(:first-child) { margin-top: 20px; }
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-entrega-sec { margin-bottom: 22px; padding-bottom: 20px; border-bottom: 1px solid var(--gc-border); }
+:is(#ppGC-co-modal, #ppGC-cart-modal) #ppGC-lock-notice { margin-top: 12px; padding: 10px 14px; background: #fff8e6; border: 1.5px solid #f0c36d; border-radius: 8px; font-size: 0.82rem; color: #856404; line-height: 1.4; }
+:is(#ppGC-co-modal, #ppGC-cart-modal) #ppGC-entrega-locked { margin-top: 14px; }
+:is(#ppGC-co-modal, #ppGC-cart-modal) #ppGC-datos-locked { margin-top: 4px; }
+:is(#ppGC-co-modal, #ppGC-cart-modal) #ppGC-btn-s1:disabled { background: #e3e8f0; color: #6b7686; box-shadow: none; cursor: not-allowed; }
 /* Región/comuna de facturación se auto-completan desde la sección de entrega */
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field:has(#ppgc_bill_region),
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field:has(#ppgc_bill_ciudad),
@@ -743,10 +747,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 </div>
 <div class="ppGC-entrega-sec" id="ppGC-entrega-sec">
 <div class="ppGC-sec-tit">¿Cómo recibes tu pedido?</div>
-<div class="ppGC-entrega-options" id="ppGC-entregaOptions"></div>
-<div class="ppGC-entrega-aviso" id="ppGC-entrega-aviso" role="note"></div>
-<div id="ppGC-regionCheck" style="display:none;margin-top:12px">
-<div class="ppGC-field full">
+<div class="ppGC-field full" style="margin-bottom:10px">
 <label>Región</label>
 <select id="ppGC-regionPreCheck" onchange="ppGCOnRegionPreCheck()" style="font-size:16px !important">
 <option value="">Selecciona tu región...</option>
@@ -761,8 +762,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <option value="XII">Magallanes</option>
 </select>
 </div>
-<div id="ppGC-regionNoDespachoMsg" style="display:none;margin-top:10px;padding:10px 14px;background:#fff3cd;border-left:3px solid #f59e0b;border-radius:6px;font-size:0.78rem;color:#856404;line-height:1.5">Fuera de la RM: solo retiro en tienda (o envío a regiones si el carrito es de tinas exclusivamente).</div>
-<div id="ppGC-comunaCheck" style="display:none;margin-top:10px">
+<div id="ppGC-comunaCheck" style="display:none;margin-bottom:10px">
 <div class="ppGC-field full">
 <label>Comuna</label>
 <select id="ppGC-comunaPreCheck" onchange="ppGCOnComunaPreCheck()" style="font-size:16px !important">
@@ -771,7 +771,11 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 </div>
 <div id="ppGC-comunaExcluidaMsg" style="display:none;margin-top:10px;padding:10px 14px;background:#fff3cd;border-left:3px solid #f59e0b;border-radius:6px;font-size:0.78rem;color:#856404">Tu comuna no tiene despacho a domicilio. Puedes retirar en tienda.</div>
 </div>
-</div>
+<div id="ppGC-lock-notice" style="display:none"></div>
+<div id="ppGC-entrega-locked" style="display:none">
+<div id="ppGC-regionNoDespachoMsg" style="display:none;margin-bottom:10px;padding:10px 14px;background:#fff3cd;border-left:3px solid #f59e0b;border-radius:6px;font-size:0.78rem;color:#856404;line-height:1.5">Fuera de la RM: solo retiro en tienda (o envío a regiones si el carrito es de tinas exclusivamente).</div>
+<div class="ppGC-entrega-options" id="ppGC-entregaOptions"></div>
+<div class="ppGC-entrega-aviso" id="ppGC-entrega-aviso" role="note"></div>
 <div id="ppGC-retiroInfo" style="display:none">
 <details class="ppGC-det"><summary>Ver dirección y horarios de retiro</summary>
 <p><strong>Santiago Concha 1525, Santiago.</strong> Lunes a jueves 9:00 a 18:00 · Viernes 9:00 a 17:00. Coordina al +56 9 4208 6751.</p>
@@ -823,6 +827,8 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 </div>
 <div class="ppGC-form-error" id="ppGC-s2a-err"></div>
 </div>
+</div>
+<div id="ppGC-datos-locked" style="display:none">
 <div class="ppGC-sec-tit">Tus datos</div>
 <p class="ppGC-factura-nota">🧾 Emitimos <strong>factura electrónica</strong> a personas y empresas. Estos datos son para emitirla.</p>
 <div class="ppGC-client-toggle">
@@ -928,11 +934,12 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 </div>
 </div>
 <div class="ppGC-form-error" id="ppGC-s1-err"></div>
+</div>
 <div class="ppGC-foot">
 <div class="ppGC-foot-sum"><div class="ppGC-foot-info"><div class="ppGC-foot-desc">Total del pedido</div><div class="ppGC-foot-iva" id="ppGC-foot-iva1">IVA incluido</div></div><b class="ppGC-foot-val">$ 0</b></div>
 <div class="ppGC-foot-btns">
 <button class="ppGC-btn-back" onclick="ppGCBackToCart()" type="button">Atrás</button>
-<button class="ppGC-btn-next" id="ppGC-btn-s1" onclick="ppGCContinuarAlPago()" type="button">Continuar al pago</button>
+<button class="ppGC-btn-next" id="ppGC-btn-s1" onclick="ppGCContinuarAlPago()" type="button" disabled>Continuar al pago</button>
 </div>
 </div>
 </div>
@@ -1530,7 +1537,8 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     var rpc = gEl('ppGC-regionPreCheck'); if (rpc) rpc.value = '';
     var cpc = gEl('ppGC-comunaPreCheck'); if (cpc) cpc.value = '';
     var cc  = gEl('ppGC-comunaCheck');   if (cc)  cc.style.display = 'none';
-    gcBuildEntregaImmediately();
+    var msg = gEl('ppGC-regionNoDespachoMsg'); if (msg) msg.style.display = 'none';
+    gcInitEntregaLocked();
     ppGCGoToStep1Internal();
     gEl('ppGC-overlay').style.display = 'block';
     gEl('ppGC-co-modal').style.display = 'flex';
@@ -1651,9 +1659,9 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     if (empEl) empEl.style.display = type==='EMP' ? 'grid' : 'none';
     if (bPN)   bPN.classList.toggle('active',  type==='PN');
     if (bEMP)  bEMP.classList.toggle('active', type==='EMP');
-    // La entrega depende de la región y comuna de los datos que se están usando
+    // Re-sincronizar campos ocultos de billing para el nuevo tipo de cliente
     var co = gEl('ppGC-co-modal');
-    if (co && co.style.display === 'flex') gcRefreshEntrega(false);
+    if (co && co.style.display === 'flex') gcSyncBillingFromPrecheck();
   }
 
   /* ── Toggle resumen ──────────────────────────────────────── */
@@ -1776,11 +1784,20 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   }
 
   // Muestra opciones de entrega inmediatamente al abrir el checkout (retiro preseleccionado)
-  function gcBuildEntregaImmediately() {
-    gcBuildEntregaOptions(gcCurrentGrand, null);
-    gcRenderEntregaAviso();
-    var opts = gEl('ppGC-entregaOptions');
-    if (opts) { var ret = opts.querySelector('[data-entrega="retiro_tienda"]'); if (ret) ret.click(); }
+  function gcInitEntregaLocked() {
+    var ln = gEl('ppGC-lock-notice');
+    if (ln) { ln.textContent = '🔒 Selecciona tu región' + (ln ? ' y, si eres de la RM, tu comuna' : '') + ' para ver las opciones de envío disponibles.'; ln.style.display = 'block'; }
+    var el = gEl('ppGC-entrega-locked'); if (el) el.style.display = 'none';
+    var dl = gEl('ppGC-datos-locked'); if (dl) dl.style.display = 'none';
+    var btn = gEl('ppGC-btn-s1'); if (btn) btn.disabled = true;
+    gcResetEntregaUI();
+  }
+
+  function gcUnlockCheckoutContent() {
+    var ln = gEl('ppGC-lock-notice'); if (ln) ln.style.display = 'none';
+    var el = gEl('ppGC-entrega-locked'); if (el) el.style.display = 'block';
+    var dl = gEl('ppGC-datos-locked'); if (dl) dl.style.display = 'block';
+    var btn = gEl('ppGC-btn-s1'); if (btn) btn.disabled = false;
   }
 
   // Auto-completa región/comuna de facturación con RM/Santiago cuando el usuario elige retiro
@@ -1799,15 +1816,22 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     }
   }
 
+  // Capitales de región (fallback cuando no hay comuna seleccionada, para DTE)
+  var GC_REGION_CAPITAL = { RM:'Santiago', XV:'Arica', I:'Iquique', II:'Antofagasta', III:'Copiapó', IV:'La Serena', V:'Valparaíso', VI:'Rancagua', VII:'Talca', XVI:'Chillán', VIII:'Concepción', IX:'Temuco', XIV:'Valdivia', X:'Puerto Montt', XI:'Coyhaique', XII:'Punta Arenas' };
+
   // Sincroniza región/comuna de facturación desde los selectores del bloque de entrega
   function gcSyncBillingFromPrecheck() {
     var preR = (gEl('ppGC-regionPreCheck') || {}).value || '';
-    var preC = (gEl('ppGC-comunaPreCheck') || {}).value || '';
+    var preC = (gEl('ppGC-comunaPreCheck') || {}).value || (GC_REGION_CAPITAL[preR] || '');
     if (!preR) return;
     var prefix = gcClientType === 'EMP' ? 'ppgc_emp' : 'ppgc_bill';
     var rEl = gEl(prefix + '_region'), cEl = gEl(prefix + '_ciudad');
     if (rEl) { rEl.value = preR; ppGCUpdateComunas(prefix); }
-    if (cEl && preC) cEl.value = preC;
+    if (cEl && preC) {
+      // Para RM intenta hacer match con el option; para otras regiones setea directo
+      if (preR === 'RM') { cEl.value = preC; }
+      else { cEl.innerHTML = '<option value="'+preC+'">'+preC+'</option>'; cEl.value = preC; }
+    }
   }
 
   function ppGCOnRegionPreCheck() {
@@ -1816,18 +1840,31 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     var cc=gEl('ppGC-comunaCheck');
     gcResetEntregaUI();
     if (gEl('ppGC-comunaExcluidaMsg')) gEl('ppGC-comunaExcluidaMsg').style.display='none';
-    if (!region) { if (msg) msg.style.display='none'; if (cc) cc.style.display='none'; return; }
+    if (!region) {
+      if (msg) msg.style.display='none';
+      if (cc) cc.style.display='none';
+      gcInitEntregaLocked();
+      return;
+    }
     if (region!=='RM') {
+      // Fuera de la RM: desbloquear inmediatamente (retiro o envío propio según carrito)
       if (msg) msg.style.display='block'; if (cc) cc.style.display='none';
+      gcUnlockCheckoutContent();
       gcBuildEntregaOptions(gcCurrentGrand, region);
       gcSyncBillingFromPrecheck();
     } else {
+      // RM: esperar a que seleccione comuna (para detectar comunas excluidas)
       if (msg) msg.style.display='none';
       if (cc) {
         var sel=gEl('ppGC-comunaPreCheck');
         sel.innerHTML='<option value="">Selecciona tu comuna...</option>'+COMUNAS.RM.map(function(c){ return '<option value="'+c+'">'+c+'</option>'; }).join('');
         cc.style.display='block';
       }
+      var ln=gEl('ppGC-lock-notice');
+      if (ln) { ln.textContent='🔒 Selecciona tu comuna para ver las opciones de envío disponibles.'; ln.style.display='block'; }
+      var el=gEl('ppGC-entrega-locked'); if (el) el.style.display='none';
+      var dl=gEl('ppGC-datos-locked'); if (dl) dl.style.display='none';
+      var btn=gEl('ppGC-btn-s1'); if (btn) btn.disabled=true;
     }
     gcRenderEntregaAviso();
   }
@@ -1839,6 +1876,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     if (!comuna) { if (cm) cm.style.display='none'; return; }
     var excluida=EXCLUIDAS_RM.some(function(c){ return c.toLowerCase()===comuna.toLowerCase(); });
     if (cm) cm.style.display=excluida?'block':'none';
+    gcUnlockCheckoutContent();
     gcBuildEntregaOptions(gcCurrentGrand, excluida?null:'RM');
     if (!excluida) gcSyncBillingFromPrecheck();
     gcRenderEntregaAviso();
@@ -2025,8 +2063,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   // Validación de "Tus datos" (la misma de siempre). Devuelve true si está todo bien.
   function gcValidarDatos() {
     // Asegurar que los campos ocultos de región/ciudad de factura estén sincronizados
-    if (gcSelectedEntrega && gcSelectedEntrega.id === 'retiro_tienda') gcSyncBillingForRetiro();
-    else gcSyncBillingFromPrecheck();
+    gcSyncBillingFromPrecheck();
 
     var errEl=gEl('ppGC-s1-err');
     var pnFields=['ppgc_nombre','ppgc_rut','ppgc_email','ppgc_tel','ppgc_bill_dir','ppgc_bill_region','ppgc_bill_ciudad'];
