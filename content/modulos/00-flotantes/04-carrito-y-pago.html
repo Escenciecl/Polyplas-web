@@ -2120,6 +2120,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       if (sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
       return;
     }
+    if (gcSelectedEntrega.syncFromBilling) gcSyncDespachoFromBilling();
     if (gcSelectedEntrega.needsAddress) {
       var dd=gEl('ppgc_pn_dir'), dr=gEl('ppgc_pn_region'), dc=gEl('ppgc_pn_ciudad');
       if (!dd||!dd.value||!dr||!dr.value||!dc||!dc.value) { if (e){e.textContent='Completa la dirección de despacho.';e.style.display='block';} if (sec) sec.scrollIntoView({behavior:'smooth',block:'start'}); return; }
