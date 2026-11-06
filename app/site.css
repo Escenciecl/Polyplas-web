@@ -418,6 +418,17 @@ body [class*="-qty-close"], body .pp-qty-close { border-radius: 999px !important
   .pp-accion__txt { display: none; }
   .pp-accion__icono { width: 40px; height: 40px; }
   .pp-btn--cuenta { padding-left: 16px; padding-right: 16px; }
+  /* Muestra solo el precio cuando hay items en el carro (oculta la etiqueta "Carrito") */
+  .pp-accion__txt:has(.pp-accion__total) {
+    display: flex;
+    flex-direction: column;
+    font-size: 0;
+    color: transparent;
+  }
+  .pp-accion__txt:has(.pp-accion__total) .pp-accion__total {
+    font-size: 11px;
+    color: var(--pp-orange);
+  }
 }
 @media (max-width: 400px) { .pp-btn--cuenta svg { display: none; } }
 
