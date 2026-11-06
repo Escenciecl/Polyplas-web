@@ -549,7 +549,10 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field select:disabled { background-color: #f8fafc !important; color: #94a3b8 !important; }
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field input:focus, :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field select:focus { border-color: var(--gc-accent) !important; box-shadow: 0 0 0 2px rgba(27,58,92,0.25) !important; }
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field input.ppGC-input-error, :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field select.ppGC-input-error { border-color: #dc2626 !important; box-shadow: 0 0 0 2px rgba(220,38,38,.12) !important; }
-:is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field input.ppGC-input-valid, :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field select.ppGC-input-valid { border-color: #34a853 !important; background-color: #fff !important; }
+:is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field input.ppGC-input-valid, :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field select.ppGC-input-valid { border-color: #34a853 !important; box-shadow: 0 0 0 2px rgba(52,168,83,.15) !important; background-color: #fff !important; }
+/* RUT válido: ✓ verde como icono de fondo — solo para inputs de RUT, no afecta selects */
+:is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field input#ppgc_rut.ppGC-input-valid,
+:is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field input#ppgc_emp_rut.ppGC-input-valid { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2334a853' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") !important; background-repeat: no-repeat !important; background-position: right 12px center !important; padding-right: 38px !important; }
 /* Opciones de entrega y medio de pago: tarjetas seleccionables como "Sin cortes / Iguales / Distintos" */
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-entrega-options { margin-bottom: 0; }
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-entrega-opt { background: #fff; border: 1.5px solid var(--gc-border); border-radius: 12px; padding: 13px 14px; }
@@ -1585,7 +1588,8 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     var r = 11 - (s % 11);
     return r === 11 ? '0' : (r === 10 ? 'K' : String(r));
   }
-  function ppGCFormatRut(input) {
+  // showError=true solo desde onblur — mientras escribe, el error nunca se muestra
+  function ppGCFormatRut(input, showError) {
     var v = input.value.replace(/[^0-9kK]/g,'').toUpperCase();
     if (v.length < 2) { input.value = v; return; }
     var dv = v.slice(-1);
@@ -1596,8 +1600,13 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       var digits = cuerpo.replace(/\./g,'');
       var valid = digits.length>=7 && digits.length<=8 && /^[0-9K]$/.test(dv) && gcRutDv(digits) === dv;
       var errEl = gEl(errMap[input.id]);
-      if (errEl) errEl.style.display = (v.length>0 && !valid) ? 'block' : 'none';
-      input.classList.toggle('ppGC-input-error', v.length>0 && !valid);
+      if (showError) {
+        if (errEl) errEl.style.display = (v.length>0 && !valid) ? 'block' : 'none';
+        input.classList.toggle('ppGC-input-error', v.length>0 && !valid);
+      } else {
+        // mientras escribe: solo limpiar el error si el RUT ya es válido
+        if (valid) { if (errEl) errEl.style.display='none'; input.classList.remove('ppGC-input-error'); }
+      }
       input.classList.toggle('ppGC-input-valid', v.length>0 && valid);
     }
   }
@@ -1605,7 +1614,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   function ppGCValidateField(el) {
     if (!el.value || el.value.trim()==='' || el.value===TEL_PREFIX) return;
     if (el.id.includes('email')) { ppGCOnEmailInput(el); return; }
-    if (el.id.includes('rut'))   { ppGCFormatRut(el); return; }
+    if (el.id.includes('rut'))   { ppGCFormatRut(el, true); return; }
     if (el.type==='tel')         { ppGCOnTelInput(el); return; }
     var valid = el.value.trim().length >= 2;
     el.classList.toggle('ppGC-input-valid', valid);
