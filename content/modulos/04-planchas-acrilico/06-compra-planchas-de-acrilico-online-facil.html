@@ -6584,6 +6584,7 @@ function selectCorteOption(opt) {
   updateCorteBadge();
   updateCartTotalsDisplay();
   updatePrice(); // Actualizar precio en resumen (incluye recargo si es distintos)
+  window.ppPaso && window.ppPaso('conf_cortes_' + (opt === 'none' ? 'ninguno' : opt), 'acrilico', window._ppState || {});
 
   if (opt === 'none') {
     continueFromCorte();
