@@ -1591,11 +1591,17 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   // showError=true solo desde onblur — mientras escribe, el error nunca se muestra
   function ppGCFormatRut(input, showError) {
     var v = input.value.replace(/[^0-9kK]/g,'').toUpperCase();
-    if (v.length < 2) { input.value = v; return; }
+    var errMap = {ppgc_rut:'ppgc_rut_err', ppgc_emp_rut:'ppgc_emp_rut_err'};
+    if (v.length < 2) {
+      input.value = v;
+      input.classList.remove('ppGC-input-valid', 'ppGC-input-error');
+      var eEl = errMap[input.id] && gEl(errMap[input.id]);
+      if (eEl) eEl.style.display = 'none';
+      return;
+    }
     var dv = v.slice(-1);
     var cuerpo = v.slice(0,-1).replace(/\B(?=(\d{3})+(?!\d))/g,'.');
     input.value = cuerpo + '-' + dv;
-    var errMap = {ppgc_rut:'ppgc_rut_err', ppgc_emp_rut:'ppgc_emp_rut_err'};
     if (errMap[input.id]) {
       var digits = cuerpo.replace(/\./g,'');
       var valid = digits.length>=7 && digits.length<=8 && /^[0-9K]$/.test(dv) && gcRutDv(digits) === dv;
@@ -1604,8 +1610,9 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
         if (errEl) errEl.style.display = (v.length>0 && !valid) ? 'block' : 'none';
         input.classList.toggle('ppGC-input-error', v.length>0 && !valid);
       } else {
-        // mientras escribe: solo limpiar el error si el RUT ya es válido
-        if (valid) { if (errEl) errEl.style.display='none'; input.classList.remove('ppGC-input-error'); }
+        // mientras escribe: siempre limpiar error — solo blur puede mostrarlo
+        if (errEl) errEl.style.display = 'none';
+        input.classList.remove('ppGC-input-error');
       }
       input.classList.toggle('ppGC-input-valid', v.length>0 && valid);
     }
