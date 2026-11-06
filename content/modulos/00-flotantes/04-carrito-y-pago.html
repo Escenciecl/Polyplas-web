@@ -1736,12 +1736,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
         desc:'Santiago Concha 1525 · Lun a jue 9:00–18:00 · Vie 9:00–17:00',
         badge:'<span class="ppGC-entrega-badge badge-gratis">GRATIS</span>', costo:0, needsAddress:false, needsRegion:false }
     ];
-    if (!regionPresel) {
-      // Estado inicial: mostrar despacho "Según tu comuna" sin precio definitivo
-      opciones.push({ id:'despacho_region', icon:'🚚', label:'Despacho a todo Chile',
-        desc:'Según tu comuna',
-        badge:'<span class="ppGC-entrega-badge">desde $3.990</span>', costo:0, needsAddress:false, needsRegion:true });
-    } else if (esRM) {
+    if (esRM && grand >= UMBRAL) {
       opciones.push({ id:'despacho', icon:'🚚', label:'Despacho a domicilio',
         desc:'Gratis · Región Metropolitana · 1–3 días hábiles',
         badge:'<span class="ppGC-entrega-badge badge-gratis">GRATIS</span>', costo:0, needsAddress:true, needsRegion:false });
@@ -1878,7 +1873,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     if (cm) cm.style.display=excluida?'block':'none';
     gcUnlockCheckoutContent();
     gcBuildEntregaOptions(gcCurrentGrand, excluida?null:'RM');
-    if (!excluida) gcSyncBillingFromPrecheck();
+    gcSyncBillingFromPrecheck();
     gcRenderEntregaAviso();
   }
 
