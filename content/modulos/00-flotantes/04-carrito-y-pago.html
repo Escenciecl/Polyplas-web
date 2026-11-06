@@ -531,7 +531,12 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-section-divider::after { display: none; }
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-section-divider + .ppGC-pay-opts, :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-form-error + .ppGC-section-divider { margin-top: 0; }
 :is(#ppGC-co-modal, #ppGC-cart-modal) #ppGC-s2b .ppGC-section-divider:not(:first-child) { margin-top: 20px; }
-:is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-entrega-sec { margin-top: 22px; padding-top: 20px; border-top: 1px solid var(--gc-border); }
+:is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-entrega-sec { margin-bottom: 22px; padding-bottom: 20px; border-bottom: 1px solid var(--gc-border); }
+/* Región/comuna de facturación se auto-completan desde la sección de entrega */
+:is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field:has(#ppgc_bill_region),
+:is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field:has(#ppgc_bill_ciudad),
+:is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field:has(#ppgc_emp_region),
+:is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field:has(#ppgc_emp_ciudad) { display: none !important; }
 :is(#ppGC-co-modal, #ppGC-cart-modal) #ppGC-entregaTitulo { display: none !important; }
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-entrega-hint { font-size: 0.8rem; color: #475569; background: #f1f4f8; border-left: 3px solid #94a3b8; border-radius: 8px; padding: 10px 13px; line-height: 1.5; }
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-summary { background: #f8fafc; border: 1px solid var(--gc-border); border-radius: 12px; }
@@ -736,6 +741,88 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 </div>
 <div class="ppGC-summary-total" id="ppGC-sum-total">—</div>
 </div>
+<div class="ppGC-entrega-sec" id="ppGC-entrega-sec">
+<div class="ppGC-sec-tit">¿Cómo recibes tu pedido?</div>
+<div class="ppGC-entrega-options" id="ppGC-entregaOptions"></div>
+<div class="ppGC-entrega-aviso" id="ppGC-entrega-aviso" role="note"></div>
+<div id="ppGC-regionCheck" style="display:none;margin-top:12px">
+<div class="ppGC-field full">
+<label>Región</label>
+<select id="ppGC-regionPreCheck" onchange="ppGCOnRegionPreCheck()" style="font-size:16px !important">
+<option value="">Selecciona tu región...</option>
+<option value="RM">Región Metropolitana</option>
+<option value="XV">Arica y Parinacota</option><option value="I">Tarapacá</option>
+<option value="II">Antofagasta</option><option value="III">Atacama</option>
+<option value="IV">Coquimbo</option><option value="V">Valparaíso</option>
+<option value="VI">O'Higgins</option><option value="VII">Maule</option>
+<option value="XVI">Ñuble</option><option value="VIII">Biobío</option>
+<option value="IX">La Araucanía</option><option value="XIV">Los Ríos</option>
+<option value="X">Los Lagos</option><option value="XI">Aysén</option>
+<option value="XII">Magallanes</option>
+</select>
+</div>
+<div id="ppGC-regionNoDespachoMsg" style="display:none;margin-top:10px;padding:10px 14px;background:#fff3cd;border-left:3px solid #f59e0b;border-radius:6px;font-size:0.78rem;color:#856404;line-height:1.5">Fuera de la RM: solo retiro en tienda (o envío a regiones si el carrito es de tinas exclusivamente).</div>
+<div id="ppGC-comunaCheck" style="display:none;margin-top:10px">
+<div class="ppGC-field full">
+<label>Comuna</label>
+<select id="ppGC-comunaPreCheck" onchange="ppGCOnComunaPreCheck()" style="font-size:16px !important">
+<option value="">Selecciona tu comuna...</option>
+</select>
+</div>
+<div id="ppGC-comunaExcluidaMsg" style="display:none;margin-top:10px;padding:10px 14px;background:#fff3cd;border-left:3px solid #f59e0b;border-radius:6px;font-size:0.78rem;color:#856404">Tu comuna no tiene despacho a domicilio. Puedes retirar en tienda.</div>
+</div>
+</div>
+<div id="ppGC-retiroInfo" style="display:none">
+<details class="ppGC-det"><summary>Ver dirección y horarios de retiro</summary>
+<p><strong>Santiago Concha 1525, Santiago.</strong> Lunes a jueves 9:00 a 18:00 · Viernes 9:00 a 17:00. Coordina al +56 9 4208 6751.</p>
+</details>
+</div>
+<div class="ppGC-emb" id="ppGC-embalajeAviso" style="display:none"></div>
+<div id="ppGC-envioInfo" style="display:none">
+<details class="ppGC-det"><summary>¿Cómo funciona el envío?</summary>
+<p>Tú eliges la empresa de transporte. Tu transportista retira en <strong>Santiago Concha 1525, Santiago</strong> (Lun–Jue 9:00–18:00 · Vie 9:00–17:00) y pagas el flete al recibir. Coordina por WhatsApp al +56 9 4208 6751.</p>
+</details>
+</div>
+<div id="ppGC-addressSection" style="display:none">
+<div class="ppGC-addr-res" id="ppGC-addr-res" style="display:none">
+<div><span>Despachamos a</span><strong id="ppGC-addr-txt"></strong></div>
+<button class="ppGC-addr-link" onclick="ppGCOtraDireccion()" type="button">Enviar a otra dirección</button>
+</div>
+<div id="ppGC-addr-form" style="display:none">
+<div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin:16px 0 10px">Dirección de despacho</div>
+<div class="ppGC-form-grid">
+<div class="ppGC-field">
+<label>Región *</label>
+<select id="ppgc_pn_region" onchange="ppGCUpdateComunas('ppgc_pn'); ppGCRecalcDespacho()">
+<option value="">Selecciona región...</option>
+<option value="RM">Región Metropolitana</option>
+<option value="XV">Arica y Parinacota</option><option value="I">Tarapacá</option>
+<option value="II">Antofagasta</option><option value="III">Atacama</option>
+<option value="IV">Coquimbo</option><option value="V">Valparaíso</option>
+<option value="VI">O'Higgins</option><option value="VII">Maule</option>
+<option value="XVI">Ñuble</option><option value="VIII">Biobío</option>
+<option value="IX">La Araucanía</option><option value="XIV">Los Ríos</option>
+<option value="X">Los Lagos</option><option value="XI">Aysén</option>
+<option value="XII">Magallanes</option>
+</select>
+</div>
+<div class="ppGC-field">
+<label>Comuna *</label>
+<select disabled="" id="ppgc_pn_ciudad" onchange="ppGCRecalcDespacho()">
+<option value="">Selecciona primero la región...</option>
+</select>
+</div>
+<div class="ppGC-field full">
+<label>Dirección *</label>
+<input id="ppgc_pn_dir" placeholder="Av. Ejemplo 1234, Depto 5" type="text"/>
+</div>
+</div>
+<div aria-live="polite" id="ppGC-addr-aviso" role="status" style="display:none;margin-top:12px;padding:12px 14px;background:#fff8e6;border:1.5px solid #f0c36d;border-radius:10px;color:#5c4400;font-size:0.85rem;line-height:1.45"></div>
+<button class="ppGC-addr-link" id="ppGC-addr-volver" onclick="ppGCMismaDireccion()" style="display:none;margin-top:8px" type="button">Usar la dirección de mis datos</button>
+</div>
+</div>
+<div class="ppGC-form-error" id="ppGC-s2a-err"></div>
+</div>
 <div class="ppGC-sec-tit">Tus datos</div>
 <p class="ppGC-factura-nota">🧾 Emitimos <strong>factura electrónica</strong> a personas y empresas. Estos datos son para emitirla.</p>
 <div class="ppGC-client-toggle">
@@ -841,94 +928,6 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 </div>
 </div>
 <div class="ppGC-form-error" id="ppGC-s1-err"></div>
-<div class="ppGC-entrega-sec" id="ppGC-entrega-sec">
-<div class="ppGC-sec-tit">¿Cómo recibes tu pedido?</div>
-<div class="ppGC-entrega-aviso" id="ppGC-entrega-aviso" role="note"></div>
-<div class="ppGC-entrega-hint" id="ppGC-entrega-hint">Elige tu región y comuna arriba para ver las opciones de entrega.</div>
-<!-- Consulta de región/comuna del flujo anterior: queda oculta (la región y comuna salen de "Tus datos") -->
-<div id="ppGC-regionCheck" style="display:none;margin-bottom:18px">
-<div style="font-size:0.8rem;color:#666;margin-bottom:10px;padding:10px 14px;background:#f0f4fb;border-radius:8px;border-left:3px solid #004a99">
-            Tu pedido califica para <strong>despacho gratuito</strong> en comunas de la RM. Indica tu región para ver opciones.
-          </div>
-<div class="ppGC-entrega-title" style="margin-bottom:8px">¿En qué región estás?</div>
-<select id="ppGC-regionPreCheck" onchange="ppGCOnRegionPreCheck()" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-family:inherit;font-size:0.88rem;outline:none;-webkit-appearance:none;appearance:none;">
-<option value="">Selecciona tu región...</option>
-<option value="RM">Región Metropolitana</option>
-<option value="XV">Arica y Parinacota</option><option value="I">Tarapacá</option>
-<option value="II">Antofagasta</option><option value="III">Atacama</option>
-<option value="IV">Coquimbo</option><option value="V">Valparaíso</option>
-<option value="VI">O'Higgins</option><option value="VII">Maule</option>
-<option value="XVI">Ñuble</option><option value="VIII">Biobío</option>
-<option value="IX">La Araucanía</option><option value="XIV">Los Ríos</option>
-<option value="X">Los Lagos</option><option value="XI">Aysén</option>
-<option value="XII">Magallanes</option>
-</select>
-<div id="ppGC-regionNoDespachoMsg" style="display:none;margin-top:10px;padding:10px 14px;background:#fff3cd;border-left:3px solid #f59e0b;border-radius:6px;font-size:0.78rem;color:#856404;line-height:1.5">
-            El despacho gratis aplica solo para la Región Metropolitana. Fuera de la RM: retiro en tienda (las tinas también pueden ir con envío a regiones).
-          </div>
-<div id="ppGC-comunaCheck" style="display:none;margin-top:12px">
-<div class="ppGC-entrega-title" style="margin-bottom:8px">¿En qué comuna?</div>
-<select id="ppGC-comunaPreCheck" onchange="ppGCOnComunaPreCheck()" style="width:100%;padding:10px 13px;background:#f7f9fd;border:1.5px solid #ccd8ee;border-radius:8px;color:#1a1a2e;font-family:inherit;font-size:0.88rem;outline:none;-webkit-appearance:none;appearance:none;">
-<option value="">Selecciona tu comuna...</option>
-</select>
-<div id="ppGC-comunaExcluidaMsg" style="display:none;margin-top:10px;padding:10px 14px;background:#fff3cd;border-left:3px solid #f59e0b;border-radius:6px;font-size:0.78rem;color:#856404">
-              Tu comuna no tiene despacho gratis. Puedes retirar en tienda.
-            </div>
-</div>
-</div>
-<div class="ppGC-entrega-title" id="ppGC-entregaTitulo" style="display:none">¿Cómo recibes tu pedido?</div>
-<div class="ppGC-entrega-options" id="ppGC-entregaOptions"></div>
-<div id="ppGC-retiroInfo" style="display:none">
-<details class="ppGC-det"><summary>Ver dirección y horarios de retiro</summary>
-<p><strong>Santiago Concha 1525, Santiago.</strong> Lunes a jueves 9:00 a 18:00 · Viernes 9:00 a 17:00. Coordina al +56 9 4208 6751.</p>
-</details>
-</div>
-<div class="ppGC-emb" id="ppGC-embalajeAviso" style="display:none"></div>
-<div id="ppGC-envioInfo" style="display:none">
-<details class="ppGC-det"><summary>¿Cómo funciona el envío?</summary>
-<p>Tú eliges la empresa de transporte. Tu transportista retira en <strong>Santiago Concha 1525, Santiago</strong> (Lun–Jue 9:00–18:00 · Vie 9:00–17:00) y pagas el flete al recibir. Coordina por WhatsApp al +56 9 4208 6751.</p>
-</details>
-</div>
-<div id="ppGC-addressSection" style="display:none">
-<div class="ppGC-addr-res" id="ppGC-addr-res" style="display:none">
-<div><span>Despachamos a</span><strong id="ppGC-addr-txt"></strong></div>
-<button class="ppGC-addr-link" onclick="ppGCOtraDireccion()" type="button">Enviar a otra dirección</button>
-</div>
-<div id="ppGC-addr-form" style="display:none">
-<div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:1.5px;color:#004a99;font-weight:700;margin:16px 0 10px">Dirección de despacho</div>
-<div class="ppGC-form-grid">
-<div class="ppGC-field">
-<label>Región *</label>
-<select id="ppgc_pn_region" onchange="ppGCUpdateComunas('ppgc_pn'); ppGCRecalcDespacho()">
-<option value="">Selecciona región...</option>
-<option value="RM">Región Metropolitana</option>
-<option value="XV">Arica y Parinacota</option><option value="I">Tarapacá</option>
-<option value="II">Antofagasta</option><option value="III">Atacama</option>
-<option value="IV">Coquimbo</option><option value="V">Valparaíso</option>
-<option value="VI">O'Higgins</option><option value="VII">Maule</option>
-<option value="XVI">Ñuble</option><option value="VIII">Biobío</option>
-<option value="IX">La Araucanía</option><option value="XIV">Los Ríos</option>
-<option value="X">Los Lagos</option><option value="XI">Aysén</option>
-<option value="XII">Magallanes</option>
-</select>
-</div>
-<div class="ppGC-field">
-<label>Comuna *</label>
-<select disabled="" id="ppgc_pn_ciudad" onchange="ppGCRecalcDespacho()">
-<option value="">Selecciona primero la región...</option>
-</select>
-</div>
-<div class="ppGC-field full">
-<label>Dirección *</label>
-<input id="ppgc_pn_dir" placeholder="Av. Ejemplo 1234, Depto 5" type="text"/>
-</div>
-</div>
-<div aria-live="polite" id="ppGC-addr-aviso" role="status" style="display:none;margin-top:12px;padding:12px 14px;background:#fff8e6;border:1.5px solid #f0c36d;border-radius:10px;color:#5c4400;font-size:0.85rem;line-height:1.45"></div>
-<button class="ppGC-addr-link" id="ppGC-addr-volver" onclick="ppGCMismaDireccion()" style="display:none;margin-top:8px" type="button">Usar la dirección de mis datos</button>
-</div>
-</div>
-<div class="ppGC-form-error" id="ppGC-s2a-err"></div>
-</div>
 <div class="ppGC-foot">
 <div class="ppGC-foot-sum"><div class="ppGC-foot-info"><div class="ppGC-foot-desc">Total del pedido</div><div class="ppGC-foot-iva" id="ppGC-foot-iva1">IVA incluido</div></div><b class="ppGC-foot-val">$ 0</b></div>
 <div class="ppGC-foot-btns">
@@ -1527,7 +1526,11 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     var e1 = gEl('ppGC-s1-err'); if (e1) e1.style.display = 'none';
     var e2 = gEl('ppGC-s2-err'); if (e2) e2.style.display = 'none';
     var e2a = gEl('ppGC-s2a-err'); if (e2a) e2a.style.display = 'none';
-    gcRefreshEntrega(true);
+    // Limpiar precheck region/comuna para nueva sesión
+    var rpc = gEl('ppGC-regionPreCheck'); if (rpc) rpc.value = '';
+    var cpc = gEl('ppGC-comunaPreCheck'); if (cpc) cpc.value = '';
+    var cc  = gEl('ppGC-comunaCheck');   if (cc)  cc.style.display = 'none';
+    gcBuildEntregaImmediately();
     ppGCGoToStep1Internal();
     gEl('ppGC-overlay').style.display = 'block';
     gEl('ppGC-co-modal').style.display = 'flex';
@@ -1663,26 +1666,26 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   // Aviso en "Tus datos": cómo se entrega este pedido, antes de pedir los datos.
   function gcRenderEntregaAviso() {
     var el = gEl('ppGC-entrega-aviso'); if (!el) return;
-    var cfg = window.PP_ENTREGA || {}, r = cfg.retiro || {};
     var g = gcTotal(), html;
-    if (g >= UMBRAL) {
-      html = '<strong>🚚 Tu pedido califica para despacho gratis</strong> en la Región Metropolitana (1–3 días hábiles, comunas con cobertura). '
-           + 'También puedes retirarlo gratis en tienda.';
-    } else {
-      html = '<strong>🏪 Retiro gratis en tienda</strong> · ' + (r.direccion || '') + (r.horario ? ' · ' + r.horario : '') + '.'
-           + '<span class="ppGC-entrega-aviso-sub">El despacho gratis es para compras desde ' + fmt(UMBRAL) + ' en la RM (te faltan ' + fmt(UMBRAL - g) + ').</span>';
-    }
-    if (gcSoloTinas()) html += '<span class="ppGC-entrega-aviso-sub">Fuera de la RM, las tinas van con flete por pagar al recibir.</span>';
-    // Con región y comuna ya elegidas en "Tus datos", el aviso habla de esa dirección (solo texto: las opciones no cambian)
-    var reg = gcDatosVal('region'), com = gcDatosVal('ciudad');
-    if (reg && com) {
-      var excl = reg === 'RM' && EXCLUIDAS_RM.some(function(c){ return c.toLowerCase() === com.toLowerCase(); });
-      if (reg !== 'RM') html = gcSoloTinas() && g >= UMBRAL
+    // Leer región desde precheck (nuevo flujo) o desde formulario (flujo anterior)
+    var reg = (gEl('ppGC-regionPreCheck') || {}).value || gcDatosVal('region');
+    var com = (gEl('ppGC-comunaPreCheck') || {}).value || gcDatosVal('ciudad');
+    if (!reg) {
+      // Estado inicial: mostrar banner promo de despacho gratis
+      html = g < UMBRAL
+        ? '<strong>🎁 Despacho gratis en la RM</strong> para compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + ').'
+        : '<strong>🚚 Tu pedido califica para despacho gratis</strong> en la Región Metropolitana (1–3 días hábiles).';
+    } else if (reg !== 'RM') {
+      html = gcSoloTinas() && g >= UMBRAL
         ? '<strong>📦 Envío a regiones con flete por pagar</strong> al recibir, o retiro gratis en tienda.'
-        : '<strong>🏪 Fuera de la RM: retiro gratis en tienda</strong> · ' + (r.direccion || '') + '. Tu transportista puede retirar por ti.';
-      else if (excl) html = '<strong>🏪 ' + gcEsc(com) + ' no tiene despacho a domicilio.</strong> Puedes retirar gratis en tienda · ' + (r.direccion || '') + '.';
-      else if (g >= UMBRAL) html = '<strong>🚚 Tu pedido califica para despacho gratis</strong> a ' + gcEsc(com) + ' (1–3 días hábiles). También puedes retirarlo gratis en tienda.';
+        : '<strong>🏪 Fuera de la RM: retiro gratis en tienda</strong> · Santiago Concha 1525.';
+    } else {
+      var excl = !!com && EXCLUIDAS_RM.some(function(c){ return c.toLowerCase() === com.toLowerCase(); });
+      if (excl) html = '<strong>🏪 ' + gcEsc(com) + ' no tiene despacho a domicilio.</strong> Puedes retirar gratis en tienda.';
+      else if (g >= UMBRAL) html = '<strong>🚚 Tu pedido califica para despacho gratis</strong> a ' + gcEsc(com || 'la RM') + ' (1–3 días hábiles).';
+      else html = '<strong>🎁 Despacho gratis en la RM</strong> para compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + ').';
     }
+    if (gcSoloTinas() && reg && reg !== 'RM') html += '<span class="ppGC-entrega-aviso-sub">Las tinas van con flete por pagar al recibir.</span>';
     el.innerHTML = html;
   }
 
@@ -1718,18 +1721,26 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     gcResetEntregaUI();
     var el=gEl('ppGC-entregaOptions'); if (!el) return;
     var t=gEl('ppGC-entregaTitulo'); if (t) t.style.display='block';
+    var rc=gEl('ppGC-regionCheck'); if (rc) rc.style.display='none';
     var esRM = regionPresel==='RM';
     var opciones = [
-      { id:'retiro_tienda', icon:'🏪', label:'Retiro en tienda', desc:'Sin costo · Santiago Concha 1525', badge:'<span class="ppGC-entrega-badge badge-gratis">GRATIS</span>', costo:0, needsAddress:false }
+      { id:'retiro_tienda', icon:'🏪', label:'Retiro en tienda · Santiago Centro',
+        desc:'Santiago Concha 1525 · Lun a jue 9:00–18:00 · Vie 9:00–17:00',
+        badge:'<span class="ppGC-entrega-badge badge-gratis">GRATIS</span>', costo:0, needsAddress:false, needsRegion:false }
     ];
-    if (esRM) {
-      opciones.push({ id:'despacho', icon:'🚚', label:'Despacho a domicilio', desc:'Gratis · Región Metropolitana · 1–3 días hábiles', badge:'<span class="ppGC-entrega-badge badge-gratis">GRATIS</span>', costo:0, needsAddress:true });
+    if (!regionPresel) {
+      // Estado inicial: mostrar despacho "Según tu comuna" sin precio definitivo
+      opciones.push({ id:'despacho_region', icon:'🚚', label:'Despacho a todo Chile',
+        desc:'Según tu comuna',
+        badge:'<span class="ppGC-entrega-badge">desde $3.990</span>', costo:0, needsAddress:false, needsRegion:true });
+    } else if (esRM) {
+      opciones.push({ id:'despacho', icon:'🚚', label:'Despacho a domicilio',
+        desc:'Gratis · Región Metropolitana · 1–3 días hábiles',
+        badge:'<span class="ppGC-entrega-badge badge-gratis">GRATIS</span>', costo:0, needsAddress:true, needsRegion:false });
     } else if (!!regionPresel && regionPresel !== 'RM' && gcSoloTinas()) {
-      // Región distinta de la RM y carrito solo de tinas: envío a regiones con flete por pagar y embalaje obligatorio.
-      // Cualquier otro caso (comuna RM excluida, compra bajo el mínimo, regiones sin tinas): solo retiro en tienda.
       var _emb = gcEmbalajeCosto();
       opciones.push({ id:'envio_propio', icon:'📦', label:'Envío a regiones', desc:'El flete lo pagas al recibir',
-        badge:'<span class="ppGC-entrega-badge badge-propio">FLETE POR PAGAR</span>', costo:0, embOblig: _emb > 0, esRegion: true, needsAddress:false });
+        badge:'<span class="ppGC-entrega-badge badge-propio">FLETE POR PAGAR</span>', costo:0, embOblig: _emb > 0, esRegion: true, needsAddress:false, needsRegion:false });
     }
     opciones.forEach(function(op) {
       var div=document.createElement('div');
@@ -1744,22 +1755,59 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
         el.querySelectorAll('.ppGC-entrega-opt').forEach(function(x){ x.classList.remove('selected'); x.setAttribute('aria-checked','false'); });
         div.classList.add('selected'); div.setAttribute('aria-checked','true');
         gcSelectedEntrega = { id:op.id, label:op.label, costo:op.costo, needsAddress:op.needsAddress, embOblig: !!op.embOblig, esRegion: !!op.esRegion };
-        // add_shipping_info se informa al pulsar "Continuar al pago" (gcTrackEnvio), con la entrega final:
-        // en la pantalla de datos y envío las opciones se recalculan al cambiar región/comuna.
         var e2=gEl('ppGC-s2-err'); if (e2) e2.style.display='none';
         var e2a=gEl('ppGC-s2a-err'); if (e2a) e2a.style.display='none';
         gcCheckPayBtn();
         gcUpdateModalTotal();
         gcRenderEmbalaje();
         gcUpdateWaLink();
+        // Mostrar/ocultar selector de región para "Despacho a todo Chile"
+        if (rc) rc.style.display = op.needsRegion ? 'block' : 'none';
         gEl('ppGC-retiroInfo').style.display    = op.id==='retiro_tienda' ? 'block' : 'none';
         gEl('ppGC-envioInfo').style.display     = op.id==='envio_propio'  ? 'block' : 'none';
         gEl('ppGC-addressSection').style.display= op.id==='despacho'      ? 'block' : 'none';
         if (op.needsAddress) gcDireccionDesdeDatos(regionPresel);
+        // Retiro: auto-completar región/comuna de facturación con RM/Santiago
+        if (op.id === 'retiro_tienda') gcSyncBillingForRetiro();
         gcUpdateModalTotal();
       });
       el.appendChild(div);
     });
+  }
+
+  // Muestra opciones de entrega inmediatamente al abrir el checkout (retiro preseleccionado)
+  function gcBuildEntregaImmediately() {
+    gcBuildEntregaOptions(gcCurrentGrand, null);
+    gcRenderEntregaAviso();
+    var opts = gEl('ppGC-entregaOptions');
+    if (opts) { var ret = opts.querySelector('[data-entrega="retiro_tienda"]'); if (ret) ret.click(); }
+  }
+
+  // Auto-completa región/comuna de facturación con RM/Santiago cuando el usuario elige retiro
+  function gcSyncBillingForRetiro() {
+    var prefix = gcClientType === 'EMP' ? 'ppgc_emp' : 'ppgc_bill';
+    var rEl = gEl(prefix + '_region'), cEl = gEl(prefix + '_ciudad');
+    if (!rEl) return;
+    rEl.value = 'RM';
+    ppGCUpdateComunas(prefix);
+    if (cEl) {
+      var idx = -1;
+      for (var i = 0; i < cEl.options.length; i++) {
+        if (cEl.options[i].value.toLowerCase() === 'santiago') { idx = i; break; }
+      }
+      cEl.value = idx >= 0 ? cEl.options[idx].value : (cEl.options.length > 1 ? cEl.options[1].value : '');
+    }
+  }
+
+  // Sincroniza región/comuna de facturación desde los selectores del bloque de entrega
+  function gcSyncBillingFromPrecheck() {
+    var preR = (gEl('ppGC-regionPreCheck') || {}).value || '';
+    var preC = (gEl('ppGC-comunaPreCheck') || {}).value || '';
+    if (!preR) return;
+    var prefix = gcClientType === 'EMP' ? 'ppgc_emp' : 'ppgc_bill';
+    var rEl = gEl(prefix + '_region'), cEl = gEl(prefix + '_ciudad');
+    if (rEl) { rEl.value = preR; ppGCUpdateComunas(prefix); }
+    if (cEl && preC) cEl.value = preC;
   }
 
   function ppGCOnRegionPreCheck() {
@@ -1772,6 +1820,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     if (region!=='RM') {
       if (msg) msg.style.display='block'; if (cc) cc.style.display='none';
       gcBuildEntregaOptions(gcCurrentGrand, region);
+      gcSyncBillingFromPrecheck();
     } else {
       if (msg) msg.style.display='none';
       if (cc) {
@@ -1780,6 +1829,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
         cc.style.display='block';
       }
     }
+    gcRenderEntregaAviso();
   }
 
   function ppGCOnComunaPreCheck() {
@@ -1790,6 +1840,8 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     var excluida=EXCLUIDAS_RM.some(function(c){ return c.toLowerCase()===comuna.toLowerCase(); });
     if (cm) cm.style.display=excluida?'block':'none';
     gcBuildEntregaOptions(gcCurrentGrand, excluida?null:'RM');
+    if (!excluida) gcSyncBillingFromPrecheck();
+    gcRenderEntregaAviso();
   }
 
   // Despacho: se usa la dirección que el cliente ya escribió en "Tus datos".
@@ -1963,7 +2015,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   function gcProgramarRefresh() { clearTimeout(gcRefreshT); gcRefreshT = setTimeout(function(){ gcRefreshEntrega(false); }, 120); }
   document.addEventListener('change', function(e) {
     var id = e.target && e.target.id;
-    if (id === 'ppgc_bill_region' || id === 'ppgc_bill_ciudad' || id === 'ppgc_emp_region' || id === 'ppgc_emp_ciudad') gcProgramarRefresh();
+    // billing region/ciudad se auto-pobla desde la selección de envío — no dispara refresh
   });
   document.addEventListener('input', function(e) {
     var id = e.target && e.target.id;
@@ -1972,6 +2024,10 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 
   // Validación de "Tus datos" (la misma de siempre). Devuelve true si está todo bien.
   function gcValidarDatos() {
+    // Asegurar que los campos ocultos de región/ciudad de factura estén sincronizados
+    if (gcSelectedEntrega && gcSelectedEntrega.id === 'retiro_tienda') gcSyncBillingForRetiro();
+    else gcSyncBillingFromPrecheck();
+
     var errEl=gEl('ppGC-s1-err');
     var pnFields=['ppgc_nombre','ppgc_rut','ppgc_email','ppgc_tel','ppgc_bill_dir','ppgc_bill_region','ppgc_bill_ciudad'];
     var empFields=['ppgc_emp_rut','ppgc_emp_razon','ppgc_emp_giro','ppgc_emp_tel','ppgc_emp_email','ppgc_emp_dir','ppgc_emp_region','ppgc_emp_ciudad'];
