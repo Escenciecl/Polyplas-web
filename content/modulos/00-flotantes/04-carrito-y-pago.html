@@ -1739,7 +1739,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     if (esRM && grand >= UMBRAL) {
       opciones.push({ id:'despacho', icon:'🚚', label:'Despacho a domicilio',
         desc:'Gratis · Región Metropolitana · 1–3 días hábiles',
-        badge:'<span class="ppGC-entrega-badge badge-gratis">GRATIS</span>', costo:0, needsAddress:true, needsRegion:false });
+        badge:'<span class="ppGC-entrega-badge badge-gratis">GRATIS</span>', costo:0, needsAddress:false, syncFromBilling:true, needsRegion:false });
     } else if (!!regionPresel && regionPresel !== 'RM' && gcSoloTinas()) {
       var _emb = gcEmbalajeCosto();
       opciones.push({ id:'envio_propio', icon:'📦', label:'Envío a regiones', desc:'El flete lo pagas al recibir',
@@ -1768,8 +1768,9 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
         if (rc) rc.style.display = op.needsRegion ? 'block' : 'none';
         gEl('ppGC-retiroInfo').style.display    = op.id==='retiro_tienda' ? 'block' : 'none';
         gEl('ppGC-envioInfo').style.display     = op.id==='envio_propio'  ? 'block' : 'none';
-        gEl('ppGC-addressSection').style.display= op.id==='despacho'      ? 'block' : 'none';
+        gEl('ppGC-addressSection').style.display= op.needsAddress         ? 'block' : 'none';
         if (op.needsAddress) gcDireccionDesdeDatos(regionPresel);
+        if (op.syncFromBilling) gcSyncDespachoFromBilling();
         // Retiro: auto-completar región/comuna de facturación con RM/Santiago
         if (op.id === 'retiro_tienda') gcSyncBillingForRetiro();
         gcUpdateModalTotal();
@@ -1793,6 +1794,16 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     var el = gEl('ppGC-entrega-locked'); if (el) el.style.display = 'block';
     var dl = gEl('ppGC-datos-locked'); if (dl) dl.style.display = 'block';
     var btn = gEl('ppGC-btn-s1'); if (btn) btn.disabled = false;
+  }
+
+  // Copia dirección de facturación → campos de despacho (para despacho RM sin pedir dirección dos veces)
+  function gcSyncDespachoFromBilling() {
+    var prefix = gcClientType === 'EMP' ? 'ppgc_emp' : 'ppgc_bill';
+    var srcR = gEl(prefix + '_region'), srcC = gEl(prefix + '_ciudad'), srcD = gEl(prefix + '_dir');
+    var dstR = gEl('ppgc_pn_region'), dstC = gEl('ppgc_pn_ciudad'), dstD = gEl('ppgc_pn_dir');
+    if (srcR && dstR) { dstR.value = srcR.value; ppGCUpdateComunas('ppgc_pn'); }
+    if (srcC && dstC && srcC.value) dstC.value = srcC.value;
+    if (srcD && dstD) dstD.value = srcD.value;
   }
 
   // Auto-completa región/comuna de facturación con RM/Santiago cuando el usuario elige retiro
