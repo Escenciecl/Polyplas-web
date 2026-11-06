@@ -830,7 +830,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 </div>
 <div id="ppGC-datos-locked" style="display:none">
 <div class="ppGC-sec-tit">Tus datos</div>
-<p class="ppGC-factura-nota">🧾 Emitimos <strong>factura electrónica</strong> a personas y empresas. Estos datos son para emitirla.</p>
+<p class="ppGC-factura-nota">🧾 Emitimos <strong>factura electrónica</strong> a personas y empresas.</p>
 <div class="ppGC-client-toggle">
 <button class="active" id="ppGC-btnPN" onclick="ppGCSetClientType('PN')">Persona Natural</button>
 <button id="ppGC-btnEMP" onclick="ppGCSetClientType('EMP')">Empresa</button>
@@ -1690,7 +1690,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
         : '<strong>🏪 Retiro gratis en tienda</strong> · Santiago Concha 1525 · Lun–Jue 9:00–18:00 · Vie 9:00–17:00.';
     } else {
       var excl = !!com && EXCLUIDAS_RM.some(function(c){ return c.toLowerCase() === com.toLowerCase(); });
-      if (excl) html = '<strong>🏪 ' + gcEsc(com) + ' no tiene despacho a domicilio.</strong> Puedes retirar gratis en tienda.';
+      if (excl) { el.innerHTML = ''; return; }
       else if (g >= UMBRAL) html = '<strong>🚚 Tu pedido califica para despacho gratis</strong> a ' + gcEsc(com || 'la RM') + ' (1–3 días hábiles).';
       else html = '<strong>🎁 Despacho gratis en la RM</strong> para compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + ').';
     }
@@ -2002,9 +2002,13 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     if (l1) l1.textContent = '1. ' + pasos[0];
     if (l2) l2.textContent = '2. ' + pasos[1];
     var n = gcItems.length;
-    var otros = org && n > 1 ? ' · ' + n + ' productos en tu pedido' : '';
-    if (eb) eb.textContent = org ? ((org.eyebrow || '') + otros).replace(/^ · /, '') : ('Tu carrito · ' + n + (n === 1 ? ' producto' : ' productos'));
-    if (ti) ti.textContent = org && org.title ? org.title : 'Finalizar pedido';
+    if (n > 1) {
+      if (eb) eb.textContent = n + ' productos en tu pedido';
+      if (ti) ti.textContent = 'Tu pedido';
+    } else {
+      if (eb) eb.textContent = org ? (org.eyebrow || '') : ('Tu carrito · 1 producto');
+      if (ti) ti.textContent = org && org.title ? org.title : 'Finalizar pedido';
+    }
     if (th) {
       th.innerHTML = '';
       if (org && org.img) { var im = document.createElement('img'); im.src = org.img; im.alt = ''; th.appendChild(im); th.className = 'ppGC-wz-thumb'; }

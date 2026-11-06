@@ -6638,6 +6638,10 @@ document.addEventListener('ppGCCartCleared', function() {
   if (window.renderCart) window.renderCart();
 });
 
+window.addEventListener('ppGCCartUpdate', function(e) {
+  if (e && e.detail) window._ppLastCartTotal = e.detail.total || 0;
+});
+
 function showToast(msg, type) {
   const t = document.getElementById("ppToast");
   if (!t) return;
@@ -6646,7 +6650,7 @@ function showToast(msg, type) {
   if (type === "success") t.classList.add("pp-toast--success");
   t.classList.add("show");
   clearTimeout(window._ppToastTimer);
-  window._ppToastTimer = setTimeout(() => t.classList.remove("show"), 2800);
+  window._ppToastTimer = setTimeout(() => t.classList.remove("show"), 4000);
 }
 
 // Validación inline al salir del campo
@@ -6757,7 +6761,8 @@ function addToCart(keepOpen) {
   if (!keepOpen) {
     if (window.closeConfigurator) window.closeConfigurator();
     resetConfigurator(false);
-    showToast("✓ Plancha agregada al pedido", "success");
+    var _tot = window._ppLastCartTotal || 0;
+    showToast('✓ Plancha agregada' + (_tot > 0 ? ' · Pedido: $' + _tot.toLocaleString('es-CL') : ' al pedido'), 'success');
   }
   renderCart();
 
