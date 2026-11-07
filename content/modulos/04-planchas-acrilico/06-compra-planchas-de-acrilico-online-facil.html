@@ -8888,6 +8888,7 @@ function openConfiguratorPA(colorKey) {
   var medida  = params.get('medida') || params.get('m');
   var espesor = params.get('espesor') || params.get('esp') || params.get('e');
   var mat     = (params.get('mat') || params.get('t') || 'AA').toUpperCase();
+  if (params.has('material')) return; /* URL de filtros (?material=…), no abre el configurador */
   if (!color) return;
 
   /* Normaliza medida: acepta clave exacta (1800x1200) o en cm (180x120 → 1800x1200) */
@@ -11769,6 +11770,48 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
     aplicando = false;
   }
 
+  /* ── Filtros en la URL: ?material=PA&espesor=3mm&color=clear&medida=1830x1220&precio=0-50000
+        (también se aceptan en el ancla: #material=PA&espesor=3mm). Sirve para enlaces de Google Ads.
+        "material" siempre va en la URL cuando hay filtros (material=todos si no se eligió) para
+        no confundirse con el deep link del configurador (#color=…). ── */
+  var URLK = { mat: 'material', dim: 'medida', esp: 'espesor', color: 'color', precio: 'precio' };
+  var ALIAS_COLOR = { transparente: 'clear', blanco: 'blanca', 'blanco-lechoso': 'blanca', negro: 'negra',
+    'espejo-dorado': 'espejo_dorado', 'espejo-plateado': 'espejo_plateado', 'fluor-verde': 'fluor_verde', 'fluor-rojo': 'fluor_rojo' };
+  function leerUrl() {
+    var h = (location.hash || '').replace(/^#/, '').replace(/&amp(?:;|%3B)/gi, '&');
+    var q = new URLSearchParams(location.search);
+    var hq = /(^|&)material=/.test(h) ? new URLSearchParams(h) : null;
+    var src = hq || q;
+    if (!src.has('material')) return false;
+    var mat = (src.get('material') || '').toUpperCase();
+    state.mat = (mat === 'AA' || mat === 'PA') ? mat : '';
+    var d = (src.get('medida') || '').replace(/\s/g, '').toLowerCase().replace('×', 'x');
+    var dm = window._ppDimMeta || {};
+    if (d && !dm[d]) { var pz = d.split('x'); if (pz.length === 2 && dm[(pz[0] * 10) + 'x' + (pz[1] * 10)]) d = (pz[0] * 10) + 'x' + (pz[1] * 10); }
+    state.dim = d;
+    var e = (src.get('espesor') || '').replace(/\s/g, '').toLowerCase();
+    state.esp = e && /^\d+(\.\d+)?$/.test(e) ? e + 'mm' : e;
+    var c = (src.get('color') || '').toLowerCase();
+    state.color = ALIAS_COLOR[c] || c;
+    var pr = src.get('precio') || '';
+    state.precio = RANGOS.some(function (r) { return r.v === pr; }) ? pr : '';
+    if (hq) history.replaceState(history.state, '', location.pathname + location.search); // pasa del ancla a la URL normal
+    return true;
+  }
+  function escribirUrl() {
+    try {
+      var q = new URLSearchParams(location.search);
+      Object.keys(URLK).forEach(function (k) { q.delete(URLK[k]); });
+      var n = Object.keys(URLK).filter(function (k) { return state[k]; }).length;
+      if (n) {
+        q.set('material', state.mat || 'todos');
+        ['dim', 'esp', 'color', 'precio'].forEach(function (k) { if (state[k]) q.set(URLK[k], state[k]); });
+      }
+      var qs = q.toString();
+      history.replaceState(history.state, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+    } catch (err) {}
+  }
+
   function cambiar(k, v) {
     state[k] = v;
     if (k === 'mat') {            // al cambiar de material, soltar lo que ese material no tiene
@@ -11778,6 +11821,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
       });
     }
     aplicar();
+    escribirUrl();
     try { (window.dataLayer = window.dataLayer || []).push({ event: 'planchas_filtro', filtro: k, valor: v || 'todos',
       material: state.mat || 'todos', medida: state.dim || 'todas', espesor: state.esp || 'todos', color: state.color || 'todos', precio: state.precio || 'todos' }); } catch (e) {}
   }
@@ -11809,12 +11853,23 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
       };
       window.updateCardSpecs._fb2 = true;
     }
+    var desdeUrl = leerUrl();
     aplicar();
-    setTimeout(aplicar, 1500);
+    if (desdeUrl) escribirUrl();
+    setTimeout(function () {
+      if (desdeUrl) { leerUrl(); escribirUrl(); } // relee cuando ya cargaron medidas/precios (normaliza medidas en cm)
+      aplicar();
+      if (desdeUrl) {
+        var fb = $('ppFb2');
+        if (fb && fb.scrollIntoView) fb.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        try { (window.dataLayer = window.dataLayer || []).push({ event: 'planchas_filtro_url', material: state.mat || 'todos',
+          medida: state.dim || 'todas', espesor: state.esp || 'todos', color: state.color || 'todos', precio: state.precio || 'todos' }); } catch (e) {}
+      }
+    }, 1500);
   }
 
   window._ppFilt = {
-    clearAll: function () { state = { mat: '', dim: '', esp: '', color: '', precio: '' }; aplicar(); },
+    clearAll: function () { state = { mat: '', dim: '', esp: '', color: '', precio: '' }; aplicar(); escribirUrl(); },
     set: cambiar, state: function () { return state; },
     openPanel: function () {}, closePanel: function () {}, clearCurrent: function () {},
     selectColor: function (c) { cambiar('color', c); }, selectEsp: function (e) { cambiar('esp', e); }, toggle: function () {}
