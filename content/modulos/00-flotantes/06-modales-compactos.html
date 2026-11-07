@@ -166,6 +166,10 @@ html body #configuratorModal .pp-configurator-content { padding-top: 16px !impor
   html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-step:not(.active) .ppGC-wz-label,
   html body #configuratorModal .pp-wz-step:not(.active) .pp-wz-label,
   html body .ppq .ppq-step:not(.active) .ppq-lbl { visibility: hidden !important; }
+  /* El nombre del último paso ("4. Resumen y pago") se alinea a la derecha para no salirse de la pantalla */
+  html body :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-wz-step:last-child .ppGC-wz-label,
+  html body #configuratorModal .pp-wz-step:last-child .pp-wz-label,
+  html body .ppq .ppq-step:last-child .ppq-lbl { display: flex !important; justify-content: flex-end !important; }
 
   html body :is(#ppGC-co-body, #ppGC-cart-body) { padding: 12px 14px !important; }
   html body .ppq .ppq-body { padding: 14px 14px 8px !important; }
