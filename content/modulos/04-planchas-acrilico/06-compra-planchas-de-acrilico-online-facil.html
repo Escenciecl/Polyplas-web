@@ -5285,6 +5285,11 @@ function renderStep(n) {
     body.parentElement.appendChild(priceEl);
   }
   if (priceEl) priceEl.style.display = "none";
+  // Ocultar siempre la sección de cortes al cambiar de paso. Si quedó visible de una apertura
+  // anterior, al volver a mostrarla en el paso 5 el estilo no cambia, el observer de cortes no se
+  // dispara y el modal queda en "1. Medida y espesor" con cantidad + cortes + "Ir al pago" mezclados.
+  const _corteWReset = document.getElementById("corteSectionWrapper");
+  if (_corteWReset) _corteWReset.style.display = "none";
 
   // Re-animar body
   body.classList.remove("pp-stepper-body");
