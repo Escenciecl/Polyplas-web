@@ -4687,7 +4687,7 @@ window.ppSyncWizardHeader = ppSyncWizardHeader;
 })();
 
 function renderStep(n) {
-  if (window.ppPaso && n >= 3) window.ppPaso('conf_pedido', 'pet', state);
+  if (window.ppPaso && n === 5) window.ppPaso('conf_pedido', 'pet', state);
   currentStep = n;
   const body = document.getElementById("stepperBody");
   if (!body) return;
@@ -8067,6 +8067,41 @@ function closeConfigurator() {
       if (pasoActual() !== navPaso) programar(); // si no se pudo llegar (p. ej. faltan piezas), se corrige el historial
     }, 450);
   });
+})();
+</script>
+<script>
+(function ppGuard() {
+  var CRITICAL_IDS = [
+    'stepperBody', 'stepperPrice', 'btnCart', 'btnAddToOrder', 'btnGoCheckout',
+    'corteSectionWrapper', 'configuratorModal', 'checkoutModal', 'btnWebpay',
+    'mobileBar', 'cartItems', 'cartGrandTotal', 'cartFooter',
+    'paso3SummarySection', 'floatingCart'
+  ];
+  var CRITICAL_FUNS = [
+    '_ppState', 'addToCart', 'openConfigurator', 'openConfiguratorPA',
+    'closeConfigurator', 'openCheckout', 'submitCheckout', 'goToStep'
+  ];
+  function run() {
+    var missing = [];
+    CRITICAL_IDS.forEach(function(id) {
+      if (!document.getElementById(id)) missing.push('id#' + id);
+    });
+    CRITICAL_FUNS.forEach(function(fn) {
+      if (!window[fn]) missing.push('window.' + fn);
+    });
+    if (!missing.length) return;
+    var msg = '[ppGuard] cotizador pet: faltan elementos críticos → ' + missing.join(', ');
+    console.error(msg);
+    try {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'pp_guard_error', pp_guard_module: 'pet', pp_guard_missing: missing.join('|') });
+    } catch (e) {}
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run);
+  } else {
+    setTimeout(run, 500);
+  }
 })();
 </script>
 <script>
