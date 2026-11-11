@@ -166,6 +166,16 @@ export function parseDimMm(s) {
   s = String(s || "").trim();
   let m = s.match(/^(\d+)[xX](\d+)$/);
   if (m) { const a = +m[1], b = +m[2]; return [Math.min(a, b), Math.max(a, b)]; }
+  // Nombre tipo "Acrílico PA · 100% virgen · 250 × 127 cm": tomar el par "A × B", no el "100%"
+  m = s.match(/(\d+(?:\.\d+)?)\s*[×xX]\s*(\d+(?:\.\d+)?)/);
+  if (m) {
+    const a = +m[1], b = +m[2];
+    if (a >= 20 && b >= 20) {
+      const k = a > 500 ? 1 : 10;
+      const w = Math.round(a * k), h = Math.round(b * k);
+      return [Math.min(w, h), Math.max(w, h)];
+    }
+  }
   const ns = (s.match(/\d+(?:\.\d+)?/g) || []).map(Number).filter((n) => n >= 20);
   if (ns.length >= 2) {
     const [a, b] = ns;
@@ -176,6 +186,20 @@ export function parseDimMm(s) {
   return [1220, 2440];
 }
 
+/** "2 × 124,8×126,8 cm, 1 × 50×40 cm · ..." → [{w,h,qty}] en mm. */
+export function parseInstrucciones(txt) {
+  const out = [];
+  const re = /(\d+)\s*[×xX]\s*(\d+(?:[.,]\d+)?)\s*[×xX]\s*(\d+(?:[.,]\d+)?)\s*cm/g;
+  let m;
+  while ((m = re.exec(String(txt || "")))) {
+    const qty = parseInt(m[1], 10) || 0;
+    const w = Math.round(parseFloat(m[2].replace(",", ".")) * 10);
+    const h = Math.round(parseFloat(m[3].replace(",", ".")) * 10);
+    if (qty > 0 && qty <= 500 && w > 0 && h > 0) out.push({ w, h, qty });
+  }
+  return out;
+}
+
 export function stripPack(pieces, sw, sh, saw, nSheets) {
   if (!pieces.length) return [];
   pieces = [...pieces].sort((a, b) => Math.max(b.w, b.h) - Math.max(a.w, a.h));
@@ -184,15 +208,19 @@ export function stripPack(pieces, sw, sh, saw, nSheets) {
   const st = Array.from({ length: n }, () => ({ x: 0, y: 0, rowH: 0 }));
   for (const pc of pieces) {
     let placed = false;
+    // Probar la pieza tal cual y, si no cabe, girada 90°
+    const orients = pc.w === pc.h ? [[pc.w, pc.h]] : [[pc.w, pc.h], [pc.h, pc.w]];
     for (let si = 0; si < n && !placed; si++) {
       const s = st[si];
-      if (s.x + pc.w <= sw) {
-        sheets[si].push({ x: s.x, y: s.y, w: pc.w, h: pc.h, ci: pc.ci });
-        s.rowH = Math.max(s.rowH, pc.h + saw); s.x += pc.w + saw; placed = true;
-      } else if (s.y + s.rowH + pc.h <= sh) {
-        s.y += s.rowH; s.x = 0;
-        sheets[si].push({ x: 0, y: s.y, w: pc.w, h: pc.h, ci: pc.ci });
-        s.rowH = pc.h + saw; s.x = pc.w + saw; placed = true;
+      for (const [w, h] of orients) {
+        if (s.x + w <= sw && s.y + h <= sh) {
+          sheets[si].push({ x: s.x, y: s.y, w, h, ci: pc.ci });
+          s.rowH = Math.max(s.rowH, h + saw); s.x += w + saw; placed = true; break;
+        } else if (w <= sw && s.y + s.rowH + h <= sh) {
+          s.y += s.rowH; s.x = 0;
+          sheets[si].push({ x: 0, y: s.y, w, h, ci: pc.ci });
+          s.rowH = h + saw; s.x = w + saw; placed = true; break;
+        }
       }
     }
     if (!placed) {
@@ -205,7 +233,11 @@ export function stripPack(pieces, sw, sh, saw, nSheets) {
 
 function layoutFromItem(item) {
   const ci = item.calcInfo || {};
-  let [sw, sh] = parseDimMm(item.dimKey || item.dim || item.nombre || "");
+  const skuDim = (String(item.sku || "").match(/_(\d{3,4}x\d{3,4})_/) || [])[1];
+  let [sw, sh] = parseDimMm(item.dimKey || item.dim || skuDim || item.nombre || "");
+  // Medida de la plancha enviada por el módulo (ej. "Cotiza por medidas"): evita leerla del nombre
+  const cw = parseInt(ci.sheetW, 10) || 0, ch = parseInt(ci.sheetH, 10) || 0;
+  if (cw >= 500 && ch >= 500) { sw = Math.min(cw, ch); sh = Math.max(cw, ch); }
   const svg = Array.isArray(ci.svgs) ? ci.svgs.find(Boolean) : null;
   const rm = svg && String(svg).match(/<rect[^>]+width="(\d+(?:\.\d+)?)"[^>]+height="(\d+(?:\.\d+)?)"[^>]+fill="#dce3ee"/);
   if (rm) {
@@ -241,6 +273,27 @@ function layoutFromItem(item) {
         k++;
       }
       sheets.push(flat.length ? stripPack(flat, sw, sh, SAW, 1)[0] || [] : []);
+    }
+  }
+  // Último recurso: armar el plano desde el texto "2 × 120×89.8 cm" de corteInstrucciones,
+  // para que ningún pedido con corte llegue sin hoja aunque el módulo no haya enviado el plano.
+  if (!sheets.some((s) => s && s.length)) {
+    const pcs = parseInstrucciones(item.corteInstrucciones);
+    if (pcs.length) {
+      const nSh = Math.max(1, parseInt(ci.Nsh ?? item.qty ?? 1, 10) || 1);
+      const cabe = (shs) => shs.every((s) => s.every((p) => p.x + p.w <= sw && p.y + p.h <= sh));
+      // Probar las piezas como vienen y giradas; quedarse con la que entra completa en la plancha
+      let mejor = null;
+      for (const girar of [false, true]) {
+        const flat = [];
+        for (const p of pcs) {
+          const [w, h] = girar ? [p.h, p.w] : [p.w, p.h];
+          for (let i = 0; i < p.qty; i++) flat.push({ w, h, ci: color(p.w, p.h) });
+        }
+        const r = stripPack(flat, sw, sh, SAW, nSh).filter((s) => s.length);
+        if (!mejor || (cabe(r) && !cabe(mejor))) mejor = r;
+      }
+      sheets = mejor;
     }
   }
   return { sw, sh, sheets };

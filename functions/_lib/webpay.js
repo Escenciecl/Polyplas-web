@@ -408,7 +408,12 @@ export async function enviarComprobante(env, order, tbk, opts = {}) {
   // si falla, se intenta igual por Brevo.
   const sendSales = async () => {
     const subject = `${opts.prefijoVentas || "[VENTA]"} ${asunto}`;
-    const body = alerta + html;
+    const conCorte = (order.items_full || order.items || []).filter((it) => it && it.corteMode && it.corteMode !== "none");
+    const sinHoja = conCorte.length && !pdf
+      ? `<p style="background:#fffbeb;border:2px solid #d97706;color:#92400e;padding:12px;font:14px Arial;margin:0 0 12px;">⚠ PEDIDO CON CORTE SIN HOJA DE CORTE: no se pudo generar diagrama-cortes.pdf. Revisar las medidas en el detalle del pedido antes de cortar.</p>`
+      : "";
+    if (sinHoja) console.log("[Polyplas] Pedido con corte sin diagrama", tbk.buy_order);
+    const body = alerta + sinHoja + html;
     if (env.SMTP_PASS) {
       try {
         await smtpSend(env, { from: fromEmail, fromName, to: sales, replyTo: sales, subject, html: body, attachments: adjuntos });

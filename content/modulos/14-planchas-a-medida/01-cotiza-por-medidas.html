@@ -617,7 +617,12 @@ function cartItem(o){
     corteMode:o.distintos?"distintos":"iguales", tieneRecargo:o.distintos,
     corteInstrucciones:medidas+(o.tol?" · medidas ajustadas −2 mm por lado (tolerancia aceptada por el cliente)":"")+" · Cotiza por medidas",
     corteMedidas:null,
-    calcInfo:{Nsh:o.N,origen:"flujo_medidas",piezas:o.count,sobrante:Math.round(o.waste*100)}
+    // Plano de corte para el correo (diagrama-cortes.pdf): mismas posiciones que ve el cliente,
+    // girado a vertical (ancho = lado corto), que es como lo dibuja functions/_lib/corte.js.
+    // Va dentro de calcInfo porque el checkout solo envía calcInfo al servidor.
+    calcInfo:{Nsh:o.N,origen:"flujo_medidas",piezas:o.count,sobrante:Math.round(o.waste*100),
+      sheetW:r.H,sheetH:r.W,
+      placedSheets:o.sheets.map(s=>s.map(q=>({x:q.y,y:q.x,W:q.h,H:q.w})))}
   };
 }
 function agregarAlCarro(o){
