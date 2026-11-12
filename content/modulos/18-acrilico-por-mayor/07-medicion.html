@@ -1,0 +1,95 @@
+<script>
+(function(){
+  if(window.__ppB2BMed) return; window.__ppB2BMed=1;
+  var form=document.querySelector('.pp-b2-form'); if(!form) return;
+  var B=window.ppB2B=window.ppB2B||{};
+  B.landing=B.landing||(/letreros/.test(location.pathname)?'letreros':/por-mayor/.test(location.pathname)?'mayor':'pop');
+  B.variante=B.variante||'control';
+  var DEBUG=/[?&]pp_debug=1/.test(location.search);
+  B.push=function(ev,p){ try{
+    var o={landing:B.landing,variante:B.variante}; if(B.leadId) o.lead_id=B.leadId;
+    for(var k in p) if(Object.prototype.hasOwnProperty.call(p,k)) o[k]=p[k];
+    var dl=window.dataLayer=window.dataLayer||[]; dl.push({b2b:null}); dl.push({event:ev,b2b:o});
+    if(DEBUG) console.log('[b2b]',ev,o);
+  }catch(x){} };
+  B.newLeadId=function(){ if(B.leadId) return B.leadId;
+    var c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789', s='', a=new Uint32Array(6);
+    try{ crypto.getRandomValues(a); }catch(x){ for(var j=0;j<6;j++) a[j]=Math.floor(Math.random()*4294967295); }
+    for(var i=0;i<6;i++) s+=c.charAt(a[i]%c.length);
+    B.leadId='B2B-'+s; return B.leadId; };
+
+  // Origen de la visita (sin datos personales)
+  B.ref=(function(){ var q=location.search, r=document.referrer, h;
+    if(/[?&](gclid|gbraid|wbraid)=/.test(q)||/[?&]utm_medium=(cpc|ppc|paid)/i.test(q)) return 'ads';
+    if(!r) return 'directo'; try{ h=new URL(r).hostname; }catch(x){ return 'otro'; }
+    if(/(^|\.)polyplas\.cl$/.test(h)) return 'interno';
+    if(/(^|\.)(google|bing|yahoo|duckduckgo|ecosia)\./.test(h)) return 'organico';
+    return 'otro'; })();
+  B.push('b2b_landing_view',{referrer_tipo:B.ref});
+
+  // Profundidad de scroll
+  var hechos={};
+  function sc(){ var h=document.documentElement.scrollHeight-window.innerHeight; if(h<=0) return;
+    var p=window.scrollY/h*100; [25,50,75,90].forEach(function(t){ if(p>=t&&!hechos[t]){ hechos[t]=1; B.push('b2b_scroll',{profundidad:t}); } }); }
+  window.addEventListener('scroll',sc,{passive:true});
+
+  // Secciones vistas (50% visible durante 1 s)
+  var ctas=[].slice.call(document.querySelectorAll('.pp-b2-cta-mid'));
+  var ORDEN={hero:1,dolores:2,cta_dolores:3,material:4,ficha:5,cta_ficha:6,proceso:7,faq:8,formulario:9};
+  function nombre(el){
+    if(el.matches('.pp-b2-hero')) return 'hero';
+    if(el.id==='reunion') return 'formulario';
+    if(el.matches('.pp-b2-cta-mid')) return ctas.indexOf(el)===0?'cta_dolores':'cta_ficha';
+    if(el.matches('.pp-b2-faq')) return 'faq';
+    if(el.querySelector('.pp-b2-dolores')) return 'dolores';
+    if(el.querySelector('.pp-b2-pasos')) return 'proceso';
+    var h2=el.querySelector('h2'); if(h2&&/^Ficha t/.test(h2.textContent.trim())) return 'ficha';
+    if(el.querySelector('.pp-b2-tabla')) return 'material';
+    return null; }
+  if('IntersectionObserver' in window){
+    var timers={}, vistos={};
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){
+      var n=e.target.__ppB2BSec; if(!n||vistos[n]) return;
+      var need=Math.min(e.boundingClientRect.height,window.innerHeight)*0.5;
+      if(e.isIntersecting&&e.intersectionRect.height>=need){
+        if(!timers[n]) timers[n]=setTimeout(function(){ vistos[n]=1; io.unobserve(e.target);
+          B.push('b2b_section_view',{seccion:n,orden:ORDEN[n]});
+          if(n==='formulario') B.push('b2b_form_view',{llego_por:(B.ctaTs&&Date.now()-B.ctaTs<15000)?('cta_'+B.cta):'scroll'});
+        },1000);
+      } else if(timers[n]){ clearTimeout(timers[n]); timers[n]=0; }
+    }); },{threshold:[0,.1,.2,.3,.4,.5,.6,.7,.8,.9,1]});
+    [].forEach.call(document.querySelectorAll('section.pp-b2-wrap,.pp-b2-cta-mid'),function(el){ var n=nombre(el); if(n){ el.__ppB2BSec=n; io.observe(el); } });
+  }
+
+  // Clics: botones de reunión, reintento de WhatsApp y enlaces internos
+  document.addEventListener('click',function(e){
+    var a=e.target&&e.target.closest?e.target.closest('a'):null; if(!a) return;
+    var href=a.getAttribute('href')||'';
+    if(a.classList.contains('pp-b2-ok-link')){ B.push('b2b_whatsapp_reintento',{}); return; }
+    if(href==='#reunion'){
+      var mid=a.closest('.pp-b2-cta-mid');
+      var pos=a.closest('.pp-b2-card')?'hero':a.closest('.pp-b2-sticky')?'fijo_movil':mid?(ctas.indexOf(mid)===0?'post_dolores':'post_ficha'):'otro';
+      B.cta=pos; B.ctaTs=Date.now(); B.push('b2b_cta_click',{cta_posicion:pos}); return; }
+    if(href.charAt(0)==='/'&&a.closest('.pp-b2-wrap')) B.push('b2b_link_click',{destino:href.split(/[?#]/)[0]});
+  },true);
+
+  // Preguntas frecuentes
+  [].forEach.call(document.querySelectorAll('.pp-b2-faq details'),function(dt){
+    dt.addEventListener('toggle',function(){ if(dt.open){ var s=dt.querySelector('summary'); B.push('b2b_faq_open',{pregunta:(s?s.textContent:'').trim().slice(0,90)}); } }); });
+
+  // Formulario campo a campo (solo nombres de campo, nunca lo escrito)
+  var BLOQUE={nombre:'empresa',cargo:'empresa',empresa:'empresa',rut:'empresa',telefono:'empresa',correo:'empresa',comuna:'empresa',fabrica:'consumo',consumo:'consumo',material:'consumo',comentario:'consumo',reunion:'reunion'};
+  var CAMPOS=['nombre','cargo','empresa','rut','telefono','correo','comuna','fabrica','consumo','material','comentario','reunion'];
+  B.llenos={}; B.ultimo='';
+  form.addEventListener('focusin',function(e){ var n=e.target&&e.target.name; if(!n) return; B.ultimo=n;
+    if(!B.started){ B.started=true; B.tStart=Date.now(); B.newLeadId(); B.push('b2b_form_start',{primer_campo:n}); } });
+  function hecho(e){ var t=e.target, n=t&&t.name; if(!n||B.llenos[n]) return;
+    var v=t.type==='radio'?t.checked:String(t.value||'').trim(); if(!v) return;
+    B.llenos[n]=1; B.push('b2b_field_done',{campo:n,campo_orden:CAMPOS.indexOf(n)+1,bloque:BLOQUE[n]||'otro'}); }
+  form.addEventListener('focusout',hecho); form.addEventListener('change',hecho);
+  function abandono(){ if(B.started&&!B.submitted&&!B.abandonado){ B.abandonado=1;
+    B.push('b2b_form_abandon',{ultimo_campo:B.ultimo,campos_llenos:Object.keys(B.llenos).length,segundos_formulario:Math.round((Date.now()-B.tStart)/1000)}); } }
+  window.addEventListener('pagehide',abandono);
+  document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='hidden') abandono(); });
+})();
+</script>
