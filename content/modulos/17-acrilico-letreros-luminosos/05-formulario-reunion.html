@@ -39,7 +39,7 @@
         <p class="pp-b2-ok" role="status" hidden>✅ Listo, se abrió WhatsApp con tus datos. Envía el mensaje y te contactamos para coordinar la reunión. ¿No se abrió? <a class="pp-b2-ok-link" href="#" target="_blank" rel="noopener">Toca aquí</a>.</p>
         <p class="pp-b2-err" role="alert"></p>
         <button type="submit" class="pp-b2-btn">Solicitar reunión por WhatsApp</button>
-        <p class="pp-b2-nota" style="margin-top:8px">Se abrirá WhatsApp con tus datos listos para enviar. Sin costo ni compromiso.</p>
+        <p class="pp-b2-nota" style="margin-top:8px">Se abrirá WhatsApp con tus datos listos para enviar. Sin costo ni compromiso. Guardamos tus datos solo para coordinar la reunión (<a href="/politica-de-privacidad-de-datos/">política de privacidad</a>).</p>
       </div>
     </form>
   </div>
@@ -55,22 +55,45 @@
 <script>
 (function(){
   var f=document.getElementById('pp-b2-form-letreros'); if(!f||f.dataset.listo) return; f.dataset.listo='1';
+  var B=window.ppB2B=window.ppB2B||{}; var intentos=0;
+  function push(ev,p){ try{ if(B.push){ B.push(ev,p); return; } var dl=window.dataLayer=window.dataLayer||[]; dl.push({b2b:null}); dl.push({event:ev,b2b:p}); }catch(x){} }
   f.addEventListener('submit',function(e){
-    e.preventDefault();
+    e.preventDefault(); intentos++;
     var d=new FormData(f), err=f.querySelector('.pp-b2-err');
-    var req=['nombre','empresa','telefono','consumo','reunion'];
-    for(var i=0;i<req.length;i++){ if(!String(d.get(req[i])||'').trim()){ err.textContent='Completa los campos marcados con *'; var el=f.querySelector('[name="'+req[i]+'"]'); if(el) el.focus(); return; } }
+    var g=function(k){ return String(d.get(k)||'').trim(); };
+    var falt=['nombre','empresa','telefono','consumo','reunion'].filter(function(k){ return !g(k); });
+    if(falt.length){
+      err.textContent='Completa los campos marcados con *';
+      push('b2b_form_error',{campos_faltantes:falt.join(','),intento:intentos});
+      var el=f.querySelector('[name="'+falt[0]+'"]'); if(el) el.focus(); return;
+    }
     err.textContent='';
+    var leadId=B.newLeadId?B.newLeadId():('B2B-'+Math.random().toString(36).slice(2,8).toUpperCase());
     var lineas=['Hola Polyplas, quiero agendar una reunión con muestras (Letreros luminosos y señalética).',
-      'Nombre: '+d.get('nombre'), 'Cargo: '+(d.get('cargo')||'-'), 'Empresa: '+d.get('empresa'), 'RUT: '+(d.get('rut')||'-'),
-      'Teléfono: '+d.get('telefono'), 'Correo: '+(d.get('correo')||'-'), 'Comuna: '+(d.get('comuna')||'-'),
-      'Fabricamos: '+(d.get('fabrica')||'-'), 'Consumo de acrílico: '+d.get('consumo'),
-      'Material que más usamos: '+(d.get('material')||'-'), 'Prefiero: '+d.get('reunion'), 'Comentario: '+(d.get('comentario')||'-'),
-      '(Origen: /acrilico-para-letreros-luminosos/)'];
-    try{ window.dataLayer=window.dataLayer||[]; window.dataLayer.push({event:'lead_b2b',industria:'letreros',consumo:String(d.get('consumo')),tipo_reunion:String(d.get('reunion'))}); }catch(x){}
+      'Nombre: '+g('nombre'), 'Cargo: '+(g('cargo')||'-'), 'Empresa: '+g('empresa'), 'RUT: '+(g('rut')||'-'),
+      'Teléfono: '+g('telefono'), 'Correo: '+(g('correo')||'-'), 'Comuna: '+(g('comuna')||'-'),
+      'Fabricamos: '+(g('fabrica')||'-'), 'Consumo de acrílico: '+g('consumo'),
+      'Material que más usamos: '+(g('material')||'-'), 'Prefiero: '+g('reunion'), 'Comentario: '+(g('comentario')||'-'),
+      'Código: '+leadId, '(Origen: /acrilico-para-letreros-luminosos/)'];
+    var opc=['cargo','rut','correo','comuna','fabrica','material'].filter(function(k){ return !!g(k); }).length;
+    B.submitted=true;
+    push('lead_b2b',{industria:'letreros',consumo:g('consumo'),tipo_reunion:g('reunion'),fabrica:g('fabrica')||'(sin dato)',
+      opcionales_llenos:opc,con_comentario:g('comentario')?'si':'no',
+      segundos_formulario:B.tStart?Math.round((Date.now()-B.tStart)/1000):0,intentos:intentos,cta_origen:B.cta||'scroll',lead_id:leadId});
+    try{
+      var cut=function(k,n){ var v=g(k).slice(0,n); return v||null; };
+      fetch('https://gdrkscedvkjtcvexnhzg.supabase.co/rest/v1/b2b_leads',{method:'POST',keepalive:true,
+        headers:{'apikey':'sb_publishable_qT9WuJK5Wi6VghgMvcYIMw_IGBtn1Tc','Content-Type':'application/json','Prefer':'return=minimal'},
+        body:JSON.stringify({lead_id:leadId,landing:B.landing||'letreros',variante:B.variante||'control',referrer_tipo:B.ref||null,
+          nombre:g('nombre').slice(0,120),cargo:cut('cargo',120),empresa:g('empresa').slice(0,160),rut:cut('rut',20),
+          telefono:g('telefono').slice(0,30),correo:cut('correo',160),comuna:cut('comuna',80),fabrica:cut('fabrica',80),
+          consumo:g('consumo').slice(0,60),material:cut('material',300),tipo_reunion:g('reunion').slice(0,60),comentario:cut('comentario',2000)})
+      }).catch(function(){});
+    }catch(x){}
     var url='https://wa.me/56964356986?text='+encodeURIComponent(lineas.join('\n'));
     var ok=f.querySelector('.pp-b2-ok'); if(ok){ ok.querySelector('a').href=url; ok.hidden=false; }
-    var w=window.open(url,'_blank'); if(!w) window.location.href=url;
+    B.whatsappAbierto=true;
+    var w=window.open(url,'_blank'); if(!w){ push('b2b_whatsapp_bloqueado',{}); window.location.href=url; }
   });
 })();
 </script>
