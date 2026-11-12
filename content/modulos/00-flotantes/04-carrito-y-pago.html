@@ -1213,12 +1213,22 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
      Pasan a GA4 por el activador de GTM «Embudo compra rápida (3 pasos)» con los parámetros paso, modo, motivo, detalle y valor.
      Los demás parámetros de esa etiqueta se envían vacíos para que GTM no repita valores viejos de la capa de datos. */
   var gcP3 = { abierto: false, paso: '', ultimoCampo: '', inicio: false, entregaKey: '' };
+  /* Flujo del carrito para los pasos del pago: configurador | medidas | mixto (las dos) | otro (sin planchas) */
+  window.ppGCFlujo = function() {
+    try {
+      var f = {};
+      gcItems.forEach(function(i){ var x = window.ppFlujoItem ? window.ppFlujoItem(i) : (i.flujo || ''); if (x) f[x] = 1; });
+      var k = Object.keys(f);
+      return k.length === 0 ? 'otro' : (k.length > 1 ? 'mixto' : k[0]);
+    } catch (e) { return undefined; }
+  };
   function gcP3Push(evento, d) {
     try {
       d = d || {};
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: evento,
+        flujo: window.ppGCFlujo(),
         paso: d.paso || gcP3.paso || undefined,
         modo: d.modo || undefined,
         motivo: d.motivo || undefined,
@@ -1226,7 +1236,8 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
         valor: Math.round(gcCurrentGrand || 0) || undefined,
         linea: undefined, tipo: undefined, item_id: undefined, medida: undefined, espesor: undefined, color: undefined,
         planchas: undefined, aprovechado: undefined, aprovechado_actual: undefined, aprovechado_reco: undefined,
-        ahorro: undefined, recomendada: undefined
+        ahorro: undefined, recomendada: undefined, opcion: undefined, piezas: undefined, medidas: undefined,
+        m2: undefined, opciones: undefined, tolerancia: undefined, respuesta: undefined, ayuda: undefined, precio_pieza: undefined
       });
     } catch (e) {}
   }
@@ -2258,7 +2269,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     if (btn) { btn.disabled=true; btn.textContent='Registrando tu pedido...'; }
     if (e2) e2.style.display='none';
     try {
-      var res=await fetch('/wp-json/polyplas/v1/transferencia-init',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({total:Math.round(total),entrega:gcSelectedEntrega.label,client:client,terms_accepted:gcTermsAccepted,items:itemsPedido.map(function(i){return{sku:i.sku||'',embalaje:!!i.embalaje,nombre:i.nombre,qty:i.qty,precio_unit:i.precio_unit||0,corte_costo:i.corte_costo||0,subtotal:i.subtotal||0,corteMode:i.corteMode||'',tieneRecargo:i.tieneRecargo||false,corteInstrucciones:i.corteInstrucciones||'',corteMedidas:i.corteMedidas||null,calcInfo:i.calcInfo||null};})})});
+      var res=await fetch('/wp-json/polyplas/v1/transferencia-init',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({total:Math.round(total),entrega:gcSelectedEntrega.label,client:client,terms_accepted:gcTermsAccepted,items:itemsPedido.map(function(i){return{sku:i.sku||'',flujo:(window.ppFlujoItem?window.ppFlujoItem(i):(i.flujo||'')),embalaje:!!i.embalaje,nombre:i.nombre,qty:i.qty,precio_unit:i.precio_unit||0,corte_costo:i.corte_costo||0,subtotal:i.subtotal||0,corteMode:i.corteMode||'',tieneRecargo:i.tieneRecargo||false,corteInstrucciones:i.corteInstrucciones||'',corteMedidas:i.corteMedidas||null,calcInfo:i.calcInfo||null};})})});
       var data=await res.json();
       if (data && data.code==='precio_cambio') {
         await new Promise(function(ok){ gcRevisarCRM(ok); });
@@ -2312,7 +2323,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     var itemsPedido=gcItemsPedido();
     var resumen=itemsPedido.map(function(item){ var mod=MOD_LABELS[item.module]||item.module||''; return '• '+(mod?mod+' · ':'')+item.nombre+' × '+item.qty+' → '+fmt(item.subtotal); }).join('\n');
     try {
-      var res=await fetch('/wp-json/polyplas/v1/webpay-init',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({total:Math.round(total),entrega:gcSelectedEntrega.label,client:client,return_page:'https://polyplas.cl/gracias/',items:itemsPedido.map(function(i){return{sku:i.sku||'',embalaje:!!i.embalaje,nombre:i.nombre,qty:i.qty,precio_unit:i.precio_unit||0,corte_costo:i.corte_costo||0,subtotal:i.subtotal||0,corteMode:i.corteMode||'',tieneRecargo:i.tieneRecargo||false,corteInstrucciones:i.corteInstrucciones||'',corteMedidas:i.corteMedidas||null,calcInfo:i.calcInfo||null};})})});
+      var res=await fetch('/wp-json/polyplas/v1/webpay-init',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({total:Math.round(total),entrega:gcSelectedEntrega.label,client:client,return_page:'https://polyplas.cl/gracias/',items:itemsPedido.map(function(i){return{sku:i.sku||'',flujo:(window.ppFlujoItem?window.ppFlujoItem(i):(i.flujo||'')),embalaje:!!i.embalaje,nombre:i.nombre,qty:i.qty,precio_unit:i.precio_unit||0,corte_costo:i.corte_costo||0,subtotal:i.subtotal||0,corteMode:i.corteMode||'',tieneRecargo:i.tieneRecargo||false,corteInstrucciones:i.corteInstrucciones||'',corteMedidas:i.corteMedidas||null,calcInfo:i.calcInfo||null};})})});
       var data=await res.json();
       // El servidor recalcula el total con el CRM: si no calza, se revisa el carrito antes de cobrar
       if (data && (data.code==='precio_cambio' || data.code==='verificacion')) {

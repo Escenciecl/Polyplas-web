@@ -26,6 +26,7 @@ function gaDesdeCookies(cookie) {
   else if ((m = s.match(/^GS1\.\d+\.(\d+)\./))) sessionId = m[1];
   return { client_id: clientId, session_id: sessionId };
 }
+const LISTA_FLUJO = { configurador: "Compra rápida planchas", medidas: "Cotiza por medidas" };
 function gaItems(items) {
   return (Array.isArray(items) ? items : []).slice(0, 50).map((it, i) => {
     it = it || {};
@@ -33,7 +34,7 @@ function gaItems(items) {
     const sub = Number(it.subtotal) || 0;
     let id = String(it.sku || "SIN_SKU");
     if (/^REC_/.test(id)) id = "RECEP_" + id.slice(4);
-    return { item_id: id.slice(0, 100), item_name: String(it.nombre || "").slice(0, 100), item_brand: "Polyplas", price: Math.round(Number(it.precio_unit) || sub / qty || 0), quantity: qty, index: i };
+    return { item_id: id.slice(0, 100), item_name: String(it.nombre || "").slice(0, 100), item_brand: "Polyplas", price: Math.round(Number(it.precio_unit) || sub / qty || 0), quantity: qty, index: i, ...(LISTA_FLUJO[it.flujo] ? { item_list_name: LISTA_FLUJO[it.flujo] } : {}) };
   });
 }
 

@@ -80,6 +80,39 @@
 
   function num(v) { var n = Number(v); return isFinite(n) ? n : 0; }
 
+  /* ── Flujos de venta de planchas (12 nov 2026) ──────────────────
+   * Cada plancha lleva el flujo por el que se cotizó, desde que entra al carrito hasta la compra:
+   *   configurador = compra rápida en las páginas de planchas (acrílico, PET, PETG y policarbonato)
+   *   medidas      = Cotiza por medidas en /acrilico-a-medida/
+   * En los eventos de comercio electrónico va como item_list_name (estándar GA4) y en los pasos
+   * del pago como parámetro flujo (configurador | medidas | mixto | otro). */
+  var LISTA_FLUJO = { configurador: 'Compra rápida planchas', medidas: 'Cotiza por medidas' };
+  window.ppFlujoItem = function (it) {
+    it = it || {};
+    if (it.flujo === 'configurador' || it.flujo === 'medidas') return it.flujo;
+    // Carritos guardados antes de este cambio
+    if (/Cotiza por medidas/.test(String(it.corteInstrucciones || ''))) return 'medidas';
+    if (/^(acrilico|pet|petg|pc)$/.test(String(it.module || ''))) return 'configurador';
+    return '';
+  };
+  /* Parámetros propios que leen las etiquetas de GA4 en Tag Manager.
+   * Cada evento propio los envía todos (vacíos los que no usa) para no arrastrar valores de otro evento. */
+  var CLAVES_DL = ['flujo', 'paso', 'linea', 'tipo', 'item_id', 'medida', 'espesor', 'color', 'valor', 'planchas',
+    'aprovechado', 'aprovechado_actual', 'aprovechado_reco', 'ahorro', 'recomendada', 'motivo', 'detalle', 'modo',
+    'opcion', 'piezas', 'medidas', 'm2', 'opciones', 'tolerancia', 'respuesta', 'ayuda', 'precio_pieza'];
+  window.ppDLClaves = CLAVES_DL.slice();
+  window.ppEvento = function (evento, datos) {
+    try {
+      var p = { event: evento };
+      CLAVES_DL.forEach(function (k) { p[k] = undefined; });
+      datos = datos || {};
+      for (var k in datos) if (Object.prototype.hasOwnProperty.call(datos, k)) p[k] = datos[k];
+      window.dataLayer.push(p);
+      log('ENVIADO', evento, p);
+      return true;
+    } catch (e) { return false; }
+  };
+
   /* El sitio usaba REC_… y el feed de Merchant Center usa RECEP_…: se unifica al del feed */
   function normId(id) {
     id = String(id == null ? '' : id);
@@ -171,6 +204,8 @@
       }
     }
     var out = normItem(base, idx, cartItem.module);
+    var flujo = window.ppFlujoItem(cartItem);
+    if (flujo) out.item_list_name = LISTA_FLUJO[flujo]; else delete out.item_list_name;
     out.price = price;
     out.quantity = qty;
     out.index = idx || 0;
@@ -226,6 +261,10 @@
       if (ec.value != null) ec.value = num(ec.value);
       if (evento === 'view_item_list' && ec.item_list_name) {
         ec.items.forEach(function (it) { it.item_list_name = ec.item_list_name; });
+      }
+      // Planchas: lo que no trae lista viene del configurador (Cotiza por medidas envía la suya)
+      if ((evento === 'view_item' || evento === 'add_to_cart') && ESPLANCHA[origen]) {
+        ec.items.forEach(function (it) { if (!it.item_list_name) it.item_list_name = LISTA_FLUJO.configurador; });
       }
 
       var ids = ec.items.map(function (it) { return it.item_id; }).join(',');
@@ -310,7 +349,11 @@
   window.ppPaso = function (evento, origen, datos) {
     try {
       datos = datos || {};
-      var p = { event: evento, linea: LINEAS[origen] || '', tipo: '', item_id: '', valor: num(datos.valor) || undefined };
+      var p = { event: evento };
+      CLAVES_DL.forEach(function (k) { p[k] = undefined; });
+      p.linea = LINEAS[origen] || ''; p.tipo = ''; p.item_id = ''; p.valor = num(datos.valor) || undefined;
+      p.flujo = origen === 'gc' ? (window.ppGCFlujo ? window.ppGCFlujo() : undefined)
+        : (ESPLANCHA[origen] || origen === 'calc') ? 'configurador' : undefined;
       if (ESPLANCHA[origen]) {
         // Solo cuenta dentro del configurador abierto (no la selección que viene precargada)
         var modal = document.getElementById('configuratorModal');
@@ -327,6 +370,8 @@
         p.item_id = id;
         if (cat) { p.linea = LINEAS[cat.modulo]; p.tipo = cat.tipo; }
       }
+      // Datos propios del paso (opcion, modo, ahorro…) que no fueron llenados arriba
+      ['opcion', 'modo', 'ahorro', 'aprovechado_actual', 'aprovechado_reco', 'recomendada', 'motivo', 'detalle'].forEach(function (k) { if (p[k] === undefined && datos[k] != null && datos[k] !== '') p[k] = datos[k]; });
       var clave = evento + '|' + p.linea + '|' + p.item_id;
       if (pasosHechos[clave]) { log('DESCARTADO (paso ya informado)', evento, p.item_id); return false; }
       pasosHechos[clave] = 1;
@@ -349,6 +394,34 @@
       window.ppPaso(si ? 'conf_corte_si' : 'conf_corte_no', mod, window._ppState || {});
     } catch (err) {}
   }, true);
+
+  /* ── Configurador de planchas: salida sin agregar al carro (conf_salida) ──
+   * Si la persona abrió la compra rápida (view_item) y deja la página o la pestaña sin agregar
+   * al carro ni cerrar con la X, se informa una vez: en qué paso estaba y su última acción. */
+  var PASO_CONF = { conf_medida: 'medida_espesor', conf_color: 'medida_espesor', conf_espesor: 'medida_espesor', conf_sin_stock: 'medida_espesor' };
+  var confSalio = false;
+  function confSalida() {
+    try {
+      if (confSalio) return;
+      var mod = '';
+      RUTA_PLANCHA.some(function (r) { if (r[0].test(location.pathname)) { mod = r[1]; return true; } return false; });
+      if (!mod) return;
+      var dl = window.dataLayer || [], abrio = -1, i;
+      for (i = dl.length - 1; i >= 0; i--) { if (dl[i] && dl[i].event === 'view_item') { abrio = i; break; } }
+      if (abrio < 0) return;
+      var ultimo = '';
+      for (i = abrio + 1; i < dl.length; i++) {
+        var ev = dl[i] && dl[i].event;
+        if (!ev) continue;
+        if (/^(add_to_cart|conf_ir_pago|conf_seguir_comprando|begin_checkout|conf_cerrar)$/.test(ev)) return;
+        if (/^conf_/.test(ev)) ultimo = ev;
+      }
+      confSalio = true;
+      window.ppEvento('conf_salida', { flujo: 'configurador', linea: LINEAS[mod], paso: !ultimo ? 'abrio' : (PASO_CONF[ultimo] || 'cortes'), detalle: ultimo || undefined });
+    } catch (e) {}
+  }
+  window.addEventListener('pagehide', confSalida);
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') confSalida(); });
 
   /* ── Fichas de producto: view_item al cargar la página ────── */
   var PREFIJO_FICHA = { tina: 'TINA_', casco: 'CASCO_', cupula: 'CUP_', receptaculo: 'RECEP_' };

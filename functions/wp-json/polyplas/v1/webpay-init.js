@@ -117,6 +117,7 @@ function gaDesdeCookies(cookie) {
 }
 
 /* Artículos en formato GA4 (mismo item_id que el feed de Merchant Center) */
+const LISTA_FLUJO = { configurador: "Compra rápida planchas", medidas: "Cotiza por medidas" };
 function gaItems(items) {
   return (Array.isArray(items) ? items : []).slice(0, 50).map((it, i) => {
     it = it || {};
@@ -131,6 +132,8 @@ function gaItems(items) {
       price: Math.round(Number(it.precio_unit) || sub / qty || 0),
       quantity: qty,
       index: i,
+      // Flujo por el que se cotizó la plancha (mismo item_list_name que en el sitio)
+      ...(LISTA_FLUJO[it.flujo] ? { item_list_name: LISTA_FLUJO[it.flujo] } : {}),
     };
   });
 }

@@ -6213,7 +6213,7 @@ function addToCart(keepOpen) {
     const _gcDimLabel = (dimMeta[_gcItem.dim]||{}).label || _gcItem.dim;
     const _gcColLabel = (colorMeta[_gcItem.color]||{}).label || _gcItem.color;
     typeof window.ppGlobalCartAdd === 'function' && window.ppGlobalCartAdd({
-      gid: _gcGid, sku: _gcItem.tipo + '_' + _gcItem.dim + '_' + _gcItem.color + '_' + _gcItem.esp, module: 'pet',
+      gid: _gcGid, sku: _gcItem.tipo + '_' + _gcItem.dim + '_' + _gcItem.color + '_' + _gcItem.esp, module: 'pet', flujo: 'configurador',
       nombre: _gcMatLabel + ' · ' + _gcDimLabel + ' · ' + _gcColLabel + ' · ' + _gcItem.esp,
       qty: _gcItem.qty, precio_unit: _gcItem.price, corte_costo: _gcCorte,
       subtotal: (_gcItem.price * _gcItem.qty) + _gcCorte,

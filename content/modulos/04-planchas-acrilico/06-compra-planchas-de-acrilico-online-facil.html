@@ -6589,7 +6589,7 @@ function selectCorteOption(opt) {
   updateCorteBadge();
   updateCartTotalsDisplay();
   updatePrice(); // Actualizar precio en resumen (incluye recargo si es distintos)
-  window.ppPaso && window.ppPaso('conf_cortes_' + (opt === 'none' ? 'ninguno' : opt), 'acrilico', window._ppState || {});
+  // Tipo de corte: lo informa conf_modo_corte (un solo evento). conf_cortes_* se retiró el 12 nov 2026 por duplicado.
 
   if (opt === 'none') {
     continueFromCorte();
@@ -6749,7 +6749,7 @@ function addToCart(keepOpen) {
     const _gcDimLabel = (dimMeta[_gcItem.dim]||{}).label || _gcItem.dim;
     const _gcColLabel = getColorLabel(_gcItem.color, _gcItem.tipo);
     typeof window.ppGlobalCartAdd === 'function' && window.ppGlobalCartAdd({
-      gid: _gcGid, sku: _gcItem.tipo + '_' + _gcItem.dim + '_' + _gcItem.color + '_' + _gcItem.esp, module: 'acrilico',
+      gid: _gcGid, sku: _gcItem.tipo + '_' + _gcItem.dim + '_' + _gcItem.color + '_' + _gcItem.esp, module: 'acrilico', flujo: 'configurador',
       nombre: _gcMatLabel + ' · ' + _gcDimLabel + ' · ' + _gcColLabel + ' · ' + _gcItem.esp,
       qty: _gcItem.qty, precio_unit: _gcItem.price, corte_costo: _gcCorte,
       subtotal: (_gcItem.price * _gcItem.qty) + _gcCorte,
@@ -6793,7 +6793,7 @@ function updateCartItemQty(i, delta) {
     const _gcDimLabel = dimMeta[_it.dim]?.label || _it.dim;
     const _gcColLabel = getColorLabel(_it.color, _it.tipo);
     window.ppGlobalCartAdd({
-      gid: _it._gid, module: 'acrilico',
+      gid: _it._gid, module: 'acrilico', flujo: 'configurador',
       nombre: _gcMatLabel + ' · ' + _gcDimLabel + ' · ' + _gcColLabel + ' · ' + _it.esp,
       qty: newQty, precio_unit: _it.price, corte_costo: _corte,
       subtotal: _it.price * newQty + _corte,
@@ -8405,6 +8405,7 @@ function ppCardSelectDim(el) {
   el.classList.add('pp-spec-active');
   card.dataset.selectedDim = el.dataset.dim;
   card.dataset.userSelected = 'true';
+  window.ppEvento && window.ppEvento('conf_tarjeta_medida', { flujo: 'configurador', linea: 'Planchas Acrílico', medida: el.dataset.dim, tipo: card.dataset.tipo || '' });
   // Si el espesor actual queda sin stock para esta medida, limpiar selección de espesor
   var esp = card.dataset.selectedEsp;
   var tipo = card.dataset.tipo || ppCardGetTipo(card);
@@ -8425,6 +8426,7 @@ function ppCardSelectEsp(el) {
   el.classList.add('pp-spec-active');
   card.dataset.selectedEsp = el.dataset.esp;
   card.dataset.userSelected = 'true';
+  window.ppEvento && window.ppEvento('conf_tarjeta_espesor', { flujo: 'configurador', linea: 'Planchas Acrílico', espesor: el.dataset.esp, tipo: card.dataset.tipo || '' });
   ppCardUpdatePrice(card);
 }
 

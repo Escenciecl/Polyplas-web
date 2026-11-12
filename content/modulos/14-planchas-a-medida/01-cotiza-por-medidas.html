@@ -561,7 +561,8 @@ function renderP3(){
   const TAGK={"Recomendada":"recomendada","Menos sobrante":"menos_sobrante","100% virgen":"virgen"};
   window._ppcmTags={};cards.forEach(c=>{window._ppcmTags[c.o.r.id]=TAGK[c.tag]||"otro_formato";});
   const best=cards[0].o;
-  track("med_opciones_vista",{opciones:valid.length,valor:best.total,planchas:best.N,ahorro:(!S.tol&&other<cur)?cur-other:0,tolerancia:S.tol?"si":"no"},`${piecesKey()}|${S.mat}|${S.color}|${S.esp}|${S.tol}`);
+  window._ppcmBest=best.total;
+  track("med_opciones_vista",{opciones:valid.length,valor:best.total,planchas:best.N,m2:+(ps.reduce((a,p)=>a+p.w*p.h*p.q,0)/1e6).toFixed(2),aprovechado:Math.round((1-best.waste)*100),precio_pieza:count?Math.round(best.total/count):undefined,ahorro:(!S.tol&&other<cur)?cur-other:0,tolerancia:S.tol?"si":"no"},`${piecesKey()}|${S.mat}|${S.color}|${S.esp}|${S.tol}`);
   const restOk=rest.filter(o=>!o.nofit&&o.stockOk).sort((a,b)=>a.total-b.total);
   html+=`<div class="ocards" role="radiogroup" aria-label="Opciones de compra">${cards.map(c=>optCard(c.o,c.tag,c.best,best)).join("")}</div>`;
   if(restOk.length){
@@ -611,7 +612,7 @@ function cartItem(o){
   const medidas=o.ps.map(p=>`${p.q} × ${cm(p.w)}×${cm(p.h)} cm`).join(", ");
   return {
     gid:"gc-"+Date.now().toString(36)+Math.random().toString(36).slice(2,7),
-    sku:`${pref}_${base}_${r.color}_${r.esp}`, module, nombre,
+    sku:`${pref}_${base}_${r.color}_${r.esp}`, module, nombre, flujo:"medidas",
     qty:o.N, precio_unit:r.precio, corte_costo:o.rec, subtotal:o.total,
     descripcion:`${nombre} × ${o.N}`,
     corteMode:o.distintos?"distintos":"iguales", tieneRecargo:o.distintos,
@@ -662,12 +663,16 @@ function renderP4(){
    add_to_cart va por ppTrack con item_list_name "Cotiza por medidas", que acompaña al artículo hasta el pago. */
 const TIPO_LBL={AA:"AA · Mix",PA:"PA · 100% virgen"},LINEA_LBL={acrilico:"Planchas Acrílico",pet:"Planchas PET",petg:"Planchas PETG",policarbonato:"Planchas Policarbonato Compacto"};
 const _hechos=new Set(),_esperas={};
+const CLAVES_DL=["flujo","paso","linea","tipo","item_id","medida","espesor","color","valor","planchas","aprovechado","aprovechado_actual","aprovechado_reco","ahorro","recomendada","motivo","detalle","modo","opcion","piezas","medidas","m2","opciones","tolerancia","respuesta","ayuda","precio_pieza"];
 function track(ev,p,clave){
   try{
     if(clave){const k=ev+"|"+clave;if(_hechos.has(k))return;_hechos.add(k);}
     const elegido=S.step>=2&&S.mat;
-    const base={event:ev,flujo:"medidas",paso:S.step,linea:elegido?LINEA_LBL[S.mat]:undefined,color:elegido?S.color||undefined:undefined,espesor:elegido?S.esp||undefined:undefined};
+    // Cada evento parte en blanco: así no arrastra valores de otro evento (Tag Manager recuerda la última capa de datos)
+    const base={};CLAVES_DL.forEach(k=>{base[k]=undefined;});
+    Object.assign(base,{event:ev,flujo:"medidas",paso:S.step,linea:elegido?LINEA_LBL[S.mat]:undefined,color:elegido?S.color||undefined:undefined,espesor:elegido?S.esp||undefined:undefined});
     (window.dataLayer=window.dataLayer||[]).push(Object.assign(base,p||{}));
+    if(ev!=="med_salida"){S.ultimo=ev;if(ev==="med_inicio")S.inicio=true;}
   }catch(_){}
 }
 function trackLuego(id,ms,fn){clearTimeout(_esperas[id]);_esperas[id]=setTimeout(fn,ms);}
@@ -691,24 +696,31 @@ ROOT.addEventListener("change",e=>{if(e.target.id==="ppcm-tol"){S.tol=e.target.c
 ROOT.addEventListener("click",e=>{
   const wa=e.target.closest("a[href*=\"wa.me\"]");if(wa){track("med_whatsapp",{});return;}
   const t=e.target.closest("button,[data-go]");if(!t)return;
-  if(t.dataset.go){go(+t.dataset.go);return;}
-  if(t.id==="ppcm-add"){S.pieces.push({w:"",h:"",q:"1"});S.example=false;render();const i=S.pieces.length-1;document.getElementById(`ppcm-p${i}w`).focus();return;}
-  if(t.dataset.del){S.pieces.splice(+t.dataset.del,1);render();return;}
-  if(t.dataset.mat){S.help=false;setMat(t.dataset.mat);render();return;}
-  if(t.id==="ppcm-helpbtn"){S.help=!S.help;render();return;}
+  if(t.dataset.go){const d=+t.dataset.go;if(t.classList.contains("inline"))track("med_editar",{detalle:"piezas"});else if(d<S.step)track("med_atras",{detalle:"encabezado"});go(d);return;}
+  if(t.id==="ppcm-add"){track("med_pieza_agregar",{piezas:S.pieces.length+1});S.pieces.push({w:"",h:"",q:"1"});S.example=false;render();const i=S.pieces.length-1;document.getElementById(`ppcm-p${i}w`).focus();return;}
+  if(t.dataset.del){track("med_pieza_quitar",{piezas:S.pieces.length-1});S.pieces.splice(+t.dataset.del,1);render();return;}
+  if(t.dataset.mat){track("med_material",{detalle:t.dataset.mat});S.help=false;setMat(t.dataset.mat);render();return;}
+  if(t.id==="ppcm-helpbtn"){if(!S.help)track("med_ayuda_abre",{});S.help=!S.help;render();return;}
   if(t.dataset.uso){const u=USOS[+t.dataset.uso];S.usoAyuda=true;track("med_ayuda_uso",{detalle:u.n});setMat(u.mat);if(!S.color)S.color="clear";if(inStock(rowsFor(S.mat,S.color,u.esp)))S.esp=u.esp;else autoEsp();S.help=false;render();return;}
-  if(t.dataset.color){S.color=t.dataset.color;S.chosen=null;S.sel=null;S.showAll=false;autoEsp();render();return;}
-  if(t.dataset.esp){S.esp=t.dataset.esp;S.chosen=null;S.sel=null;S.showAll=false;render();return;}
-  if(t.dataset.alt){const [c,es]=t.dataset.alt.split("|");S.color=c;S.esp=es;render();return;}
+  if(t.dataset.color){track("med_color",{detalle:t.dataset.color});S.color=t.dataset.color;S.chosen=null;S.sel=null;S.showAll=false;autoEsp();render();return;}
+  if(t.dataset.esp){track("med_espesor",{detalle:t.dataset.esp});S.esp=t.dataset.esp;S.chosen=null;S.sel=null;S.showAll=false;render();return;}
+  if(t.dataset.alt){track("med_no_cabe_alternativa",{detalle:t.dataset.alt});const [c,es]=t.dataset.alt.split("|");S.color=c;S.esp=es;render();return;}
   if(t.id==="ppcm-tolon"){track("med_tolerancia",{respuesta:"si"});S.tol=true;S.sel=null;render();return;}
   if(t.id==="ppcm-tolno"){track("med_tolerancia",{respuesta:"no"});S.tolNo=true;render();return;}
   if(t.id==="ppcm-toloff"){track("med_tolerancia",{respuesta:"quitar"});S.tol=false;S.sel=null;render();return;}
-  if(t.id==="ppcm-showall"){S.showAll=true;render();return;}
-  if(t.dataset.sel){S.sel=+t.dataset.sel;const y=window.scrollY;render();window.scrollTo(0,y);return;}
-  if(t.dataset.pick){S.chosen=window._opts.find(o=>o.r.id===+t.dataset.pick);go(4);return;}
-  if(t.id==="ppcm-again"){S.pieces=[{w:"",h:"",q:"1"}];S.mat=S.color=S.esp=null;S.chosen=null;S.tol=false;S.added=false;S.cartError=false;S.touched=false;go(1);return;}
+  if(t.id==="ppcm-showall"){track("med_ver_otros",{opciones:(window._opts||[]).filter(o=>!o.nofit&&o.stockOk).length});S.showAll=true;render();return;}
+  if(t.dataset.sel){const id=+t.dataset.sel;if(id!==S.sel){const o=(window._opts||[]).find(x=>x.r.id===id);if(o)track("med_opcion_cambia",{opcion:(window._ppcmTags&&window._ppcmTags[id])||"otro_formato",valor:o.total,detalle:window._ppcmBest!=null?String(o.total-window._ppcmBest):undefined,planchas:o.N,aprovechado:Math.round((1-o.waste)*100)});}S.sel=id;const y=window.scrollY;render();window.scrollTo(0,y);return;}
+  if(t.dataset.pick){S.chosen=window._opts.find(o=>o.r.id===+t.dataset.pick);if(S.chosen)track("med_opcion_elegida",datosOpcion(S.chosen));go(4);return;}
+  if(t.id==="ppcm-again"){track("med_otra_plancha",{});S.pieces=[{w:"",h:"",q:"1"}];S.mat=S.color=S.esp=null;S.chosen=null;S.tol=false;S.added=false;S.cartError=false;S.touched=false;go(1);return;}
 });
 
+/* Medición: la herramienta aparece en pantalla (una vez) y salida sin agregar al carro */
+try{
+  if("IntersectionObserver" in window){const io=new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)){track("med_vista",{},"1");io.disconnect();}},{threshold:0.3});io.observe(ROOT);}
+  else track("med_vista",{},"1");
+  let salio=false;const salida=()=>{if(salio||!S.inicio||S.added)return;salio=true;track("med_salida",{detalle:S.ultimo});};
+  window.addEventListener("pagehide",salida);document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden")salida();});
+}catch(_){}
 /* Arranque: ejemplo precargado en acrílico transparente 2 mm */
 /* Arranque: espera el stock del CRM (componente PreciosCrm del sitio) */
 const SB_URL="https://gdrkscedvkjtcvexnhzg.supabase.co",SB_KEY="sb_publishable_qT9WuJK5Wi6VghgMvcYIMw_IGBtn1Tc";

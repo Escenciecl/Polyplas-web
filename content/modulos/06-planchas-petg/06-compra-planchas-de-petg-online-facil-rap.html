@@ -6211,7 +6211,7 @@ function addToCart(keepOpen) {
     const _gcDimLabel = (dimMeta[_gcItem.dim]||{}).label || _gcItem.dim;
     const _gcColLabel = (colorMeta[_gcItem.color]||{}).label || _gcItem.color;
     typeof window.ppGlobalCartAdd === 'function' && window.ppGlobalCartAdd({
-      gid: _gcGid, sku: _gcItem.tipo + '_' + _gcItem.dim + '_' + _gcItem.color + '_' + _gcItem.esp, module: 'petg',
+      gid: _gcGid, sku: _gcItem.tipo + '_' + _gcItem.dim + '_' + _gcItem.color + '_' + _gcItem.esp, module: 'petg', flujo: 'configurador',
       nombre: _gcMatLabel + ' · ' + _gcDimLabel + ' · ' + _gcColLabel + ' · ' + _gcItem.esp,
       qty: _gcItem.qty, precio_unit: _gcItem.price, corte_costo: _gcCorte,
       subtotal: (_gcItem.price * _gcItem.qty) + _gcCorte,
@@ -7836,6 +7836,7 @@ function ppCardSelectDim(el) {
   el.classList.add('pp-spec-active');
   card.dataset.selectedDim = el.dataset.dim;
   card.dataset.userSelected = 'true';
+  window.ppEvento && window.ppEvento('conf_tarjeta_medida', { flujo: 'configurador', linea: 'Planchas PETG', medida: el.dataset.dim, tipo: card.dataset.tipo || '' });
   var esp = card.dataset.selectedEsp;
   var tipo = ppCardGetTipo(card);
   if (esp && ppCardIsOos(tipo, el.dataset.dim, card.dataset.color, esp)) {
@@ -7854,6 +7855,7 @@ function ppCardSelectEsp(el) {
   el.classList.add('pp-spec-active');
   card.dataset.selectedEsp = el.dataset.esp;
   card.dataset.userSelected = 'true';
+  window.ppEvento && window.ppEvento('conf_tarjeta_espesor', { flujo: 'configurador', linea: 'Planchas PETG', espesor: el.dataset.esp, tipo: card.dataset.tipo || '' });
   ppCardUpdatePrice(card);
 }
 
