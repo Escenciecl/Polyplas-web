@@ -5,15 +5,17 @@
       <p>Cuéntanos qué fabricas y cuánto acrílico consumes. Coordinamos una reunión en tu taller o una llamada, y llevamos muestras para que compruebes la calidad en tu propia máquina.</p>
     </div>
     <form class="pp-b2-form" id="pp-b2-form-pop" novalidate>
+      <p class="pp-b2-grupo">Tu empresa</p>
       <label>Nombre *<input name="nombre" autocomplete="name" required></label>
       <label>Cargo<input name="cargo" autocomplete="organization-title" placeholder="Ej: jefe de producción"></label>
       <label>Empresa *<input name="empresa" autocomplete="organization" required></label>
       <label>RUT empresa<input name="rut" placeholder="76.123.456-7"></label>
       <label>Teléfono / WhatsApp *<input name="telefono" type="tel" autocomplete="tel" required placeholder="+56 9"></label>
       <label>Correo<input name="correo" type="email" autocomplete="email"></label>
-      <label>Comuna<input name="comuna" autocomplete="address-level2"></label>
+      <label class="pp-b2-full">Comuna<input name="comuna" autocomplete="address-level2"></label>
+      <p class="pp-b2-grupo">Tu consumo</p>
       <label>¿Qué fabrican?<select name="fabrica"><option value="">Selecciona</option><option>Exhibidores y displays</option><option>Material POP para marcas</option><option>Vitrinas y urnas</option><option>Trade marketing / implementación</option><option>Otro</option></select></label>
-      <label class="pp-b2-full">Consumo de acrílico estimado *
+      <label>Consumo de acrílico estimado *
         <select name="consumo" required>
           <option value="">Selecciona</option>
           <option>Más de 80 planchas al mes</option>
@@ -24,6 +26,8 @@
         </select>
       </label>
       <label class="pp-b2-full">Material y espesores que más usan<input name="material" placeholder="Ej: PA transparente 3 y 5 mm, blanco lechoso 3 mm"></label>
+      <label class="pp-b2-full">¿Qué te complica hoy con tu proveedor?<textarea name="comentario" placeholder="Ej: quiebres de stock, calidad dispareja, plazos..."></textarea></label>
+      <p class="pp-b2-grupo">La reunión</p>
       <div class="pp-b2-full"><span style="font-size:13px;font-weight:600;color:var(--b2-gris)">¿Cómo prefieres la reunión? *</span>
         <div class="pp-b2-chips" style="margin-top:6px">
           <label><input type="radio" name="reunion" value="Visita a mi taller con muestras" required> Visita con muestras</label>
@@ -31,8 +35,8 @@
           <label><input type="radio" name="reunion" value="Llamada o videollamada"> Llamada o videollamada</label>
         </div>
       </div>
-      <label class="pp-b2-full">¿Qué te complica hoy con tu proveedor?<textarea name="comentario" placeholder="Ej: quiebres de stock, calidad dispareja, plazos..."></textarea></label>
-      <div class="pp-b2-full">
+            <div class="pp-b2-full">
+        <p class="pp-b2-ok" role="status" hidden>✅ Listo, se abrió WhatsApp con tus datos. Envía el mensaje y te contactamos para coordinar la reunión. ¿No se abrió? <a class="pp-b2-ok-link" href="#" target="_blank" rel="noopener">Toca aquí</a>.</p>
         <p class="pp-b2-err" role="alert"></p>
         <button type="submit" class="pp-b2-btn">Solicitar reunión por WhatsApp</button>
         <p class="pp-b2-nota" style="margin-top:8px">Se abrirá WhatsApp con tus datos listos para enviar. Sin costo ni compromiso.</p>
@@ -40,7 +44,14 @@
     </form>
   </div>
 </section>
-
+<div class="pp-b2-sticky oculto" id="pp-b2-sticky-pop"><a href="#reunion" class="pp-b2-btn">Agendar reunión con muestras</a></div>
+<script>
+(function(){
+  var b=document.getElementById('pp-b2-sticky-pop'), r=document.getElementById('reunion'); if(!b||!r||b.dataset.listo) return; b.dataset.listo='1';
+  function upd(){ var t=r.getBoundingClientRect(); var enForm=t.top<window.innerHeight&&t.bottom>0; b.classList.toggle('oculto', window.scrollY<500||enForm); }
+  window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd();
+})();
+</script>
 <script>
 (function(){
   var f=document.getElementById('pp-b2-form-pop'); if(!f||f.dataset.listo) return; f.dataset.listo='1';
@@ -58,6 +69,7 @@
       '(Origen: /acrilico-para-exhibidores-pop/)'];
     try{ window.dataLayer=window.dataLayer||[]; window.dataLayer.push({event:'lead_b2b',industria:'pop',consumo:String(d.get('consumo')),tipo_reunion:String(d.get('reunion'))}); }catch(x){}
     var url='https://wa.me/56964356986?text='+encodeURIComponent(lineas.join('\n'));
+    var ok=f.querySelector('.pp-b2-ok'); if(ok){ ok.querySelector('a').href=url; ok.hidden=false; }
     var w=window.open(url,'_blank'); if(!w) window.location.href=url;
   });
 })();
