@@ -1201,6 +1201,56 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     window.dataLayer.push({ ecommerce: null });
     window.dataLayer.push({ event: eventName, ecommerce: ecommerce });
   }
+  /* ── Medición del paso 3 «Datos y envío» (2026-11-12) ─────────────────
+     Eventos para saber en qué punto se va la gente del paso 3:
+       pago_region         elige región            motivo: rm | fuera_rm · detalle: código de región
+       pago_comuna         elige comuna (RM)       motivo: con_despacho | sin_despacho · detalle: comuna
+       pago_entrega_vista  ve las opciones         modo: opciones mostradas · motivo (si solo hay retiro): bajo_umbral | comuna_sin_despacho | fuera_rm
+       pago_datos_inicio   empieza a llenar datos  modo: persona | empresa · detalle: primer campo
+       pago_datos_revisar  «Continuar al pago» rechazado  motivo: vacio | rut | email | telefono | entrega | sin_despacho | direccion_despacho · detalle: campos
+       pago_cierra         se va sin llegar al paso 4     paso: region | comuna | datos · motivo: cerro | volvio_al_carro | salio · detalle: último campo tocado
+     No cambia ningún evento existente (pago_datos_error y pago_datos_ok siguen igual).
+     Pasan a GA4 por el activador de GTM «Embudo compra rápida (3 pasos)» con los parámetros paso, modo, motivo, detalle y valor.
+     Los demás parámetros de esa etiqueta se envían vacíos para que GTM no repita valores viejos de la capa de datos. */
+  var gcP3 = { abierto: false, paso: '', ultimoCampo: '', inicio: false, entregaKey: '' };
+  function gcP3Push(evento, d) {
+    try {
+      d = d || {};
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: evento,
+        paso: d.paso || gcP3.paso || undefined,
+        modo: d.modo || undefined,
+        motivo: d.motivo || undefined,
+        detalle: d.detalle || undefined,
+        valor: Math.round(gcCurrentGrand || 0) || undefined,
+        linea: undefined, tipo: undefined, item_id: undefined, medida: undefined, espesor: undefined, color: undefined,
+        planchas: undefined, aprovechado: undefined, aprovechado_actual: undefined, aprovechado_reco: undefined,
+        ahorro: undefined, recomendada: undefined
+      });
+    } catch (e) {}
+  }
+  function gcP3Reset() { gcP3.abierto = true; gcP3.paso = 'region'; gcP3.ultimoCampo = ''; gcP3.inicio = false; gcP3.entregaKey = ''; }
+  function gcP3Cierra(como) {
+    if (!gcP3.abierto) return;
+    gcP3.abierto = false;
+    gcP3Push('pago_cierra', { motivo: como, detalle: gcP3.ultimoCampo });
+  }
+  function gcP3Campo(id) { return String(id || '').replace(/^ppgc_(emp_|bill_|pn_)?/, ''); }
+  // Primer campo que toca y último campo antes de irse
+  document.addEventListener('focusin', function(e) {
+    var t = e.target, id = t && t.id;
+    if (!gcP3.abierto || !id || id.indexOf('ppgc_') !== 0) return;
+    gcP3.ultimoCampo = gcP3Campo(id);
+    if (!gcP3.inicio) {
+      gcP3.inicio = true;
+      gcP3Push('pago_datos_inicio', { paso: 'datos', modo: gcClientType === 'EMP' ? 'empresa' : 'persona', detalle: gcP3.ultimoCampo });
+    }
+  });
+  // Sale del sitio o cambia de app con el paso 3 abierto
+  window.addEventListener('pagehide', function() { gcP3Cierra('salio'); });
+  document.addEventListener('visibilitychange', function() { if (document.visibilityState === 'hidden') gcP3Cierra('salio'); });
+
   function gcDlItem(item, idx) {
     // Mismos datos de artículo que en view_item / add_to_cart
     if (window.ppTrackCartItem) return window.ppTrackCartItem(item, idx);
@@ -1499,6 +1549,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   }
 
   function ppGCBackToCart() {
+    gcP3Cierra('volvio_al_carro');
     ppGCCloseCheckout();
     ppGCOpen();
   }
@@ -1518,6 +1569,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     gcCurrentGrand = gcTotal();
     // Inicio del pago: se abre el formulario "Finalizar pedido"
     gcDlPush('begin_checkout', { currency: 'CLP', value: gcCurrentGrand, items: gcItems.map(gcDlItem) });
+    gcP3Reset();
     gcClientType = 'PN';
     gcEnvioInformado = '';
     gcEntregaKey = '';
@@ -1547,6 +1599,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   }
 
   function ppGCCloseCheckout() {
+    gcP3Cierra('cerro');
     document.body.classList.remove('ppGC-pago');
     gEl('ppGC-co-modal').style.display = 'none';
     gEl('ppGC-overlay').style.display = 'none';
@@ -1554,6 +1607,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   }
 
   function ppGCCloseAll() {
+    gcP3Cierra('cerro');
     document.body.classList.remove('ppGC-pago');
     gEl('ppGC-cart-modal').style.display = 'none';
     gEl('ppGC-co-modal').style.display = 'none';
@@ -1745,6 +1799,16 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       opciones.push({ id:'envio_propio', icon:'📦', label:'Envío a regiones', desc:'El flete lo pagas al recibir',
         badge:'<span class="ppGC-entrega-badge badge-propio">FLETE POR PAGAR</span>', costo:0, embOblig: _emb > 0, esRegion: true, needsAddress:false, needsRegion:false });
     }
+    // Medición paso 3: qué opciones de entrega vio y, si solo hay retiro, por qué
+    var _p3Modo = opciones.map(function(o){ return o.id; }).join('+');
+    var _p3Motivo = opciones.length > 1 ? '' :
+      (regionPresel && regionPresel !== 'RM') ? 'fuera_rm' : (grand < UMBRAL ? 'bajo_umbral' : 'comuna_sin_despacho');
+    var _p3Key = _p3Modo + '|' + _p3Motivo;
+    var _p3Visible = (gEl('ppGC-entrega-locked') || {style:{}}).style.display === 'block'; // solo cuando la persona ya ve las opciones
+    if (gcP3.abierto && _p3Visible && _p3Key !== gcP3.entregaKey) {
+      gcP3.entregaKey = _p3Key;
+      gcP3Push('pago_entrega_vista', { paso: 'entrega', modo: _p3Modo, motivo: _p3Motivo });
+    }
     opciones.forEach(function(op) {
       var div=document.createElement('div');
       div.className='ppGC-entrega-opt';
@@ -1857,6 +1921,8 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       gcInitEntregaLocked();
       return;
     }
+    gcP3Push('pago_region', { paso: 'region', motivo: region === 'RM' ? 'rm' : 'fuera_rm', detalle: region });
+    gcP3.paso = region === 'RM' ? 'comuna' : 'datos';
     if (region!=='RM') {
       // Fuera de la RM: desbloquear inmediatamente (retiro o envío propio según carrito)
       if (msg) msg.style.display='block'; if (cc) cc.style.display='none';
@@ -1886,6 +1952,8 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     gcResetEntregaUI();
     if (!comuna) { if (cm) cm.style.display='none'; return; }
     var excluida=EXCLUIDAS_RM.some(function(c){ return c.toLowerCase()===comuna.toLowerCase(); });
+    gcP3Push('pago_comuna', { paso: 'comuna', motivo: excluida ? 'sin_despacho' : 'con_despacho', detalle: comuna });
+    gcP3.paso = 'datos';
     if (cm) cm.style.display=excluida?'block':'none';
     gcUnlockCheckoutContent();
     gcBuildEntregaOptions(gcCurrentGrand, excluida?null:'RM');
@@ -2088,6 +2156,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 
     if (fields.some(isEmpty)) {
       if (window.ppPaso) window.ppPaso('pago_datos_error', 'gc', { valor: gcCurrentGrand });
+      gcP3Push('pago_datos_revisar', { paso: 'datos', modo: gcClientType === 'EMP' ? 'empresa' : 'persona', motivo: 'vacio', detalle: fields.filter(isEmpty).map(gcP3Campo).join(',') });
       if (errEl) { errEl.textContent='Completa todos los campos obligatorios (*).'; errEl.style.display='block'; }
       fields.forEach(function(id){ var el=gEl(id); if(el&&isEmpty(id)) el.classList.add('ppGC-input-error'); });
       var first=fields.find(isEmpty); if (first) { var fe=gEl(first); if(fe) fe.scrollIntoView({behavior:'smooth',block:'center'}); }
@@ -2102,6 +2171,10 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 
     var rutEl=gEl(rutId), rawRut=rutEl?rutEl.value.replace(/[^0-9kK]/g,'').toUpperCase():'';
     var rutOk=rawRut.slice(0,-1).length>=7 && rawRut.slice(0,-1).length<=8 && /^[0-9K]$/.test(rawRut.slice(-1)) && gcRutDv(rawRut.slice(0,-1))===rawRut.slice(-1);
+    var _p3Modo = gcClientType === 'EMP' ? 'empresa' : 'persona';
+    if (!rutOk) gcP3Push('pago_datos_revisar', { paso: 'datos', modo: _p3Modo, motivo: 'rut', detalle: gcP3Campo(rutId) });
+    else if (!ppGCEmailIsValid(emailId)) gcP3Push('pago_datos_revisar', { paso: 'datos', modo: _p3Modo, motivo: 'email', detalle: gcP3Campo(emailId) });
+    else if (!ppGCTelIsValid(telId)) gcP3Push('pago_datos_revisar', { paso: 'datos', modo: _p3Modo, motivo: 'telefono', detalle: gcP3Campo(telId) });
     if (!rutOk) { var re=gEl(rutErrId); if(re) re.style.display='block'; if(rutEl){rutEl.classList.add('ppGC-input-error');rutEl.scrollIntoView({behavior:'smooth',block:'center'});} return false; }
     if (!ppGCEmailIsValid(emailId)) { var ee=gEl(emailId+'_err'); if(ee) ee.style.display='block'; var eEl=gEl(emailId); if(eEl){eEl.classList.add('ppGC-input-error');eEl.scrollIntoView({behavior:'smooth',block:'center'});} return false; }
     if (!ppGCTelIsValid(telId)) { var te=gEl(telId+'_err'); if(te) te.style.display='block'; var tEl=gEl(telId); if(tEl){tEl.classList.add('ppGC-input-error');tEl.scrollIntoView({behavior:'smooth',block:'center'});} return false; }
@@ -2125,6 +2198,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     var e = gEl('ppGC-s2a-err'); if (e) e.style.display = 'none';
     var sec = gEl('ppGC-entrega-sec');
     if (!gcSelectedEntrega || gcSelectedEntrega.bloqueado) {
+      gcP3Push('pago_datos_revisar', { paso: 'entrega', motivo: gcSelectedEntrega ? 'sin_despacho' : 'entrega' });
       if (e) { e.textContent = gcSelectedEntrega ? 'No tenemos despacho a esa dirección. Elige Retiro en tienda.' : 'Elige cómo recibes tu pedido.'; e.style.display='block'; }
       if (sec) sec.scrollIntoView({behavior:'smooth',block:'start'});
       return;
@@ -2132,7 +2206,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     if (gcSelectedEntrega.syncFromBilling) gcSyncDespachoFromBilling();
     if (gcSelectedEntrega.needsAddress) {
       var dd=gEl('ppgc_pn_dir'), dr=gEl('ppgc_pn_region'), dc=gEl('ppgc_pn_ciudad');
-      if (!dd||!dd.value||!dr||!dr.value||!dc||!dc.value) { if (e){e.textContent='Completa la dirección de despacho.';e.style.display='block';} if (sec) sec.scrollIntoView({behavior:'smooth',block:'start'}); return; }
+      if (!dd||!dd.value||!dr||!dr.value||!dc||!dc.value) { gcP3Push('pago_datos_revisar', { paso: 'entrega', motivo: 'direccion_despacho' }); if (e){e.textContent='Completa la dirección de despacho.';e.style.display='block';} if (sec) sec.scrollIntoView({behavior:'smooth',block:'start'}); return; }
     }
     gcTrackEnvio();
     gcRenderConfirm(); gcUpdateModalTotal(); gcUpdateWaLink(); gcCheckPayBtn();
@@ -2140,6 +2214,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     gEl('ppGC-s1').style.display='none'; gEl('ppGC-s2').style.display='block';
     gcSetPaso(2);
     if (window.ppPaso) window.ppPaso('pago_resumen', 'gc', { valor: gcTotalPagar() });
+    gcP3.abierto = false;
   }
   function ppGCBackToStep2() { ppGCGoToStep1Internal(); }
   // Nombres anteriores: siguen funcionando por si algo externo los llama
