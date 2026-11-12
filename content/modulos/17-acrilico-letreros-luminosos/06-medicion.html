@@ -3,7 +3,7 @@
   if(window.__ppB2BMed) return; window.__ppB2BMed=1;
   var form=document.querySelector('.pp-b2-form'); if(!form) return;
   var B=window.ppB2B=window.ppB2B||{};
-  B.landing=B.landing||(/letreros/.test(location.pathname)?'letreros':'pop');
+  B.landing=B.landing||(/letreros/.test(location.pathname)?'letreros':/por-mayor/.test(location.pathname)?'mayor':'pop');
   B.variante=B.variante||'control';
   var DEBUG=/[?&]pp_debug=1/.test(location.search);
   B.push=function(ev,p){ try{
