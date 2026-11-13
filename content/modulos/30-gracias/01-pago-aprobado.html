@@ -264,7 +264,7 @@ if (trWa) trWa.addEventListener('click', function (ev) {
   try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'whatsapp_comprobante', transaction_id: trOrden }); } catch (e) {}
 });
 // Aún no es una compra pagada: se registra como pedido pendiente (no "purchase")
-try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'pedido_transferencia', transaction_id: trOrden, value: parseInt(params.get('monto') || '0'), currency: 'CLP' }); } catch (e) {}
+try { var trEnvio = parseInt(params.get('envio') || '0') || 0; window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'pedido_transferencia', transaction_id: trOrden, value: parseInt(params.get('monto') || '0') - trEnvio, shipping: trEnvio, currency: 'CLP' }); } catch (e) {}
 window.history.replaceState({}, '', window.location.pathname + '#pedido');
 return;
 }
@@ -311,10 +311,13 @@ sessionStorage.removeItem('pp_recep_cart_dl');
 sessionStorage.removeItem('pp_recep_total_dl');
 sessionStorage.removeItem('pp_pc_cart_dl');
 sessionStorage.removeItem('pp_pc_total_dl');
+// Despacho cobrado (lo agrega el servidor a la URL): va como shipping, fuera del valor de productos
+var _dlEnvio = parseInt(params.get('envio') || '0') || 0;
 var _dlCompra = {
 transaction_id: params.get('orden') || '',
 currency: 'CLP',
-value: _dlTotal || monto,
+value: (_dlTotal && _dlTotal !== monto) ? _dlTotal : monto - _dlEnvio,
+shipping: _dlEnvio,
 items: _dlItems
 };
 if (window.ppTrack) {

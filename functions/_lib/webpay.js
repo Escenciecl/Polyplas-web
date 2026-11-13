@@ -158,6 +158,11 @@ export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, ent
   const empresa = tipo === "Empresa";
   const nombre = empresa ? c.razon || "Empresa" : c.nombre || "Cliente";
   const montoFmt = clp(monto);
+  // Despacho a domicilio: plazo prometido en el sitio (tinas y cascos tienen su propio plazo)
+  const conTinas = (items || []).some((it) => /^(TINA|CASCO)_/.test(String((it && it.sku) || "")));
+  const plazoDespachoHtml = /despacho/i.test(String(entrega || ""))
+    ? `<p style="margin:0 0 10px;font-size:0.88rem;color:#1a1a2e;">&#128666; &nbsp;<strong>Despacho en Santiago:</strong> ${conTinas ? "3 a 5 d&iacute;as h&aacute;biles." : "los pedidos de la ma&ntilde;ana salen en la tarde (hasta 1 d&iacute;a h&aacute;bil, seg&uacute;n cantidad y cortes)."}</p>`
+    : "";
 
   let filas = "";
   for (const it of items || []) {
@@ -271,7 +276,7 @@ export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, ent
             <table width="100%" cellpadding="0" cellspacing="0" style="background:#e7f7ee;border-left:4px solid #25d366;border-radius:0 10px 10px 0;">
                 <tr><td style="padding:18px 20px;">
                     <p style="margin:0 0 8px;font-size:0.88rem;color:#1a1a2e;font-weight:700;">&#128242; &nbsp;&iquest;C&oacute;mo coordinar tu entrega?</p>
-                    <p style="margin:0 0 10px;font-size:0.88rem;color:#1a1a2e;">Cont&aacute;ctanos por WhatsApp al <a href="https://wa.me/56942086751" style="color:#128c7e;font-weight:700;text-decoration:none;">+56 9 4208 6751</a>, adjuntando este comprobante para coordinar el d&iacute;a y hora de entrega.</p>
+                    <p style="margin:0 0 10px;font-size:0.88rem;color:#1a1a2e;">Cont&aacute;ctanos por WhatsApp al <a href="https://wa.me/56942086751" style="color:#128c7e;font-weight:700;text-decoration:none;">+56 9 4208 6751</a>, adjuntando este comprobante para coordinar el d&iacute;a y hora de entrega.</p>${plazoDespachoHtml}
                     <p style="margin:0;font-size:0.82rem;color:#555;line-height:1.8;">
                         &#128552; &nbsp;<strong>Lunes a jueves:</strong> 9:00 a 18:00 hrs<br>
                         &#128552; &nbsp;<strong>Viernes:</strong> 9:00 a 17:00 hrs<br>

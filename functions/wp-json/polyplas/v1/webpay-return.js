@@ -5,6 +5,7 @@
  *   ?pp_pago=aprobado&orden=...&monto=...&auth=...   |   ?pp_pago=rechazado   |   ?pp_pago=cancelado
  */
 import { enviarComprobante, registrarCompraEnCuenta, registrarEnSupabase, registrarRechazoEnSupabase, tbkRequest } from "../../../_lib/webpay.js";
+import { montoDespacho, sinDespacho } from "../../../_lib/despacho.js";
 
 async function readParams(request) {
   const url = new URL(request.url);
@@ -65,6 +66,9 @@ export async function onRequest({ request, env, waitUntil }) {
     // Compra a Google Analytics desde el servidor (ver enviarCompraGA4 al final del archivo)
     const gaOk = await enviarCompraGA4(env, order, tbk);
     const q = { pp_pago: "aprobado", orden: tbk.buy_order, monto: tbk.amount, auth: tbk.authorization_code };
+    // Despacho cobrado: la página de gracias lo descuenta del valor de la compra (va como shipping)
+    const envio = montoDespacho(order.items);
+    if (envio > 0) q.envio = envio;
     if (gaOk) q.ga_srv = 1;
     return redirect(returnPage, q);
   }
@@ -90,8 +94,9 @@ async function enviarCompraGA4(env, order, tbk) {
   const params = {
     transaction_id: tbk.buy_order,
     currency: "CLP",
-    value: tbk.amount,
-    items: Array.isArray(order.ga_items) ? order.ga_items : [],
+    value: tbk.amount - montoDespacho(order.items),
+    shipping: montoDespacho(order.items),
+    items: sinDespacho(Array.isArray(order.ga_items) ? order.ga_items : []),
     origen_compra: "servidor",
     engagement_time_msec: 1,
   };
