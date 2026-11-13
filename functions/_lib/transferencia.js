@@ -146,16 +146,19 @@ export async function registrarTransferenciaEnSupabase(order) {
 }
 
 /* ------------------------------------------------------------ confirmación del pago */
-const sbHeaders = (extra = {}) => ({
-  apikey: SUPABASE_KEY,
-  Authorization: `Bearer ${SUPABASE_KEY}`,
+// Leer y modificar pedidos del CRM exige la llave secreta del servidor (SUPABASE_SERVICE_KEY en
+// Cloudflare Pages): desde la Ley 21.719 la llave pública ya no puede leer las conversaciones.
+const llaveServidor = (env) => String((env && (env.SUPABASE_SERVICE_KEY || env.SUPABASE_SECRET_KEY)) || "").trim() || SUPABASE_KEY;
+const sbHeaders = (extra = {}, env) => ({
+  apikey: llaveServidor(env),
+  Authorization: `Bearer ${llaveServidor(env)}`,
   "Content-Type": "application/json",
   ...extra,
 });
 
 /** Lee el pedido (conversación) del CRM. */
-export async function leerPedidoCRM(convId) {
-  const r = await fetch(`${SUPABASE_URL}/conversations?id=eq.${encodeURIComponent(convId)}&select=id,client_name,client_email,metadata`, { headers: sbHeaders() });
+export async function leerPedidoCRM(convId, env) {
+  const r = await fetch(`${SUPABASE_URL}/conversations?id=eq.${encodeURIComponent(convId)}&select=id,client_name,client_email,metadata`, { headers: sbHeaders({}, env) });
   if (!r.ok) throw new Error("crm " + r.status);
   const filas = await r.json();
   return filas && filas[0] ? filas[0] : null;
@@ -167,12 +170,12 @@ export async function leerPedidoCRM(convId) {
  * el segundo no encuentra filas para actualizar.
  * Devuelve true si este llamado es el que debe enviar el correo.
  */
-export async function marcarTransferenciaRecibida(conv) {
+export async function marcarTransferenciaRecibida(conv, env) {
   const md = conv.metadata || {};
   const nuevo = { ...md, estado_pago: "pagado", confirmacion_enviada: new Date().toISOString() };
   const r = await fetch(
     `${SUPABASE_URL}/conversations?id=eq.${encodeURIComponent(conv.id)}&metadata->>confirmacion_enviada=is.null`,
-    { method: "PATCH", headers: sbHeaders({ Prefer: "return=representation" }), body: JSON.stringify({ metadata: nuevo }) },
+    { method: "PATCH", headers: sbHeaders({ Prefer: "return=representation" }, env), body: JSON.stringify({ metadata: nuevo }) },
   );
   if (!r.ok) throw new Error("crm " + r.status + " " + (await r.text()).slice(0, 200));
   const filas = await r.json();
@@ -180,10 +183,10 @@ export async function marcarTransferenciaRecibida(conv) {
 }
 
 /** Deja una nota en la conversación del CRM (historial). */
-export async function notaCRM(convId, texto) {
+export async function notaCRM(convId, texto, env) {
   await fetch(`${SUPABASE_URL}/messages`, {
     method: "POST",
-    headers: sbHeaders({ Prefer: "return=minimal" }),
+    headers: sbHeaders({ Prefer: "return=minimal" }, env),
     body: JSON.stringify({ conversation_id: convId, sender: "client", content: texto }),
   });
 }

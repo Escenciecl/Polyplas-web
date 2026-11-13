@@ -1163,7 +1163,7 @@
         var nombreReal = document.getElementById('polyplas-name');
         if (nombreReal && nombreReal.value.trim()) {
           pending.name = nombreReal.value.trim();
-          await sb.from('conversations').update({ client_name: pending.name }).eq('id', conversationId);
+          await sb.rpc('chat_actualizar', { p_conv: conversationId, p_nombre: pending.name });
         }
       }
 
@@ -1180,10 +1180,11 @@
 
       if (autoReply) {
         await botSay(autoReply);
+        propiosAgente.push(autoReply); // ya se mostró: el sondeo no debe repetirlo
         await sb.from('messages').insert({ conversation_id: conversationId, sender: 'agent', content: autoReply });
-        await sb.from('conversations').update({ last_message_at: now() }).eq('id', conversationId);
+        await sb.rpc('chat_actualizar', { p_conv: conversationId });
       } else {
-        await sb.from('conversations').update({ last_message_at: now(), unread_count: 1 }).eq('id', conversationId);
+        await sb.rpc('chat_actualizar', { p_conv: conversationId, p_no_leidos: 1 });
       }
     }
 
@@ -1302,8 +1303,9 @@
 
     // ── Cargar chat existente ─────────────────────────────
     async function loadExistingChat() {
-      var result = await sb.from('messages')
-        .select('*').eq('conversation_id', conversationId).order('created_at');
+      // Solo se leen los mensajes de ESTA conversación (función chat_mensajes de Supabase):
+      // los visitantes ya no pueden leer las conversaciones de otros clientes (Ley 21.719)
+      var result = await sb.rpc('chat_mensajes', { p_conv: conversationId });
       if (!result.data || !result.data.length) {
         conversationId = null;
         localStorage.removeItem('pp_conv_id');
@@ -1312,22 +1314,40 @@
       }
       document.getElementById('polyplas-chat').classList.add('active');
       document.getElementById('polyplas-messages').innerHTML = '';
-      result.data.forEach(renderMessage);
+      result.data.forEach(function (m) { vistos[m.id] = true; renderMessage(m); });
       chatState = 'active';
       setPlaceholder('Escribe tu mensaje...');
       subscribeRealtime();
     }
 
-    // ── Tiempo real ───────────────────────────────────────
+    // ── Respuestas de la ejecutiva ────────────────────────
+    // Antes se escuchaba la tabla messages en tiempo real, pero eso exigía que cualquier
+    // visitante pudiera leer TODOS los mensajes. Ahora se consulta cada 5 segundos solo la
+    // conversación propia con la función chat_mensajes (segura) y se muestran las nuevas.
+    var vistos = {};
+    var propiosAgente = [];
+    var sondeoTimer = null;
+    var sondeoListo = false;
+
+    async function revisarRespuestas(soloMarcar) {
+      if (!conversationId || !sb || document.hidden) return;
+      var r = await sb.rpc('chat_mensajes', { p_conv: conversationId });
+      if (r.error || !r.data) return;
+      r.data.forEach(function (m) {
+        if (vistos[m.id]) return;
+        vistos[m.id] = true;
+        if (soloMarcar || m.sender !== 'agent') return;
+        var i = propiosAgente.indexOf(m.content);
+        if (i !== -1) { propiosAgente.splice(i, 1); return; }
+        renderMessage(m);
+      });
+    }
+
     function subscribeRealtime() {
-      if (messageChannel) sb.removeChannel(messageChannel);
-      messageChannel = sb.channel('msgs-' + conversationId)
-        .on('postgres_changes', {
-          event: 'INSERT', schema: 'public', table: 'messages',
-          filter: 'conversation_id=eq.' + conversationId
-        }, function(payload) {
-          if (payload.new.sender === 'agent') renderMessage(payload.new);
-        }).subscribe();
+      if (sondeoTimer) clearInterval(sondeoTimer);
+      // Primera lectura: marca lo que ya está en pantalla sin repetirlo
+      revisarRespuestas(!sondeoListo && !Object.keys(vistos).length).then(function () { sondeoListo = true; });
+      sondeoTimer = setInterval(function () { revisarRespuestas(false); }, 5000);
     }
   }
 

@@ -57,14 +57,14 @@ export async function onRequestPost({ request, env, waitUntil }) {
   if (!/^[0-9a-f-]{36}$/i.test(id)) return responder(request, { ok: false, message: "Pedido no válido" }, 400);
 
   let conv;
-  try { conv = await leerPedidoCRM(id); } catch { return responder(request, { ok: false, message: "No se pudo leer el CRM" }, 502); }
+  try { conv = await leerPedidoCRM(id, env); } catch { return responder(request, { ok: false, message: "No se pudo leer el CRM" }, 502); }
   const md = (conv && conv.metadata) || {};
   if (!conv || md.source !== "transferencia") return responder(request, { ok: false, message: "No es un pedido por transferencia" }, 404);
   if (md.venta_cerrada !== true) return responder(request, { ok: false, message: "La venta aún no está cerrada" }, 409);
   if (md.confirmacion_enviada) return responder(request, { ok: true, yaEnviado: true, message: "El correo ya se había enviado" });
 
   let toca;
-  try { toca = await marcarTransferenciaRecibida(conv); } catch (e) {
+  try { toca = await marcarTransferenciaRecibida(conv, env); } catch (e) {
     console.log("[Polyplas transferencia] No se pudo marcar como recibida", String(e));
     return responder(request, { ok: false, message: "No se pudo actualizar el CRM" }, 502);
   }
@@ -89,7 +89,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
   waitUntil(Promise.all([
     envio,
     enviarCompraGA4(env, md.ga, md.ga_items, orden, tbk.amount, montoDespacho(md.items)).catch(() => {}),
-    notaCRM(id, `✅ TRANSFERENCIA RECIBIDA\nPedido ${orden} · ${clp(tbk.amount)}\nSe envió el correo de confirmación a ${order.client.email || "(sin correo)"} y copia a ventas.`).catch(() => {}),
+    notaCRM(id, `✅ TRANSFERENCIA RECIBIDA\nPedido ${orden} · ${clp(tbk.amount)}\nSe envió el correo de confirmación a ${order.client.email || "(sin correo)"} y copia a ventas.`, env).catch(() => {}),
   ]));
   return responder(request, { ok: true, enviadoA: order.client.email || "" });
 }
