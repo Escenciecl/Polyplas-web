@@ -38,3 +38,15 @@ export function zonaDespacho(comuna) {
   if (!c) return null;
   return ZONAS_DESPACHO.find((z) => z.comunas.some((x) => norm(x) === c)) || null;
 }
+
+/* ── Medición ──────────────────────────────────────────────
+ * El despacho viaja como línea DESPACHO en los ítems del pedido (para cobrarlo y verificarlo).
+ * En GA4 / Google Ads la compra se informa con el valor de los productos y el despacho aparte
+ * (parámetro estándar `shipping`), igual que antes del despacho pagado. */
+// Sirve para ítems del pedido (sku) y para ítems ya convertidos a GA4 (item_id)
+export const esDespacho = (it) => !!it && (it.sku === "DESPACHO" || it.item_id === "DESPACHO");
+export function montoDespacho(items) {
+  return (Array.isArray(items) ? items : []).filter(esDespacho)
+    .reduce((s, it) => s + Math.round(Number(it.precio_unit) || 0) * Math.max(1, Math.trunc(Number(it.qty) || 1)), 0);
+}
+export const sinDespacho = (items) => (Array.isArray(items) ? items : []).filter((it) => !esDespacho(it));

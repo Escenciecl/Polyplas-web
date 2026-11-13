@@ -1027,6 +1027,15 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     return (comuna ? comuna + (z ? ' · Zona ' + z.id : '') + ' · ' : '') +
       (costo ? 'Gratis desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - grand) + ')' : 'Gratis') + ' · ' + gcPlazoDespacho();
   }
+  // Medición: la entrega por zona y el despacho cobrado (va como shipping, fuera del valor de productos)
+  function gcShippingTier() {
+    if (!gcSelectedEntrega) return '';
+    if (gcSelectedEntrega.id !== 'despacho') return gcSelectedEntrega.id;
+    if (!gcSelectedEntrega.costo) return 'despacho_gratis';
+    var z = gcZona((gEl('ppgc_pn_ciudad') || {}).value || '');
+    return z ? 'despacho_z' + z.id : 'despacho';
+  }
+  function gcCostoEntrega() { return gcSelectedEntrega ? (gcSelectedEntrega.costo || 0) : 0; }
   function gcBadgeDespacho(costo) {
     return costo ? '<span class="ppGC-entrega-badge badge-propio">' + fmt(costo) + '</span>' : '<span class="ppGC-entrega-badge badge-gratis">GRATIS</span>';
   }
@@ -2232,7 +2241,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   function gcTrackEnvio() {
     if (!gcSelectedEntrega || gcEnvioInformado === gcSelectedEntrega.id) return;
     gcEnvioInformado = gcSelectedEntrega.id;
-    gcDlPush('add_shipping_info', { currency: 'CLP', value: gcCurrentGrand, shipping_tier: gcSelectedEntrega.id, customer_type: gcClientType, items: gcItems.map(gcDlItem) });
+    gcDlPush('add_shipping_info', { currency: 'CLP', value: gcCurrentGrand, shipping: gcCostoEntrega(), shipping_tier: gcShippingTier(), customer_type: gcClientType, items: gcItems.map(gcDlItem) });
   }
 
   // Paso 3 → 4: valida datos y entrega (y la dirección si hay despacho) y muestra el resumen con el pago.
@@ -2298,7 +2307,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       return;
     }
     var client=gcGetClientData(), total=gcTotalPagar(), itemsPedido=gcItemsPedido();
-    gcDlPush('add_payment_info', { currency: 'CLP', value: total, payment_type: 'Transferencia', shipping_tier: gcSelectedEntrega.id, customer_type: gcClientType, items: gcItems.map(gcDlItem) });
+    gcDlPush('add_payment_info', { currency: 'CLP', value: total - gcCostoEntrega(), shipping: gcCostoEntrega(), payment_type: 'Transferencia', shipping_tier: gcShippingTier(), customer_type: gcClientType, items: gcItems.map(gcDlItem) });
     if (btn) { btn.disabled=true; btn.textContent='Registrando tu pedido...'; }
     if (e2) e2.style.display='none';
     try {
@@ -2318,7 +2327,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       gcItems = []; gcClearStore();
       document.dispatchEvent(new CustomEvent('ppGCCartCleared'));
       gcUpdateBadge();
-      window.location.href = '/gracias/?pp_pago=transferencia&orden=' + encodeURIComponent(data.orden) + '&monto=' + encodeURIComponent(data.total);
+      window.location.href = '/gracias/?pp_pago=transferencia&orden=' + encodeURIComponent(data.orden) + '&monto=' + encodeURIComponent(data.total) + (gcCostoEntrega() ? '&envio=' + gcCostoEntrega() : '');
     } catch(e) {
       if (e2){ e2.textContent='No pudimos conectar. Revisa tu internet e intenta de nuevo.'; e2.style.display='block'; }
       listo();
@@ -2348,7 +2357,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     }
     var client=gcGetClientData(), total=gcTotalPagar();
     // Clic en "Pagar con Webpay" con los datos completos
-    gcDlPush('add_payment_info', { currency: 'CLP', value: total, payment_type: 'Webpay', shipping_tier: gcSelectedEntrega.id, customer_type: gcClientType, items: gcItems.map(gcDlItem) });
+    gcDlPush('add_payment_info', { currency: 'CLP', value: total - gcCostoEntrega(), shipping: gcCostoEntrega(), payment_type: 'Webpay', shipping_tier: gcShippingTier(), customer_type: gcClientType, items: gcItems.map(gcDlItem) });
     if (btn) { btn.disabled=true; btn.textContent='Procesando...'; }
     if (e2) e2.style.display='none';
     var convId=(typeof crypto!=='undefined'&&crypto.randomUUID)?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2);
@@ -2391,7 +2400,10 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     sessionStorage.removeItem(GC_ORDER_KEY);
     gcClearStore();
     var auth=params.get('auth')||'', orden=params.get('orden')||'';
-    gcDlPush('purchase', { transaction_id: orden, currency: 'CLP', value: od.total, customer_type: (od.client && od.client.tipo === 'Empresa') ? 'EMP' : 'PN', items: (od.items || []).map(gcDlItem) });
+    // Valor de los productos; el despacho cobrado va aparte como shipping y no como artículo
+    var _odItems = (od.items || []).filter(function(i) { return i.sku !== 'DESPACHO'; });
+    var _odEnvio = (od.items || []).reduce(function(s, i) { return s + (i.sku === 'DESPACHO' ? (Number(i.precio_unit) || 0) * (i.qty || 1) : 0); }, 0);
+    gcDlPush('purchase', { transaction_id: orden, currency: 'CLP', value: od.total - _odEnvio, shipping: _odEnvio, customer_type: (od.client && od.client.tipo === 'Empresa') ? 'EMP' : 'PN', items: _odItems.map(gcDlItem) });
     (function tryReg() {
       if (!window.POLYPLAS_CONFIG||typeof(window.supabase||{}).createClient!=='function') { setTimeout(tryReg,400); return; }
       try {

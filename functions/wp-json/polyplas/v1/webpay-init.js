@@ -5,6 +5,7 @@
  */
 import { json, randomOrder, tbkRequest, tbkMissing, usuarioDesdeToken } from "../../../_lib/webpay.js";
 import { verificarTotal } from "../../../_lib/precios.js";
+import { sinDespacho } from "../../../_lib/despacho.js";
 
 export async function onRequestPost({ request, env }) {
   const missing = tbkMissing(env);
@@ -83,7 +84,7 @@ export async function onRequestPost({ request, env }) {
       verificado: verif.verificado,
       return_page: returnPage,
       ga,
-      ga_items: gaItems(items),
+      ga_items: gaItems(sinDespacho(items)),
     }),
     { expirationTtl: 60 * 30 },
   );

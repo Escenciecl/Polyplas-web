@@ -8,6 +8,7 @@
  */
 import { json, enviarComprobante } from "../../../_lib/webpay.js";
 import { verificarTotal } from "../../../_lib/precios.js";
+import { sinDespacho } from "../../../_lib/despacho.js";
 import { ordenTransferencia, cuentaHtml, registrarTransferenciaEnSupabase } from "../../../_lib/transferencia.js";
 
 const GA4_STREAM = "HTFZ3XVZZP";
@@ -78,7 +79,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
     verificado: verif.verificado,
     terms_accepted: !!p.terms_accepted,
     ga,
-    ga_items: gaItems(itemsClean),
+    ga_items: gaItems(sinDespacho(itemsClean)),
   };
 
   // El CRM es lo importante: si no se pudo registrar, se avisa al cliente para que no transfiera a ciegas
