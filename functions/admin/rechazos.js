@@ -142,9 +142,11 @@ export async function onRequest({ request, env }) {
     return new Response("Acceso no autorizado", { status: 401 });
   }
 
+  const llave = String(env.SUPABASE_SERVICE_KEY || env.SUPABASE_SECRET_KEY || "").trim() || SUPABASE_KEY;
   const res = await fetch(
     `${SUPABASE_URL}/conversations?metadata->>source=eq.order_rechazado&order=last_message_at.desc&limit=200&select=client_name,client_email,last_message_at,metadata`,
-    { headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` } },
+    // Llave secreta del servidor: la llave pública ya no puede leer conversaciones (Ley 21.719)
+    { headers: { apikey: llave, Authorization: `Bearer ${llave}` } },
   );
 
   if (!res.ok) {
