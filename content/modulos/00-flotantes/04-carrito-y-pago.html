@@ -681,7 +681,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <div class="ppGC-entrega-cards" id="ppGC-entrega-cards" style="display:none">
   <div class="ppGC-ec">
     <svg class="ppGC-ec-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-    <div><b>Despacho gratis en Santiago</b><span>desde $200.000 · comunas con cobertura</span></div>
+    <div><b>Despacho en Santiago</b><span>desde $19.000 · gratis desde $200.000</span></div>
   </div>
   <div class="ppGC-ec">
     <svg class="ppGC-ec-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
@@ -995,7 +995,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     // Despacho pagado ($19.000 / $30.000 bajo el umbral). Suspendido el 13-nov-2026 por equipo reducido
     // (renunció quien hacía los fletes): bajo $200.000 solo retiro en tienda. Para reactivarlo,
     // poner true aquí y DESPACHO_PAGADO_ACTIVO = true en functions/_lib/despacho.js.
-    despachoPagado: false,
+    despachoPagado: true,
     regionDespacho: 'RM',
     zonasDespacho: [
       { id: 1, precio: 19000, comunas: ['Santiago','Estación Central','Independencia','Recoleta','Quinta Normal','Providencia','Ñuñoa','Las Condes','Vitacura','La Reina','Peñalolén','Macul','Conchalí','Huechuraba','Renca','Lo Prado','Cerro Navia','Pudahuel','Maipú','Cerrillos','San Miguel','San Joaquín','Pedro Aguirre Cerda','Lo Espejo','La Cisterna','San Ramón','La Granja','El Bosque','La Florida'] },
