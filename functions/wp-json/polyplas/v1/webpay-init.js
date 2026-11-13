@@ -23,7 +23,7 @@ export async function onRequestPost({ request, env }) {
   if (total <= 0) return json({ code: "invalid_amount", message: "Monto invalido" }, 400);
 
   // El total lo calcula el navegador: se vuelve a calcular con los precios del CRM antes de cobrar
-  const verif = await verificarTotal(p.items, total);
+  const verif = await verificarTotal(p.items, total, { client: p.client, entrega: p.entrega });
   if (!verif.ok) {
     console.log("[Polyplas Webpay] Pago rechazado por verificación:", verif.detalle);
     return json({ code: verif.code, message: verif.message }, 409);
