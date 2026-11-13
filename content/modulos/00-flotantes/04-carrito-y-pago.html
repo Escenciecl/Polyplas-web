@@ -681,7 +681,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <div class="ppGC-entrega-cards" id="ppGC-entrega-cards" style="display:none">
   <div class="ppGC-ec">
     <svg class="ppGC-ec-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-    <div><b>Despacho en Santiago</b><span>desde $19.000 · gratis desde $200.000</span></div>
+    <div><b>Despacho gratis en Santiago</b><span>desde $200.000 · comunas con cobertura</span></div>
   </div>
   <div class="ppGC-ec">
     <svg class="ppGC-ec-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
@@ -992,6 +992,10 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   // Despacho por zonas aprobado el 13-nov-2026: Zona 1 dentro de Américo Vespucio, Zona 2 fuera.
   window.PP_ENTREGA = window.PP_ENTREGA || {
     umbralDespachoGratis: 200000,
+    // Despacho pagado ($19.000 / $30.000 bajo el umbral). Suspendido el 13-nov-2026 por equipo reducido
+    // (renunció quien hacía los fletes): bajo $200.000 solo retiro en tienda. Para reactivarlo,
+    // poner true aquí y DESPACHO_PAGADO_ACTIVO = true en functions/_lib/despacho.js.
+    despachoPagado: false,
     regionDespacho: 'RM',
     zonasDespacho: [
       { id: 1, precio: 19000, comunas: ['Santiago','Estación Central','Independencia','Recoleta','Quinta Normal','Providencia','Ñuñoa','Las Condes','Vitacura','La Reina','Peñalolén','Macul','Conchalí','Huechuraba','Renca','Lo Prado','Cerro Navia','Pudahuel','Maipú','Cerrillos','San Miguel','San Joaquín','Pedro Aguirre Cerda','Lo Espejo','La Cisterna','San Ramón','La Granja','El Bosque','La Florida'] },
@@ -1006,6 +1010,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   var TEL_PREFIX   = '+56 ';
   var MOD_LABELS   = { petg:'PETG', pet:'PET', acrilico:'Acrílico', pc:'Policarbonato', tinas:'Tinas', cascos:'Cascos de tinas', cupulas:'Cúpulas', receptaculos:'Receptáculos', duchas:'Columnas de ducha', mamparas:'Mamparas de ducha', despacho:'Despacho' };
   var EXCLUIDAS_RM = window.PP_ENTREGA.comunasSinDespachoRM;
+  var DESPACHO_PAGADO = !!window.PP_ENTREGA.despachoPagado;
   // Zona de despacho de una comuna de la RM (null = sin despacho)
   function gcZona(comuna) {
     var c = String(comuna || '').trim().toLowerCase(); if (!c) return null;
@@ -1570,7 +1575,9 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
         shipLabel.textContent = '🚚 Despacho gratis en Santiago (comunas con cobertura)';
         shipLabel.className = 'ppGC-shipping-label reached';
       } else {
-        shipLabel.textContent = '🚚 Despacho en Santiago desde ' + fmt(19000) + ' · Te faltan ' + fmt(UMBRAL - grand) + ' para despacho gratis';
+        shipLabel.textContent = DESPACHO_PAGADO
+          ? '🚚 Despacho en Santiago desde ' + fmt(19000) + ' · Te faltan ' + fmt(UMBRAL - grand) + ' para despacho gratis'
+          : '🏪 Retiro gratis en tienda · Te faltan ' + fmt(UMBRAL - grand) + ' para despacho gratis en Santiago';
         shipLabel.className = 'ppGC-shipping-label';
       }
     }
@@ -1793,7 +1800,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     if (!reg) {
       // Estado inicial (antes de seleccionar región): banner promo
       html = g < UMBRAL
-        ? '<strong>🚚 Despacho en Santiago desde ' + fmt(19000) + '</strong> · gratis en compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + ').'
+        ? (DESPACHO_PAGADO ? '<strong>🚚 Despacho en Santiago desde ' + fmt(19000) + '</strong> · gratis' : '<strong>🎁 Despacho gratis en Santiago</strong>') + ' en compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + ').'
         : '<strong>🚚 Tu pedido califica para despacho gratis</strong> en Santiago (comunas con cobertura).';
     } else if (reg !== 'RM') {
       // Fuera de la RM: mensaje relevante para el usuario, sin mencionar la promo RM
@@ -1804,8 +1811,9 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       var excl = !!com && EXCLUIDAS_RM.some(function(c){ return c.toLowerCase() === com.toLowerCase(); });
       if (excl) { el.innerHTML = ''; return; }
       else if (g >= UMBRAL) html = '<strong>🚚 Tu pedido califica para despacho gratis</strong> a ' + gcEsc(com || 'Santiago') + '. ' + gcEsc(gcPlazoDespacho()) + '.';
-      else if (com && gcZona(com)) html = '<strong>🚚 Despacho a ' + gcEsc(com) + ': ' + fmt(gcCostoDespacho(g, com)) + '</strong> · gratis en compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + ').';
-      else html = '<strong>🚚 Despacho en Santiago desde ' + fmt(19000) + '</strong> · gratis en compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + ').';
+      else if (DESPACHO_PAGADO && com && gcZona(com)) html = '<strong>🚚 Despacho a ' + gcEsc(com) + ': ' + fmt(gcCostoDespacho(g, com)) + '</strong> · gratis en compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + ').';
+      else if (DESPACHO_PAGADO) html = '<strong>🚚 Despacho en Santiago desde ' + fmt(19000) + '</strong> · gratis en compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + ').';
+      else html = '<strong>🎁 Despacho gratis a ' + gcEsc(com || 'Santiago') + '</strong> en compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + '). Mientras tanto, retiro gratis en tienda.';
     }
     el.innerHTML = html;
   }
@@ -1849,7 +1857,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
         desc:'Santiago Concha 1525 · Lun a jue 9:00–18:00 · Vie 9:00–17:00',
         badge:'<span class="ppGC-entrega-badge badge-gratis">GRATIS</span>', costo:0, needsAddress:false, needsRegion:false }
     ];
-    if (esRM) {
+    if (esRM && (DESPACHO_PAGADO || grand >= UMBRAL)) {
       var _costoD = gcCostoDespacho(grand, comunaPresel);
       opciones.push({ id:'despacho', icon:'🚚', label:'Despacho a domicilio',
         desc: gcEsc(gcDescDespacho(grand, comunaPresel)),
@@ -1862,7 +1870,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     // Medición paso 3: qué opciones de entrega vio y, si solo hay retiro, por qué
     var _p3Modo = opciones.map(function(o){ return o.id; }).join('+');
     var _p3Motivo = opciones.length > 1 ? '' :
-      (regionPresel && regionPresel !== 'RM') ? 'fuera_rm' : 'comuna_sin_despacho';
+      (regionPresel && regionPresel !== 'RM') ? 'fuera_rm' : (esRM && grand < UMBRAL ? 'bajo_umbral' : 'comuna_sin_despacho');
     var _p3Key = _p3Modo + '|' + _p3Motivo;
     var _p3Visible = (gEl('ppGC-entrega-locked') || {style:{}}).style.display === 'block'; // solo cuando la persona ya ve las opciones
     if (gcP3.abierto && _p3Visible && _p3Key !== gcP3.entregaKey) {
@@ -2097,7 +2105,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       if (badge) { badge.className='ppGC-entrega-badge badge-propio'; badge.textContent='NO DISPONIBLE'; }
     } else {
       var costoD=gcCostoDespacho(gcCurrentGrand, comuna);
-      gcSelectedEntrega={ id:'despacho', label:'Despacho a domicilio', costo:costoD, needsAddress:true, embOblig:false, esRegion:false };
+      gcSelectedEntrega={ id:'despacho', label:'Despacho a domicilio', costo:costoD, needsAddress:true, embOblig:false, esRegion:false, bloqueado: costoD > 0 && !DESPACHO_PAGADO };
       if (label) label.textContent='Despacho a domicilio';
       if (descEl) descEl.textContent=gcDescDespacho(gcCurrentGrand, comuna);
       if (badge) { badge.className='ppGC-entrega-badge '+(costoD?'badge-propio':'badge-gratis'); badge.textContent=costoD?fmt(costoD):'GRATIS'; }

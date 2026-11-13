@@ -17,7 +17,7 @@
  *    marcado para revisión en el correo a ventas.
  */
 
-import { UMBRAL_DESPACHO_GRATIS, zonaDespacho } from "./despacho.js";
+import { UMBRAL_DESPACHO_GRATIS, DESPACHO_PAGADO_ACTIVO, zonaDespacho } from "./despacho.js";
 
 const SUPABASE_URL = "https://gdrkscedvkjtcvexnhzg.supabase.co/rest/v1";
 const SUPABASE_KEY = "sb_publishable_qT9WuJK5Wi6VghgMvcYIMw_IGBtn1Tc";
@@ -150,7 +150,9 @@ export async function verificarTotal(items, total, pedido = {}) {
   const esDespacho = /^despacho/i.test(String(pedido.entrega || ""));
   const zona = region === "RM" ? zonaDespacho(comuna) : null;
   const debeCobrar = esDespacho && productos < UMBRAL_DESPACHO_GRATIS;
-  if (despachos > 1 || (despachos === 1 && (!zona || !debeCobrar)) || (despachos === 0 && debeCobrar)) {
+  // Con el despacho pagado suspendido, bajo el umbral no hay despacho (solo retiro)
+  const despachoNoDisponible = debeCobrar && !DESPACHO_PAGADO_ACTIVO;
+  if (despachoNoDisponible || despachos > 1 || (despachos === 1 && (!zona || !debeCobrar)) || (despachos === 0 && debeCobrar)) {
     return {
       ok: false,
       code: "verificacion",

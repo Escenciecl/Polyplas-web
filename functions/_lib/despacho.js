@@ -12,6 +12,10 @@
 
 export const UMBRAL_DESPACHO_GRATIS = 200000;
 
+/** Despacho pagado bajo el umbral. Suspendido el 13-nov-2026 (equipo reducido): bajo $200.000 solo
+ *  retiro en tienda. Reactivar junto con PP_ENTREGA.despachoPagado del carrito. */
+export const DESPACHO_PAGADO_ACTIVO = false;
+
 export const ZONAS_DESPACHO = [
   {
     id: 1,
