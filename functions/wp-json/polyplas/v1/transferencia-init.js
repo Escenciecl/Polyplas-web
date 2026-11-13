@@ -52,7 +52,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
   if (!(c.nombre || c.razon) || !c.email) return json({ code: "verificacion", message: "Faltan tus datos de contacto." }, 400);
 
   // Mismo control que Webpay: el total debe calzar con los precios vigentes del CRM
-  const verif = await verificarTotal(p.items, total);
+  const verif = await verificarTotal(p.items, total, { client: p.client, entrega: p.entrega });
   if (!verif.ok) {
     console.log("[Polyplas transferencia] Pedido rechazado por verificación:", verif.detalle);
     return json({ code: verif.code, message: verif.message }, 409);

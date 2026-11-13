@@ -10,10 +10,14 @@
  *  - Precio = el del CRM (IVA incluido) × cantidad.
  *  - Corte a medida: el recargo solo puede ir de $0 al 10 % del valor de las planchas.
  *  - Embalaje de tinas: valor fijo por tina (EMBALAJE_TINA).
+ *  - Despacho en Santiago (línea DESPACHO): tarifa de la zona de la comuna de despacho,
+ *    solo si los productos suman menos de UMBRAL_DESPACHO_GRATIS (ver despacho.js).
  *  - Producto sin stock, sin precio en el CRM o desconocido: el pago no se crea.
  *  - Si el CRM no responde, el pago sigue (no se pierde la venta) y el pedido queda
  *    marcado para revisión en el correo a ventas.
  */
+
+import { UMBRAL_DESPACHO_GRATIS, zonaDespacho } from "./despacho.js";
 
 const SUPABASE_URL = "https://gdrkscedvkjtcvexnhzg.supabase.co/rest/v1";
 const SUPABASE_KEY = "sb_publishable_qT9WuJK5Wi6VghgMvcYIMw_IGBtn1Tc";
@@ -63,7 +67,7 @@ const entero = (v) => Math.round(Number(v) || 0);
  * Devuelve { ok: true, verificado: true|false } o { ok: false, code, message, detalle }.
  * `verificado: false` = el CRM no respondió y no se pudo comprobar.
  */
-export async function verificarTotal(items, total) {
+export async function verificarTotal(items, total, pedido = {}) {
   if (!Array.isArray(items) || !items.length) {
     return { ok: false, code: "verificacion", message: "Tu carrito está vacío.", detalle: "sin items" };
   }
@@ -79,6 +83,8 @@ export async function verificarTotal(items, total) {
   let esperado = 0;
   let tinas = 0;
   let embalajes = 0;
+  let embalajeLineas = 0; // embalaje agregado como línea aparte (no cuenta para el despacho gratis)
+  let despachos = 0;
 
   for (const it of items) {
     const qty = entero(it && it.qty);
@@ -89,6 +95,12 @@ export async function verificarTotal(items, total) {
     if (it.sku === "EMBALAJE") {
       embalajes += qty;
       esperado += EMBALAJE_TINA * qty;
+      embalajeLineas += EMBALAJE_TINA * qty;
+      continue;
+    }
+
+    if (it.sku === "DESPACHO") {
+      despachos += qty;
       continue;
     }
 
@@ -128,6 +140,25 @@ export async function verificarTotal(items, total) {
   if (embalajes > tinas) {
     return { ok: false, code: "verificacion", message: "Revisa el embalaje de tu pedido.", detalle: `embalajes ${embalajes} > tinas ${tinas}` };
   }
+
+  // Despacho en Santiago: se cobra la tarifa de la zona bajo el monto de despacho gratis
+  const c = pedido.client || {};
+  const empresa = c.tipo === "Empresa";
+  const comuna = empresa ? c.ciudad_despacho : c.ciudad;
+  const region = empresa ? c.region_despacho : c.region;
+  const productos = esperado - embalajeLineas;
+  const esDespacho = /^despacho/i.test(String(pedido.entrega || ""));
+  const zona = region === "RM" ? zonaDespacho(comuna) : null;
+  const debeCobrar = esDespacho && productos < UMBRAL_DESPACHO_GRATIS;
+  if (despachos > 1 || (despachos === 1 && (!zona || !debeCobrar)) || (despachos === 0 && debeCobrar)) {
+    return {
+      ok: false,
+      code: "verificacion",
+      message: "Revisa el despacho de tu pedido. Si el problema sigue, escríbenos por WhatsApp al +56 9 4208 6751.",
+      detalle: `despacho: lineas ${despachos}, entrega ${pedido.entrega || "?"}, comuna ${comuna || "?"}, productos ${productos}`,
+    };
+  }
+  if (despachos === 1) esperado += zona.precio;
 
   const tolerancia = 2 * items.length;
   if (Math.abs(entero(total) - esperado) > tolerancia) {
