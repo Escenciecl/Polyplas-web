@@ -12,6 +12,7 @@
  *   data-crm-agotado="TIPO|codigo"    → se muestra solo cuando la cantidad es 0
  *   data-crm-bloquear="TIPO|codigo"   → botón o enlace de compra: con cantidad 0 queda congelado y dice "Sin stock"
  *   data-crm-desde="TIPO,TIPO2"       → el precio más bajo con stock de esos tipos
+ *   data-crm-activo="TIPO|codigo"     → se oculta cuando la cantidad es 0 (interruptores, ej. DESPACHO|gratis)
  *
  * La clave es la misma del CRM: tipo y código (ej. TINAS|vilcun, CUPULAS|54x54) o, en planchas,
  * tipo|medida|color|espesor (ej. AA|1800x1200|clear|3mm).
@@ -35,7 +36,7 @@ const clave4 = (k: string) => {
   return p.length >= 4 ? p.slice(0, 4).join("|") : `${p[0]}|${p[1] ?? ""}|na|na`;
 };
 // Filas que no son productos (interruptores del CRM) o medidas de otros materiales guardadas bajo AA/PA
-const noEsProducto = (f: Fila) => f.dim === "kuyen_faldon" || /_(pc|pet|petg)$/.test(f.dim);
+const noEsProducto = (f: Fila) => f.tipo === "DESPACHO" || f.dim === "kuyen_faldon" || /_(pc|pet|petg)$/.test(f.dim);
 
 function crearApi(filas: Fila[]): CrmApi {
   const mapa = new Map(filas.map((f) => [`${f.tipo}|${f.dim}|${f.color}|${f.espesor}`, f]));
@@ -77,6 +78,9 @@ function pintar(api: CrmApi) {
   });
   cada("data-crm-agotado", (el, f) => {
     if (f) el.hidden = f.cantidad !== 0;
+  });
+  cada("data-crm-activo", (el, f) => {
+    if (f) el.hidden = f.cantidad === 0;
   });
   cada("data-crm-bloquear", (el, f) => {
     if (!f) return;

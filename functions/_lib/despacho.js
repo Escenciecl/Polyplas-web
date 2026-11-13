@@ -1,25 +1,42 @@
 /**
  * Despacho en Santiago por zonas (aprobado por gerencia el 13-nov-2026).
  *
- * Mismas reglas que window.PP_ENTREGA en content/modulos/00-flotantes/04-carrito-y-pago.html.
- * Si se cambia algo aquí, hay que cambiarlo también allá (y al revés).
- *
- *  - Zona 1 (dentro de Américo Vespucio): $19.000
- *  - Zona 2 (fuera de Vespucio):          $30.000
- *  - Despacho gratis en ambas zonas desde $200.000 en productos.
- *  - Comunas que no están en ninguna zona: sin despacho (retiro en tienda o flete propio).
+ * Los montos y el prendido/apagado se administran en el CRM, sección "Despachos", y quedan en
+ * pp_stock como filas de configuración (color y espesor 'na'):
+ *   DESPACHO|zona1   precio = tarifa Zona 1 (dentro de Américo Vespucio)   cantidad 0 = apagado
+ *   DESPACHO|zona2   precio = tarifa Zona 2 (fuera de Vespucio)            cantidad 0 = apagado
+ *   DESPACHO|gratis  precio = monto mínimo del despacho gratis (Zona 1 y 2) cantidad 0 = apagado
+ * Las comunas de cada zona están aquí y en window.PP_ENTREGA del carrito
+ * (content/modulos/00-flotantes/04-carrito-y-pago.html): si se cambia una, cambiar la otra.
+ * Comunas fuera de las zonas: sin despacho (retiro en tienda o flete propio).
  */
 
-export const UMBRAL_DESPACHO_GRATIS = 200000;
+/** Respaldo si una fila no existe en el CRM (= lo publicado el 13-nov: solo despacho gratis desde $200.000). */
+export const CONFIG_RESPALDO = {
+  gratis: { activo: true, desde: 200000 },
+  zonas: { 1: { activo: false, precio: 19000 }, 2: { activo: false, precio: 30000 } },
+};
 
-/** Despacho pagado bajo el umbral. Suspendido el 13-nov-2026 (equipo reducido): bajo $200.000 solo
- *  retiro en tienda. Reactivar junto con PP_ENTREGA.despachoPagado del carrito. */
-export const DESPACHO_PAGADO_ACTIVO = false;
+/**
+ * Configuración vigente a partir de las filas del CRM.
+ * @param {(clave: string) => ({ cantidad?: number|null, precio?: number|null } | null | undefined)} fila
+ */
+export function configDespacho(fila) {
+  const leer = (clave, resp) => {
+    const f = fila ? fila(clave) : null;
+    if (!f) return { ...resp };
+    const precio = Math.round(Number(f.precio) || 0);
+    return { activo: Number(f.cantidad) !== 0, [resp.desde !== undefined ? "desde" : "precio"]: precio > 0 ? precio : (resp.desde ?? resp.precio) };
+  };
+  return {
+    gratis: leer("DESPACHO|gratis", CONFIG_RESPALDO.gratis),
+    zonas: { 1: leer("DESPACHO|zona1", CONFIG_RESPALDO.zonas[1]), 2: leer("DESPACHO|zona2", CONFIG_RESPALDO.zonas[2]) },
+  };
+}
 
 export const ZONAS_DESPACHO = [
   {
     id: 1,
-    precio: 19000,
     comunas: [
       "Santiago", "Estación Central", "Independencia", "Recoleta", "Quinta Normal", "Providencia",
       "Ñuñoa", "Las Condes", "Vitacura", "La Reina", "Peñalolén", "Macul", "Conchalí", "Huechuraba",
@@ -29,7 +46,6 @@ export const ZONAS_DESPACHO = [
   },
   {
     id: 2,
-    precio: 30000,
     comunas: ["Puente Alto", "La Pintana", "San Bernardo", "Padre Hurtado", "Quilicura", "Lo Barnechea", "Lampa", "Colina"],
   },
 ];

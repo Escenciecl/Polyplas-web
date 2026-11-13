@@ -636,6 +636,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 #ppGC-cart-modal .ppGC-cart-foot:has(> #ppGC-cart-actions[style*="none"]) { display: none; }
 /* Tarjetas de opciones de entrega */
 .ppGC-entrega-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; padding: 0 0 14px; }
+.ppGC-ec[hidden] { display: none !important; }
 .ppGC-ec { background: #fff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px 13px; display: flex; align-items: flex-start; gap: 10px; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
 .ppGC-ec-ico { flex-shrink: 0; width: 22px; height: 22px; color: #1B3A5C; margin-top: 1px; }
 .ppGC-ec b { display: block; font-size: 0.84rem; font-weight: 700; color: #1B3A5C; margin-bottom: 3px; }
@@ -679,9 +680,9 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <div class="ppGC-sec-tit">Tu pedido</div>
 <div id="ppGC-cart-items"></div>
 <div class="ppGC-entrega-cards" id="ppGC-entrega-cards" style="display:none">
-  <div class="ppGC-ec">
+  <div class="ppGC-ec" data-crm-activo="DESPACHO|gratis">
     <svg class="ppGC-ec-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-    <div><b>Despacho gratis en Santiago</b><span>desde $200.000 · comunas con cobertura</span></div>
+    <div><b>Despacho gratis en Santiago</b><span>desde <span data-crm-precio="DESPACHO|gratis">$200.000</span> · comunas con cobertura</span></div>
   </div>
   <div class="ppGC-ec">
     <svg class="ppGC-ec-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
@@ -987,30 +988,57 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   var GC_KEY       = 'pp_global_cart';
   var GC_ORDER_KEY = 'pp_global_order_data';
   // ── Reglas de entrega: un solo lugar para todo el sitio ──────
-  // Para cambiar tarifas, zonas o el monto del despacho gratis, se edita aquí
-  // y también en functions/_lib/despacho.js (el servidor verifica el cobro con esas reglas).
-  // Despacho por zonas aprobado el 13-nov-2026: Zona 1 dentro de Américo Vespucio, Zona 2 fuera.
+  // Despacho por zonas (aprobado el 13-nov-2026): Zona 1 dentro de Américo Vespucio, Zona 2 fuera.
+  // Montos y prendido/apagado se administran en el CRM, sección "Despachos" (filas DESPACHO|zona1,
+  // DESPACHO|zona2 y DESPACHO|gratis de pp_stock: precio = tarifa o monto mínimo; cantidad 0 = apagado).
+  // Estos valores son el respaldo si el CRM no responde. Las comunas de cada zona se editan aquí
+  // y en functions/_lib/despacho.js (el servidor verifica el cobro con las mismas reglas).
   window.PP_ENTREGA = window.PP_ENTREGA || {
-    umbralDespachoGratis: 200000,
-    // Despacho pagado ($19.000 / $30.000 bajo el umbral). Suspendido el 13-nov-2026 por equipo reducido
-    // (renunció quien hacía los fletes): bajo $200.000 solo retiro en tienda. Para reactivarlo,
-    // poner true aquí y DESPACHO_PAGADO_ACTIVO = true en functions/_lib/despacho.js.
-    despachoPagado: false,
+    despachoGratis: { activo: true, desde: 200000 },
     regionDespacho: 'RM',
     zonasDespacho: [
-      { id: 1, precio: 19000, comunas: ['Santiago','Estación Central','Independencia','Recoleta','Quinta Normal','Providencia','Ñuñoa','Las Condes','Vitacura','La Reina','Peñalolén','Macul','Conchalí','Huechuraba','Renca','Lo Prado','Cerro Navia','Pudahuel','Maipú','Cerrillos','San Miguel','San Joaquín','Pedro Aguirre Cerda','Lo Espejo','La Cisterna','San Ramón','La Granja','El Bosque','La Florida'] },
-      { id: 2, precio: 30000, comunas: ['Puente Alto','La Pintana','San Bernardo','Padre Hurtado','Quilicura','Lo Barnechea','Lampa','Colina'] }
+      { id: 1, precio: 19000, activo: false, comunas: ['Santiago','Estación Central','Independencia','Recoleta','Quinta Normal','Providencia','Ñuñoa','Las Condes','Vitacura','La Reina','Peñalolén','Macul','Conchalí','Huechuraba','Renca','Lo Prado','Cerro Navia','Pudahuel','Maipú','Cerrillos','San Miguel','San Joaquín','Pedro Aguirre Cerda','Lo Espejo','La Cisterna','San Ramón','La Granja','El Bosque','La Florida'] },
+      { id: 2, precio: 30000, activo: false, comunas: ['Puente Alto','La Pintana','San Bernardo','Padre Hurtado','Quilicura','Lo Barnechea','Lampa','Colina'] }
     ],
     comunasSinDespachoRM: ['Pirque','San José de Maipo','Tiltil','Buin','Calera de Tango','Paine','Melipilla','Alhué','Curacaví','María Pinto','San Pedro','Talagante','Isla de Maipo','Peñaflor','El Monte'],
     plazoDespacho: 'Pedidos de la mañana salen en la tarde · hasta 1 día hábil según cantidad y cortes',
     plazoDespachoTinas: '3 a 5 días hábiles',
     retiro: { direccion: 'Santiago Concha 1525, Santiago Centro', horario: 'Lun a jue 9:00–18:00 · Vie 9:00–17:00' }
   };
-  var UMBRAL       = window.PP_ENTREGA.umbralDespachoGratis;
+  var UMBRAL       = window.PP_ENTREGA.despachoGratis.desde;
   var TEL_PREFIX   = '+56 ';
   var MOD_LABELS   = { petg:'PETG', pet:'PET', acrilico:'Acrílico', pc:'Policarbonato', tinas:'Tinas', cascos:'Cascos de tinas', cupulas:'Cúpulas', receptaculos:'Receptáculos', duchas:'Columnas de ducha', mamparas:'Mamparas de ducha', despacho:'Despacho' };
   var EXCLUIDAS_RM = window.PP_ENTREGA.comunasSinDespachoRM;
-  var DESPACHO_PAGADO = !!window.PP_ENTREGA.despachoPagado;
+  // Lee la configuración de despacho del CRM (window.ppCRM, ver components/site/PreciosCrm.tsx).
+  // Devuelve true si cambió algo respecto de lo que se estaba usando.
+  function gcFirmaDespacho() {
+    var e = window.PP_ENTREGA;
+    return [e.despachoGratis.activo, e.despachoGratis.desde].concat(e.zonasDespacho.map(function(z) { return z.activo + ':' + z.precio; })).join('|');
+  }
+  function gcAplicarConfigDespacho() {
+    var api = window.ppCRM, e = window.PP_ENTREGA;
+    if (!api || typeof api.get !== 'function') return false;
+    var antes = gcFirmaDespacho();
+    var g = api.get('DESPACHO|gratis');
+    if (g) {
+      e.despachoGratis.activo = g.cantidad !== 0;
+      if (Number(g.precio) > 0) e.despachoGratis.desde = Number(g.precio);
+    }
+    e.zonasDespacho.forEach(function(z) {
+      var f = api.get('DESPACHO|zona' + z.id);
+      if (!f) return;
+      z.activo = f.cantidad !== 0;
+      if (Number(f.precio) > 0) z.precio = Number(f.precio);
+    });
+    UMBRAL = e.despachoGratis.desde;
+    return antes !== gcFirmaDespacho();
+  }
+  function gcGratisActivo() { return !!window.PP_ENTREGA.despachoGratis.activo; }
+  // Tarifa más baja de las zonas prendidas (0 = ninguna zona con despacho pagado)
+  function gcDesdePagado() {
+    var ps = window.PP_ENTREGA.zonasDespacho.filter(function(z) { return z.activo; }).map(function(z) { return z.precio; });
+    return ps.length ? Math.min.apply(null, ps) : 0;
+  }
   // Zona de despacho de una comuna de la RM (null = sin despacho)
   function gcZona(comuna) {
     var c = String(comuna || '').trim().toLowerCase(); if (!c) return null;
@@ -1020,8 +1048,12 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     }
     return null;
   }
-  // Costo del despacho: gratis desde el umbral, si no la tarifa de la zona
-  function gcCostoDespacho(grand, comuna) { var z = gcZona(comuna); return !z ? 0 : (grand >= UMBRAL ? 0 : z.precio); }
+  // Costo del despacho a una comuna: 0 = gratis, monto = tarifa de la zona, null = sin despacho para este pedido
+  function gcCostoDespacho(grand, comuna) {
+    var z = gcZona(comuna); if (!z) return null;
+    if (gcGratisActivo() && grand >= UMBRAL) return 0;
+    return z.activo ? z.precio : null;
+  }
   // Tinas y cascos tienen su propio plazo de entrega
   function gcPlazoDespacho() {
     var largo = gcItems.some(function(i) { return i.module === 'tinas' || i.module === 'cascos'; });
@@ -1030,7 +1062,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   function gcDescDespacho(grand, comuna) {
     var z = gcZona(comuna), costo = gcCostoDespacho(grand, comuna);
     return (comuna ? comuna + (z ? ' · Zona ' + z.id : '') + ' · ' : '') +
-      (costo ? 'Gratis desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - grand) + ')' : 'Gratis') + ' · ' + gcPlazoDespacho();
+      (costo ? (gcGratisActivo() ? 'Gratis desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - grand) + ')' : 'Tarifa Zona ' + (z ? z.id : '')) : 'Gratis') + ' · ' + gcPlazoDespacho();
   }
   // Medición: la entrega por zona y el despacho cobrado (va como shipping, fuera del valor de productos)
   function gcShippingTier() {
@@ -1568,15 +1600,15 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     var shipFill  = gEl('ppGC-shipping-fill');
     var shipLabel = gEl('ppGC-shipping-label');
     if (shipBar && shipFill && shipLabel) {
-      shipBar.style.display = '';
+      shipBar.style.display = gcGratisActivo() ? '' : 'none';
       var pct = Math.min(100, Math.round(grand / UMBRAL * 100));
       shipFill.style.width = pct + '%';
       if (grand >= UMBRAL) {
         shipLabel.textContent = '🚚 Despacho gratis en Santiago (comunas con cobertura)';
         shipLabel.className = 'ppGC-shipping-label reached';
       } else {
-        shipLabel.textContent = DESPACHO_PAGADO
-          ? '🚚 Despacho en Santiago desde ' + fmt(19000) + ' · Te faltan ' + fmt(UMBRAL - grand) + ' para despacho gratis'
+        shipLabel.textContent = gcDesdePagado()
+          ? '🚚 Despacho en Santiago desde ' + fmt(gcDesdePagado()) + ' · Te faltan ' + fmt(UMBRAL - grand) + ' para despacho gratis'
           : '🏪 Retiro gratis en tienda · Te faltan ' + fmt(UMBRAL - grand) + ' para despacho gratis en Santiago';
         shipLabel.className = 'ppGC-shipping-label';
       }
@@ -1799,8 +1831,9 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     var com = (gEl('ppGC-comunaPreCheck') || {}).value || gcDatosVal('ciudad');
     if (!reg) {
       // Estado inicial (antes de seleccionar región): banner promo
-      html = g < UMBRAL
-        ? (DESPACHO_PAGADO ? '<strong>🚚 Despacho en Santiago desde ' + fmt(19000) + '</strong> · gratis' : '<strong>🎁 Despacho gratis en Santiago</strong>') + ' en compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + ').'
+      if (!gcGratisActivo()) html = gcDesdePagado() ? '<strong>🚚 Despacho en Santiago desde ' + fmt(gcDesdePagado()) + '</strong> (comunas con cobertura).' : '<strong>🏪 Retiro gratis en tienda</strong> · Santiago Concha 1525 · Lun–Jue 9:00–18:00 · Vie 9:00–17:00.';
+      else html = g < UMBRAL
+        ? (gcDesdePagado() ? '<strong>🚚 Despacho en Santiago desde ' + fmt(gcDesdePagado()) + '</strong> · gratis' : '<strong>🎁 Despacho gratis en Santiago</strong>') + ' en compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + ').'
         : '<strong>🚚 Tu pedido califica para despacho gratis</strong> en Santiago (comunas con cobertura).';
     } else if (reg !== 'RM') {
       // Fuera de la RM: mensaje relevante para el usuario, sin mencionar la promo RM
@@ -1808,12 +1841,14 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
         ? '<strong>📦 Envío a regiones disponible</strong> · El flete lo pagas al recibir. También puedes retirar gratis en tienda.'
         : '<strong>🏪 Retiro gratis en tienda</strong> · Santiago Concha 1525 · Lun–Jue 9:00–18:00 · Vie 9:00–17:00.';
     } else {
-      var excl = !!com && EXCLUIDAS_RM.some(function(c){ return c.toLowerCase() === com.toLowerCase(); });
-      if (excl) { el.innerHTML = ''; return; }
-      else if (g >= UMBRAL) html = '<strong>🚚 Tu pedido califica para despacho gratis</strong> a ' + gcEsc(com || 'Santiago') + '. ' + gcEsc(gcPlazoDespacho()) + '.';
-      else if (DESPACHO_PAGADO && com && gcZona(com)) html = '<strong>🚚 Despacho a ' + gcEsc(com) + ': ' + fmt(gcCostoDespacho(g, com)) + '</strong> · gratis en compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + ').';
-      else if (DESPACHO_PAGADO) html = '<strong>🚚 Despacho en Santiago desde ' + fmt(19000) + '</strong> · gratis en compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + ').';
-      else html = '<strong>🎁 Despacho gratis a ' + gcEsc(com || 'Santiago') + '</strong> en compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + '). Mientras tanto, retiro gratis en tienda.';
+      if (com && !gcZona(com)) { el.innerHTML = ''; return; }
+      var cD = com ? gcCostoDespacho(g, com) : null;
+      var falta = gcGratisActivo() && g < UMBRAL ? ' · gratis en compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + ')' : '';
+      if (cD === 0) html = '<strong>🚚 Tu pedido califica para despacho gratis</strong> a ' + gcEsc(com) + '. ' + gcEsc(gcPlazoDespacho()) + '.';
+      else if (cD > 0) html = '<strong>🚚 Despacho a ' + gcEsc(com) + ': ' + fmt(cD) + '</strong>' + falta + '.';
+      else if (com && gcGratisActivo() && g < UMBRAL) html = '<strong>🎁 Despacho gratis a ' + gcEsc(com) + '</strong> en compras desde ' + fmt(UMBRAL) + ' (te faltan ' + fmt(UMBRAL - g) + '). Mientras tanto, retiro gratis en tienda.';
+      else if (!com && (gcGratisActivo() || gcDesdePagado())) html = gcDesdePagado() ? '<strong>🚚 Despacho en Santiago desde ' + fmt(gcDesdePagado()) + '</strong>' + falta + '.' : '<strong>🎁 Despacho gratis en Santiago</strong> en compras desde ' + fmt(UMBRAL) + (g < UMBRAL ? ' (te faltan ' + fmt(UMBRAL - g) + ')' : '') + '.';
+      else html = '<strong>🏪 Retiro gratis en tienda</strong> · Santiago Concha 1525 · Lun–Jue 9:00–18:00 · Vie 9:00–17:00.';
     }
     el.innerHTML = html;
   }
@@ -1857,8 +1892,8 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
         desc:'Santiago Concha 1525 · Lun a jue 9:00–18:00 · Vie 9:00–17:00',
         badge:'<span class="ppGC-entrega-badge badge-gratis">GRATIS</span>', costo:0, needsAddress:false, needsRegion:false }
     ];
-    if (esRM && (DESPACHO_PAGADO || grand >= UMBRAL)) {
-      var _costoD = gcCostoDespacho(grand, comunaPresel);
+    var _costoD = esRM ? gcCostoDespacho(grand, comunaPresel) : null;
+    if (esRM && _costoD !== null) {
       opciones.push({ id:'despacho', icon:'🚚', label:'Despacho a domicilio',
         desc: gcEsc(gcDescDespacho(grand, comunaPresel)),
         badge: gcBadgeDespacho(_costoD), costo:_costoD, needsAddress:false, syncFromBilling:true, needsRegion:false });
@@ -1870,7 +1905,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     // Medición paso 3: qué opciones de entrega vio y, si solo hay retiro, por qué
     var _p3Modo = opciones.map(function(o){ return o.id; }).join('+');
     var _p3Motivo = opciones.length > 1 ? '' :
-      (regionPresel && regionPresel !== 'RM') ? 'fuera_rm' : (esRM && grand < UMBRAL ? 'bajo_umbral' : 'comuna_sin_despacho');
+      (regionPresel && regionPresel !== 'RM') ? 'fuera_rm' : (esRM ? (gcGratisActivo() && grand < UMBRAL ? 'bajo_umbral' : 'despacho_apagado') : 'comuna_sin_despacho');
     var _p3Key = _p3Modo + '|' + _p3Motivo;
     var _p3Visible = (gEl('ppGC-entrega-locked') || {style:{}}).style.display === 'block'; // solo cuando la persona ya ve las opciones
     if (gcP3.abierto && _p3Visible && _p3Key !== gcP3.entregaKey) {
@@ -2105,10 +2140,16 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       if (badge) { badge.className='ppGC-entrega-badge badge-propio'; badge.textContent='NO DISPONIBLE'; }
     } else {
       var costoD=gcCostoDespacho(gcCurrentGrand, comuna);
-      gcSelectedEntrega={ id:'despacho', label:'Despacho a domicilio', costo:costoD, needsAddress:true, embOblig:false, esRegion:false, bloqueado: costoD > 0 && !DESPACHO_PAGADO };
+      if (costoD === null) {
+        gcSelectedEntrega={ id:'despacho', label:'Despacho a domicilio', costo:0, needsAddress:true, embOblig:false, esRegion:false, bloqueado:true };
+        if (descEl) descEl.textContent='⚠️ Sin despacho para este pedido. Elige Retiro en tienda.';
+        if (badge) { badge.className='ppGC-entrega-badge badge-propio'; badge.textContent='NO DISPONIBLE'; }
+      } else {
+        gcSelectedEntrega={ id:'despacho', label:'Despacho a domicilio', costo:costoD, needsAddress:true, embOblig:false, esRegion:false };
+        if (descEl) descEl.textContent=gcDescDespacho(gcCurrentGrand, comuna);
+        if (badge) { badge.className='ppGC-entrega-badge '+(costoD?'badge-propio':'badge-gratis'); badge.textContent=costoD?fmt(costoD):'GRATIS'; }
+      }
       if (label) label.textContent='Despacho a domicilio';
-      if (descEl) descEl.textContent=gcDescDespacho(gcCurrentGrand, comuna);
-      if (badge) { badge.className='ppGC-entrega-badge '+(costoD?'badge-propio':'badge-gratis'); badge.textContent=costoD?fmt(costoD):'GRATIS'; }
     }
     gcRenderEmbalaje();
     gcUpdateModalTotal();
@@ -2176,7 +2217,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     }
     if (hint) hint.style.display = 'none';
     var regionForOpts = region === 'RM' ? (gcZona(comuna) ? 'RM' : null) : region;
-    var key = String(regionForOpts) + '|' + (regionForOpts === 'RM' ? comuna : '') + '|' + gcSoloTinas() + '|' + gcCurrentGrand;
+    var key = String(regionForOpts) + '|' + (regionForOpts === 'RM' ? comuna : '') + '|' + gcSoloTinas() + '|' + gcCurrentGrand + '|' + gcFirmaDespacho();
     if (!forzar && key === gcEntregaKey && opts && opts.children.length) {
       // Mismas opciones: se mantiene lo elegido y, si es despacho, se actualiza la dirección
       if (gcSelectedEntrega && gcSelectedEntrega.needsAddress && !gcOtraDir) gcDireccionDesdeDatos();
@@ -2450,6 +2491,22 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   ppGCUnify();
   setTimeout(ppGCUnify, 300);
   setTimeout(ppGCUnify, 1000);
+
+  /* ── Despacho: configuración del CRM ────────────────────────
+     PreciosCrm lee pp_stock al cargar, antes de pagar y cada 30 s, y avisa con el evento pp:crm.
+     Si cambió el despacho (prendido/apagado o montos), se actualiza lo que se está viendo. */
+  gcAplicarConfigDespacho();
+  document.addEventListener('pp:crm', function() {
+    if (!gcAplicarConfigDespacho()) return;
+    var cm = gEl('ppGC-cart-modal');
+    if (cm && cm.style.display === 'flex') gcRenderCartItems();
+    var co = gEl('ppGC-co-modal');
+    if (co && co.style.display === 'flex') {
+      var cpc = gEl('ppGC-comunaPreCheck');
+      if (cpc && cpc.value) ppGCOnComunaPreCheck(); else gcRefreshEntrega(true);
+      gcRenderEntregaAviso();
+    }
+  });
 
   /* ── Exponer API global ──────────────────────────────────── */
   window.ppGCOpen            = ppGCOpen;

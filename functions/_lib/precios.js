@@ -10,14 +10,14 @@
  *  - Precio = el del CRM (IVA incluido) × cantidad.
  *  - Corte a medida: el recargo solo puede ir de $0 al 10 % del valor de las planchas.
  *  - Embalaje de tinas: valor fijo por tina (EMBALAJE_TINA).
- *  - Despacho en Santiago (línea DESPACHO): tarifa de la zona de la comuna de despacho,
- *    solo si los productos suman menos de UMBRAL_DESPACHO_GRATIS (ver despacho.js).
+ *  - Despacho en Santiago (línea DESPACHO): tarifa de la zona de la comuna de despacho, con los
+ *    montos y el prendido/apagado del CRM (filas DESPACHO|… de pp_stock, ver despacho.js).
  *  - Producto sin stock, sin precio en el CRM o desconocido: el pago no se crea.
  *  - Si el CRM no responde, el pago sigue (no se pierde la venta) y el pedido queda
  *    marcado para revisión en el correo a ventas.
  */
 
-import { UMBRAL_DESPACHO_GRATIS, DESPACHO_PAGADO_ACTIVO, zonaDespacho } from "./despacho.js";
+import { configDespacho, zonaDespacho } from "./despacho.js";
 
 const SUPABASE_URL = "https://gdrkscedvkjtcvexnhzg.supabase.co/rest/v1";
 const SUPABASE_KEY = "sb_publishable_qT9WuJK5Wi6VghgMvcYIMw_IGBtn1Tc";
@@ -141,7 +141,11 @@ export async function verificarTotal(items, total, pedido = {}) {
     return { ok: false, code: "verificacion", message: "Revisa el embalaje de tu pedido.", detalle: `embalajes ${embalajes} > tinas ${tinas}` };
   }
 
-  // Despacho en Santiago: se cobra la tarifa de la zona bajo el monto de despacho gratis
+  // Despacho en Santiago, con la configuración del CRM:
+  //  - despacho gratis prendido y productos >= monto mínimo → sin línea de despacho
+  //  - si no, solo con la zona prendida: una línea DESPACHO con la tarifa de la zona
+  //  - retiro (u otra entrega) → sin línea de despacho
+  const cfg = configDespacho((clave) => stock.get(clave));
   const c = pedido.client || {};
   const empresa = c.tipo === "Empresa";
   const comuna = empresa ? c.ciudad_despacho : c.ciudad;
@@ -149,18 +153,21 @@ export async function verificarTotal(items, total, pedido = {}) {
   const productos = esperado - embalajeLineas;
   const esDespacho = /^despacho/i.test(String(pedido.entrega || ""));
   const zona = region === "RM" ? zonaDespacho(comuna) : null;
-  const debeCobrar = esDespacho && productos < UMBRAL_DESPACHO_GRATIS;
-  // Con el despacho pagado suspendido, bajo el umbral no hay despacho (solo retiro)
-  const despachoNoDisponible = debeCobrar && !DESPACHO_PAGADO_ACTIVO;
-  if (despachoNoDisponible || despachos > 1 || (despachos === 1 && (!zona || !debeCobrar)) || (despachos === 0 && debeCobrar)) {
+  const tarifa = zona ? cfg.zonas[zona.id] : null;
+  const gratis = cfg.gratis.activo && productos >= cfg.gratis.desde;
+  let despachoOk;
+  if (despachos > 1) despachoOk = false;
+  else if (!esDespacho || gratis) despachoOk = despachos === 0;
+  else despachoOk = despachos === 1 && !!tarifa && tarifa.activo;
+  if (!despachoOk) {
     return {
       ok: false,
       code: "verificacion",
       message: "Revisa el despacho de tu pedido. Si el problema sigue, escríbenos por WhatsApp al +56 9 4208 6751.",
-      detalle: `despacho: lineas ${despachos}, entrega ${pedido.entrega || "?"}, comuna ${comuna || "?"}, productos ${productos}`,
+      detalle: `despacho: lineas ${despachos}, entrega ${pedido.entrega || "?"}, comuna ${comuna || "?"}, productos ${productos}, gratis ${cfg.gratis.activo ? cfg.gratis.desde : "apagado"}, zona ${zona ? zona.id + (tarifa.activo ? ":" + tarifa.precio : ":apagada") : "-"}`,
     };
   }
-  if (despachos === 1) esperado += zona.precio;
+  if (despachos === 1) esperado += tarifa.precio;
 
   const tolerancia = 2 * items.length;
   if (Math.abs(entero(total) - esperado) > tolerancia) {
