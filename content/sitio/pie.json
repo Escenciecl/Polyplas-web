@@ -27,7 +27,8 @@
         { "texto": "Guía de tinas de hidromasaje", "enlace": "/guia-para-comprar-tina-de-hidromasaje-en-chile/" },
         { "texto": "Blog técnico", "enlace": "/blog/" },
         { "texto": "Términos, envíos y devoluciones", "enlace": "/terminos-y-condiciones/" },
-        { "texto": "Política de privacidad", "enlace": "/politica-de-privacidad-de-datos/" }
+        { "texto": "Política de privacidad", "enlace": "/politica-de-privacidad-de-datos/" },
+        { "texto": "Configurar cookies", "enlace": "#configurar-cookies" }
       ]
     }
   ],
