@@ -1,8 +1,10 @@
 <script data-pp-inline>
   /* Consentimiento de cookies · Ley 21.719 (Chile)
-   * Modo básico: Google Analytics, Google Ads, Meta, Hotjar y los rastreadores de clics NO se
-   * activan hasta que la persona acepta su categoría. En Tag Manager cada etiqueta exige su
-   * consentimiento (analytics_storage = analíticas; ad_storage / ad_user_data = publicidad).
+   * Google (Analytics y Ads): modo de consentimiento AVANZADO. Antes de aceptar no guarda cookies
+   * ni datos personales; solo envía señales anónimas sin cookies para modelar conversiones.
+   * Meta, Hotjar, el rastreo de clics a WhatsApp y el guardado de correo/teléfono del checkout
+   * siguen BLOQUEADOS en Tag Manager hasta que la persona acepta su categoría
+   * (analytics_storage = analíticas; ad_storage + ad_user_data = publicidad).
    * La decisión se guarda en este navegador (pp_consent_v2) y se puede cambiar en cualquier
    * momento desde "Configurar cookies" en el pie de página. */
   window.dataLayer = window.dataLayer || [];
@@ -163,6 +165,7 @@
     #cookie-banner .cb-sw input:disabled + span { background: #94a3b8; }
     #cookie-banner .cb-sw input:focus-visible + span { outline: 3px solid #f59e0b; outline-offset: 2px; }
     #cookie-banner .cb-guardar { margin-top: 10px; text-align: right; }
+    #cookie-banner .cb-nota { font-size: 12.5px; color: #555; line-height: 1.45; margin: 8px 0 0; }
 
     @media (max-width: 760px) {
       #cookie-banner { padding: 14px 16px; bottom: 84px; max-height: calc(100vh - 110px); overflow-y: auto; }
@@ -217,6 +220,7 @@
             Google Ads y Meta (Facebook e Instagram): medir qué anuncios generan ventas y mostrar anuncios de Polyplas. Al comprar, se comparten con Google tu correo y teléfono cifrados para medir la venta.</div>
           <label class="cb-sw"><input type="checkbox" id="cb-publicidad" aria-label="Cookies publicitarias"><span></span></label>
         </div>
+        <p class="cb-nota">Si no aceptas, no usamos cookies analíticas ni publicitarias. Google Analytics y Google Ads solo reciben avisos anónimos sin cookies (por ejemplo, que hubo una visita o una compra), que no te identifican, para estimar resultados en conjunto.</p>
         <div class="cb-guardar"><button type="button" class="cb-btn" id="cb-guardar">Guardar mi selección</button></div>
       </div>
     `;
