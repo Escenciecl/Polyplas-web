@@ -32,16 +32,20 @@ security definer
 set search_path = ''
 as $$
   insert into public.funnel_diario as f (dia, canal, campana, linea, paso, sesiones, eventos, valor)
-  select (now() at time zone 'America/Santiago')::date,
-         left(coalesce(x->>'canal', 'directo'), 40),
-         left(coalesce(x->>'campana', ''), 80),
-         left(coalesce(x->>'linea', ''), 60),
-         left(x->>'paso', 40),
-         least(greatest(coalesce((x->>'sesiones')::int, 0), 0), 1),
-         least(greatest(coalesce((x->>'eventos')::int, 0), 0), 50),
-         least(greatest(coalesce((x->>'valor')::bigint, 0), 0), 100000000)
-  from jsonb_array_elements(p_filas) x
-  where x->>'paso' is not null
+  select (now() at time zone 'America/Santiago')::date, canal, campana, linea, paso,
+         least(sum(sesiones), 1), least(sum(eventos), 50), least(sum(valor), 100000000)
+  from (
+    select left(coalesce(x->>'canal', 'directo'), 40) as canal,
+           left(coalesce(x->>'campana', ''), 80) as campana,
+           left(coalesce(x->>'linea', ''), 60) as linea,
+           left(x->>'paso', 40) as paso,
+           least(greatest(coalesce((x->>'sesiones')::int, 0), 0), 1) as sesiones,
+           least(greatest(coalesce((x->>'eventos')::int, 0), 0), 50) as eventos,
+           least(greatest(coalesce((x->>'valor')::bigint, 0), 0), 100000000) as valor
+    from jsonb_array_elements(p_filas) x
+    where x->>'paso' is not null
+  ) s
+  group by canal, campana, linea, paso   -- agrupa filas repetidas de un mismo envío
   on conflict (dia, canal, campana, linea, paso) do update set
     sesiones = f.sesiones + excluded.sesiones,
     eventos  = f.eventos  + excluded.eventos,
