@@ -100,6 +100,7 @@
     gtag('set', 'ads_data_redaction', !reg.publicidad);
     window.ppConsentimiento = { analiticas: reg.analiticas, publicidad: reg.publicidad, decidido: true };
     dataLayer.push({ event: 'pp_consentimiento', pp_analiticas: reg.analiticas, pp_publicidad: reg.publicidad });
+    try { window.dispatchEvent(new CustomEvent('pp-consentimiento', { detail: { analiticas: reg.analiticas, publicidad: reg.publicidad } })); } catch (e) {}
 
     // Si retira un consentimiento que había dado, se borran las cookies de esa categoría
     if (previo && ((previo.analiticas && !reg.analiticas) || (previo.publicidad && !reg.publicidad))) {
