@@ -9,6 +9,8 @@
  *   se informa para pedirlo por WhatsApp.
  */
 
+import { prepararDatosPago } from "@/lib/cuenta";
+
 export type ItemCompra = {
   sku?: string;
   nombre?: string;
@@ -92,8 +94,10 @@ async function carroListo(w: Ventana): Promise<boolean> {
 
 export type ResultadoRepetir = { agregados: number; faltan: string[]; sinCarro?: boolean };
 
-export async function repetirCompra(orden: string, items: ItemCompra[] | null | undefined): Promise<ResultadoRepetir> {
+export async function repetirCompra(orden: string, items: ItemCompra[] | null | undefined, cliente?: unknown): Promise<ResultadoRepetir> {
   const w = window as Ventana;
+  // Los datos del pago serán los de ESTE pedido (se pueden cambiar en "Datos y envío")
+  if (cliente) await prepararDatosPago({ orden, cliente });
   if (!(await carroListo(w))) return { agregados: 0, faltan: [], sinCarro: true };
 
   // Precio y stock de hoy (si el CRM no responde, el carro y el servidor igual los revisan)

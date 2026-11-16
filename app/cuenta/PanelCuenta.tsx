@@ -8,7 +8,7 @@ import {
   type ItemCompra as Item, type ResultadoRepetir,
 } from "@/lib/repetir";
 
-type Compra = { id: string; orden: string; total: number; entrega: string | null; items: Item[] | null; estado: string; creado_en: string };
+type Compra = { id: string; orden: string; total: number; entrega: string | null; items: Item[] | null; estado: string; creado_en: string; cliente?: Record<string, unknown> | null };
 type Cliente = { email: string; nombre: string; telefono: string };
 
 const clp = (n: number) => "$" + Math.round(n || 0).toLocaleString("es-CL");
@@ -33,7 +33,7 @@ export default function PanelCuenta() {
   const repetir = useCallback(async (c: Compra) => {
     setRepitiendo(c.orden);
     setResultado(null);
-    const r = await repetirCompra(c.orden, c.items);
+    const r = await repetirCompra(c.orden, c.items, c.cliente);
     setRepitiendo("");
     setResultado({ ...r, orden: c.orden });
   }, []);
@@ -56,7 +56,7 @@ export default function PanelCuenta() {
     } catch { /* si falla, se muestran las compras que ya estaban */ }
     const [perfil, lista] = await Promise.all([
       c.from("clientes").select("nombre, telefono").eq("id", user.id).maybeSingle(),
-      c.from("compras").select("id, orden, total, entrega, items, estado, creado_en").order("creado_en", { ascending: false }),
+      c.from("compras").select("id, orden, total, entrega, items, estado, creado_en, cliente").order("creado_en", { ascending: false }),
     ]);
     const pf = perfil.data;
     if (pf) setCliente((v) => ({ ...v, nombre: pf.nombre || v.nombre, telefono: pf.telefono || "" }));
