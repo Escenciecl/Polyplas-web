@@ -3,7 +3,7 @@
 // Botones de la cabecera (carrito y cuenta) y formulario de ingreso / registro.
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { EVENTO_CUENTA, RUTA_CUENTA, mensajeError, sb, usuarioGuardado, vincularPagoConCuenta, type UsuarioBasico } from "@/lib/cuenta";
+import { EVENTO_CUENTA, RUTA_CUENTA, mensajeError, prepararDatosPago, sb, usuarioGuardado, vincularPagoConCuenta, type UsuarioBasico } from "@/lib/cuenta";
 
 const IconoCarrito = (
   <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="20" r="1.4" /><circle cx="18" cy="20" r="1.4" /><path d="M2 3h3l2.6 12.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.2L21 7H6" /></svg>
@@ -92,6 +92,14 @@ export function AccionesCabecera() {
   useEffect(() => {
     vincularPagoConCuenta();
   }, []);
+
+  // Con sesión iniciada: deja listos los datos de la última compra para llenar el pago
+  const uid = usuario?.id;
+  useEffect(() => {
+    if (!uid) return;
+    try { if (sessionStorage.getItem("pp_datos_cuenta")) return; } catch { /* sigue */ }
+    prepararDatosPago();
+  }, [uid]);
 
   // Accesibilidad del modal: Escape cierra, el foco queda dentro (Tab y Shift+Tab dan la vuelta)
   // y al cerrar vuelve al botón "Ingresar".

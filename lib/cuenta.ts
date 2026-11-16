@@ -16,6 +16,8 @@ export const EVENTO_CUENTA = "pp-cuenta";
 export const RUTA_CUENTA = "/cuenta/";
 /** sessionStorage: correo y nombre del invitado que acaba de pagar (lo lee la página de gracias). */
 export const CUENTA_SUGERIDA = "pp_cuenta_sugerida";
+/** sessionStorage: datos de facturación de la última compra (o del pedido que se repite) para llenar el pago. */
+export const DATOS_PAGO = "pp_datos_cuenta";
 
 export type UsuarioBasico = { id: string; email: string; nombre: string };
 
@@ -26,7 +28,12 @@ export function sb(): Promise<SupabaseClient> {
     const c = createClient(SB_URL, SB_KEY, {
       auth: { storageKey: STORAGE_KEY, flowType: "pkce", persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
     });
-    c.auth.onAuthStateChange(() => window.dispatchEvent(new Event(EVENTO_CUENTA)));
+    c.auth.onAuthStateChange((evento) => {
+      if (evento === "SIGNED_OUT") {
+        try { sessionStorage.removeItem(DATOS_PAGO); } catch { /* sin almacenamiento */ }
+      }
+      window.dispatchEvent(new Event(EVENTO_CUENTA));
+    });
     return c;
   }));
 }
@@ -93,4 +100,30 @@ export function mensajeError(e: { message?: string; code?: string } | null | und
   if (c === "same_password") return "La nueva contraseña debe ser distinta a la anterior.";
   if (c.includes("rate_limit") || m.includes("rate limit") || m.includes("security purposes")) return "Demasiados intentos. Espera un momento y vuelve a intentar.";
   return "No pudimos completar la acción. Intenta de nuevo.";
+}
+
+/**
+ * Deja listos para el pago (solo en esta pestaña) los datos de facturación de una compra de la cuenta.
+ * El checkout (04-carrito-y-pago) los usa para llenar SOLO los campos vacíos de "Datos y envío".
+ * Sin argumento usa la última compra; "Repetir pedido" pasa los datos de ese pedido.
+ */
+export async function prepararDatosPago(compra?: { orden: string; cliente?: unknown } | null) {
+  try {
+    const u = usuarioGuardado();
+    if (!u) return;
+    let datos = compra && compra.cliente ? compra : null;
+    if (!datos) {
+      const { data } = await (await sb()).from("compras").select("orden, cliente").order("creado_en", { ascending: false }).limit(1).maybeSingle();
+      datos = data as { orden: string; cliente?: unknown } | null;
+    }
+    const c = datos?.cliente as Record<string, unknown> | undefined;
+    if (!datos || !c || typeof c !== "object" || !(c.rut || c.email)) return;
+    sessionStorage.setItem(DATOS_PAGO, JSON.stringify({ uid: u.id, orden: datos.orden, cliente: c }));
+  } catch {
+    /* sin datos: el pago funciona igual que siempre */
+  }
+}
+
+export function olvidarDatosPago() {
+  try { sessionStorage.removeItem(DATOS_PAGO); } catch { /* sin almacenamiento */ }
 }

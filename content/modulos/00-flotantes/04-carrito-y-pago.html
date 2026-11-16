@@ -1701,6 +1701,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     var si = gEl('ppGC-sum-items'); if (si) si.classList.add('collapsed');
     var st = gEl('ppGC-sum-toggle'); if (st) st.textContent = 'Ver';
     var e1 = gEl('ppGC-s1-err'); if (e1) e1.style.display = 'none';
+    var _avc = gEl('ppGC-cuenta-aviso'); if (_avc) _avc.style.display = 'none';
     var e2 = gEl('ppGC-s2-err'); if (e2) e2.style.display = 'none';
     var e2a = gEl('ppGC-s2a-err'); if (e2a) e2a.style.display = 'none';
     // Limpiar precheck region/comuna para nueva sesión
@@ -1714,6 +1715,91 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     gEl('ppGC-co-modal').style.display = 'flex';
     document.body.classList.add('ppGC-pago');
     gcLockScroll();
+    try { gcAutollenarCuenta(); } catch (e) {} // solo clientes con sesión y compra anterior
+  }
+
+  /* ── Datos de la cuenta (2026-11-16) ─────────────────────────
+     Cliente con sesión iniciada y una compra anterior: se llenan SOLO los campos vacíos de
+     "Datos y envío" con los datos de esa compra (región, comuna, tipo de cliente, nombre o
+     razón social, RUT, giro, correo, teléfono y dirección). Todo se puede cambiar.
+     Los datos los deja el sitio en sessionStorage "pp_datos_cuenta" (lib/cuenta.ts) desde la
+     tabla "compras" de la cuenta. Sin sesión o sin datos, NO cambia nada del flujo.
+     Las validaciones, la entrega y el pago siguen exactamente igual. */
+  var GC_DATOS_CUENTA = 'pp_datos_cuenta';
+  function gcDatosCuenta() {
+    try {
+      var ses = JSON.parse(localStorage.getItem('pp-cuenta-auth') || 'null');
+      if (!ses || !ses.user || !ses.user.id) return null;
+      var d = JSON.parse(sessionStorage.getItem(GC_DATOS_CUENTA) || 'null');
+      if (!d || !d.cliente || d.uid !== ses.user.id) return null;
+      return d;
+    } catch (e) { return null; }
+  }
+  function gcAutollenarCuenta() {
+    var d = gcDatosCuenta();
+    if (!d) return;
+    var c = d.cliente, emp = c.tipo === 'Empresa';
+    var vacio = function(el) { return el && (!el.value.trim() || el.value.trim() === TEL_PREFIX.trim() || el.value === TEL_PREFIX); };
+    var poner = function(id, v) { var el = gEl(id); if (v && vacio(el)) { el.value = String(v); return el; } return null; };
+    var hay = function(sel, v) { return !!(sel && v && Array.prototype.some.call(sel.options, function(o){ return o.value === v; })); };
+
+    // 1) Tipo de cliente
+    ppGCSetClientType(emp ? 'EMP' : 'PN');
+
+    // 2) Región y comuna (las mismas de la factura): con eso se calculan las opciones de entrega
+    var region = emp ? (c.region || c.region_factura) : (c.region_factura || c.region);
+    var comuna = emp ? (c.ciudad || c.ciudad_factura) : (c.ciudad_factura || c.ciudad);
+    var rSel = gEl('ppGC-regionPreCheck');
+    if (rSel && !rSel.value && hay(rSel, region)) {
+      rSel.value = region;
+      ppGCOnRegionPreCheck();
+      var cSel = gEl('ppGC-comunaPreCheck');
+      if (region === 'RM' && cSel && !cSel.value && hay(cSel, comuna)) { cSel.value = comuna; ppGCOnComunaPreCheck(); }
+    }
+
+    // 3) Datos del cliente (solo campos vacíos; el teléfono y el RUT con el formato de siempre)
+    var tel, rut;
+    if (emp) {
+      rut = poner('ppgc_emp_rut', c.rut);
+      poner('ppgc_emp_razon', c.razon || c.nombre);
+      poner('ppgc_emp_giro', c.giro);
+      poner('ppgc_emp_email', c.email);
+      tel = poner('ppgc_emp_tel', c.tel);
+      poner('ppgc_emp_dir', c.dir || c.dir_factura);
+    } else {
+      poner('ppgc_nombre', c.nombre);
+      rut = poner('ppgc_rut', c.rut);
+      poner('ppgc_email', c.email);
+      tel = poner('ppgc_tel', c.tel);
+      poner('ppgc_bill_dir', c.dir_factura || c.dir);
+    }
+    if (tel) ppGCOnTelInput(tel);
+    if (rut) ppGCFormatRut(rut, false);
+    gcSyncBillingFromPrecheck();
+    if (typeof gcRefreshEntrega === 'function') gcRefreshEntrega(false);
+
+    // 4) Aviso arriba de "Datos y envío", con opción de borrar
+    var s1 = gEl('ppGC-s1'), av = gEl('ppGC-cuenta-aviso');
+    if (s1 && !av) {
+      av = document.createElement('div');
+      av.id = 'ppGC-cuenta-aviso';
+      av.setAttribute('role', 'status');
+      av.style.cssText = 'display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:0 0 14px;padding:10px 14px;border-radius:10px;background:#e8f7ee;color:#14622f;font-size:.86rem;line-height:1.4';
+      s1.insertBefore(av, s1.firstChild);
+    }
+    if (av) {
+      av.innerHTML = '<span>✓ Completamos tus datos con los de tu compra anterior. Revisa que estén bien.</span>' +
+        '<button type="button" style="border:0;background:none;padding:6px 0;color:#14622f;font:inherit;font-weight:700;text-decoration:underline;cursor:pointer;min-height:32px">Borrar datos</button>';
+      av.style.display = 'flex';
+      av.querySelector('button').onclick = function() {
+        ['ppgc_nombre','ppgc_rut','ppgc_email','ppgc_bill_dir','ppgc_emp_rut','ppgc_emp_razon','ppgc_emp_giro','ppgc_emp_email','ppgc_emp_dir'].forEach(function(id){ var el = gEl(id); if (el) { el.value = ''; el.classList.remove('ppGC-input-valid','ppGC-input-error'); } });
+        ['ppgc_tel','ppgc_emp_tel'].forEach(function(id){ var el = gEl(id); if (el) { el.value = TEL_PREFIX; el.classList.remove('ppGC-input-valid','ppGC-input-error'); } });
+        try { sessionStorage.removeItem(GC_DATOS_CUENTA); } catch (e) {}
+        av.style.display = 'none';
+        try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'checkout_datos_borrados' }); } catch (e) {}
+      };
+    }
+    try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'checkout_autocompletado', modo: emp ? 'empresa' : 'persona', orden_origen: d.orden || '' }); } catch (e) {}
   }
 
   function ppGCCloseCheckout() {
