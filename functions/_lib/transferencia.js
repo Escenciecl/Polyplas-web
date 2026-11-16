@@ -100,6 +100,7 @@ export async function registrarTransferenciaEnSupabase(order) {
     verificado: order.verificado,
     ga: order.ga || null,
     ga_items: order.ga_items || [],
+    atribucion: order.atribucion || null,
   };
   const r = await fetch(`${SUPABASE_URL}/conversations`, {
     method: "POST",

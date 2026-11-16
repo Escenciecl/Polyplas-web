@@ -166,3 +166,30 @@ export async function registrarSolicitud(env, datos) {
   });
   return { ok: true, folio, plazo: plazoTxt, correos: { interno: avisoInterno.ok, acuse: acuse.ok } };
 }
+
+/**
+ * Campaña que trajo un pedido (la arma 07-medicion-propia.html en el navegador).
+ * Solo se aceptan campos conocidos y cortos. gclid/fbclid solo si la persona aceptó publicidad.
+ */
+export function limpiarAtribucion(a) {
+  if (!a || typeof a !== "object" || Array.isArray(a)) return null;
+  const t = (v, n) => String(v == null ? "" : v).replace(/[\u0000-\u001f<>]/g, "").trim().slice(0, n);
+  const pub = !!(a.consentimiento && a.consentimiento.publicidad);
+  const o = {
+    canal: t(a.canal, 40) || "directo",
+    fuente: t(a.fuente, 80),
+    medio: t(a.medio, 80),
+    campana: t(a.campana, 80),
+    contenido: t(a.contenido, 80),
+    termino: t(a.termino, 80),
+    referente: t(a.referente, 80),
+    llegada: t(a.llegada, 120),
+    fecha: t(a.fecha, 10),
+    clic: t(a.clic, 10),
+    retorno: !!a.retorno,
+    consentimiento: { analiticas: !!(a.consentimiento && a.consentimiento.analiticas), publicidad: pub },
+  };
+  if (pub && a.gclid) o.gclid = t(a.gclid, 200);
+  if (pub && a.fbclid) o.fbclid = t(a.fbclid, 200);
+  return o;
+}

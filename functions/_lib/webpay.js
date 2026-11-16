@@ -459,6 +459,7 @@ export async function registrarRechazoEnSupabase(order, result) {
     tbk_response_code: result.response_code,
     tbk_status: result.status || "",
     tbk_buy_order: result.buy_order || "",
+    atribucion: order.atribucion || null,
   };
   const r = await fetch(`${SUPABASE_URL}/conversations`, {
     method: "POST",
@@ -527,6 +528,7 @@ export async function registrarEnSupabase(order, tbk) {
     items: order.items,
     webpay_orden: tbk.buy_order,
     webpay_auth: tbk.authorization_code,
+    atribucion: order.atribucion || null,
   };
   const r = await fetch(`${SUPABASE_URL}/conversations`, {
     method: "POST",
