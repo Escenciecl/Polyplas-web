@@ -1842,11 +1842,13 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
         '<button type="button" data-a="cerrar" aria-label="Cerrar aviso">×</button>' +
       '</span>';
     document.body.appendChild(av);
+    try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'aviso_carro', accion: 'mostrado', value: gcTotal() }); } catch (e) {}
     var cierre = setTimeout(function(){ av.remove(); }, 10000);
     av.addEventListener('click', function(e) {
       var a = e.target && e.target.getAttribute && e.target.getAttribute('data-a');
       if (!a) return;
       clearTimeout(cierre);
+      try { window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'aviso_carro', accion: a }); } catch (e2) {}
       if (a === 'ver') { av.remove(); ppGCOpen(); }
       else if (a === 'vaciar') {
         ppGCClearAndClose();
