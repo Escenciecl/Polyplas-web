@@ -78,6 +78,24 @@ function useTotalCarrito(): number {
   return total;
 }
 
+/** Primer nombre para la cabecera ("Hola, Natalia"); si no hay nombre, la parte del correo antes de @. */
+function primerNombre(u: UsuarioBasico): string {
+  const base = (u.nombre || u.email.split("@")[0] || "").trim();
+  const n = base.split(/[\s._-]+/)[0] || base;
+  const corto = n.length > 12 ? n.slice(0, 11) + "…" : n;
+  return corto.charAt(0).toUpperCase() + corto.slice(1);
+}
+const inicial = (u: UsuarioBasico) => (u.nombre || u.email || "?").trim().charAt(0).toUpperCase();
+function cantidadEnCarro(): number {
+  try {
+    const d = JSON.parse(localStorage.getItem("pp_global_cart") || "null");
+    const items = Array.isArray(d) ? d : d?.items;
+    return Array.isArray(items) ? items.length : 0;
+  } catch {
+    return 0;
+  }
+}
+
 const fmtCLP = (n: number) =>
   "$ " + Math.round(n).toLocaleString("es-CL");
 
@@ -132,6 +150,14 @@ export function AccionesCabecera() {
     };
   }, [modal]);
 
+  // Al ingresar: va a "Mi cuenta". Si tiene productos en el carro, se queda donde está para no
+  // cortarle la compra (el botón de la cabecera ya muestra "Hola, nombre").
+  const alIngresar = () => {
+    setModal(false);
+    if (cantidadEnCarro() > 0) return;
+    window.location.assign(RUTA_CUENTA);
+  };
+
   const abrirCarrito = () => (window as unknown as { ppGCOpen?: () => void }).ppGCOpen?.();
   const enCuenta = typeof window !== "undefined" && window.location.pathname.startsWith(RUTA_CUENTA);
 
@@ -149,9 +175,12 @@ export function AccionesCabecera() {
       </button>
 
       {usuario ? (
-        <a className="pp-btn pp-btn--primary pp-btn--cuenta" href={RUTA_CUENTA} aria-label={`Mi cuenta (${usuario.email})`}>
-          {IconoUsuario}
-          <span>Mi cuenta</span>
+        <a className="pp-btn pp-btn--primary pp-btn--cuenta pp-btn--sesion" href={RUTA_CUENTA} aria-label={`Mi cuenta. Sesión iniciada como ${usuario.email}`} title={usuario.email}>
+          <span className="pp-avatar" aria-hidden="true">{inicial(usuario)}</span>
+          <span className="pp-sesion__txt">
+            <span className="pp-sesion__hola">Hola, {primerNombre(usuario)}</span>
+            <span className="pp-sesion__sub">Mi cuenta</span>
+          </span>
         </a>
       ) : (
         <button
@@ -173,7 +202,7 @@ export function AccionesCabecera() {
           <div className="pp-modal__bg" onClick={() => setModal(false)} />
           <div className="pp-modal__caja" ref={cajaRef}>
             <button type="button" className="pp-modal__cerrar" aria-label="Cerrar" onClick={() => setModal(false)}>×</button>
-            <FormularioCuenta inicial="ingreso" onListo={() => setModal(false)} enfocar />
+            <FormularioCuenta inicial="ingreso" onListo={alIngresar} enfocar />
           </div>
         </div>,
         document.body,
