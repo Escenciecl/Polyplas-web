@@ -411,7 +411,7 @@ body [class*="-qty-close"], body .pp-qty-close { border-radius: 999px !important
 .pp-accion__num { position: absolute; top: -4px; right: -4px; min-width: 20px; height: 20px; padding: 0 5px; box-sizing: border-box; border-radius: 999px; background: var(--pp-orange); color: #fff; font: 700 11.5px/20px var(--pp-font); font-style: normal; text-align: center; }
 .pp-accion__txt { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2; }
 .pp-accion__total { font-size: 12px; font-weight: 800; color: var(--pp-orange); letter-spacing: -0.2px; }
-.pp-btn--cuenta { border: 0; }
+.pp-btn--cuenta { border: 0; padding-left: 22px; padding-right: 22px; } /* azul: contraste 8,6:1 (el naranja con texto blanco no alcanza) */
 .pp-btn--cuenta svg { stroke-linecap: round; }
 @media (max-width: 960px) {
   .pp-mainbar__actions { gap: 12px; }
