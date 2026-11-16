@@ -141,7 +141,7 @@ export function AccionesCabecera() {
       </button>
 
       {usuario ? (
-        <a className="pp-btn pp-btn--cta pp-btn--cuenta" href={RUTA_CUENTA} aria-label={`Mi cuenta (${usuario.email})`}>
+        <a className="pp-btn pp-btn--primary pp-btn--cuenta" href={RUTA_CUENTA} aria-label={`Mi cuenta (${usuario.email})`}>
           {IconoUsuario}
           <span>Mi cuenta</span>
         </a>
@@ -149,7 +149,7 @@ export function AccionesCabecera() {
         <button
           ref={botonRef}
           type="button"
-          className="pp-btn pp-btn--cta pp-btn--cuenta"
+          className="pp-btn pp-btn--primary pp-btn--cuenta"
           aria-haspopup="dialog"
           aria-label="Ingresar o crear cuenta"
           onClick={() => (enCuenta ? document.getElementById("pp-auth-email")?.focus() : setModal(true))}
