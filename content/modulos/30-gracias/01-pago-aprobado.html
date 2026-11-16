@@ -100,6 +100,22 @@
 @media (max-width: 480px) {
 #ppG-card { padding: 32px 20px; margin: 20px auto; }
 }
+
+/* Crear cuenta después de comprar */
+#ppG-cuenta-box { display: none; margin-top: 22px; padding: 20px 18px; border: 1.5px solid #dde4ef; border-radius: 12px; background: #f7f9fc; text-align: left; }
+#ppG-cuenta-box h2 { font-size: 1.05rem; margin: 0 0 4px; color: #1a1a2e; }
+#ppG-cuenta-box p { font-size: 0.86rem; color: #555; margin: 0 0 12px; line-height: 1.45; }
+#ppG-cuenta-box label { display: block; font-size: 0.82rem; color: #333; margin: 0 0 10px; }
+#ppG-cuenta-box input[type=email], #ppG-cuenta-box input[type=password] { display: block; width: 100%; box-sizing: border-box; margin-top: 4px; padding: 11px 12px; border: 1px solid #c9d3e2; border-radius: 8px; font-size: 16px; }
+#ppG-cuenta-box .ppG-cuenta-check { display: flex; gap: 8px; align-items: flex-start; font-size: 0.8rem; color: #444; }
+#ppG-cuenta-box .ppG-cuenta-check input { width: 18px; height: 18px; margin-top: 1px; flex-shrink: 0; }
+#ppG-cuenta-box .ppG-btn { display: block; width: 100%; margin: 4px 0 8px; }
+#ppG-cuenta-box .ppG-cuenta-pie { font-size: 0.74rem; color: #777; margin: 6px 0 0; }
+#ppG-cuenta-box .ppG-cuenta-msg { font-size: 0.86rem; margin: 0 0 10px; padding: 10px 12px; border-radius: 8px; }
+#ppG-cuenta-box .ppG-cuenta-msg--error { background: #fdecee; color: #a4232f; }
+#ppG-cuenta-box .ppG-cuenta-msg--ok { background: #e8f6ec; color: #1d6b34; }
+#ppG-cuenta-box a { color: #004a99; font-weight: 700; }
+#ppG-cuenta-box .ppG-cuenta-no { background: none; border: 0; color: #666; font-size: 0.8rem; text-decoration: underline; cursor: pointer; padding: 4px 0; }
 </style>
 <div id="ppG-wrap">
 <div id="ppG-card">
@@ -152,6 +168,7 @@ Volver al inicio
 <p style="font-size:0.85rem;color:#666">O escríbenos a <a href="mailto:ventas@polyplas.cl">ventas@polyplas.cl</a>. Preparamos tu pedido apenas confirmemos el pago.</p>
 <button class="ppG-btn ppG-btn--outline" onclick="window.location.href='/'">Volver al inicio</button>
 </div>
+<div id="ppG-cuenta-box" aria-live="polite"></div>
 <div id="ppG-fail" style="display:none">
 <div class="ppG-icon ppG-icon--fail">
 <svg fill="none" height="36" stroke="#dc3545" stroke-width="2.5" viewbox="0 0 24 24" width="36">
@@ -222,6 +239,106 @@ function ppGcrOptIn(od, orden) {
   } catch (e) {}
 }
 
+// ── Crear cuenta después de comprar (recompra) ──
+// El invitado que acaba de pagar puede crear su cuenta con un clic: el correo ya viene escrito.
+// Al confirmar el correo, "Mi cuenta" suma esta compra y las anteriores con el mismo correo
+// (función pp_vincular_mis_compras en Supabase). Si ya tiene sesión, solo se le avisa.
+function ppGOfrecerCuenta(medio) {
+  var box = document.getElementById('ppG-cuenta-box');
+  if (!box) return;
+  var dl = function (o) { try { window.dataLayer = window.dataLayer || []; window.dataLayer.push(o); } catch (e) {} };
+  var conSesion = false;
+  try { var raw = localStorage.getItem('pp-cuenta-auth'); conSesion = !!(raw && JSON.parse(raw).user); } catch (e) {}
+  var sug = {};
+  try { sug = JSON.parse(sessionStorage.getItem('pp_cuenta_sugerida') || '{}') || {}; sessionStorage.removeItem('pp_cuenta_sugerida'); } catch (e) {}
+  if (conSesion) {
+    if (medio !== 'webpay') return;
+    box.innerHTML = '<p style="margin:0">✓ Esta compra quedó guardada en <a href="/cuenta/">tu cuenta</a>.</p>';
+    box.style.display = 'block';
+    return;
+  }
+  box.innerHTML =
+    '<h2>Guarda esta compra en tu cuenta</h2>' +
+    '<p>Ten todas tus compras en un solo lugar y revisa tus pedidos cuando quieras. Solo falta una contraseña.</p>' +
+    '<div class="ppG-cuenta-msg" style="display:none" role="alert"></div>' +
+    '<form novalidate>' +
+    '<label>Correo<input type="email" name="email" autocomplete="email" required></label>' +
+    '<label>Crea una contraseña<input type="password" name="clave" autocomplete="new-password" minlength="8" required><small style="color:#777">Mínimo 8 caracteres.</small></label>' +
+    '<label class="ppG-cuenta-check"><input type="checkbox" name="ofertas"><span>Quiero recibir ofertas y novedades de Polyplas por correo <small>(opcional · puedo darme de baja cuando quiera)</small></span></label>' +
+    '<button type="submit" class="ppG-btn ppG-btn--solid">Crear mi cuenta</button>' +
+    '</form>' +
+    '<button type="button" class="ppG-cuenta-no">Ahora no</button>' +
+    '<p class="ppG-cuenta-pie">Usamos tus datos para gestionar tu cuenta y tus compras, como explica nuestra <a href="/politica-de-privacidad-de-datos/">política de privacidad</a>.</p>';
+  box.style.display = 'block';
+  var form = box.querySelector('form');
+  var msg = box.querySelector('.ppG-cuenta-msg');
+  var btn = form.querySelector('button[type=submit]');
+  form.email.value = sug.email || '';
+  var nombre = sug.nombre || '';
+  dl({ event: 'cuenta_ofrecida', origen_cuenta: 'gracias', medio_pago: medio });
+  box.querySelector('.ppG-cuenta-no').onclick = function () {
+    box.style.display = 'none';
+    dl({ event: 'cuenta_rechazada', origen_cuenta: 'gracias' });
+  };
+  var aviso = function (txt, ok) {
+    msg.className = 'ppG-cuenta-msg ' + (ok ? 'ppG-cuenta-msg--ok' : 'ppG-cuenta-msg--error');
+    msg.innerHTML = txt;
+    msg.style.display = 'block';
+  };
+  var cliente = function (cb, intento) {
+    if (window.__ppCuentaSb) return cb(window.__ppCuentaSb);
+    if (typeof (window.supabase || {}).createClient !== 'function') {
+      if ((intento || 0) > 25) return cb(null);
+      return setTimeout(function () { cliente(cb, (intento || 0) + 1); }, 400);
+    }
+    var cfg = window.POLYPLAS_CONFIG;
+    // Misma llave de sesión que "Mi cuenta" (lib/cuenta.ts) para que la sesión sea la misma.
+    window.__ppCuentaSb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY, {
+      auth: { storageKey: 'pp-cuenta-auth', flowType: 'pkce', persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
+    });
+    cb(window.__ppCuentaSb);
+  };
+  form.onsubmit = function (ev) {
+    ev.preventDefault();
+    var email = String(form.email.value || '').trim();
+    var clave = String(form.clave.value || '');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return aviso('Revisa tu correo.');
+    if (clave.length < 8) return aviso('La contraseña debe tener al menos 8 caracteres.');
+    btn.disabled = true; btn.textContent = 'Un momento…';
+    cliente(function (sbc) {
+      if (!sbc) { btn.disabled = false; btn.textContent = 'Crear mi cuenta'; return aviso('No pudimos conectar. Intenta de nuevo.'); }
+      sbc.auth.signUp({ email: email, password: clave, options: { data: { nombre: nombre }, emailRedirectTo: window.location.origin + '/cuenta/' } })
+        .then(function (r) {
+          btn.disabled = false; btn.textContent = 'Crear mi cuenta';
+          var e = r.error;
+          if (e) {
+            var m = String(e.message || '').toLowerCase();
+            if (/rate|security purposes/.test(m) || /rate_limit/.test(e.code || '')) return aviso('Demasiados intentos. Espera un momento y vuelve a intentar.');
+            if (/password/.test(m)) return aviso('La contraseña es muy débil. Usa al menos 8 caracteres.');
+            if (/registered|exists/.test(m)) return aviso('Ya tienes una cuenta con este correo. <a href="/cuenta/">Ingresa</a> y verás esta compra ahí.');
+            return aviso('No pudimos crear tu cuenta. Intenta de nuevo.');
+          }
+          // Supabase no revela si el correo ya existe: devuelve un usuario sin identidades
+          if (r.data && r.data.user && r.data.user.identities && r.data.user.identities.length === 0) {
+            return aviso('Ya tienes una cuenta con este correo. <a href="/cuenta/">Ingresa</a> y verás esta compra ahí.');
+          }
+          if (form.ofertas.checked) {
+            fetch('/wp-json/polyplas/v1/ofertas-consentimiento', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: email, nombre: nombre, origen: 'gracias', pagina: window.location.pathname }) }).catch(function () {});
+          }
+          dl({ event: 'sign_up', method: 'email', origen_cuenta: 'gracias', medio_pago: medio });
+          form.style.display = 'none';
+          box.querySelector('.ppG-cuenta-no').style.display = 'none';
+          if (r.data && r.data.session) return aviso('¡Listo! Tu cuenta está creada. <a href="/cuenta/">Ver mis compras</a>', true);
+          aviso('¡Listo! Te enviamos un correo para confirmar tu cuenta. Al confirmarla verás esta compra en <b>Mi cuenta</b>' + (medio === 'transferencia' ? ' (aparece apenas confirmemos tu transferencia).' : '.'), true);
+        }, function () {
+          btn.disabled = false; btn.textContent = 'Crear mi cuenta';
+          aviso('No pudimos conectar. Revisa tu conexión e intenta de nuevo.');
+        });
+    });
+  };
+}
+
 function checkPaymentResult() {
 var params = new URLSearchParams(window.location.search);
 var pago = params.get('pp_pago');
@@ -266,6 +383,7 @@ if (trWa) trWa.addEventListener('click', function (ev) {
 // Aún no es una compra pagada: se registra como pedido pendiente (no "purchase")
 try { var trEnvio = parseInt(params.get('envio') || '0') || 0; window.dataLayer = window.dataLayer || []; window.dataLayer.push({ event: 'pedido_transferencia', transaction_id: trOrden, value: parseInt(params.get('monto') || '0') - trEnvio, shipping: trEnvio, currency: 'CLP' }); } catch (e) {}
 window.history.replaceState({}, '', window.location.pathname + '#pedido');
+ppGOfrecerCuenta('transferencia');
 return;
 }
 
@@ -276,6 +394,7 @@ document.getElementById('ppG-orden').textContent = params.get('orden') || '—';
 document.getElementById('ppG-monto').textContent = '$ ' + monto.toLocaleString('es-CL');
 document.getElementById('ppG-auth').textContent = params.get('auth') || '—';
 window.history.replaceState({}, '', window.location.pathname + '#gracias');
+ppGOfrecerCuenta('webpay');
 
 // ── GTM / dataLayer — evento purchase ──
 try {

@@ -4,11 +4,14 @@ import { useCallback, useEffect, useState } from "react";
 import { FormularioCuenta } from "@/components/site/Cuenta";
 import { RUTA_CUENTA, mensajeError, sb } from "@/lib/cuenta";
 
-type Item = { nombre?: string; qty?: number; subtotal?: number };
+type Item = { nombre?: string; qty?: number; subtotal?: number; tipo?: string; dim?: string; color?: string; espesor?: string; precio?: number };
 type Compra = { id: string; orden: string; total: number; entrega: string | null; items: Item[] | null; estado: string; creado_en: string };
 type Cliente = { email: string; nombre: string; telefono: string };
 
 const clp = (n: number) => "$" + Math.round(n || 0).toLocaleString("es-CL");
+// Pedidos antiguos del cotizador no traen "nombre": se arma con tipo, medida, color y espesor.
+const nombreItem = (it: Item) => it.nombre || [it.tipo, it.dim, it.color, it.espesor].filter(Boolean).join(" · ") || "Producto";
+const subtotalItem = (it: Item) => it.subtotal || (it.precio || 0) * (it.qty || 1);
 const fecha = (iso: string) => new Date(iso).toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" });
 
 export default function PanelCuenta() {
@@ -31,6 +34,13 @@ export default function PanelCuenta() {
     const meta = (user.user_metadata || {}) as Record<string, string>;
     setCliente({ email: user.email || "", nombre: meta.nombre || meta.full_name || meta.name || "", telefono: "" });
     setEstado("dentro");
+    // Suma a la cuenta las compras hechas antes como invitado con el mismo correo (solo con correo confirmado).
+    try {
+      const { data: nuevas } = await c.rpc("pp_vincular_mis_compras");
+      if (typeof nuevas === "number" && nuevas > 0) {
+        setAviso(nuevas === 1 ? "Encontramos 1 compra anterior hecha con tu correo y la sumamos a tu cuenta." : `Encontramos ${nuevas} compras anteriores hechas con tu correo y las sumamos a tu cuenta.`);
+      }
+    } catch { /* si falla, se muestran las compras que ya estaban */ }
     const [perfil, lista] = await Promise.all([
       c.from("clientes").select("nombre, telefono").eq("id", user.id).maybeSingle(),
       c.from("compras").select("id, orden, total, entrega, items, estado, creado_en").order("creado_en", { ascending: false }),
@@ -133,7 +143,7 @@ export default function PanelCuenta() {
           {compras === null && <p className="pp-cuenta__vacio">Cargando…</p>}
           {compras?.length === 0 && (
             <p className="pp-cuenta__vacio">
-              Aún no tienes compras guardadas. Las compras que pagues con tu sesión iniciada aparecerán aquí.
+              Aún no tienes compras guardadas. Aquí aparecerán las compras que hagas con este correo, también las que pagues sin iniciar sesión.
             </p>
           )}
           <ul className="pp-compras">
@@ -147,8 +157,8 @@ export default function PanelCuenta() {
                 <ul>
                   {(c.items || []).map((it, i) => (
                     <li key={i}>
-                      <span>{it.nombre || "Producto"} × {it.qty || 1}</span>
-                      <span>{clp(it.subtotal || 0)}</span>
+                      <span>{nombreItem(it)} × {it.qty || 1}</span>
+                      <span>{clp(subtotalItem(it))}</span>
                     </li>
                   ))}
                 </ul>

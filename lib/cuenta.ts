@@ -14,6 +14,8 @@ const SB_KEY = "sb_publishable_qT9WuJK5Wi6VghgMvcYIMw_IGBtn1Tc";
 const STORAGE_KEY = "pp-cuenta-auth";
 export const EVENTO_CUENTA = "pp-cuenta";
 export const RUTA_CUENTA = "/cuenta/";
+/** sessionStorage: correo y nombre del invitado que acaba de pagar (lo lee la página de gracias). */
+export const CUENTA_SUGERIDA = "pp_cuenta_sugerida";
 
 export type UsuarioBasico = { id: string; email: string; nombre: string };
 
@@ -56,6 +58,14 @@ export function vincularPagoConCuenta() {
   window.fetch = async (input, init) => {
     try {
       const url = typeof input === "string" ? input : input instanceof URL ? input.href : input.url;
+      // Invitado que paga: se recuerda su correo (solo en esta pestaña) para ofrecerle crear
+      // la cuenta en la página de gracias sin volver a escribirlo.
+      if (/\/wp-json\/polyplas\/v1\/(webpay|transferencia)-init/.test(url) && !usuarioGuardado()) {
+        try {
+          const c = JSON.parse(String(init?.body || "{}"))?.client || {};
+          if (c.email) sessionStorage.setItem(CUENTA_SUGERIDA, JSON.stringify({ email: String(c.email).trim(), nombre: String(c.nombre || c.razon || "").trim() }));
+        } catch { /* sin datos: la página de gracias pide el correo */ }
+      }
       if (url.includes("/wp-json/polyplas/v1/webpay-init") && usuarioGuardado()) {
         const { data } = await (await sb()).auth.getSession();
         const token = data.session?.access_token;
