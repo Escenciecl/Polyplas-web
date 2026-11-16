@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { FormularioCuenta } from "@/components/site/Cuenta";
 import { RUTA_CUENTA, mensajeError, sb } from "@/lib/cuenta";
 import {
-  borrarPendiente, guardarPendiente, leerPendiente, nombreItem, repetirCompra, sePuedeRepetir, whatsappRepetir,
+  borrarPendiente, guardarPendiente, leerPendiente, nombreItem, quedanEnCarro, repetirCompra, sePuedeRepetir, whatsappRepetir,
   type ItemCompra as Item, type ResultadoRepetir,
 } from "@/lib/repetir";
 
@@ -12,6 +12,11 @@ type Compra = { id: string; orden: string; total: number; entrega: string | null
 type Cliente = { email: string; nombre: string; telefono: string };
 
 const clp = (n: number) => "$" + Math.round(n || 0).toLocaleString("es-CL");
+// "Natalia Morales" → "Natalia"; "moralesgarcia.nat" (nombre tomado del correo) → "Moralesgarcia"
+const saludo = (n: string) => {
+  const p = (n || "").trim().split(/[\s._-]+/)[0] || "";
+  return p ? p.charAt(0).toUpperCase() + p.slice(1) : "";
+};
 const subtotalItem = (it: Item) => it.subtotal || (it.precio || 0) * (it.qty || 1);
 const fecha = (iso: string) => new Date(iso).toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" });
 
@@ -78,6 +83,22 @@ export default function PanelCuenta() {
         if (window.location.search) window.history.replaceState(null, "", RUTA_CUENTA);
       });
   }, [cargar]);
+
+  // El aviso "Agregamos N productos…" se quita si el cliente saca esos productos del carro
+  useEffect(() => {
+    if (!resultado || !resultado.agregados) return;
+    const revisar = () => setTimeout(() => { if (!quedanEnCarro(resultado.orden)) setResultado(null); }, 0);
+    document.addEventListener("ppGCItemRemoved", revisar);
+    document.addEventListener("ppGCCartCleared", revisar);
+    window.addEventListener("ppGCCartUpdate", revisar);
+    window.addEventListener("storage", revisar);
+    return () => {
+      document.removeEventListener("ppGCItemRemoved", revisar);
+      document.removeEventListener("ppGCCartCleared", revisar);
+      window.removeEventListener("ppGCCartUpdate", revisar);
+      window.removeEventListener("storage", revisar);
+    };
+  }, [resultado]);
 
   // Con la cuenta abierta y las compras cargadas, se repite el pedido que venía del correo
   useEffect(() => {
@@ -148,7 +169,7 @@ export default function PanelCuenta() {
     <section className="pp-cuenta">
       <header className="pp-cuenta__cab">
         <div>
-          <h1>Hola{cliente.nombre ? `, ${cliente.nombre.split(" ")[0]}` : ""}</h1>
+          <h1>Hola{saludo(cliente.nombre) ? `, ${saludo(cliente.nombre)}` : ""}</h1>
           <p>{cliente.email}</p>
         </div>
         <button type="button" className="pp-btn pp-btn--ghost" onClick={salir}>Cerrar sesión</button>

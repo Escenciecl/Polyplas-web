@@ -655,8 +655,17 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   #ppGC-cart-modal .ppGC-modal-box { height: auto; max-height: 90vh; max-height: 90dvh; border-radius: 20px 20px 0 0; }
   #ppGC-cart-header { border-radius: 20px 20px 0 0; }
 }
+
+/* Aviso "Tu pedido sigue en el carro" */
+#ppGC-aviso-carro { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 99990; display: flex; align-items: center; gap: 10px 16px; flex-wrap: wrap; justify-content: space-between; width: calc(100% - 32px); max-width: 480px; box-sizing: border-box; padding: 12px 12px 12px 16px; border-radius: 12px; background: #1a2b4a; color: #fff; font: 500 14px/1.4 Inter, Arial, sans-serif; box-shadow: 0 10px 30px rgba(4,33,63,.35); }
+#ppGC-aviso-carro .ppGC-aviso-acc { display: inline-flex; gap: 6px; align-items: center; }
+#ppGC-aviso-carro button { min-height: 40px; padding: 0 12px; border: 0; border-radius: 8px; background: rgba(255,255,255,.12); color: #fff; font: 700 13.5px Inter, Arial, sans-serif; cursor: pointer; }
+#ppGC-aviso-carro button[data-a="ver"] { background: #fff; color: #1a2b4a; }
+#ppGC-aviso-carro button[data-a="cerrar"] { width: 40px; padding: 0; font-size: 20px; background: none; }
+#ppGC-aviso-carro button:focus-visible { outline: 3px solid #8cc4ff; outline-offset: 2px; }
+@media (max-width: 600px) { #ppGC-aviso-carro { bottom: 84px; } }
 </style>
-<div id="ppGC-overlay" onclick="ppGCCloseAll()"></div>
+<div id="ppGC-overlay" onclick="ppGCCerrarFondo()"></div>
 <div class="ppGC-modal-wrap" id="ppGC-cart-modal">
 <div class="ppGC-modal-box">
 <div id="ppGC-cart-header">
@@ -668,7 +677,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <h3 class="ppGC-wz-title"><span id="ppGC-cart-count">0</span> <span id="ppGC-cart-count-lbl">productos</span></h3>
 </div>
 </div>
-<button aria-label="Cerrar" class="ppGC-close-btn" onclick="ppGCCloseCart()">×</button>
+<button aria-label="Cerrar" class="ppGC-close-btn" onclick="ppGCCerrarCarroX()">×</button>
 </div>
 <ol aria-label="Pasos de la compra" class="ppGC-wz-steps">
 <li class="ppGC-wz-step done"><span class="ppGC-wz-bar"></span><span class="ppGC-wz-label">1. Productos</span></li>
@@ -724,7 +733,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <h3 class="ppGC-wz-title" id="ppGC-wz-title">Finalizar pedido</h3>
 </div>
 </div>
-<button aria-label="Cerrar" class="ppGC-close-btn" onclick="ppGCCloseCheckout()">×</button>
+<button aria-label="Cerrar" class="ppGC-close-btn" onclick="ppGCCerrarPagoX()">×</button>
 </div>
 <span aria-live="polite" class="ppGC-wz-sr" id="ppGC-wz-sr">Paso 3 de 4 — Datos y envío</span>
 <ol aria-label="Pasos de la compra" class="ppGC-wz-steps">
@@ -1637,6 +1646,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   }
 
   function ppGCOpen() {
+    var _avC = gEl('ppGC-aviso-carro'); if (_avC) _avC.remove();
     gcLoad();
     gcSyncCRM();
     if (gcItems.length) gcDlPush('view_cart', { currency: 'CLP', value: gcTotal(), items: gcItems.map(gcDlItem) });
@@ -1688,6 +1698,8 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     // Inicio del pago: se abre el formulario "Finalizar pedido"
     gcDlPush('begin_checkout', { currency: 'CLP', value: gcCurrentGrand, items: gcItems.map(gcDlItem) });
     gcP3Reset();
+    gcPasoPorPago = true;
+    var _avCarro = gEl('ppGC-aviso-carro'); if (_avCarro) _avCarro.remove();
     gcClientType = 'PN';
     gcEnvioInformado = '';
     gcEntregaKey = '';
@@ -1809,6 +1821,52 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     gEl('ppGC-overlay').style.display = 'none';
     gcUnlockScroll();
   }
+
+  /* ── Aviso "Tu pedido sigue en el carro" (2026-11-16, opción A aprobada por la jefa) ──
+     Si el cliente llegó al pago y cierra sin pagar, los productos SE QUEDAN en el carro (no se pierde
+     la venta) y se le avisa con un mensaje que puede usar para volver o para vaciarlo.
+     Solo aparece al cerrar con la X o el fondo DESPUÉS de haber entrado al pago; "Seguir comprando" no avisa. */
+  var gcPasoPorPago = false;
+  function gcAvisoCarro() {
+    gcLoad();
+    var viejo = gEl('ppGC-aviso-carro'); if (viejo) viejo.remove();
+    if (!gcItems.length || !gcPasoPorPago) return;
+    var av = document.createElement('div');
+    av.id = 'ppGC-aviso-carro';
+    av.setAttribute('role', 'status');
+    av.innerHTML =
+      '<span class="ppGC-aviso-txt">Tu pedido sigue en el carro <b>(' + fmt(gcTotal()) + ')</b></span>' +
+      '<span class="ppGC-aviso-acc">' +
+        '<button type="button" data-a="ver">Ver carro</button>' +
+        '<button type="button" data-a="vaciar">Vaciar</button>' +
+        '<button type="button" data-a="cerrar" aria-label="Cerrar aviso">×</button>' +
+      '</span>';
+    document.body.appendChild(av);
+    var cierre = setTimeout(function(){ av.remove(); }, 10000);
+    av.addEventListener('click', function(e) {
+      var a = e.target && e.target.getAttribute && e.target.getAttribute('data-a');
+      if (!a) return;
+      clearTimeout(cierre);
+      if (a === 'ver') { av.remove(); ppGCOpen(); }
+      else if (a === 'vaciar') {
+        ppGCClearAndClose();
+        gcPasoPorPago = false;
+        av.innerHTML = '<span class="ppGC-aviso-txt">Vaciamos tu carro.</span>';
+        setTimeout(function(){ av.remove(); }, 2500);
+      }
+      else av.remove();
+    });
+  }
+  function ppGCCerrarPagoX() { ppGCCloseCheckout(); gcAvisoCarro(); }
+  function ppGCCerrarCarroX() { ppGCCloseCart(); gcAvisoCarro(); }
+  function ppGCCerrarFondo() {
+    var pago = gEl('ppGC-co-modal') && gEl('ppGC-co-modal').style.display === 'flex';
+    ppGCCloseAll();
+    if (pago || gcPasoPorPago) gcAvisoCarro();
+  }
+  window.ppGCCerrarPagoX = ppGCCerrarPagoX;
+  window.ppGCCerrarCarroX = ppGCCerrarCarroX;
+  window.ppGCCerrarFondo = ppGCCerrarFondo;
 
   function ppGCCloseAll() {
     gcP3Cierra('cerro');

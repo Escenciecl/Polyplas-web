@@ -176,3 +176,14 @@ export function leerPendiente(): string {
 export function borrarPendiente() {
   try { localStorage.removeItem(LLAVE); } catch { /* sin almacenamiento */ }
 }
+
+/** ¿Siguen en el carro los productos que se agregaron al repetir este pedido? */
+export function quedanEnCarro(orden: string): boolean {
+  try {
+    const d = JSON.parse(localStorage.getItem("pp_global_cart") || "null");
+    const items = (Array.isArray(d) ? d : d?.items) || [];
+    return items.some((i: { gid?: string }) => String(i.gid || "").startsWith(`rep-${orden}-`));
+  } catch {
+    return false;
+  }
+}
