@@ -25,6 +25,9 @@ export default function PanelCuenta() {
   const [cliente, setCliente] = useState<Cliente>({ email: "", nombre: "", telefono: "" });
   const [compras, setCompras] = useState<Compra[] | null>(null);
   const [recuperar, setRecuperar] = useState(false);
+  // Llegó desde el enlace "Restablecer contraseña" del correo: pantalla solo para la contraseña nueva
+  const [desdeCorreo, setDesdeCorreo] = useState(false);
+  const [verClave, setVerClave] = useState(false);
   const [errorEnlace, setErrorEnlace] = useState("");
   const [aviso, setAviso] = useState("");
   const [error, setError] = useState("");
@@ -70,7 +73,10 @@ export default function PanelCuenta() {
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
-    if (q.get("recuperar")) setRecuperar(true);
+    if (q.get("recuperar")) {
+      setRecuperar(true);
+      setDesdeCorreo(true);
+    }
     // Enlace "Repetir este pedido" del correo: se recuerda aunque primero tenga que ingresar o crear la cuenta
     const rep = (q.get("repetir") || "").trim().slice(0, 40);
     if (rep) guardarPendiente(rep);
@@ -137,7 +143,9 @@ export default function PanelCuenta() {
     if (error) return setError(mensajeError(error));
     setNuevaClave("");
     setRecuperar(false);
-    setAviso("Tu contraseña fue actualizada.");
+    setDesdeCorreo(false);
+    setVerClave(false);
+    setAviso("✓ Listo, tu nueva contraseña quedó guardada.");
   };
 
   const salir = async () => {
@@ -165,6 +173,49 @@ export default function PanelCuenta() {
     );
   }
 
+  const campoClave = (
+    <div className="pp-campo">
+      <label htmlFor="pp-nueva-clave"><span>Nueva contraseña</span></label>
+      <div className="pp-campo__clave">
+        <input
+          id="pp-nueva-clave"
+          type={verClave ? "text" : "password"}
+          value={nuevaClave}
+          onChange={(e) => setNuevaClave(e.target.value)}
+          autoComplete="new-password"
+          minLength={8}
+          required
+          autoFocus={desdeCorreo}
+          aria-describedby="pp-nueva-clave-ayuda"
+        />
+        <button type="button" className="pp-campo__ver" aria-pressed={verClave} onClick={() => setVerClave((v) => !v)}>
+          {verClave ? "Ocultar" : "Mostrar"}<span className="pp-sr"> contraseña</span>
+        </button>
+      </div>
+      <small id="pp-nueva-clave-ayuda">Mínimo 8 caracteres.</small>
+    </div>
+  );
+
+  // Desde el correo de recuperación: solo la contraseña nueva, sin el resto de la cuenta
+  if (desdeCorreo) {
+    return (
+      <section className="pp-cuenta pp-cuenta--form">
+        <form className="pp-cuenta__tarjeta pp-auth" onSubmit={cambiarClave}>
+          <h1 className="pp-auth__titulo">Crea tu nueva contraseña</h1>
+          <p className="pp-auth__bajada">Para tu cuenta {cliente.email}</p>
+          {campoClave}
+          {error && <p className="pp-auth__msg pp-auth__msg--error" role="alert">{error}</p>}
+          <button type="submit" className="pp-btn pp-btn--primary pp-auth__enviar" disabled={guardando} aria-busy={guardando}>
+            {guardando ? "Guardando…" : "Guardar y entrar a mi cuenta"}
+          </button>
+          <div className="pp-auth__pie">
+            <p><button type="button" onClick={() => { setDesdeCorreo(false); setRecuperar(false); setError(""); }}>Hacerlo después</button></p>
+          </div>
+        </form>
+      </section>
+    );
+  }
+
   return (
     <section className="pp-cuenta">
       <header className="pp-cuenta__cab">
@@ -180,13 +231,10 @@ export default function PanelCuenta() {
 
       {recuperar && (
         <form className="pp-cuenta__tarjeta" onSubmit={cambiarClave}>
-          <h2>Crea tu nueva contraseña</h2>
-          <label className="pp-campo">
-            <span>Nueva contraseña</span>
-            <input type="password" value={nuevaClave} onChange={(e) => setNuevaClave(e.target.value)} autoComplete="new-password" minLength={8} required />
-            <small>Mínimo 8 caracteres.</small>
-          </label>
+          <h2>Cambia tu contraseña</h2>
+          {campoClave}
           <button type="submit" className="pp-btn pp-btn--primary" disabled={guardando}>Guardar contraseña</button>
+          <button type="button" className="pp-cuenta__link" onClick={() => { setRecuperar(false); setNuevaClave(""); }}>Cancelar</button>
         </form>
       )}
 
