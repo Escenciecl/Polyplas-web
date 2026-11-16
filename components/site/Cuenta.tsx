@@ -198,6 +198,10 @@ export function FormularioCuenta({ inicial = "ingreso", onListo }: { inicial?: M
         if (data.user && data.user.identities && data.user.identities.length === 0) {
           return setError("Ya existe una cuenta con ese correo. Ingresa con tu contraseña.");
         }
+        try {
+          const w = window as unknown as { dataLayer?: object[] };
+          (w.dataLayer = w.dataLayer || []).push({ event: "sign_up", method: "email", origen_cuenta: "cabecera" });
+        } catch { /* sin medición */ }
         if (!data.session) {
           setClave("");
           return setAviso("¡Listo! Te enviamos un correo para confirmar tu cuenta. Ábrelo y haz clic en el enlace.");
@@ -219,7 +223,7 @@ export function FormularioCuenta({ inicial = "ingreso", onListo }: { inicial?: M
   return (
     <div className="pp-auth">
       <h2 className="pp-auth__titulo">{titulo}</h2>
-      {modo !== "recuperar" && <p className="pp-auth__bajada">Guarda tus compras y revisa tus pedidos cuando quieras.</p>}
+      {modo !== "recuperar" && <p className="pp-auth__bajada">Todas tus compras en un solo lugar, también las que ya hiciste con tu correo.</p>}
 
       <form onSubmit={enviar}>
         {modo === "registro" && (
