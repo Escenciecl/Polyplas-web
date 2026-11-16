@@ -1,0 +1,219 @@
+<!-- ============================================================================
+  Medición propia sin cookies (Ley 21.719)
+  1) Atribución: de qué campaña o canal llegó la visita (utm_*, clic de Google/Meta, buscador).
+     Se guarda en sessionStorage (se borra al cerrar la pestaña) y se adjunta a cada pedido,
+     cotización, chat y lead B2B. No identifica a la persona.
+     Solo si aceptó cookies de analítica se recuerda 30 días (localStorage), y solo si aceptó
+     publicidad se guarda el código de clic (gclid/fbclid) para medir ventas cerradas después.
+  2) Funnel anónimo: cuenta cuántas sesiones llegan a cada paso (vio producto, agregó al carro,
+     inició pago, compró...). Envía solo totales, sin IP ni identificadores, a
+     /wp-json/polyplas/v1/funnel. Funciona aunque la persona rechace las cookies.
+  No modifica nada visible del sitio. Si algo falla, no interrumpe nada (todo en try/catch).
+============================================================================ -->
+<script data-pp-inline>
+(function () {
+  if (window.ppMedicion) return;
+  var VER = 1, SS = 'pp_atrib', LS = 'pp_atrib30', DIAS30 = 30 * 864e5;
+  var clicMem = { gclid: '', fbclid: '' };
+
+  function consent() {
+    try { var c = JSON.parse(localStorage.getItem('pp_consent_v2') || 'null'); return c && c.v === 2 ? c : {}; } catch (e) { return {}; }
+  }
+  function corta(v, n) { return String(v == null ? '' : v).replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, n); }
+  function host(u) { try { return new URL(u).hostname.replace(/^www\./, ''); } catch (e) { return ''; } }
+
+  var BUSCADORES = /(^|\.)(google\.[a-z.]+|bing\.com|yahoo\.com|duckduckgo\.com|ecosia\.org|search\.brave\.com|yandex\.[a-z]+)$/;
+  var REDES = /(^|\.)(facebook\.com|instagram\.com|l\.instagram\.com|lm\.facebook\.com|m\.facebook\.com|t\.co|twitter\.com|x\.com|linkedin\.com|lnkd\.in|tiktok\.com|youtube\.com|pinterest\.[a-z.]+|whatsapp\.com|wa\.me)$/;
+
+  // ── 1) Atribución ────────────────────────────────────────────────────────────
+  function leerVisita() {
+    var q = new URLSearchParams(location.search), g = function (k) { return corta(q.get(k), 80); };
+    var src = g('utm_source').toLowerCase(), med = g('utm_medium').toLowerCase(), camp = g('utm_campaign');
+    var gclid = q.get('gclid') || q.get('gbraid') || q.get('wbraid'), fbclid = q.get('fbclid'), msclkid = q.get('msclkid');
+    var ref = host(document.referrer), propio = /(^|\.)polyplas\.cl$/.test(ref) || ref === location.hostname;
+    var pagado = /^(cpc|ppc|paid|paidsocial|paid_social|cpm|display|ads?)$/.test(med);
+    var canal = '';
+    if (gclid || ((src === 'google' || src === 'youtube') && pagado)) canal = 'google_ads';
+    else if (/(facebook|instagram|meta|fb|ig)/.test(src) && (pagado || !med)) canal = 'meta_ads';
+    else if (msclkid || (src === 'bing' && pagado)) canal = 'bing_ads';
+    else if (/^e-?mail|correo|newsletter|brevo$/.test(med) || src === 'brevo') canal = 'email';
+    else if (pagado) canal = 'otros_ads';
+    else if (src) canal = /(facebook|instagram|tiktok|linkedin|twitter|x|youtube|whatsapp)/.test(src) ? 'social' : 'referido';
+    else if (fbclid) canal = 'social';
+    else if (ref && !propio) canal = BUSCADORES.test(ref) ? 'organico' : (REDES.test(ref) ? 'social' : 'referido');
+    if (!canal) return null; // navegación interna o visita directa: no reemplaza lo que ya había
+    var a = {
+      v: VER, canal: canal, fuente: src || ref || '', medio: med, campana: camp,
+      contenido: g('utm_content'), termino: g('utm_term'), referente: propio ? '' : ref,
+      llegada: corta(location.pathname, 120), fecha: new Date().toISOString().slice(0, 10)
+    };
+    if (gclid) a.clic = 'google'; else if (fbclid) a.clic = 'meta'; else if (msclkid) a.clic = 'bing';
+    // Se mantiene solo en memoria de esta página por si acepta las cookies en este momento
+    clicMem = { gclid: gclid ? corta(gclid, 200) : '', fbclid: fbclid ? corta(fbclid, 200) : '' };
+    // Código de clic solo con consentimiento de publicidad (sirve para medir ventas cerradas después)
+    if (consent().publicidad) { if (gclid) a.gclid = corta(gclid, 200); if (fbclid) a.fbclid = corta(fbclid, 200); }
+    return a;
+  }
+
+  function atribucion() {
+    var a = null;
+    try { a = JSON.parse(sessionStorage.getItem(SS) || 'null'); } catch (e) {}
+    if (a) return a;
+    // Sesión nueva sin campaña: si aceptó analítica, se usa la última campaña de los últimos 30 días
+    if (consent().analiticas) {
+      try {
+        var r = JSON.parse(localStorage.getItem(LS) || 'null');
+        if (r && r.t && Date.now() - r.t < DIAS30 && r.a) { a = r.a; a.retorno = true; }
+      } catch (e) {}
+    }
+    if (!a) a = { v: VER, canal: 'directo', fuente: '', medio: '', campana: '', llegada: corta(location.pathname, 120), fecha: new Date().toISOString().slice(0, 10) };
+    try { sessionStorage.setItem(SS, JSON.stringify(a)); } catch (e) {}
+    return a;
+  }
+
+  try {
+    var nueva = leerVisita();
+    if (nueva) {
+      sessionStorage.setItem(SS, JSON.stringify(nueva));
+      if (consent().analiticas && nueva.canal !== 'directo') {
+        var guardar = {}; for (var k in nueva) if (k !== 'gclid' && k !== 'fbclid') guardar[k] = nueva[k];
+        if (consent().publicidad) { if (nueva.gclid) guardar.gclid = nueva.gclid; if (nueva.fbclid) guardar.fbclid = nueva.fbclid; }
+        localStorage.setItem(LS, JSON.stringify({ t: Date.now(), a: guardar }));
+      }
+    }
+  } catch (e) {}
+
+  // Si retira el consentimiento, se olvida la campaña recordada y los códigos de clic
+  window.addEventListener('pp-consentimiento', function () {
+    try {
+      var c = consent();
+      // Si acepta recién ahora, se guarda la campaña de esta visita (y el código de clic si aceptó publicidad)
+      var actual = JSON.parse(sessionStorage.getItem(SS) || 'null');
+      if (actual && c.publicidad) {
+        if (clicMem.gclid && !actual.gclid) actual.gclid = clicMem.gclid;
+        if (clicMem.fbclid && !actual.fbclid) actual.fbclid = clicMem.fbclid;
+        sessionStorage.setItem(SS, JSON.stringify(actual));
+      }
+      if (actual && c.analiticas && actual.canal !== 'directo' && !actual.retorno) {
+        var g2 = {}; for (var k in actual) if (c.publicidad || (k !== 'gclid' && k !== 'fbclid')) g2[k] = actual[k];
+        localStorage.setItem(LS, JSON.stringify({ t: Date.now(), a: g2 }));
+      }
+      if (!c.analiticas) localStorage.removeItem(LS);
+      if (!c.publicidad) {
+        var a = JSON.parse(sessionStorage.getItem(SS) || 'null');
+        if (a && (a.gclid || a.fbclid)) { delete a.gclid; delete a.fbclid; sessionStorage.setItem(SS, JSON.stringify(a)); }
+      }
+    } catch (e) {}
+  });
+
+  function paraEnviar() {
+    var a = atribucion(), c = consent(), o = {};
+    for (var k in a) o[k] = a[k];
+    if (!c.publicidad) { delete o.gclid; delete o.fbclid; }
+    o.consentimiento = { analiticas: !!c.analiticas, publicidad: !!c.publicidad };
+    return o;
+  }
+
+  // Adjunta la atribución a pedidos, cotizaciones, chats y leads B2B (sin cambiar nada más)
+  var RX_CONV = /\/rest\/v1\/conversations(\?|$)/, RX_B2B = /\/rest\/v1\/b2b_leads(\?|$)/,
+      RX_PEDIDO = /\/wp-json\/polyplas\/v1\/(webpay-init|transferencia-init)(\?|$)/;
+  var fetchOriginal = window.fetch;
+  if (typeof fetchOriginal === 'function') {
+    window.fetch = function (input, init) {
+      try {
+        var url = typeof input === 'string' ? input : (input && input.href) || '';
+        if (url && init && /^post$/i.test(init.method || '') && typeof init.body === 'string' &&
+            (RX_CONV.test(url) || RX_B2B.test(url) || RX_PEDIDO.test(url))) {
+          var cuerpo = JSON.parse(init.body), a = paraEnviar(), cambio = false;
+          var poner = function (o) {
+            if (!o || typeof o !== 'object' || Array.isArray(o)) return;
+            if (RX_CONV.test(url)) {
+              if (o.metadata == null) o.metadata = {};
+              if (typeof o.metadata === 'object' && !Array.isArray(o.metadata) && !o.metadata.atribucion) { o.metadata.atribucion = a; cambio = true; }
+            } else if (!o.atribucion) { o.atribucion = a; cambio = true; }
+          };
+          if (Array.isArray(cuerpo)) cuerpo.forEach(poner); else poner(cuerpo);
+          if (cambio) {
+            var copia = {}; for (var k in init) copia[k] = init[k];
+            copia.body = JSON.stringify(cuerpo);
+            init = copia;
+          }
+        }
+      } catch (e) {}
+      return fetchOriginal.call(this, input, init);
+    };
+  }
+
+  // ── 2) Funnel anónimo ───────────────────────────────────────────────────────
+  // Evento del sitio (dataLayer) → paso del funnel
+  var PASOS = {
+    view_item_list: 'vio_listado', select_item: 'eligio_producto', view_item: 'vio_producto',
+    add_to_cart: 'agrego_carro', view_cart: 'vio_carro', begin_checkout: 'inicio_compra',
+    add_shipping_info: 'eligio_entrega', add_payment_info: 'eligio_pago',
+    purchase: 'compro', pedido_transferencia: 'pedido_transferencia',
+    lead_b2b: 'lead_b2b', cotizacion: 'cotizacion', generate_lead: 'contacto_chat'
+  };
+  var VALOR = { purchase: 1, add_payment_info: 1, pedido_transferencia: 1 };
+
+  function linea() {
+    var p = location.pathname.split('/').filter(Boolean)[0] || 'inicio';
+    return corta(p.toLowerCase().replace(/[^a-z0-9-]/g, ''), 60) || 'inicio';
+  }
+  function vistos() { try { return JSON.parse(sessionStorage.getItem('pp_funnel_vistos') || '{}'); } catch (e) { return {}; } }
+
+  var cola = {}, pendiente = false;
+  function anotar(paso, valor) {
+    var a = atribucion(), clave = paso + '|' + linea(), v = vistos(), primera = !v[paso];
+    if (primera) { v[paso] = 1; try { sessionStorage.setItem('pp_funnel_vistos', JSON.stringify(v)); } catch (e) {} }
+    var f = cola[clave] || (cola[clave] = { canal: a.canal, campana: corta(a.campana, 80), linea: linea(), paso: paso, sesiones: 0, eventos: 0, valor: 0 });
+    if (primera) f.sesiones = 1;
+    f.eventos += 1;
+    if (valor) f.valor += Math.max(0, Math.round(Number(valor) || 0));
+    pendiente = true;
+  }
+
+  function enviar() {
+    if (!pendiente) return;
+    var filas = []; for (var k in cola) filas.push(cola[k]);
+    cola = {}; pendiente = false;
+    if (!filas.length) return;
+    var cuerpo = JSON.stringify({ v: VER, filas: filas.slice(0, 40) });
+    try {
+      if (navigator.sendBeacon && navigator.sendBeacon('/wp-json/polyplas/v1/funnel', new Blob([cuerpo], { type: 'text/plain' }))) return;
+    } catch (e) {}
+    try { fetchOriginal('/wp-json/polyplas/v1/funnel', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'text/plain' }, body: cuerpo }).catch(function () {}); } catch (e) {}
+  }
+
+  // Lee el dataLayer cada segundo (no reemplaza dataLayer.push: Tag Manager sigue igual)
+  var leidos = 0;
+  function revisar() {
+    try {
+      var dl = window.dataLayer || [];
+      for (; leidos < dl.length; leidos++) {
+        var e = dl[leidos];
+        if (!e || typeof e !== 'object' || typeof e.event !== 'string') continue;
+        var nombre = e.event === 'whatsapp_track_ok' ? (e.event_name || '') : e.event;
+        var paso = PASOS[nombre];
+        if (!paso) continue;
+        var valor = VALOR[nombre] ? ((e.ecommerce && e.ecommerce.value) || e.value || 0) : 0;
+        anotar(paso, valor);
+        if (nombre === 'purchase' || nombre === 'pedido_transferencia' || nombre === 'lead_b2b' || nombre === 'generate_lead') enviar();
+      }
+    } catch (x) {}
+  }
+
+  var ruta = '';
+  function vista() {
+    if (location.pathname === ruta) return;
+    ruta = location.pathname;
+    anotar('visita', 0);
+  }
+  vista();
+  setInterval(function () { vista(); revisar(); }, 1000);
+  setInterval(enviar, 15000);
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') { revisar(); enviar(); } });
+  window.addEventListener('pagehide', function () { revisar(); enviar(); });
+
+  window.ppMedicion = { atribucion: paraEnviar };
+})();
+</script>
