@@ -286,6 +286,17 @@ export function buildComprobanteHtml({ buyOrder, monto, auth, client, items, ent
             </table>
         </td>
     </tr>
+    ${pendiente ? "" : `<tr>
+        <td style="padding:0 40px 24px;text-align:center;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #dde4ef;border-radius:12px;">
+                <tr><td style="padding:20px;text-align:center;">
+                    <p style="margin:0 0 4px;font-size:0.95rem;color:#1a1a2e;font-weight:700;">&iquest;Necesitas lo mismo otra vez?</p>
+                    <p style="margin:0 0 14px;font-size:0.84rem;color:#555;">Repite este pedido en un clic, con las mismas cantidades y medidas de corte, al precio de hoy.</p>
+                    <a href="https://polyplas.cl/cuenta/?repetir=${encodeURIComponent(String(buyOrder || ""))}" style="display:inline-block;background:#004a99;color:#ffffff;font-size:0.95rem;font-weight:700;text-decoration:none;padding:14px 28px;border-radius:10px;">Repetir este pedido</a>
+                </td></tr>
+            </table>
+        </td>
+    </tr>`}
     <tr>
         <td style="background:#f7f9fd;padding:24px 40px;text-align:center;border-top:1px solid #e8edf5;">
             <p style="margin:0 0 8px;font-size:0.82rem;color:#555;">&iquest;Tienes dudas? Cont&aacute;ctanos</p>
