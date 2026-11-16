@@ -434,8 +434,8 @@ body [class*="-qty-close"], body .pp-qty-close { border-radius: 999px !important
 
 .pp-modal { position: fixed; inset: 0; z-index: 100000; display: grid; place-items: center; padding: 16px; overflow-y: auto; font-family: var(--pp-font); }
 .pp-modal__bg { position: fixed; inset: 0; background: rgba(4, 33, 63, .55); }
-.pp-modal__caja { position: relative; width: 100%; max-width: 420px; background: #fff; border-radius: 18px; padding: 28px 26px 22px; box-shadow: 0 24px 60px rgba(4, 33, 63, .3); }
-.pp-modal__cerrar { position: absolute; top: 10px; right: 12px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: none; font-size: 26px; line-height: 1; color: var(--pp-muted); cursor: pointer; }
+.pp-modal__caja { position: relative; width: 100%; max-width: 420px; background: #fff; border-radius: 18px; padding: 56px 26px 22px; box-shadow: 0 24px 60px rgba(4, 33, 63, .3); }
+.pp-modal__cerrar { position: absolute; top: 8px; right: 8px; width: 44px; height: 44px; border: 0; border-radius: 50%; background: none; font-size: 26px; line-height: 1; color: var(--pp-muted); cursor: pointer; }
 .pp-modal__cerrar:hover { background: var(--pp-blue-50); color: var(--pp-ink); }
 
 .pp-auth { font-family: var(--pp-font); color: var(--pp-ink); }
@@ -443,18 +443,38 @@ body [class*="-qty-close"], body .pp-qty-close { border-radius: 999px !important
 .pp-auth__bajada { margin: 0 0 18px; font-size: 14px; color: var(--pp-muted); }
 .pp-campo { display: block; margin: 0 0 12px; }
 .pp-campo > span { display: block; margin-bottom: 5px; font: 600 13px var(--pp-font); color: var(--pp-ink); }
-.pp-campo input { width: 100%; height: 44px; padding: 0 14px; box-sizing: border-box; border: 1.5px solid var(--pp-blue-100); border-radius: var(--pp-radius-sm); background: #fff; font: 400 15px var(--pp-font); color: var(--pp-ink); outline: none; }
+.pp-campo input { width: 100%; height: 44px; padding: 0 14px; box-sizing: border-box; border: 1.5px solid #7d8ba1; /* contraste 3,4:1 (WCAG 1.4.11) */ border-radius: var(--pp-radius-sm); background: #fff; font: 400 16px var(--pp-font); color: var(--pp-ink); outline: none; }
 .pp-campo input:focus { border-color: var(--pp-blue); box-shadow: 0 0 0 4px rgba(0, 74, 153, .12); }
 .pp-campo input:disabled { background: var(--pp-blue-50); color: var(--pp-muted); }
 .pp-campo small { display: block; margin-top: 4px; font-size: 12px; color: var(--pp-muted); }
 .pp-auth__enviar { width: 100%; margin-top: 4px; }
-.pp-btn:disabled, .pp-auth__msg { margin: 0 0 12px; padding: 10px 12px; border-radius: var(--pp-radius-sm); font-size: 13.5px; line-height: 1.45; }
+.pp-btn:disabled { opacity: .65; cursor: progress; }
+.pp-auth__msg { margin: 0 0 12px; padding: 10px 12px; border-radius: var(--pp-radius-sm); font-size: 13.5px; line-height: 1.45; }
 .pp-auth__msg--error { background: #fdecec; color: #9b1c1c; }
 .pp-auth__msg--ok { background: #e8f7ee; color: #14622f; }
 .pp-auth__pie { margin-top: 14px; text-align: center; font-size: 14px; color: var(--pp-muted); }
 .pp-auth__pie p { margin: 6px 0 0; }
 .pp-auth__pie button, .pp-cuenta__link { padding: 0; border: 0; background: none; font: 600 14px var(--pp-font); color: var(--pp-blue); cursor: pointer; text-decoration: underline; }
 .pp-auth__legal { font-size: 12px; }
+/* Pestañas Ingresar / Crear cuenta */
+.pp-auth__tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; padding: 4px; margin: 0 0 20px; border-radius: 12px; background: var(--pp-blue-50); }
+.pp-auth__tab { min-height: 44px; border: 0; border-radius: 9px; background: none; font: 700 14.5px var(--pp-font); color: var(--pp-blue-900); cursor: pointer; }
+.pp-auth__tab[aria-selected="true"] { background: #fff; color: var(--pp-blue); box-shadow: 0 1px 4px rgba(4, 33, 63, .14); }
+.pp-auth__tab:hover:not([aria-selected="true"]) { background: rgba(255, 255, 255, .55); }
+/* Contraseña con botón Mostrar / Ocultar */
+.pp-campo > label > span { display: block; margin-bottom: 5px; font: 600 13px var(--pp-font); color: var(--pp-ink); }
+.pp-campo__clave { position: relative; }
+.pp-campo__clave input { padding-right: 88px; }
+.pp-campo__ver { position: absolute; top: 4px; right: 4px; height: 36px; min-width: 76px; padding: 0 10px; border: 0; border-radius: 6px; background: none; font: 600 13px var(--pp-font); color: var(--pp-blue); cursor: pointer; }
+.pp-campo__ver:hover { background: var(--pp-blue-50); }
+.pp-auth__olvide { display: inline-block; min-height: 32px; margin-top: 6px; padding: 0; border: 0; background: none; font: 600 13.5px var(--pp-font); color: var(--pp-blue); text-decoration: underline; cursor: pointer; }
+.pp-campo--check { display: flex; gap: 10px; align-items: flex-start; font-size: 13.5px; line-height: 1.45; }
+.pp-campo--check input { width: 20px; height: 20px; padding: 0; margin: 1px 0 0; flex-shrink: 0; accent-color: var(--pp-blue); }
+.pp-campo--check small { color: var(--pp-muted); }
+/* Foco visible con teclado */
+.pp-auth button:focus-visible, .pp-auth a:focus-visible, .pp-auth input[type="checkbox"]:focus-visible,
+.pp-modal__cerrar:focus-visible, .pp-btn--cuenta:focus-visible { outline: 3px solid var(--pp-blue); outline-offset: 2px; }
+.pp-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .pp-auth__legal a { color: var(--pp-blue); text-decoration: underline; }
 
 /* Página /cuenta/ */

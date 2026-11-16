@@ -1,7 +1,8 @@
 "use client";
 
 // Botones de la cabecera (carrito y cuenta) y formulario de ingreso / registro.
-import { useEffect, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { EVENTO_CUENTA, RUTA_CUENTA, mensajeError, sb, usuarioGuardado, vincularPagoConCuenta, type UsuarioBasico } from "@/lib/cuenta";
 
 const IconoCarrito = (
@@ -85,19 +86,41 @@ export function AccionesCabecera() {
   const cantidad = useCantidadCarrito();
   const total = useTotalCarrito();
   const [modal, setModal] = useState(false);
+  const cajaRef = useRef<HTMLDivElement>(null);
+  const botonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     vincularPagoConCuenta();
   }, []);
 
+  // Accesibilidad del modal: Escape cierra, el foco queda dentro (Tab y Shift+Tab dan la vuelta)
+  // y al cerrar vuelve al botón "Ingresar".
   useEffect(() => {
     if (!modal) return;
-    const esc = (e: KeyboardEvent) => e.key === "Escape" && setModal(false);
-    document.addEventListener("keydown", esc);
+    const boton = botonRef.current;
+    const teclas = (e: KeyboardEvent) => {
+      if (e.key === "Escape") return setModal(false);
+      if (e.key !== "Tab" || !cajaRef.current) return;
+      const focos = Array.from(
+        cajaRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'),
+      ).filter((el) => el.offsetParent !== null);
+      if (!focos.length) return;
+      const primero = focos[0];
+      const ultimo = focos[focos.length - 1];
+      if (e.shiftKey && document.activeElement === primero) {
+        e.preventDefault();
+        ultimo.focus();
+      } else if (!e.shiftKey && document.activeElement === ultimo) {
+        e.preventDefault();
+        primero.focus();
+      }
+    };
+    document.addEventListener("keydown", teclas);
     document.documentElement.classList.add("pp-no-scroll");
     return () => {
-      document.removeEventListener("keydown", esc);
+      document.removeEventListener("keydown", teclas);
       document.documentElement.classList.remove("pp-no-scroll");
+      boton?.focus();
     };
   }, [modal]);
 
@@ -118,29 +141,34 @@ export function AccionesCabecera() {
       </button>
 
       {usuario ? (
-        <a className="pp-btn pp-btn--cta pp-btn--cuenta" href={RUTA_CUENTA} title={usuario.email}>
+        <a className="pp-btn pp-btn--cta pp-btn--cuenta" href={RUTA_CUENTA} aria-label={`Mi cuenta (${usuario.email})`}>
           {IconoUsuario}
           <span>Mi cuenta</span>
         </a>
       ) : (
         <button
+          ref={botonRef}
           type="button"
           className="pp-btn pp-btn--cta pp-btn--cuenta"
+          aria-haspopup="dialog"
+          aria-label="Ingresar o crear cuenta"
           onClick={() => (enCuenta ? document.getElementById("pp-auth-email")?.focus() : setModal(true))}
         >
           {IconoUsuario}
-          <span>Crear cuenta</span>
+          <span>Ingresar</span>
         </button>
       )}
 
-      {modal && !usuario && (
-        <div className="pp-modal" role="dialog" aria-modal="true" aria-label="Crear cuenta o ingresar">
+      {/* Se dibuja directo en <body> para quedar sobre la cabecera, el aviso de cookies y las pestañas laterales */}
+      {modal && !usuario && createPortal(
+        <div className="pp-modal" role="dialog" aria-modal="true" aria-labelledby="pp-auth-titulo">
           <div className="pp-modal__bg" onClick={() => setModal(false)} />
-          <div className="pp-modal__caja">
+          <div className="pp-modal__caja" ref={cajaRef}>
             <button type="button" className="pp-modal__cerrar" aria-label="Cerrar" onClick={() => setModal(false)}>×</button>
-            <FormularioCuenta inicial="registro" onListo={() => setModal(false)} />
+            <FormularioCuenta inicial="ingreso" onListo={() => setModal(false)} enfocar />
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
   );
@@ -148,20 +176,47 @@ export function AccionesCabecera() {
 
 type Modo = "registro" | "ingreso" | "recuperar";
 
-export function FormularioCuenta({ inicial = "ingreso", onListo }: { inicial?: Modo; onListo?: () => void }) {
+const dl = (o: Record<string, unknown>) => {
+  try {
+    const w = window as unknown as { dataLayer?: object[] };
+    (w.dataLayer = w.dataLayer || []).push(o);
+  } catch { /* sin medición */ }
+};
+
+export function FormularioCuenta({ inicial = "ingreso", onListo, enfocar = false }: { inicial?: Modo; onListo?: () => void; enfocar?: boolean }) {
   const [modo, setModo] = useState<Modo>(inicial);
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [clave, setClave] = useState("");
+  const [verClave, setVerClave] = useState(false);
   const [ofertas, setOfertas] = useState(false); // Ley 21.719: opcional y desmarcada
   const [ocupado, setOcupado] = useState(false);
   const [error, setError] = useState("");
   const [aviso, setAviso] = useState("");
+  const id = useId();
+  const emailRef = useRef<HTMLInputElement>(null);
+  const nombreRef = useRef<HTMLInputElement>(null);
+  const primeraVez = useRef(true);
 
   useEffect(() => {
-    setError("");
-    setAviso("");
+    if (primeraVez.current) {
+      primeraVez.current = false;
+      if (enfocar) emailRef.current?.focus();
+      return;
+    }
+    // Al cambiar de pestaña se conserva el correo y el foco va al primer campo vacío
+    if (modo === "registro" && !nombre) nombreRef.current?.focus();
+    else emailRef.current?.focus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [modo]);
+
+  const cambiar = (m: Modo, conservarMensaje = false) => {
+    if (!conservarMensaje) {
+      setError("");
+      setAviso("");
+    }
+    setModo(m);
+  };
 
   const destino = () => `${window.location.origin}${RUTA_CUENTA}`;
 
@@ -184,7 +239,20 @@ export function FormularioCuenta({ inicial = "ingreso", onListo }: { inicial?: M
           password: clave,
           options: { data: { nombre: nombre.trim() }, emailRedirectTo: destino() },
         });
-        if (error) return setError(mensajeError(error));
+        if (error) {
+          const m = mensajeError(error);
+          if (m.startsWith("Ya existe")) {
+            setError("Ya tienes una cuenta con este correo. Ingresa con tu contraseña.");
+            return cambiar("ingreso", true);
+          }
+          return setError(m);
+        }
+        // Supabase no revela si el correo ya existe: devuelve un usuario sin identidades
+        if (data.user && data.user.identities && data.user.identities.length === 0) {
+          setClave("");
+          setError("Ya tienes una cuenta con este correo. Ingresa con tu contraseña.");
+          return cambiar("ingreso", true);
+        }
         // Consentimiento para ofertas: solo si marcó la casilla (queda registrado con fecha y texto)
         if (ofertas) {
           fetch("/wp-json/polyplas/v1/ofertas-consentimiento", {
@@ -194,14 +262,7 @@ export function FormularioCuenta({ inicial = "ingreso", onListo }: { inicial?: M
             body: JSON.stringify({ email: email.trim(), nombre: nombre.trim(), origen: "cuenta", pagina: window.location.pathname }),
           }).catch(() => {});
         }
-        // Supabase no revela si el correo ya existe: devuelve un usuario sin identidades
-        if (data.user && data.user.identities && data.user.identities.length === 0) {
-          return setError("Ya existe una cuenta con ese correo. Ingresa con tu contraseña.");
-        }
-        try {
-          const w = window as unknown as { dataLayer?: object[] };
-          (w.dataLayer = w.dataLayer || []).push({ event: "sign_up", method: "email", origen_cuenta: "cabecera" });
-        } catch { /* sin medición */ }
+        dl({ event: "sign_up", method: "email", origen_cuenta: "cabecera" });
         if (!data.session) {
           setClave("");
           return setAviso("¡Listo! Te enviamos un correo para confirmar tu cuenta. Ábrelo y haz clic en el enlace.");
@@ -210,6 +271,7 @@ export function FormularioCuenta({ inicial = "ingreso", onListo }: { inicial?: M
       }
       const { error } = await auth.signInWithPassword({ email: email.trim(), password: clave });
       if (error) return setError(mensajeError(error));
+      dl({ event: "login", method: "email" });
       onListo?.();
     } catch {
       setError("No pudimos conectar. Revisa tu conexión e intenta de nuevo.");
@@ -218,69 +280,131 @@ export function FormularioCuenta({ inicial = "ingreso", onListo }: { inicial?: M
     }
   };
 
-  const titulo = modo === "registro" ? "Crea tu cuenta" : modo === "ingreso" ? "Ingresa a tu cuenta" : "Recuperar contraseña";
+  const titulo = modo === "registro" ? "Crea tu cuenta" : modo === "ingreso" ? "Ingresa a tu cuenta" : "Recupera tu contraseña";
+  const ayudaClave = `${id}-ayuda-clave`;
+  const idMsg = `${id}-msg`;
+  const tabs: { m: Modo; texto: string }[] = [
+    { m: "ingreso", texto: "Ingresar" },
+    { m: "registro", texto: "Crear cuenta" },
+  ];
+  const teclasTabs = (e: React.KeyboardEvent) => {
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    e.preventDefault();
+    const sig: Modo = modo === "ingreso" ? "registro" : "ingreso";
+    cambiar(sig);
+    requestAnimationFrame(() => document.getElementById(`${id}-tab-${sig}`)?.focus());
+  };
 
   return (
     <div className="pp-auth">
-      <h2 className="pp-auth__titulo">{titulo}</h2>
-      {modo !== "recuperar" && <p className="pp-auth__bajada">Todas tus compras en un solo lugar, también las que ya hiciste con tu correo.</p>}
+      {modo !== "recuperar" && (
+        <div className="pp-auth__tabs" role="tablist" aria-label="Elige una opción" onKeyDown={teclasTabs}>
+          {tabs.map((t) => (
+            <button
+              key={t.m}
+              id={`${id}-tab-${t.m}`}
+              type="button"
+              role="tab"
+              aria-selected={modo === t.m}
+              aria-controls={`${id}-panel`}
+              tabIndex={modo === t.m ? 0 : -1}
+              className="pp-auth__tab"
+              onClick={() => cambiar(t.m)}
+            >
+              {t.texto}
+            </button>
+          ))}
+        </div>
+      )}
 
-      <form onSubmit={enviar}>
-        {modo === "registro" && (
+      <div id={`${id}-panel`} role={modo !== "recuperar" ? "tabpanel" : undefined} aria-labelledby={modo !== "recuperar" ? `${id}-tab-${modo}` : undefined}>
+        <h2 className="pp-auth__titulo" id="pp-auth-titulo">{titulo}</h2>
+        <p className="pp-auth__bajada">
+          {modo === "ingreso" && "Revisa tus compras y tus datos."}
+          {modo === "registro" && "Todas tus compras en un solo lugar, también las que ya hiciste con tu correo."}
+          {modo === "recuperar" && "Te enviaremos un enlace a tu correo para crear una contraseña nueva."}
+        </p>
+
+        <form onSubmit={enviar} noValidate={false} aria-describedby={error || aviso ? idMsg : undefined}>
+          {modo === "registro" && (
+            <label className="pp-campo">
+              <span>Nombre</span>
+              <input ref={nombreRef} type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} autoComplete="name" required maxLength={80} />
+            </label>
+          )}
           <label className="pp-campo">
-            <span>Nombre</span>
-            <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} autoComplete="name" required maxLength={80} />
-          </label>
-        )}
-        <label className="pp-campo">
-          <span>Correo</span>
-          <input id="pp-auth-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" required />
-        </label>
-        {modo !== "recuperar" && (
-          <label className="pp-campo">
-            <span>Contraseña</span>
+            <span>Correo</span>
             <input
-              type="password"
-              value={clave}
-              onChange={(e) => setClave(e.target.value)}
-              autoComplete={modo === "registro" ? "new-password" : "current-password"}
-              minLength={modo === "registro" ? 8 : undefined}
+              ref={emailRef}
+              id="pp-auth-email"
+              type="email"
+              inputMode="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete={modo === "registro" ? "email" : "username"}
+              aria-invalid={!!error || undefined}
               required
             />
-            {modo === "registro" && <small>Mínimo 8 caracteres.</small>}
           </label>
-        )}
-        {modo === "registro" && (
-          <label className="pp-campo" style={{ display: "flex", gap: 10, alignItems: "flex-start", fontWeight: 400 }}>
-            <input type="checkbox" checked={ofertas} onChange={(e) => setOfertas(e.target.checked)} style={{ marginTop: 3, width: 18, height: 18, flexShrink: 0 }} />
-            <span>Quiero recibir ofertas y novedades de Polyplas por correo <small>(opcional · puedo darme de baja cuando quiera)</small></span>
-          </label>
-        )}
+          {modo !== "recuperar" && (
+            <div className="pp-campo">
+              <label htmlFor={`${id}-clave`}><span>Contraseña</span></label>
+              <div className="pp-campo__clave">
+                <input
+                  id={`${id}-clave`}
+                  type={verClave ? "text" : "password"}
+                  value={clave}
+                  onChange={(e) => setClave(e.target.value)}
+                  autoComplete={modo === "registro" ? "new-password" : "current-password"}
+                  minLength={modo === "registro" ? 8 : undefined}
+                  aria-describedby={modo === "registro" ? ayudaClave : undefined}
+                  aria-invalid={!!error || undefined}
+                  required
+                />
+                <button type="button" className="pp-campo__ver" aria-pressed={verClave} onClick={() => setVerClave((v) => !v)}>
+                  {verClave ? "Ocultar" : "Mostrar"}
+                  <span className="pp-sr"> contraseña</span>
+                </button>
+              </div>
+              {modo === "registro" && <small id={ayudaClave}>Mínimo 8 caracteres.</small>}
+              {modo === "ingreso" && (
+                <button type="button" className="pp-auth__olvide" onClick={() => cambiar("recuperar")}>
+                  ¿Olvidaste tu contraseña?
+                </button>
+              )}
+            </div>
+          )}
+          {modo === "registro" && (
+            <label className="pp-campo pp-campo--check">
+              <input type="checkbox" checked={ofertas} onChange={(e) => setOfertas(e.target.checked)} />
+              <span>Quiero recibir ofertas y novedades de Polyplas por correo <small>(opcional · puedo darme de baja cuando quiera)</small></span>
+            </label>
+          )}
 
-        {error && <p className="pp-auth__msg pp-auth__msg--error" role="alert">{error}</p>}
-        {aviso && <p className="pp-auth__msg pp-auth__msg--ok" role="status">{aviso}</p>}
+          <div id={idMsg}>
+            {error && <p className="pp-auth__msg pp-auth__msg--error" role="alert">{error}</p>}
+            {aviso && <p className="pp-auth__msg pp-auth__msg--ok" role="status">{aviso}</p>}
+          </div>
 
-        <button type="submit" className="pp-btn pp-btn--primary pp-auth__enviar" disabled={ocupado}>
-          {ocupado ? "Un momento…" : modo === "registro" ? "Crear cuenta" : modo === "ingreso" ? "Ingresar" : "Enviar enlace"}
-        </button>
-      </form>
+          <button type="submit" className="pp-btn pp-btn--primary pp-auth__enviar" disabled={ocupado} aria-busy={ocupado}>
+            {ocupado ? "Un momento…" : modo === "registro" ? "Crear cuenta" : modo === "ingreso" ? "Ingresar" : "Enviar enlace"}
+          </button>
+        </form>
 
-      <div className="pp-auth__pie">
-        {modo === "registro" && (
-          <p>¿Ya tienes cuenta? <button type="button" onClick={() => setModo("ingreso")}>Ingresar</button></p>
-        )}
-        {modo === "ingreso" && (
-          <>
-            <p><button type="button" onClick={() => setModo("recuperar")}>Olvidé mi contraseña</button></p>
-            <p>¿No tienes cuenta? <button type="button" onClick={() => setModo("registro")}>Crear cuenta</button></p>
-          </>
-        )}
-        {modo === "recuperar" && (
-          <p><button type="button" onClick={() => setModo("ingreso")}>← Volver a ingresar</button></p>
-        )}
-        {modo === "registro" && (
-          <p className="pp-auth__legal">Usamos tus datos para gestionar tu cuenta y tus compras, como explica nuestra <a href="/politica-de-privacidad-de-datos/">política de privacidad</a>.</p>
-        )}
+        <div className="pp-auth__pie">
+          {modo === "ingreso" && (
+            <p>¿Primera vez? <button type="button" onClick={() => cambiar("registro")}>Crea tu cuenta</button></p>
+          )}
+          {modo === "registro" && (
+            <p>¿Ya tienes cuenta? <button type="button" onClick={() => cambiar("ingreso")}>Ingresa aquí</button></p>
+          )}
+          {modo === "recuperar" && (
+            <p><button type="button" onClick={() => cambiar("ingreso")}>← Volver a ingresar</button></p>
+          )}
+          {modo === "registro" && (
+            <p className="pp-auth__legal">Usamos tus datos para gestionar tu cuenta y tus compras, como explica nuestra <a href="/politica-de-privacidad-de-datos/">política de privacidad</a>.</p>
+          )}
+        </div>
       </div>
     </div>
   );
