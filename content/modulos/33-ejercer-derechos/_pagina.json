@@ -1,0 +1,17 @@
+{
+  "url": "/ejercer-mis-derechos/",
+  "tipo": "page",
+  "titulo": "Ejercer mis derechos sobre mis datos | Polyplas",
+  "descripcion": "Pide a Polyplas acceso, corrección, eliminación, oposición, portabilidad o bloqueo de tus datos personales. Respondemos en un máximo de 30 días (Ley 21.719).",
+  "robots": "max-image-preview:large",
+  "canonical": "/ejercer-mis-derechos/",
+  "og": {
+    "type": "article",
+    "title": "Ejercer mis derechos sobre mis datos | Polyplas",
+    "description": "Pide acceso, corrección, eliminación u otros derechos sobre tus datos personales. Respuesta en máximo 30 días."
+  },
+  "publicado": "2026-11-15T12:00:00-03:00",
+  "modificado": "2026-11-15T12:00:00-03:00",
+  "css": [],
+  "datosGoogle": []
+}

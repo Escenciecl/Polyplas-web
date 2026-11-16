@@ -483,6 +483,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
 .ppGC-wa-link { display: block; text-align: center; margin: 12px 0 2px; padding: 10px; font-size: 0.86rem; font-weight: 700; color: #128c4b; text-decoration: underline; }
 /* ── Términos y Condiciones (según los productos del carrito) ── */
 .ppGC-terms { margin: 14px 0 12px; border: 1.5px solid #ccd8ee; border-radius: 12px; overflow: hidden; background: #fff; }
+.ppGC-ofertas { margin-top: 10px; }
 .ppGC-terms-row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; min-height: 52px; }
 .ppGC-terms-row:hover { background: #eef3fc; }
 .ppGC-terms-box { width: 22px; height: 22px; flex-shrink: 0; border: 2px solid #9fb3d6; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: #fff; }
@@ -956,6 +957,12 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 </div>
 <div class="ppGC-terms-content" id="ppGC-terms-content"></div>
 </div>
+<div class="ppGC-terms ppGC-ofertas">
+<div class="ppGC-terms-row" id="ppGC-ofertas-row" onclick="ppGCToggleOfertas()" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();ppGCToggleOfertas();}" role="checkbox" aria-checked="false" tabindex="0">
+<div class="ppGC-terms-box"><svg fill="none" height="12" stroke="#fff" stroke-width="3" viewbox="0 0 24 24" width="12"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+<span class="ppGC-terms-text">Quiero recibir ofertas y novedades de Polyplas por correo <small style="color:#64748b">(opcional · puedo darme de baja cuando quiera)</small></span>
+</div>
+</div>
 <div class="ppGC-form-error" id="ppGC-s2-err"></div>
 <div class="ppGC-section-divider">Medio de pago</div>
 <div aria-label="Medio de pago" class="ppGC-pay-opts" role="radiogroup">
@@ -1231,6 +1238,20 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     var e2 = gEl('ppGC-s2-err'); if (e2 && gcTermsAccepted) e2.style.display = 'none';
     gcCheckPayBtn();
   };
+  // Ley 21.719: casilla de ofertas, opcional y siempre desmarcada al abrir el pago
+  var gcOfertas = false;
+  window.ppGCToggleOfertas = function() {
+    gcOfertas = !gcOfertas;
+    var row = gEl('ppGC-ofertas-row');
+    if (row) { row.classList.toggle('checked', gcOfertas); row.setAttribute('aria-checked', gcOfertas ? 'true' : 'false'); }
+  };
+  function gcRegistrarOfertas(client) {
+    if (!gcOfertas || !client || !client.email) return;
+    try {
+      fetch('/wp-json/polyplas/v1/ofertas-consentimiento', { method: 'POST', keepalive: true, headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: client.email, nombre: client.nombre || client.razon || '', origen: 'checkout', pagina: location.pathname }) }).catch(function(){});
+    } catch (e) {}
+  }
   window.ppGCExpandTerms = function() { var c = gEl('ppGC-terms-content'); if (c) c.classList.toggle('open'); };
   var gcCurrentGrand = 0;
   var gcPago = 'webpay'; // 'webpay' | 'transferencia'
@@ -2356,6 +2377,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       return;
     }
     var client=gcGetClientData(), total=gcTotalPagar(), itemsPedido=gcItemsPedido();
+    gcRegistrarOfertas(client);
     gcDlPush('add_payment_info', { currency: 'CLP', value: total - gcCostoEntrega(), shipping: gcCostoEntrega(), payment_type: 'Transferencia', shipping_tier: gcShippingTier(), customer_type: gcClientType, items: gcItems.map(gcDlItem) });
     if (btn) { btn.disabled=true; btn.textContent='Registrando tu pedido...'; }
     if (e2) e2.style.display='none';
@@ -2405,6 +2427,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       return;
     }
     var client=gcGetClientData(), total=gcTotalPagar();
+    gcRegistrarOfertas(client);
     // Clic en "Pagar con Webpay" con los datos completos
     gcDlPush('add_payment_info', { currency: 'CLP', value: total - gcCostoEntrega(), shipping: gcCostoEntrega(), payment_type: 'Webpay', shipping_tier: gcShippingTier(), customer_type: gcClientType, items: gcItems.map(gcDlItem) });
     if (btn) { btn.disabled=true; btn.textContent='Procesando...'; }

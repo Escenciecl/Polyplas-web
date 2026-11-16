@@ -27,6 +27,7 @@
       </label>
       <label class="pp-b2-full">Material y espesores que más usan<input name="material" placeholder="Ej: PA transparente 3 y 5 mm, blanco lechoso 3 mm"></label>
       <label class="pp-b2-full">¿Qué te complica hoy con tu proveedor?<textarea name="comentario" placeholder="Ej: quiebres de stock, calidad dispareja, plazos..."></textarea></label>
+      <label class="pp-b2-full" style="display:flex;gap:10px;align-items:flex-start;font-weight:400"><input type="checkbox" name="ofertas" value="si" style="width:18px;height:18px;margin-top:2px;flex-shrink:0"> <span>Quiero recibir ofertas y novedades de Polyplas por correo <small>(opcional · puedo darme de baja cuando quiera)</small></span></label>
       <p class="pp-b2-grupo">La reunión</p>
       <div class="pp-b2-full"><span style="font-size:13px;font-weight:600;color:var(--b2-gris)">¿Cómo prefieres la reunión? *</span>
         <div class="pp-b2-chips" style="margin-top:6px">
@@ -80,6 +81,10 @@
     push('lead_b2b',{industria:'pop',consumo:g('consumo'),tipo_reunion:g('reunion'),fabrica:g('fabrica')||'(sin dato)',
       opcionales_llenos:opc,con_comentario:g('comentario')?'si':'no',
       segundos_formulario:B.tStart?Math.round((Date.now()-B.tStart)/1000):0,intentos:intentos,cta_origen:B.cta||'scroll',lead_id:leadId});
+    var ofEl=f.querySelector('[name="ofertas"]'), quiereOfertas=!!(ofEl&&ofEl.checked&&g('correo'));
+    // Ley 21.719: consentimiento para ofertas solo si marcó la casilla (y dejó correo)
+    if(quiereOfertas){ try{ fetch('/wp-json/polyplas/v1/ofertas-consentimiento',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({email:g('correo'),nombre:g('nombre')+' · '+g('empresa'),origen:'b2b_pop',pagina:location.pathname})}).catch(function(){}); }catch(x){} }
     try{
       var cut=function(k,n){ var v=g(k).slice(0,n); return v||null; };
       fetch('https://gdrkscedvkjtcvexnhzg.supabase.co/rest/v1/b2b_leads',{method:'POST',keepalive:true,
@@ -87,7 +92,7 @@
         body:JSON.stringify({lead_id:leadId,landing:B.landing||'pop',variante:B.variante||'control',referrer_tipo:B.ref||null,
           nombre:g('nombre').slice(0,120),cargo:cut('cargo',120),empresa:g('empresa').slice(0,160),rut:cut('rut',20),
           telefono:g('telefono').slice(0,30),correo:cut('correo',160),comuna:cut('comuna',80),fabrica:cut('fabrica',80),
-          consumo:g('consumo').slice(0,60),material:cut('material',300),tipo_reunion:g('reunion').slice(0,60),comentario:cut('comentario',2000)})
+          consumo:g('consumo').slice(0,60),material:cut('material',300),tipo_reunion:g('reunion').slice(0,60),comentario:cut('comentario',2000),acepta_ofertas:quiereOfertas})
       }).catch(function(){});
     }catch(x){}
     var url='https://wa.me/56964356986?text='+encodeURIComponent(lineas.join('\n'));

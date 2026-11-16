@@ -153,6 +153,7 @@ export function FormularioCuenta({ inicial = "ingreso", onListo }: { inicial?: M
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [clave, setClave] = useState("");
+  const [ofertas, setOfertas] = useState(false); // Ley 21.719: opcional y desmarcada
   const [ocupado, setOcupado] = useState(false);
   const [error, setError] = useState("");
   const [aviso, setAviso] = useState("");
@@ -184,6 +185,15 @@ export function FormularioCuenta({ inicial = "ingreso", onListo }: { inicial?: M
           options: { data: { nombre: nombre.trim() }, emailRedirectTo: destino() },
         });
         if (error) return setError(mensajeError(error));
+        // Consentimiento para ofertas: solo si marcó la casilla (queda registrado con fecha y texto)
+        if (ofertas) {
+          fetch("/wp-json/polyplas/v1/ofertas-consentimiento", {
+            method: "POST",
+            keepalive: true,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email.trim(), nombre: nombre.trim(), origen: "cuenta", pagina: window.location.pathname }),
+          }).catch(() => {});
+        }
         // Supabase no revela si el correo ya existe: devuelve un usuario sin identidades
         if (data.user && data.user.identities && data.user.identities.length === 0) {
           return setError("Ya existe una cuenta con ese correo. Ingresa con tu contraseña.");
@@ -236,6 +246,12 @@ export function FormularioCuenta({ inicial = "ingreso", onListo }: { inicial?: M
             {modo === "registro" && <small>Mínimo 8 caracteres.</small>}
           </label>
         )}
+        {modo === "registro" && (
+          <label className="pp-campo" style={{ display: "flex", gap: 10, alignItems: "flex-start", fontWeight: 400 }}>
+            <input type="checkbox" checked={ofertas} onChange={(e) => setOfertas(e.target.checked)} style={{ marginTop: 3, width: 18, height: 18, flexShrink: 0 }} />
+            <span>Quiero recibir ofertas y novedades de Polyplas por correo <small>(opcional · puedo darme de baja cuando quiera)</small></span>
+          </label>
+        )}
 
         {error && <p className="pp-auth__msg pp-auth__msg--error" role="alert">{error}</p>}
         {aviso && <p className="pp-auth__msg pp-auth__msg--ok" role="status">{aviso}</p>}
@@ -259,7 +275,7 @@ export function FormularioCuenta({ inicial = "ingreso", onListo }: { inicial?: M
           <p><button type="button" onClick={() => setModo("ingreso")}>← Volver a ingresar</button></p>
         )}
         {modo === "registro" && (
-          <p className="pp-auth__legal">Al crear tu cuenta aceptas nuestra <a href="/politica-de-privacidad-de-datos/">política de privacidad</a>.</p>
+          <p className="pp-auth__legal">Usamos tus datos para gestionar tu cuenta y tus compras, como explica nuestra <a href="/politica-de-privacidad-de-datos/">política de privacidad</a>.</p>
         )}
       </div>
     </div>

@@ -1,0 +1,91 @@
+<style>
+  .pp-der { max-width: 760px; margin: 40px auto 64px; padding: 0 16px; font-family: Inter, Arial, sans-serif; color: #1f2937; }
+  .pp-der h1 { font-size: 2rem; line-height: 1.2; margin: 0 0 12px; color: #0b1f3a; }
+  .pp-der p { line-height: 1.6; margin: 0 0 12px; }
+  .pp-der ul { margin: 0 0 16px; padding-left: 20px; line-height: 1.6; }
+  .pp-der form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; padding: 22px; border: 1px solid #dbe3ef; border-radius: 14px; background: #f8fafc; }
+  .pp-der label { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: .95rem; }
+  .pp-der .full { grid-column: 1 / -1; }
+  .pp-der input, .pp-der select, .pp-der textarea { font: inherit; font-weight: 400; padding: 11px 12px; border: 1.5px solid #c7d2e3; border-radius: 10px; background: #fff; }
+  .pp-der textarea { min-height: 110px; resize: vertical; }
+  .pp-der input:focus, .pp-der select:focus, .pp-der textarea:focus { outline: 3px solid #93c5fd; border-color: #004a99; }
+  .pp-der button { justify-self: start; background: #004a99; color: #fff; border: 0; border-radius: 10px; padding: 13px 22px; font: inherit; font-weight: 700; cursor: pointer; }
+  .pp-der button[disabled] { opacity: .6; cursor: wait; }
+  .pp-der .nota { font-size: .85rem; color: #4b5563; }
+  .pp-der .ok { padding: 14px 16px; border-radius: 10px; background: #ecfdf5; color: #065f46; font-weight: 600; }
+  .pp-der .err { color: #b91c1c; font-weight: 600; min-height: 1.2em; }
+  .pp-der .trampa { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  @media (max-width: 640px) { .pp-der form { grid-template-columns: 1fr; padding: 16px; } .pp-der h1 { font-size: 1.6rem; } }
+</style>
+<div class="pp-der">
+  <h1>Ejercer mis derechos sobre mis datos personales</h1>
+  <p>De acuerdo con la Ley 21.719, puedes pedirnos en cualquier momento, sin costo y sin dar explicaciones:</p>
+  <ul>
+    <li><b>Acceso:</b> saber qué datos tuyos tenemos, para qué y con quién los compartimos.</li>
+    <li><b>Rectificación:</b> corregir datos incorrectos o desactualizados.</li>
+    <li><b>Supresión:</b> que borremos tus datos (salvo los que la ley nos obliga a guardar, como las facturas).</li>
+    <li><b>Oposición:</b> que dejemos de usar tus datos para un fin, por ejemplo para enviarte ofertas.</li>
+    <li><b>Portabilidad:</b> recibir tus datos en un archivo.</li>
+    <li><b>Bloqueo:</b> que suspendamos temporalmente el uso de tus datos mientras revisamos tu caso.</li>
+  </ul>
+  <p>Te responderemos <b>en un máximo de 30 días corridos</b>. Recibirás un correo con el número de tu solicitud. Si necesitamos confirmar tu identidad, te lo pediremos por correo. También puedes escribirnos directamente a <a href="mailto:polyplaschile@gmail.com">polyplaschile@gmail.com</a>.</p>
+
+  <form id="pp-der-form" novalidate>
+    <label>Nombre completo *<input name="nombre" autocomplete="name" required maxlength="120"></label>
+    <label>Correo *<input name="email" type="email" autocomplete="email" required maxlength="160"></label>
+    <label>RUT <span class="nota">(opcional, ayuda a encontrar tus compras)</span><input name="rut" maxlength="20" placeholder="12.345.678-9"></label>
+    <label>Teléfono <span class="nota">(opcional)</span><input name="telefono" type="tel" autocomplete="tel" maxlength="30"></label>
+    <label class="full">¿Qué derecho quieres ejercer? *
+      <select name="derecho" required>
+        <option value="">Selecciona</option>
+        <option value="acceso">Acceso: saber qué datos tienen de mí</option>
+        <option value="rectificacion">Rectificación: corregir mis datos</option>
+        <option value="supresion">Supresión: borrar mis datos</option>
+        <option value="oposicion">Oposición: dejar de usar mis datos (por ejemplo, ofertas)</option>
+        <option value="portabilidad">Portabilidad: recibir mis datos en un archivo</option>
+        <option value="bloqueo">Bloqueo: suspender temporalmente el uso de mis datos</option>
+        <option value="otro">Otra consulta sobre mis datos</option>
+      </select>
+    </label>
+    <label class="full">Detalle <span class="nota">(qué datos, qué corregir, desde qué compra o correo, etc.)</span><textarea name="detalle" maxlength="2000"></textarea></label>
+    <label class="trampa" aria-hidden="true">No completar<input name="sitio_web" tabindex="-1" autocomplete="off"></label>
+    <p class="full nota">Usamos estos datos solo para responder tu solicitud y dejar registro de ella, como exige la ley. Más detalles en nuestra <a href="/politica-de-privacidad-de-datos/">política de privacidad</a>.</p>
+    <p class="full err" id="pp-der-err" role="alert"></p>
+    <button type="submit" class="full">Enviar solicitud</button>
+  </form>
+  <p class="ok" id="pp-der-ok" role="status" hidden></p>
+</div>
+<script data-pp-inline>
+(function () {
+  var f = document.getElementById('pp-der-form');
+  if (!f || f.dataset.listo) return;
+  f.dataset.listo = '1';
+  var err = document.getElementById('pp-der-err'), ok = document.getElementById('pp-der-ok');
+  var g = function (n) { var el = f.querySelector('[name="' + n + '"]'); return el ? String(el.value || '').trim() : ''; };
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    err.textContent = '';
+    if (!g('nombre')) { err.textContent = 'Escribe tu nombre.'; f.nombre.focus(); return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(g('email'))) { err.textContent = 'Escribe un correo válido.'; f.email.focus(); return; }
+    if (!g('derecho')) { err.textContent = 'Elige qué derecho quieres ejercer.'; f.derecho.focus(); return; }
+    var btn = f.querySelector('button'); btn.disabled = true; btn.textContent = 'Enviando…';
+    fetch('/wp-json/polyplas/v1/derechos', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre: g('nombre'), email: g('email'), rut: g('rut'), telefono: g('telefono'), derecho: g('derecho'), detalle: g('detalle'), sitio_web: g('sitio_web') })
+    }).then(function (r) { return r.json().catch(function () { return {}; }); }).then(function (d) {
+      if (d && d.ok) {
+        f.hidden = true;
+        ok.hidden = false;
+        ok.textContent = '✅ Recibimos tu solicitud' + (d.folio ? ' (folio ' + d.folio + ')' : '') + '. Te responderemos a más tardar el ' + (d.plazo || 'plazo de 30 días') + '. Te enviamos una copia a tu correo.';
+        ok.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        btn.disabled = false; btn.textContent = 'Enviar solicitud';
+        err.innerHTML = 'No pudimos enviar tu solicitud. Inténtalo de nuevo o escríbenos a <a href="mailto:polyplaschile@gmail.com">polyplaschile@gmail.com</a>.';
+      }
+    }).catch(function () {
+      btn.disabled = false; btn.textContent = 'Enviar solicitud';
+      err.innerHTML = 'No pudimos enviar tu solicitud. Inténtalo de nuevo o escríbenos a <a href="mailto:polyplaschile@gmail.com">polyplaschile@gmail.com</a>.';
+    });
+  });
+})();
+</script>
