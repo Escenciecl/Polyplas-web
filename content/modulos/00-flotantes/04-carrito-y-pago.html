@@ -426,6 +426,16 @@
 .ppGC-foot .ppGC-btn-next, .ppGC-foot .ppGC-btn-webpay { flex: 1; width: auto; margin: 0; padding: 15px 10px; font-size: 0.98rem; }
 .ppGC-foot .ppGC-btn-next:disabled, .ppGC-foot .ppGC-btn-webpay:disabled { background: #e3e8f0; color: #6b7686; box-shadow: none; cursor: not-allowed; opacity: 1; }
 .ppGC-foot .ppGC-btn-back-link { margin: 10px 0 0; padding: 0; }
+.ppGC-share { margin-top: 10px; text-align: center; }
+.ppGC-share-btn { display: inline-flex; align-items: center; gap: 6px; background: none; border: 0; padding: 6px 8px; font-family: inherit; font-size: 0.86rem; font-weight: 700; color: #004a99; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+.ppGC-share-btn:hover { color: #003370; }
+.ppGC-share-ok { font-size: 0.82rem; color: #166534; margin-top: 4px; }
+.ppGC-share-ok:empty { display: none; }
+.ppGC-share-ok button { margin: 6px 4px 0; padding: 8px 12px; border-radius: 8px; border: 1.5px solid #128c4b; background: #fff; color: #128c4b; font-family: inherit; font-size: 0.82rem; font-weight: 700; cursor: pointer; }
+.ppGC-compartido { margin-bottom: 12px; padding: 12px 14px; border-radius: 10px; background: #eff6ff; border: 1.5px solid #bfdbfe; color: #1e3a8a; font-size: 0.86rem; line-height: 1.45; }
+.ppGC-compartido b { display: block; margin-bottom: 8px; }
+.ppGC-compartido button { margin: 0 8px 0 0; padding: 9px 12px; border-radius: 8px; border: 1.5px solid #004a99; background: #fff; color: #004a99; font-family: inherit; font-size: 0.84rem; font-weight: 700; cursor: pointer; }
+.ppGC-compartido button.prim { background: #004a99; color: #fff; }
 .ppGC-foot-links { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; gap: 12px; }
 .ppGC-foot-links .ppGC-btn-back-link, .ppGC-foot-links .ppGC-wa-link { margin: 0; padding: 0; width: auto; font-size: 0.82rem; }
 .ppGC-det { margin-top: 10px; font-size: 0.84rem; }
@@ -717,6 +727,10 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <div class="ppGC-foot-btns ppGC-cart-actions" id="ppGC-cart-actions" style="display:none">
 <button class="ppGC-btn-back ppGC-btn-keep-shopping" onclick="ppGCCloseCart()" type="button">Seguir comprando</button>
 <button class="ppGC-btn-next ppGC-btn-checkout-go" onclick="ppGCOpenCheckout()" type="button">Ir al pago</button>
+</div>
+<div class="ppGC-share" id="ppGC-share" style="display:none">
+<button class="ppGC-share-btn" id="ppGC-share-btn" onclick="ppGCCompartir()" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg> Compartir carrito</button>
+<div class="ppGC-share-ok" id="ppGC-share-ok" role="status" aria-live="polite"></div>
 </div>
 </div>
 </div>
@@ -1449,6 +1463,17 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
         item.subtotal = nuevo * (item.qty || 1) + corte + (item.embalaje ? (Number(item.embalaje_unit) || 0) * (item.qty || 1) : 0);
         out.precios++; cambio = true;
       }
+      // Carro compartido: el recargo por cortes distintos se recalcula siempre con el precio del CRM
+      // (10 % sobre el neto, igual que el configurador); un enlace editado no puede quitarlo
+      if (item.compartido && (item.tieneRecargo || item.corteMode === 'distintos') && nuevo > 0) {
+        var bruto = nuevo * (item.qty || 1), neto = Math.round(bruto / 1.19), conRec = neto + Math.round(neto * 0.10);
+        var rec = conRec + Math.round(conRec * 0.19) - bruto;
+        if (Number(item.corte_costo) !== rec || !item.tieneRecargo) {
+          item.corte_costo = rec; item.tieneRecargo = true;
+          item.subtotal = gcSubtotal(item);
+          out.precios++; cambio = true;
+        }
+      }
     });
     if (cambio) gcSave();
     return out;
@@ -1578,6 +1603,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       el.innerHTML = '<div class="ppGC-cart-empty"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><div>Tu carrito está vacío</div></div>';
       if (trow) trow.style.display = 'none';
       if (acts) acts.style.display = 'none';
+      var _sh0 = gEl('ppGC-share'); if (_sh0) _sh0.style.display = 'none';
       var cards = gEl('ppGC-entrega-cards');
       if (cards) cards.style.display = 'none';
       if (cnt)  cnt.textContent = '0';
@@ -1610,6 +1636,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     if (total) total.textContent = fmt(gcTotal());
     if (trow)  trow.style.display = 'flex';
     if (acts)  acts.style.display = 'flex';
+    var _sh = gEl('ppGC-share'); if (_sh) { _sh.style.display = ''; var _ok = gEl('ppGC-share-ok'); if (_ok) _ok.innerHTML = ''; }
     var cards = gEl('ppGC-entrega-cards');
     if (cards) cards.style.display = '';
     // Con un producto sin stock, "Ir al pago" queda congelado
@@ -2676,6 +2703,103 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       gcRenderEntregaAviso();
     }
   });
+
+  /* ── Compartir carrito ────────────────────────────────────────
+     El enlace lleva el carro comprimido en el # (no pasa por el servidor ni por analítica):
+     https://polyplas.cl/#carro=…  Al abrirlo se rearma el carro; precio y stock se revisan con
+     el CRM al abrir el carro (gcRevisarCRM) y el servidor recalcula todo al pagar, así que un
+     enlace editado no puede bajar el precio. */
+  var GC_SHARE_FUERA = { gid: 1, _qtyModulo: 1, agotado: 1, repetido_de: 1, compartido: 1 };
+  function gcB64(bytes) { var s = ''; for (var i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+  function gcUnB64(t) { t = t.replace(/-/g, '+').replace(/_/g, '/'); while (t.length % 4) t += '='; var s = atob(t), b = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) b[i] = s.charCodeAt(i); return b; }
+  async function gcPipe(bytes, Stream) { return new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new Stream('deflate-raw'))).arrayBuffer()); }
+  async function gcCodificar(items) {
+    var bytes = new TextEncoder().encode(JSON.stringify({ v: 1, items: items }));
+    if (typeof CompressionStream === 'function') { try { return 'z' + gcB64(await gcPipe(bytes, CompressionStream)); } catch (e) {} }
+    return 'j' + gcB64(bytes);
+  }
+  async function gcDecodificar(t) {
+    var bytes = gcUnB64(t.slice(1));
+    if (t.charAt(0) === 'z') bytes = await gcPipe(bytes, DecompressionStream);
+    var d = JSON.parse(new TextDecoder().decode(bytes));
+    return (d && Array.isArray(d.items)) ? d.items : [];
+  }
+  function gcItemParaCompartir(it) { var o = {}; for (var k in it) if (Object.prototype.hasOwnProperty.call(it, k) && !GC_SHARE_FUERA[k]) o[k] = it[k]; return o; }
+
+  window.ppGCCompartir = async function () {
+    gcLoad();
+    if (!gcItems.length) return;
+    var ok = gEl('ppGC-share-ok');
+    var url;
+    try { url = location.origin + '/#carro=' + (await gcCodificar(gcItems.map(gcItemParaCompartir))); }
+    catch (e) { if (ok) ok.textContent = 'No pudimos crear el enlace. Inténtalo de nuevo.'; return; }
+    try { (window.dataLayer = window.dataLayer || []).push({ event: 'carro_compartir', value: gcTotal(), items_count: gcItems.length }); } catch (e) {}
+    var texto = 'Te comparto este carro de Polyplas, listo para pagar:';
+    // Celular: menú nativo para compartir (WhatsApp, correo, etc.)
+    if (navigator.share && /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      try { await navigator.share({ title: 'Carro Polyplas', text: texto, url: url }); return; }
+      catch (e) { if (e && e.name === 'AbortError') return; }
+    }
+    var copiado = false;
+    try { await navigator.clipboard.writeText(url); copiado = true; } catch (e) {}
+    if (ok) {
+      ok.innerHTML = (copiado ? '✓ Enlace copiado. Pégalo en WhatsApp o en un correo.' : 'Copia este enlace:') +
+        '<br><button type="button" id="ppGC-share-wa">Enviar por WhatsApp</button>' +
+        (copiado ? '' : '<div style="word-break:break-all;font-size:.72rem;color:#334155;margin-top:6px">' + url.replace(/[<>&"]/g, '') + '</div>');
+      var wa = gEl('ppGC-share-wa');
+      // Botón (no enlace): Tag Manager reescribe los enlaces wa.me al número de Polyplas
+      if (wa) wa.onclick = function () {
+        var u = 'https://wa.me/?text=' + encodeURIComponent(texto + '\n' + url), v = null;
+        try { v = window.open(u, '_blank'); if (v) v.opener = null; } catch (e) {}
+        if (!v) location.href = u;
+      };
+    }
+  };
+
+  /* Al abrir un enlace #carro=…: arma el carro (preguntando si ya había otro) */
+  async function gcAbrirCompartido(desdeHash) {
+    var m = /(?:^#|&)carro=([A-Za-z0-9_-]+)/.exec(location.hash);
+    if (!m) return;
+    history.replaceState(history.state, '', location.pathname + location.search);
+    if (!desdeHash) { try { var nav = performance.getEntriesByType('navigation')[0]; if (nav && (nav.type === 'reload' || nav.type === 'back_forward')) return; } catch (e) {} }
+    var nuevos;
+    try { nuevos = await gcDecodificar(m[1]); } catch (e) { nuevos = []; }
+    nuevos = (nuevos || []).filter(function (it) { return it && typeof it === 'object' && (it.sku || it.nombre) && Number(it.qty) > 0; }).slice(0, 50);
+    if (!nuevos.length) return;
+    var base = Date.now().toString(36);
+    function armar(modo) {
+      gcLoad();
+      if (modo === 'reemplazar') {
+        gcItems.forEach(function (it) { document.dispatchEvent(new CustomEvent('ppGCItemRemoved', { detail: { gid: it.gid } })); });
+        gcItems = [];
+      }
+      nuevos.forEach(function (it, i) {
+        it.gid = 'sh-' + base + '-' + i;
+        it.qty = Math.max(1, Math.min(GC_QTY_MAX, Math.round(Number(it.qty) || 1)));
+        it.compartido = true;
+        gcItems.push(it);
+      });
+      gcSave();
+      gcUpdateBadge();
+      try { (window.dataLayer = window.dataLayer || []).push({ event: 'carro_compartido_abierto', modo: modo, items_count: nuevos.length }); } catch (e) {}
+      ppGCOpen();
+    }
+    gcLoad();
+    if (!gcItems.length) { armar('nuevo'); return; }
+    // Ya tenía productos: se pregunta, nunca se borra sin avisar
+    ppGCOpen();
+    var lista = gEl('ppGC-cart-items');
+    if (!lista) { armar('sumar'); return; }
+    lista.insertAdjacentHTML('afterbegin', '<div class="ppGC-compartido" id="ppGC-compartido"><b>Te compartieron un carro con ' + nuevos.length + ' producto' + (nuevos.length === 1 ? '' : 's') + '. ¿Qué hacemos con lo que ya tenías?</b>' +
+      '<button type="button" class="prim" data-m="reemplazar">Usar solo el carro compartido</button><button type="button" data-m="sumar">Sumar a mi carro</button></div>');
+    gEl('ppGC-compartido').addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-m]'); if (!b) return;
+      armar(b.getAttribute('data-m'));
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { setTimeout(gcAbrirCompartido, 300); });
+  else setTimeout(gcAbrirCompartido, 300);
+  window.addEventListener('hashchange', function () { if (/(?:^#|&)carro=/.test(location.hash)) gcAbrirCompartido(true); });
 
   /* ── Exponer API global ──────────────────────────────────── */
   window.ppGCOpen            = ppGCOpen;

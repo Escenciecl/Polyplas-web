@@ -42,7 +42,11 @@
       try { sessionStorage.setItem('pp_venta_asistida', '1'); } catch (e) {}
       if (!src) { src = 'whatsapp'; med = 'venta_asistida'; camp = camp || 'enlace_pedido'; }
     }
+    // Enlace de carro compartido (#carro=…): lo comparte un cliente o ventas; canal propio
+    var compartido = nav !== 'reload' && nav !== 'back_forward' && /(?:^#|&)carro=/.test(location.hash);
+    if (compartido && !src) { src = 'carro_compartido'; med = 'enlace'; }
     if (asistida && !gclid) canal = 'venta_asistida';
+    else if (compartido && !gclid) canal = 'carro_compartido';
     else if (gclid || ((src === 'google' || src === 'youtube') && pagado)) canal = 'google_ads';
     else if (/(facebook|instagram|meta|fb|ig)/.test(src) && (pagado || !med)) canal = 'meta_ads';
     else if (msclkid || (src === 'bing' && pagado)) canal = 'bing_ads';
