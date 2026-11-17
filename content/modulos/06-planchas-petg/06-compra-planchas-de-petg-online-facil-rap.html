@@ -9859,6 +9859,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       pccFooterCalc(lastRes.sheets.length,pccMismaMedida(lastPieces));
       if(reco)descEl.textContent='Tu selección: '+descEl.textContent+' · tus medidas';
     }
+    pccHashPedido();
   }
   /* Llegaron precios del CRM: si hay un cálculo en pantalla y algún precio cambió,
      se recalcula (plano, recomendación y barra) manteniendo la opción que eligió el cliente. */
@@ -10929,7 +10930,30 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       if(v[0]||v[1]||v[2])filas.push(v);
     });
     window._pccBorrador=filas.length?{modo:curMode,filas:filas}:null;
+    pccHashPedido();
   }
+  /* La barra de direcciones refleja el pedido armado (plancha + cortes), para copiar y enviar al cliente.
+     Formato: #color=…&mat=…&medida=…&espesor=…&piezas=60x60x4,180x100x2 (lo lee ppDeepLink) */
+  function pccHashPedido(){
+    try{
+      var st=window._ppState||{};
+      if(!st.color||!st.dim||!st.esp)return;
+      var h='#color='+st.color+'&mat='+(st.material||st.tipo||'PETG')+'&medida='+st.dim+'&espesor='+st.esp;
+      var b=window._pccBorrador,modo=window._pccCurrentModo;
+      if(b&&b.filas&&(modo==='iguales'||modo==='distintos')){
+        var pz=b.filas.filter(function(f){return f[0]&&f[1]&&f[2];}).map(function(f){
+          return [f[0],f[1],f[2]].map(function(v){return String(v).replace(',','.').replace(/[^\d.]/g,'');}).join('x');
+        });
+        if(pz.length){
+          h+='&corte='+modo+'&piezas='+pz.join(',');
+          var rc=document.querySelector('#pccRes .pcc-slide-reco');
+          if(pccSel==='reco'&&rc)h+='&opcion=reco&modo='+(rc.getAttribute('data-modo')||'');
+        }
+      }
+      if(location.hash!==h)history.replaceState(history.state,'',location.pathname+location.search+h);
+    }catch(e){}
+  }
+  window.pccHashPedido=pccHashPedido;
   function pccBorradorLleno(){var b=window._pccBorrador;return !!(b&&b.filas&&b.filas.some(function(f){return f[0]&&f[1]&&f[2];}));}
   window.pccGuardarBorrador=pccGuardarBorrador;
   function pccAutoCalc(){
@@ -10952,6 +10976,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
   window.pccAutoCalc=pccAutoCalc;
   window.selectCorteModo=function(mode){
     window._pccCurrentModo=mode;
+    pccHashPedido();
     pccNotaSinCorte();
     try{renderCorteResumen();}catch(e){}
     ['none','iguales','distintos'].forEach(function(m){
@@ -11158,14 +11183,22 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
 </script>
 <script>
 /* ── DEEP LINK: #color=clear&medida=1800x1200&espesor=2mm&mat=PETG ── */
-(function ppDeepLink() {
+(function () {
+  var _primera = true;
   try {
     var _nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
     if (_nav && (_nav.type === 'reload' || _nav.type === 'back_forward')) {
       history.replaceState(null, '', window.location.pathname + window.location.search);
-      return;
+      _primera = false;
     }
   } catch (e) {}
+  if (_primera) ppDeepLink();
+  /* Enlace pegado en una pestaña que ya estaba en esta página: solo cambia el #, sin recargar */
+  window.addEventListener('hashchange', function () {
+    if (/(?:^#|&)(?:color|c)=/.test(window.location.hash)) ppDeepLink();
+  });
+})();
+function ppDeepLink() {
   var hashStr = window.location.hash.replace(/^#/, '').replace(/&amp(?:;|%3B)/gi, '&');
   var params  = new URLSearchParams((hashStr || window.location.search).replace(/&amp(?:;|%3B)/gi, '&'));
   var color   = params.get('color') || params.get('c');
@@ -11173,6 +11206,22 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
   var espesor = params.get('espesor') || params.get('esp') || params.get('e');
   var mat     = (params.get('mat') || params.get('t') || 'PETG').toUpperCase();
   if (!color) return;
+
+  /* Cortes armados por ventas: piezas=60x60x4,180x100x2 (cm) */
+  var filas = [];
+  (params.get('piezas') || params.get('p') || '').split(/[,;]/).forEach(function (s) {
+    var n = s.trim().replace(/,/g, '.').split(/[x×*]/i).map(function (v) { return parseFloat(v); });
+    if (n.length >= 2 && n[0] > 0 && n[1] > 0) filas.push([n[0], n[1], Math.max(1, Math.round(n[2] || 1))]);
+  });
+  var opcion = (params.get('opcion') || '').toLowerCase();
+  var modoReco = (params.get('modo') || '').toLowerCase();
+  var corte = (params.get('corte') || '').toLowerCase();
+  if (corte !== 'iguales' && corte !== 'distintos') {
+    var medidas = {};
+    filas.forEach(function (f) { medidas[f[0] + 'x' + f[1]] = 1; });
+    corte = Object.keys(medidas).length > 1 ? 'distintos' : 'iguales';
+  }
+
 
   function normalizeMedida(raw) {
     if (!raw) return '';
@@ -11200,7 +11249,40 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     if (cardEl && espesor) cardEl.dataset.selectedEsp  = espesor;
     if (cardEl && dimKey && espesor) cardEl.dataset.userSelected = 'true';
     history.replaceState(null, '', window.location.pathname + window.location.search);
-    setTimeout(function () { openConfigurator(color, espesor, mat); }, 180);
+    setTimeout(function () {
+      openConfigurator(color, espesor, mat);
+      if (filas.length && dimKey && espesor) llenarCortes(0);
+    }, 180);
+  }
+
+  /* Espera a que el modal esté en el paso Cortes y carga las piezas en la calculadora */
+  function llenarCortes(intento) {
+    if (intento > 40) return;
+    var tab = document.getElementById('corteTab_' + corte);
+    var enCortes = tab && tab.offsetParent !== null &&
+                   document.documentElement.classList.contains('pcc-paso3') &&
+                   typeof window.selectCorteModo === 'function';
+    if (!enCortes) { setTimeout(function () { llenarCortes(intento + 1); }, 200); return; }
+    setTimeout(function () {
+      window._pccBorrador = { modo: corte, filas: filas };
+      window.selectCorteModo(corte);
+      /* Comprueba que las piezas quedaron cargadas; si el modal aún se estaba armando, reintenta */
+      setTimeout(function () {
+        var listas = document.querySelectorAll('#pccList .pcc-row').length;
+        var primera = document.querySelector('#pccList .pcc-row .pcc-in');
+        if (listas < filas.length || !primera || !primera.value) { llenarCortes(intento + 5); return; }
+        if (opcion === 'reco') elegirReco(0);
+      }, 400);
+    }, 250);
+  }
+
+  /* Repite la opción recomendada que eligió ventas (y "Sí, ajústalas" / "No, son exactas") */
+  function elegirReco(intento) {
+    var card = document.querySelector('#pccRes .pcc-slide-reco');
+    if (!card) { if (intento < 15) setTimeout(function () { elegirReco(intento + 1); }, 200); return; }
+    var btn = (modoReco === 'ajustar' || modoReco === 'exacta') && card.querySelector('.pcc-r-sel button[data-m="' + modoReco + '"]');
+    if (btn && typeof window.pccModoReco === 'function') window.pccModoReco(btn, modoReco);
+    else if (typeof window.pccElegir === 'function') window.pccElegir('reco');
   }
 
   if (document.readyState === 'loading') {
@@ -11208,7 +11290,7 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
   } else {
     setTimeout(tryOpen, 400);
   }
-})();
+}
 </script>
 <script>
 (function(){
