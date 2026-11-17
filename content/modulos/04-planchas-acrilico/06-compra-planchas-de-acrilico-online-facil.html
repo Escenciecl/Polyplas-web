@@ -11199,7 +11199,26 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
       if(v[0]||v[1]||v[2])filas.push(v);
     });
     window._pccBorrador=filas.length?{modo:curMode,filas:filas}:null;
+    pccHashPedido();
   }
+  /* La barra de direcciones refleja el pedido armado (plancha + cortes), para copiar y enviar al cliente.
+     Formato: #color=…&mat=…&medida=…&espesor=…&piezas=60x60x4,180x100x2 (lo lee ppDeepLink) */
+  function pccHashPedido(){
+    try{
+      var st=window._ppState||{};
+      if(!st.color||!st.dim||!st.esp)return;
+      var h='#color='+st.color+'&mat='+(st.material||'AA')+'&medida='+st.dim+'&espesor='+st.esp;
+      var b=window._pccBorrador,modo=window._pccCurrentModo;
+      if(b&&b.filas&&(modo==='iguales'||modo==='distintos')){
+        var pz=b.filas.filter(function(f){return f[0]&&f[1]&&f[2];}).map(function(f){
+          return [f[0],f[1],f[2]].map(function(v){return String(v).replace(',','.').replace(/[^\d.]/g,'');}).join('x');
+        });
+        if(pz.length)h+='&corte='+modo+'&piezas='+pz.join(',');
+      }
+      if(location.hash!==h)history.replaceState(history.state,'',location.pathname+location.search+h);
+    }catch(e){}
+  }
+  window.pccHashPedido=pccHashPedido;
   function pccBorradorLleno(){var b=window._pccBorrador;return !!(b&&b.filas&&b.filas.some(function(f){return f[0]&&f[1]&&f[2];}));}
   window.pccGuardarBorrador=pccGuardarBorrador;
   function pccAutoCalc(){
@@ -11222,6 +11241,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
   window.pccAutoCalc=pccAutoCalc;
   window.selectCorteModo=function(mode){
     window._pccCurrentModo=mode;
+    pccHashPedido();
     pccNotaSinCorte();
     try{renderCorteResumen();}catch(e){}
     ['none','iguales','distintos'].forEach(function(m){
