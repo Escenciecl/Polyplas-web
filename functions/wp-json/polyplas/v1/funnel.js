@@ -11,7 +11,7 @@ const PASOS = new Set([
   "inicio_compra", "eligio_entrega", "eligio_pago", "compro", "pedido_transferencia",
   "lead_b2b", "cotizacion", "contacto_chat",
 ]);
-const CANALES = new Set(["google_ads", "meta_ads", "bing_ads", "otros_ads", "email", "organico", "social", "referido", "directo"]);
+const CANALES = new Set(["google_ads", "meta_ads", "bing_ads", "otros_ads", "email", "organico", "social", "referido", "directo", "venta_asistida"]);
 const limpio = (v, n) => String(v == null ? "" : v).replace(/[^\p{L}\p{N} ._\-|/+]/gu, "").trim().slice(0, n);
 const entero = (v, max) => Math.min(max, Math.max(0, Math.trunc(Number(v) || 0)));
 
