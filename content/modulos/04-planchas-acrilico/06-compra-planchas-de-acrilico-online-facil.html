@@ -8958,6 +8958,8 @@ function ppDeepLink() {
     var n = s.trim().replace(/,/g, '.').split(/[x×*]/i).map(function (v) { return parseFloat(v); });
     if (n.length >= 2 && n[0] > 0 && n[1] > 0) filas.push([n[0], n[1], Math.max(1, Math.round(n[2] || 1))]);
   });
+  var opcion = (params.get('opcion') || '').toLowerCase();
+  var modoReco = (params.get('modo') || '').toLowerCase();
   var corte = (params.get('corte') || '').toLowerCase();
   if (corte !== 'iguales' && corte !== 'distintos') {
     var medidas = {};
@@ -9023,9 +9025,19 @@ function ppDeepLink() {
       setTimeout(function () {
         var listas = document.querySelectorAll('#pccList .pcc-row').length;
         var primera = document.querySelector('#pccList .pcc-row .pcc-in');
-        if (listas < filas.length || !primera || !primera.value) llenarCortes(intento + 5);
+        if (listas < filas.length || !primera || !primera.value) { llenarCortes(intento + 5); return; }
+        if (opcion === 'reco') elegirReco(0);
       }, 400);
     }, 250);
+  }
+
+  /* Repite la opción recomendada que eligió ventas (y "Sí, ajústalas" / "No, son exactas") */
+  function elegirReco(intento) {
+    var card = document.querySelector('#pccRes .pcc-slide-reco');
+    if (!card) { if (intento < 15) setTimeout(function () { elegirReco(intento + 1); }, 200); return; }
+    var btn = (modoReco === 'ajustar' || modoReco === 'exacta') && card.querySelector('.pcc-r-sel button[data-m="' + modoReco + '"]');
+    if (btn && typeof window.pccModoReco === 'function') window.pccModoReco(btn, modoReco);
+    else if (typeof window.pccElegir === 'function') window.pccElegir('reco');
   }
 
   if (document.readyState === 'loading') {
@@ -10124,6 +10136,7 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
       pccFooterCalc(lastRes.sheets.length,pccMismaMedida(lastPieces));
       if(reco)descEl.textContent='Tu selección: '+descEl.textContent+' · tus medidas';
     }
+    pccHashPedido();
   }
   /* Llegaron precios del CRM: si hay un cálculo en pantalla y algún precio cambió,
      se recalcula (plano, recomendación y barra) manteniendo la opción que eligió el cliente. */
@@ -11213,7 +11226,11 @@ html.pcc-paso4 #corteSectionWrapper { display: none !important; }
         var pz=b.filas.filter(function(f){return f[0]&&f[1]&&f[2];}).map(function(f){
           return [f[0],f[1],f[2]].map(function(v){return String(v).replace(',','.').replace(/[^\d.]/g,'');}).join('x');
         });
-        if(pz.length)h+='&corte='+modo+'&piezas='+pz.join(',');
+        if(pz.length){
+          h+='&corte='+modo+'&piezas='+pz.join(',');
+          var rc=document.querySelector('#pccRes .pcc-slide-reco');
+          if(pccSel==='reco'&&rc)h+='&opcion=reco&modo='+(rc.getAttribute('data-modo')||'');
+        }
       }
       if(location.hash!==h)history.replaceState(history.state,'',location.pathname+location.search+h);
     }catch(e){}
