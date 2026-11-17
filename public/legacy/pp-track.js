@@ -101,8 +101,15 @@
     'aprovechado', 'aprovechado_actual', 'aprovechado_reco', 'ahorro', 'recomendada', 'motivo', 'detalle', 'modo',
     'opcion', 'piezas', 'medidas', 'm2', 'opciones', 'tolerancia', 'respuesta', 'ayuda', 'precio_pieza'];
   window.ppDLClaves = CLAVES_DL.slice();
+  /* Venta asistida (enlace con pedido armado por ventas): el cliente no recorrió el configurador,
+     así que sus pasos conf_… no se informan para no inflar el embudo. Carro, pago y compra sí. */
+  function ventaAsistida(evento) {
+    try { return /^conf_/.test(evento) && sessionStorage.getItem('pp_venta_asistida') === '1'; } catch (e) { return false; }
+  }
+
   window.ppEvento = function (evento, datos) {
     try {
+      if (ventaAsistida(evento)) { log('DESCARTADO (venta asistida)', evento); return false; }
       var p = { event: evento };
       CLAVES_DL.forEach(function (k) { p[k] = undefined; });
       datos = datos || {};
@@ -348,6 +355,7 @@
   var pasosHechos = {};
   window.ppPaso = function (evento, origen, datos) {
     try {
+      if (ventaAsistida(evento)) { log('DESCARTADO (venta asistida)', evento); return false; }
       datos = datos || {};
       var p = { event: evento };
       CLAVES_DL.forEach(function (k) { p[k] = undefined; });

@@ -455,6 +455,42 @@ function render(){
   renderSteps();
   const T=["","Tus piezas","Material, color y espesor","Tus opciones","Resumen de tu pedido"];const tt=document.getElementById("ppcm-wztitle");if(tt)tt.textContent=T[S.step];
   [null,renderP1,renderP2,renderP3,renderP4][S.step]();
+  hashPedido();
+}
+
+/* ---------- Enlace con pedido armado (para enviar al cliente) ----------
+   La barra de direcciones refleja lo elegido y ese enlace rearma el pedido:
+   #piezas=60x60x3,50x50x10&mat=acrilico&color=clear&esp=2mm&plancha=AA.1800x1200&tol=1
+   Con plancha elegida abre en el Resumen (solo agregar y pagar). */
+function hashPedido(){
+  try{
+    const ps=validPieces().filter(p=>p.ok);
+    if(!ps.length||S.example){if(/piezas=/.test(location.hash))history.replaceState(history.state,"",location.pathname+location.search);return;}
+    let h="#piezas="+ps.map(p=>`${p.w}x${p.h}x${p.q}`).join(",");
+    if(S.step>=2&&S.mat){h+="&mat="+S.mat;if(S.color)h+="&color="+S.color;if(S.esp)h+="&esp="+S.esp;}
+    if(S.tol)h+="&tol=1";
+    if(S.step===4&&S.chosen)h+="&plancha="+S.chosen.r.tipo+"."+S.chosen.r.dim;
+    if(location.hash!==h)history.replaceState(history.state,"",location.pathname+location.search+h);
+  }catch(_){}
+}
+function leerPedido(){
+  try{
+    const q=new URLSearchParams(location.hash.replace(/^#/,"").replace(/&amp;/gi,"&"));
+    const piezas=[];(q.get("piezas")||"").split(/[,;]/).forEach(s=>{const n=s.trim().split(/[x×*]/i).map(v=>parseFloat(v));if(n.length>=2&&n[0]>0&&n[1]>0)piezas.push({w:String(n[0]),h:String(n[1]),q:String(Math.max(1,Math.round(n[2]||1)))});});
+    if(!piezas.length)return false;
+    S.pieces=piezas;S.example=false;S.touched=true;S.tol=q.get("tol")==="1";
+    if(!validPieces().every(p=>p.ok)){S.step=1;return true;}
+    S.step=2;
+    const mat=q.get("mat"),color=q.get("color"),esp=q.get("esp");
+    if(mat&&MATS.some(m=>m.k===mat)&&inStock(rowsFor(mat))){setMat(mat);
+      if(color&&inStock(rowsFor(mat,color))){S.color=color;autoEsp();}
+      if(esp&&S.color&&inStock(rowsFor(mat,S.color,esp)))S.esp=esp;}
+    if(!step2Ready())return true;
+    S.step=3;
+    const pl=(q.get("plancha")||"").split(".");
+    if(pl.length===2){const o=computeOptions(S.tol).find(x=>!x.nofit&&x.stockOk&&x.r.tipo===pl[0]&&x.r.dim===pl[1]);if(o){S.sel=o.r.id;S.chosen=o;S.step=4;}}
+    return true;
+  }catch(_){return false;}
 }
 
 /* Paso 1 */
@@ -666,6 +702,8 @@ const _hechos=new Set(),_esperas={};
 const CLAVES_DL=["flujo","paso","linea","tipo","item_id","medida","espesor","color","valor","planchas","aprovechado","aprovechado_actual","aprovechado_reco","ahorro","recomendada","motivo","detalle","modo","opcion","piezas","medidas","m2","opciones","tolerancia","respuesta","ayuda","precio_pieza"];
 function track(ev,p,clave){
   try{
+    // Venta asistida (enlace con pedido armado por ventas): el cliente no recorrió estos pasos
+    try{if(sessionStorage.getItem("pp_venta_asistida")==="1")return;}catch(_){}
     if(clave){const k=ev+"|"+clave;if(_hechos.has(k))return;_hechos.add(k);}
     const elegido=S.step>=2&&S.mat;
     // Cada evento parte en blanco: así no arrastra valores de otro evento (Tag Manager recuerda la última capa de datos)
@@ -691,7 +729,7 @@ function waLink(){
 
 /* ---------- Eventos ---------- */
 ROOT.addEventListener("input",e=>{const t=e.target;if(t.dataset.f!==undefined&&t.dataset.i!==undefined){track("med_inicio",{},"1");S.pieces[+t.dataset.i][t.dataset.f]=t.value;S.example=false;S.chosen=null;S.sel=null;S.tolNo=false;S.showAll=false;
-  const pos=t.selectionStart,id=t.id;renderP1();renderSteps();const n=document.getElementById(id);if(n){n.focus();try{n.setSelectionRange(pos,pos);}catch(_){}}}});
+  const pos=t.selectionStart,id=t.id;renderP1();renderSteps();hashPedido();const n=document.getElementById(id);if(n){n.focus();try{n.setSelectionRange(pos,pos);}catch(_){}}}});
 ROOT.addEventListener("change",e=>{if(e.target.id==="ppcm-tol"){S.tol=e.target.checked;S.chosen=null;render();}});
 ROOT.addEventListener("click",e=>{
   const wa=e.target.closest("a[href*=\"wa.me\"]");if(wa){track("med_whatsapp",{});return;}
@@ -727,7 +765,8 @@ const SB_URL="https://gdrkscedvkjtcvexnhzg.supabase.co",SB_KEY="sb_publishable_q
 let listo=false;
 function arrancar(filas){
   const primera=!listo;buildData(filas);if(!DATA.length)return;listo=true;
-  if(primera){S.mat="acrilico";S.color="clear";if(!inStock(rowsFor("acrilico","clear","3mm")))autoEsp();else S.esp="3mm";}
+  if(primera){S.mat="acrilico";S.color="clear";if(!inStock(rowsFor("acrilico","clear","3mm")))autoEsp();else S.esp="3mm";
+    if(leerPedido()){render();return;}}
   if(S.chosen){const r=DATA.find(x=>x.tipo===S.chosen.r.tipo&&x.dim===S.chosen.r.dim&&x.color===S.chosen.r.color&&x.esp===S.chosen.r.esp);if(!r||r.precio!==S.chosen.r.precio){S.chosen=null;if(S.step===4)S.step=3;}}
   if(primera||S.step>=2)render();
 }

@@ -33,7 +33,17 @@
     var ref = host(document.referrer), propio = /(^|\.)polyplas\.cl$/.test(ref) || ref === location.hostname;
     var pagado = /^(cpc|ppc|paid|paidsocial|paid_social|cpm|display|ads?)$/.test(med);
     var canal = '';
-    if (gclid || ((src === 'google' || src === 'youtube') && pagado)) canal = 'google_ads';
+    // Enlace con pedido armado que ventas manda por WhatsApp (…#…&piezas=…): venta asistida, no Ads ni directo
+    // Solo al abrir el enlace (no si el propio cliente recarga la página con su pedido en la dirección)
+    var nav = ''; try { var _n = performance.getEntriesByType('navigation')[0]; nav = _n ? _n.type : ''; } catch (e) {}
+    var asistida = nav !== 'reload' && nav !== 'back_forward' &&
+      /(?:^#|&)(?:piezas|p)=/.test(location.hash.replace(/&amp;/gi, '&'));
+    if (asistida) {
+      try { sessionStorage.setItem('pp_venta_asistida', '1'); } catch (e) {}
+      if (!src) { src = 'whatsapp'; med = 'venta_asistida'; camp = camp || 'enlace_pedido'; }
+    }
+    if (asistida && !gclid) canal = 'venta_asistida';
+    else if (gclid || ((src === 'google' || src === 'youtube') && pagado)) canal = 'google_ads';
     else if (/(facebook|instagram|meta|fb|ig)/.test(src) && (pagado || !med)) canal = 'meta_ads';
     else if (msclkid || (src === 'bing' && pagado)) canal = 'bing_ads';
     else if (/^e-?mail|correo|newsletter|brevo$/.test(med) || src === 'brevo') canal = 'email';
