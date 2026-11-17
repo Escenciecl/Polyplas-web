@@ -41,6 +41,7 @@ export default function PanelCuenta() {
   const [eliminar, setEliminar] = useState(false);
   const [confirmacion, setConfirmacion] = useState("");
   const [eliminando, setEliminando] = useState(false);
+  const [errorEliminar, setErrorEliminar] = useState("");
 
   const repetir = useCallback(async (c: Compra) => {
     setRepitiendo(c.orden);
@@ -154,9 +155,8 @@ export default function PanelCuenta() {
 
   const eliminarCuenta = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
-    setAviso("");
-    if (confirmacion.trim().toUpperCase() !== "ELIMINAR") return setError("Escribe ELIMINAR para confirmar.");
+    setErrorEliminar("");
+    if (confirmacion.trim().toUpperCase() !== "ELIMINAR") return setErrorEliminar("Escribe ELIMINAR para confirmar.");
     setEliminando(true);
     try {
       const c = await sb();
@@ -174,7 +174,7 @@ export default function PanelCuenta() {
       setEstado("eliminada");
       window.scrollTo({ top: 0 });
     } catch (err) {
-      setError(err instanceof Error ? err.message : "No pudimos eliminar tu cuenta.");
+      setErrorEliminar(err instanceof Error && err.message ? err.message : "No pudimos eliminar tu cuenta. Intenta de nuevo o escríbenos.");
     } finally {
       setEliminando(false);
     }
@@ -338,7 +338,13 @@ export default function PanelCuenta() {
             <button type="button" className="pp-cuenta__link" onClick={() => setRecuperar(true)}>Cambiar contraseña</button>
           )}
           {!eliminar && (
-            <button type="button" className="pp-cuenta__link pp-cuenta__link--peligro" onClick={() => { setEliminar(true); setConfirmacion(""); }}>
+            <button type="button" className="pp-cuenta__link pp-cuenta__link--peligro" onClick={() => {
+                setEliminar(true);
+                setConfirmacion("");
+                setErrorEliminar("");
+                // La tarjeta aparece debajo: se lleva a la vista para que se note
+                setTimeout(() => document.getElementById("pp-eliminar-titulo")?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+              }}>
               Eliminar mi cuenta
             </button>
           )}
@@ -359,11 +365,12 @@ export default function PanelCuenta() {
             <span>Para confirmar, escribe ELIMINAR</span>
             <input type="text" value={confirmacion} onChange={(e) => setConfirmacion(e.target.value)} autoComplete="off" autoCapitalize="characters" spellCheck={false} />
           </label>
+          {errorEliminar && <p className="pp-auth__msg pp-auth__msg--error" role="alert">{errorEliminar}</p>}
           <div className="pp-eliminar__acciones">
             <button type="submit" className="pp-btn pp-btn--peligro" disabled={eliminando || confirmacion.trim().toUpperCase() !== "ELIMINAR"} aria-busy={eliminando}>
               {eliminando ? "Eliminando…" : "Eliminar mi cuenta"}
             </button>
-            <button type="button" className="pp-cuenta__link" onClick={() => { setEliminar(false); setConfirmacion(""); }} disabled={eliminando}>
+            <button type="button" className="pp-cuenta__link" onClick={() => { setEliminar(false); setConfirmacion(""); setErrorEliminar(""); }} disabled={eliminando}>
               Cancelar
             </button>
           </div>
