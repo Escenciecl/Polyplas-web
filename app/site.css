@@ -507,6 +507,16 @@ body [class*="-qty-close"], body .pp-qty-close { border-radius: 999px !important
 .pp-compras ul li { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; padding: 3px 0; }
 .pp-compras p { margin: 6px 0 0; font-size: 13px; color: var(--pp-muted); }
 .pp-compras p.pp-compras__ultima { margin: 0 0 8px; font: 700 12.5px var(--pp-font); letter-spacing: .4px; text-transform: uppercase; color: var(--pp-muted); }
+/* Eliminar mi cuenta */
+.pp-cuenta__link--peligro { color: #b42318; font-weight: 500; }
+.pp-eliminar { border-color: #f3c7c3; }
+.pp-eliminar ul { margin: 0 0 12px; padding-left: 20px; font-size: 14px; line-height: 1.5; }
+.pp-eliminar p { font-size: 14px; }
+.pp-eliminar__acciones { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; margin-top: 6px; }
+.pp-eliminar__acciones .pp-cuenta__link { margin: 0; }
+.pp-btn--peligro { background: #b42318; color: #fff; border: 0; }
+.pp-btn--peligro:hover:not(:disabled) { background: #912018; }
+.pp-btn--peligro:disabled { opacity: .5; cursor: not-allowed; }
 /* Repetir pedido */
 .pp-repetir { margin-top: 10px; min-height: 44px; }
 .pp-repetir__aviso { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; justify-content: space-between; }
