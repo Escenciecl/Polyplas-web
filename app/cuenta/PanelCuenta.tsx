@@ -21,7 +21,7 @@ const subtotalItem = (it: Item) => it.subtotal || (it.precio || 0) * (it.qty || 
 const fecha = (iso: string) => new Date(iso).toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" });
 
 export default function PanelCuenta() {
-  const [estado, setEstado] = useState<"cargando" | "fuera" | "dentro">("cargando");
+  const [estado, setEstado] = useState<"cargando" | "fuera" | "dentro" | "eliminada">("cargando");
   const [cliente, setCliente] = useState<Cliente>({ email: "", nombre: "", telefono: "" });
   const [compras, setCompras] = useState<Compra[] | null>(null);
   const [recuperar, setRecuperar] = useState(false);
@@ -37,6 +37,10 @@ export default function PanelCuenta() {
   const [pendiente, setPendiente] = useState("");
   const [repitiendo, setRepitiendo] = useState("");
   const [resultado, setResultado] = useState<(ResultadoRepetir & { orden: string }) | null>(null);
+  // Eliminar mi cuenta (Ley 21.719, supresión)
+  const [eliminar, setEliminar] = useState(false);
+  const [confirmacion, setConfirmacion] = useState("");
+  const [eliminando, setEliminando] = useState(false);
 
   const repetir = useCallback(async (c: Compra) => {
     setRepitiendo(c.orden);
@@ -148,6 +152,34 @@ export default function PanelCuenta() {
     setAviso("✓ Listo, tu nueva contraseña quedó guardada.");
   };
 
+  const eliminarCuenta = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setAviso("");
+    if (confirmacion.trim().toUpperCase() !== "ELIMINAR") return setError("Escribe ELIMINAR para confirmar.");
+    setEliminando(true);
+    try {
+      const c = await sb();
+      const { data } = await c.auth.getSession();
+      const token = data.session?.access_token;
+      if (!token) throw new Error("Tu sesión expiró. Vuelve a ingresar e intenta de nuevo.");
+      const r = await fetch("/wp-json/polyplas/v1/eliminar-cuenta", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ confirmacion: "ELIMINAR" }),
+      });
+      const j = (await r.json().catch(() => ({}))) as { ok?: boolean; message?: string };
+      if (!r.ok || !j.ok) throw new Error(j.message || "No pudimos eliminar tu cuenta. Intenta de nuevo o escríbenos.");
+      await c.auth.signOut({ scope: "local" }).catch(() => {});
+      setEstado("eliminada");
+      window.scrollTo({ top: 0 });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "No pudimos eliminar tu cuenta.");
+    } finally {
+      setEliminando(false);
+    }
+  };
+
   const salir = async () => {
     await (await sb()).auth.signOut();
     window.location.assign("/");
@@ -155,6 +187,19 @@ export default function PanelCuenta() {
 
   if (estado === "cargando") {
     return <section className="pp-cuenta"><p className="pp-cuenta__cargando">Cargando tu cuenta…</p></section>;
+  }
+
+  if (estado === "eliminada") {
+    return (
+      <section className="pp-cuenta pp-cuenta--form">
+        <div className="pp-cuenta__tarjeta">
+          <h1 className="pp-auth__titulo">Tu cuenta fue eliminada</h1>
+          <p>Borramos tu acceso y los datos de tu perfil. Te enviamos la confirmación a tu correo.</p>
+          <p>Los registros de tus compras se conservan solo para cumplir obligaciones tributarias (boletas y facturas). Puedes volver a comprar o crear una cuenta cuando quieras.</p>
+          <a className="pp-btn pp-btn--primary" href="/">Volver al inicio</a>
+        </div>
+      </section>
+    );
   }
 
   if (estado === "fuera") {
@@ -292,8 +337,38 @@ export default function PanelCuenta() {
           {!recuperar && (
             <button type="button" className="pp-cuenta__link" onClick={() => setRecuperar(true)}>Cambiar contraseña</button>
           )}
+          {!eliminar && (
+            <button type="button" className="pp-cuenta__link pp-cuenta__link--peligro" onClick={() => { setEliminar(true); setConfirmacion(""); }}>
+              Eliminar mi cuenta
+            </button>
+          )}
         </form>
       </div>
+
+      {eliminar && (
+        <form className="pp-cuenta__tarjeta pp-eliminar" onSubmit={eliminarCuenta} aria-labelledby="pp-eliminar-titulo">
+          <h2 id="pp-eliminar-titulo">Eliminar mi cuenta</h2>
+          <p>Si eliminas tu cuenta:</p>
+          <ul>
+            <li>Se borran tu acceso y los datos de tu perfil (nombre, teléfono y correo de la cuenta).</li>
+            <li>Ya no verás tu historial ni podrás repetir pedidos desde aquí.</li>
+            <li>Los registros de tus compras se conservan solo para cumplir obligaciones tributarias (boletas y facturas).</li>
+          </ul>
+          <p><b>Esto no se puede deshacer.</b> Puedes volver a crear una cuenta cuando quieras.</p>
+          <label className="pp-campo">
+            <span>Para confirmar, escribe ELIMINAR</span>
+            <input type="text" value={confirmacion} onChange={(e) => setConfirmacion(e.target.value)} autoComplete="off" autoCapitalize="characters" spellCheck={false} />
+          </label>
+          <div className="pp-eliminar__acciones">
+            <button type="submit" className="pp-btn pp-btn--peligro" disabled={eliminando || confirmacion.trim().toUpperCase() !== "ELIMINAR"} aria-busy={eliminando}>
+              {eliminando ? "Eliminando…" : "Eliminar mi cuenta"}
+            </button>
+            <button type="button" className="pp-cuenta__link" onClick={() => { setEliminar(false); setConfirmacion(""); }} disabled={eliminando}>
+              Cancelar
+            </button>
+          </div>
+        </form>
+      )}
     </section>
   );
 }

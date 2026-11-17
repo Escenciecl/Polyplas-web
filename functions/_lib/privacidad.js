@@ -35,15 +35,15 @@ export const ORIGENES_PERMITIDOS = ["https://polyplas.cl", "https://www.polyplas
 
 const limpiar = (v, max) => String(v == null ? "" : v).replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, max);
 export const correoValido = (e) => /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(e);
-const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+export const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
 
-function llave(env) {
+export function llave(env) {
   const k = String(env.SUPABASE_SERVICE_KEY || env.SUPABASE_SECRET_KEY || "").trim();
   if (!k) throw new Error("Falta SUPABASE_SERVICE_KEY");
   return k;
 }
 
-async function insertar(env, tabla, fila) {
+export async function insertar(env, tabla, fila) {
   const k = llave(env);
   const r = await fetch(`${SUPABASE_REST}/${tabla}`, {
     method: "POST",
@@ -53,7 +53,7 @@ async function insertar(env, tabla, fila) {
   if (!r.ok) throw new Error(`${tabla} ${r.status} ${(await r.text()).slice(0, 200)}`);
 }
 
-async function enviarCorreo(env, { to, subject, html, replyTo }) {
+export async function enviarCorreo(env, { to, subject, html, replyTo }) {
   const key = String(env.BREVO_API_KEY || "").trim();
   if (!key) return { ok: false, detail: "Falta BREVO_API_KEY" };
   const r = await fetch("https://api.brevo.com/v3/smtp/email", {
