@@ -469,7 +469,8 @@ function hashPedido(){
     let h="#piezas="+ps.map(p=>`${p.w}x${p.h}x${p.q}`).join(",");
     if(S.step>=2&&S.mat){h+="&mat="+S.mat;if(S.color)h+="&color="+S.color;if(S.esp)h+="&esp="+S.esp;}
     if(S.tol)h+="&tol=1";
-    if(S.step===4&&S.chosen)h+="&plancha="+S.chosen.r.tipo+"."+S.chosen.r.dim;
+    const pl=S.step===4&&S.chosen?S.chosen.r:(S.step===3&&S.sel!=null?((window._opts||[]).find(o=>o.r.id===S.sel)||{}).r:null);
+    if(pl)h+="&plancha="+pl.tipo+"."+pl.dim;
     if(location.hash!==h)history.replaceState(history.state,"",location.pathname+location.search+h);
   }catch(_){}
 }
