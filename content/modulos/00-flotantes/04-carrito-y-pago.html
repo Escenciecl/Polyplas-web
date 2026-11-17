@@ -426,6 +426,12 @@
 .ppGC-foot .ppGC-btn-next, .ppGC-foot .ppGC-btn-webpay { flex: 1; width: auto; margin: 0; padding: 15px 10px; font-size: 0.98rem; }
 .ppGC-foot .ppGC-btn-next:disabled, .ppGC-foot .ppGC-btn-webpay:disabled { background: #e3e8f0; color: #6b7686; box-shadow: none; cursor: not-allowed; opacity: 1; }
 .ppGC-foot .ppGC-btn-back-link { margin: 10px 0 0; padding: 0; }
+.ppGC-corte { margin-top: 6px; padding: 8px 10px; border-radius: 8px; background: #f6f8fb; border: 1px solid #e3e8f0; font-size: 0.8rem; line-height: 1.45; color: #334155; }
+.ppGC-corte-tag { font-weight: 700; color: #1b3a5c; }
+.ppGC-corte-pz { margin-top: 2px; }
+.ppGC-corte-det { margin-top: 4px; }
+.ppGC-corte-det summary { cursor: pointer; color: #004a99; font-weight: 600; }
+.ppGC-corte-det ul { margin: 4px 0 0; padding-left: 18px; }
 .ppGC-share { margin-top: 10px; text-align: center; }
 .ppGC-share-btn { display: inline-flex; align-items: center; gap: 6px; background: none; border: 0; padding: 6px 8px; font-family: inherit; font-size: 0.86rem; font-weight: 700; color: #004a99; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
 .ppGC-share-btn:hover { color: #003370; }
@@ -1512,6 +1518,33 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     }
   });
 
+  /* ── Detalle de cortes en el carro ────────────────────────────
+     Tipo de corte, piezas totales y, desplegable, el corte de cada plancha. */
+  function gcCm(mm) { var c = Math.round(Number(mm) || 0) / 10; return (c % 1 === 0 ? String(c) : c.toFixed(1)).replace('.', ','); }
+  function gcDetalleCorte(item) {
+    var modo = item.corteMode, ci = (item.calcInfo && typeof item.calcInfo === 'object') ? item.calcInfo : null;
+    if (!modo && !ci && !item.corteInstrucciones) return '';
+    var tag = modo === 'distintos'
+      ? '✂ Cortes de medidas distintas' + (Number(item.corte_costo) > 0 ? ' · +10% (' + fmt(item.corte_costo) + ')' : ' · +10%')
+      : (modo === 'iguales' ? '✂ Cortes iguales · gratis' : '✂ Con cortes');
+    var piezas = '';
+    if (ci && Array.isArray(ci.pieces) && ci.pieces.length) {
+      var tot = 0;
+      var lista = ci.pieces.map(function (p) { var q = Math.max(1, parseInt(p.qty, 10) || 1); tot += q; return q + ' × ' + gcCm(p.w) + '×' + gcCm(p.h) + ' cm'; });
+      piezas = tot + ' pieza' + (tot === 1 ? '' : 's') + ': ' + lista.join(' · ');
+      if (ci.ajuste) piezas += ' (medidas ajustadas)';
+    } else if (item.corteInstrucciones && !/Plancha\s*\d/i.test(item.corteInstrucciones)) {
+      piezas = String(item.corteInstrucciones);
+    }
+    var porPlancha = String(item.corteInstrucciones || '').split(/;\s*/).filter(function (t) { return /^Plancha\s*\d/i.test(t); });
+    return '<div class="ppGC-corte">' +
+      '<div class="ppGC-corte-tag">' + gcEsc(tag) + '</div>' +
+      (piezas ? '<div class="ppGC-corte-pz">' + gcEsc(piezas) + '</div>' : '') +
+      (porPlancha.length > 1 ? '<details class="ppGC-corte-det"><summary>Ver corte de cada plancha</summary><ul>' +
+        porPlancha.map(function (t) { return '<li>' + gcEsc(t) + '</li>'; }).join('') + '</ul></details>' : '') +
+    '</div>';
+  }
+
   /* ── Cambiar cantidad dentro del carrito ─────────────────── */
   var GC_QTY_MAX = 99;
   // Solo productos sin corte a medida: en las planchas con cortes, la cantidad define el plan de corte
@@ -1614,8 +1647,9 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       var mod = MOD_LABELS[item.module] || item.module || '';
       return '<div class="ppGC-cart-item">' +
         '<div class="ppGC-cart-item-info">' +
-          (mod ? '<div class="ppGC-cart-item-mod">' + mod + '</div>' : '') +
-          '<div class="ppGC-cart-item-name">' + (item.nombre || '') + '</div>' +
+          (mod ? '<div class="ppGC-cart-item-mod">' + gcEsc(mod) + '</div>' : '') +
+          '<div class="ppGC-cart-item-name">' + gcEsc(item.nombre || '') + '</div>' +
+          gcDetalleCorte(item) +
           (gcQtyEditable(item)
             ? '<div class="ppGC-qty" role="group" aria-label="Cantidad">' +
                 '<button type="button" aria-label="Quitar una unidad" onclick="window.ppGlobalCartQty(\'' + item.gid + '\',-1)"' + (item.qty <= 1 ? ' disabled' : '') + '>−</button>' +
@@ -2726,7 +2760,22 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     var d = JSON.parse(new TextDecoder().decode(bytes));
     return (d && Array.isArray(d.items)) ? d.items : [];
   }
-  function gcItemParaCompartir(it) { var o = {}; for (var k in it) if (Object.prototype.hasOwnProperty.call(it, k) && !GC_SHARE_FUERA[k]) o[k] = it[k]; return o; }
+  function gcItemParaCompartir(it) {
+    var o = {};
+    for (var k in it) if (Object.prototype.hasOwnProperty.call(it, k) && !GC_SHARE_FUERA[k]) o[k] = it[k];
+    // Los dibujos del plano no viajan (el servidor y el carro los rearman con piezas y medidas)
+    if (o.calcInfo && typeof o.calcInfo === 'object') { var ci = {}; for (var c in o.calcInfo) if (c !== 'svgs' && c !== 'pngsB64') ci[c] = o.calcInfo[c]; o.calcInfo = ci; }
+    return o;
+  }
+  // Datos que llegan por un enlace: solo texto y números (sin etiquetas HTML ni dibujos)
+  function gcLimpiarCompartido(v, prof) {
+    if (prof > 6) return null;
+    if (typeof v === 'string') return v.replace(/[<>]/g, '').slice(0, 2000);
+    if (typeof v === 'number' || typeof v === 'boolean' || v === null) return v;
+    if (Array.isArray(v)) return v.slice(0, 200).map(function (x) { return gcLimpiarCompartido(x, prof + 1); });
+    if (typeof v === 'object') { var o = {}; for (var k in v) if (Object.prototype.hasOwnProperty.call(v, k) && k !== 'svgs' && k !== 'pngsB64') o[k] = gcLimpiarCompartido(v[k], prof + 1); return o; }
+    return null;
+  }
 
   /* Con el carro abierto, la barra de direcciones muestra el enlace del carro (#carro=…),
      así se puede copiar y enviar directo. Al cerrar el carro vuelve la dirección anterior. */
@@ -2786,7 +2835,8 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     if (!desdeHash) { try { var nav = performance.getEntriesByType('navigation')[0]; if (nav && (nav.type === 'reload' || nav.type === 'back_forward')) return; } catch (e) {} }
     var nuevos;
     try { nuevos = await gcDecodificar(m[1]); } catch (e) { nuevos = []; }
-    nuevos = (nuevos || []).filter(function (it) { return it && typeof it === 'object' && (it.sku || it.nombre) && Number(it.qty) > 0; }).slice(0, 50);
+    nuevos = (nuevos || []).filter(function (it) { return it && typeof it === 'object' && !Array.isArray(it) && (it.sku || it.nombre) && Number(it.qty) > 0; }).slice(0, 50)
+      .map(function (it) { return gcLimpiarCompartido(it, 0); });
     if (!nuevos.length) return;
     var base = Date.now().toString(36);
     function armar(modo) {
