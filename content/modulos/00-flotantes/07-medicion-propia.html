@@ -34,7 +34,10 @@
     var pagado = /^(cpc|ppc|paid|paidsocial|paid_social|cpm|display|ads?)$/.test(med);
     var canal = '';
     // Enlace con pedido armado que ventas manda por WhatsApp (…#…&piezas=…): venta asistida, no Ads ni directo
-    var asistida = /(?:^#|&)(?:piezas|p)=/.test(location.hash.replace(/&amp;/gi, '&'));
+    // Solo al abrir el enlace (no si el propio cliente recarga la página con su pedido en la dirección)
+    var nav = ''; try { var _n = performance.getEntriesByType('navigation')[0]; nav = _n ? _n.type : ''; } catch (e) {}
+    var asistida = nav !== 'reload' && nav !== 'back_forward' &&
+      /(?:^#|&)(?:piezas|p)=/.test(location.hash.replace(/&amp;/gi, '&'));
     if (asistida) {
       try { sessionStorage.setItem('pp_venta_asistida', '1'); } catch (e) {}
       if (!src) { src = 'whatsapp'; med = 'venta_asistida'; camp = camp || 'enlace_pedido'; }
