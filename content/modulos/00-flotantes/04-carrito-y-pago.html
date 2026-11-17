@@ -1670,6 +1670,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
         shipLabel.className = 'ppGC-shipping-label';
       }
     }
+    gcHashCarro();
   }
 
   function ppGCOpen() {
@@ -1685,6 +1686,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   }
 
   function ppGCCloseCart() {
+    gcHashCarroQuitar();
     gEl('ppGC-cart-modal').style.display = 'none';
     gEl('ppGC-overlay').style.display = 'none';
     gcUnlockScroll();
@@ -2725,6 +2727,26 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     return (d && Array.isArray(d.items)) ? d.items : [];
   }
   function gcItemParaCompartir(it) { var o = {}; for (var k in it) if (Object.prototype.hasOwnProperty.call(it, k) && !GC_SHARE_FUERA[k]) o[k] = it[k]; return o; }
+
+  /* Con el carro abierto, la barra de direcciones muestra el enlace del carro (#carro=…),
+     así se puede copiar y enviar directo. Al cerrar el carro vuelve la dirección anterior. */
+  var gcHashPrevio = null, gcHashTurno = 0;
+  function gcCarroAbierto() { var m = gEl('ppGC-cart-modal'); return !!(m && m.style.display === 'flex'); }
+  async function gcHashCarro() {
+    var turno = ++gcHashTurno;
+    if (!gcItems.length) { gcHashCarroQuitar(); return; }
+    var code;
+    try { code = await gcCodificar(gcItems.map(gcItemParaCompartir)); } catch (e) { return; }
+    if (turno !== gcHashTurno || !gcCarroAbierto()) return;
+    if (gcHashPrevio === null) gcHashPrevio = /(?:^#|&)carro=/.test(location.hash) ? '' : location.hash;
+    var h = '#carro=' + code;
+    if (location.hash !== h) history.replaceState(history.state, '', location.pathname + location.search + h);
+  }
+  function gcHashCarroQuitar() {
+    gcHashTurno++;
+    if (/(?:^#|&)carro=/.test(location.hash)) history.replaceState(history.state, '', location.pathname + location.search + (gcHashPrevio || ''));
+    gcHashPrevio = null;
+  }
 
   window.ppGCCompartir = async function () {
     gcLoad();
