@@ -8923,15 +8923,25 @@ function openConfiguratorPA(colorKey) {
 }
 </script>
 <script>
-/* ── DEEP LINK: #color=clear&medida=1800x1200&espesor=2mm&mat=AA ── */
-(function ppDeepLink() {
+/* ── DEEP LINK: #color=clear&medida=1800x1200&espesor=2mm&mat=AA
+   Con cortes: …&corte=distintos&piezas=60x60x4,180x100x2  (ancho x alto x cantidad, en cm)
+   corte = iguales | distintos (si falta y hay piezas: distintos si hay más de una medida). ── */
+(function () {
+  var _primera = true;
   try {
     var _nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
     if (_nav && (_nav.type === 'reload' || _nav.type === 'back_forward')) {
       history.replaceState(null, '', window.location.pathname + window.location.search);
-      return;
+      _primera = false;
     }
   } catch (e) {}
+  if (_primera) ppDeepLink();
+  /* Enlace pegado en una pestaña que ya estaba en esta página: solo cambia el #, sin recargar */
+  window.addEventListener('hashchange', function () {
+    if (/(?:^#|&)(?:color|c)=/.test(window.location.hash)) ppDeepLink();
+  });
+})();
+function ppDeepLink() {
   /* Lee del hash (#) para evitar 404 de WordPress con query params */
   var hashStr = window.location.hash.replace(/^#/, '').replace(/&amp(?:;|%3B)/gi, '&');
   var params  = new URLSearchParams((hashStr || window.location.search).replace(/&amp(?:;|%3B)/gi, '&'));
@@ -8941,6 +8951,19 @@ function openConfiguratorPA(colorKey) {
   var mat     = (params.get('mat') || params.get('t') || 'AA').toUpperCase();
   if (params.has('material')) return; /* URL de filtros (?material=…), no abre el configurador */
   if (!color) return;
+
+  /* Cortes armados por ventas: piezas=60x60x4,180x100x2 (cm) */
+  var filas = [];
+  (params.get('piezas') || params.get('p') || '').split(/[,;]/).forEach(function (s) {
+    var n = s.trim().replace(/,/g, '.').split(/[x×*]/i).map(function (v) { return parseFloat(v); });
+    if (n.length >= 2 && n[0] > 0 && n[1] > 0) filas.push([n[0], n[1], Math.max(1, Math.round(n[2] || 1))]);
+  });
+  var corte = (params.get('corte') || '').toLowerCase();
+  if (corte !== 'iguales' && corte !== 'distintos') {
+    var medidas = {};
+    filas.forEach(function (f) { medidas[f[0] + 'x' + f[1]] = 1; });
+    corte = Object.keys(medidas).length > 1 ? 'distintos' : 'iguales';
+  }
 
   /* Normaliza medida: acepta clave exacta (1800x1200) o en cm (180x120 → 1800x1200) */
   function normalizeMedida(raw) {
@@ -8979,7 +9002,30 @@ function openConfiguratorPA(colorKey) {
     history.replaceState(null, '', window.location.pathname + window.location.search);
 
     /* Abre el modal (directo a paso de pedido si hay dim+esp, si no al selector) */
-    setTimeout(function () { openConfigurator(color, mat); }, 180);
+    setTimeout(function () {
+      openConfigurator(color, mat);
+      if (filas.length && dimKey && espesor) llenarCortes(0);
+    }, 180);
+  }
+
+  /* Espera a que el modal esté en el paso Cortes y carga las piezas en la calculadora */
+  function llenarCortes(intento) {
+    if (intento > 40) return;
+    var tab = document.getElementById('corteTab_' + corte);
+    var enCortes = tab && tab.offsetParent !== null &&
+                   document.documentElement.classList.contains('pcc-paso3') &&
+                   typeof window.selectCorteModo === 'function';
+    if (!enCortes) { setTimeout(function () { llenarCortes(intento + 1); }, 200); return; }
+    setTimeout(function () {
+      window._pccBorrador = { modo: corte, filas: filas };
+      window.selectCorteModo(corte);
+      /* Comprueba que las piezas quedaron cargadas; si el modal aún se estaba armando, reintenta */
+      setTimeout(function () {
+        var listas = document.querySelectorAll('#pccList .pcc-row').length;
+        var primera = document.querySelector('#pccList .pcc-row .pcc-in');
+        if (listas < filas.length || !primera || !primera.value) llenarCortes(intento + 5);
+      }, 400);
+    }, 250);
   }
 
   if (document.readyState === 'loading') {
@@ -8987,7 +9033,7 @@ function openConfiguratorPA(colorKey) {
   } else {
     setTimeout(tryOpen, 400);
   }
-})();
+}
 </script>
 <style>
 #pccCalc{font-family:Arial,sans-serif;margin-top:14px;}
