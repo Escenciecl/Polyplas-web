@@ -240,17 +240,6 @@ export default function PanelCuenta() {
 
       {resultado && <AvisoRepetir r={resultado} />}
 
-      {compras && compras.length > 0 && (
-        <div className="pp-cuenta__tarjeta pp-ultimo">
-          <div className="pp-ultimo__info">
-            <p className="pp-ultimo__eyebrow">Tu último pedido · {fecha(compras[0].creado_en)}</p>
-            <h2>{resumenItems(compras[0].items)}</h2>
-            <p className="pp-ultimo__nota">Se agrega a tu carro con el precio y stock de hoy. Puedes cambiarlo antes de pagar.</p>
-          </div>
-          <BotonRepetir c={compras[0]} repitiendo={repitiendo} onRepetir={repetir} grande />
-        </div>
-      )}
-
       <div className="pp-cuenta__cols">
         <div className="pp-cuenta__tarjeta">
           <h2>Mis compras</h2>
@@ -261,8 +250,10 @@ export default function PanelCuenta() {
             </p>
           )}
           <ul className="pp-compras">
-            {compras?.map((c) => (
+            {compras?.map((c, n) => (
               <li key={c.id}>
+                {n === 0 && <p className="pp-compras__ultima">Tu última compra fue el {fecha(c.creado_en)}</p>}
+                {n === 1 && <p className="pp-compras__ultima">Compras anteriores</p>}
                 <div className="pp-compras__cab">
                   <b>Pedido {c.orden}</b>
                   <span>{fecha(c.creado_en)}</span>
@@ -307,19 +298,11 @@ export default function PanelCuenta() {
   );
 }
 
-/** "Plancha AA 100×200 · 3 mm y 2 productos más" */
-function resumenItems(items: Item[] | null): string {
-  const lista = (items || []).filter((it) => it.sku !== "DESPACHO" && it.sku !== "EMBALAJE");
-  if (!lista.length) return "Pedido";
-  const primero = `${nombreItem(lista[0])}${(lista[0].qty || 1) > 1 ? ` × ${lista[0].qty}` : ""}`;
-  return lista.length > 1 ? `${primero} y ${lista.length - 1} producto${lista.length > 2 ? "s" : ""} más` : primero;
-}
-
-function BotonRepetir({ c, repitiendo, onRepetir, grande = false }: { c: Compra; repitiendo: string; onRepetir: (c: Compra) => void; grande?: boolean }) {
+function BotonRepetir({ c, repitiendo, onRepetir }: { c: Compra; repitiendo: string; onRepetir: (c: Compra) => void }) {
   if (!sePuedeRepetir(c.items)) {
     // Pedidos antiguos sin código de producto: se piden por WhatsApp con el número de pedido
     return (
-      <button type="button" className={`pp-btn pp-btn--ghost pp-repetir${grande ? " pp-repetir--grande" : ""}`} onClick={() => whatsappRepetir(c.orden, (c.items || []).map((it) => `${nombreItem(it)} × ${it.qty || 1}`))}>
+      <button type="button" className="pp-btn pp-btn--ghost pp-repetir" onClick={() => whatsappRepetir(c.orden, (c.items || []).map((it) => `${nombreItem(it)} × ${it.qty || 1}`))}>
         Repetir por WhatsApp
       </button>
     );
@@ -328,7 +311,7 @@ function BotonRepetir({ c, repitiendo, onRepetir, grande = false }: { c: Compra;
   return (
     <button
       type="button"
-      className={`pp-btn pp-btn--primary pp-repetir${grande ? " pp-repetir--grande" : ""}`}
+      className="pp-btn pp-btn--primary pp-repetir"
       onClick={() => onRepetir(c)}
       disabled={!!repitiendo}
       aria-busy={ocupado}
