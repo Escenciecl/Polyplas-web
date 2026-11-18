@@ -502,6 +502,7 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
 .ppGC-ofertas { margin-top: 10px; }
 .ppGC-terms-row { display: flex; align-items: center; gap: 12px; padding: 14px 16px; cursor: pointer; min-height: 52px; }
 .ppGC-terms-row:hover { background: #eef3fc; }
+.ppGC-terms-row.ppGC-terms-falta { background: #fff4e5; box-shadow: inset 0 0 0 2px #f59e0b; border-radius: 8px; }
 .ppGC-terms-box { width: 22px; height: 22px; flex-shrink: 0; border: 2px solid #9fb3d6; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: #fff; }
 .ppGC-terms-row.checked .ppGC-terms-box { background: #004a99; border-color: #004a99; }
 .ppGC-terms-box svg { display: none; }
@@ -849,7 +850,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 </div>
 <div class="ppGC-field full">
 <label>Dirección *</label>
-<input id="ppgc_pn_dir" placeholder="Av. Ejemplo 1234, Depto 5" type="text"/>
+<input autocomplete="shipping street-address" id="ppgc_pn_dir" placeholder="Av. Ejemplo 1234, Depto 5" type="text"/>
 </div>
 </div>
 <div aria-live="polite" id="ppGC-addr-aviso" role="status" style="display:none;margin-top:12px;padding:12px 14px;background:#fff8e6;border:1.5px solid #f0c36d;border-radius:10px;color:#5c4400;font-size:0.85rem;line-height:1.45"></div>
@@ -870,26 +871,26 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <div class="ppGC-form-grid" id="ppGC-fieldsPN">
 <div class="ppGC-field full">
 <label>Nombre completo *</label>
-<input id="ppgc_nombre" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Juan Pérez González" type="text"/>
+<input autocomplete="name" autocapitalize="words" id="ppgc_nombre" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Juan Pérez González" type="text"/>
 </div>
 <div class="ppGC-field">
 <label>RUT *</label>
-<input id="ppgc_rut" onblur="ppGCValidateField(this)" oninput="ppGCFormatRut(this)" placeholder="12.345.678-9" type="text"/>
+<input autocomplete="off" autocapitalize="characters" id="ppgc_rut" onblur="ppGCValidateField(this)" oninput="ppGCFormatRut(this)" placeholder="12.345.678-9" type="text"/>
 <div class="ppGC-field-error" id="ppgc_rut_err">RUT inválido · revisa los números y el dígito verificador (ej: 12.345.678-5)</div>
 </div>
 <div class="ppGC-field">
 <label>Teléfono *</label>
-<input id="ppgc_tel" onblur="ppGCValidateField(this)" onfocus="ppGCOnTelFocus(this)" oninput="ppGCOnTelInput(this)" onkeydown="ppGCOnTelKeydown(event,this)" type="tel" value="+56 "/>
+<input autocomplete="tel" inputmode="tel" id="ppgc_tel" onblur="ppGCValidateField(this)" onfocus="ppGCOnTelFocus(this)" oninput="ppGCOnTelInput(this)" onkeydown="ppGCOnTelKeydown(event,this)" type="tel" value="+56 "/>
 <div class="ppGC-field-error" id="ppgc_tel_err">Ingresa 9 dígitos (ej: +56 912345678)</div>
 </div>
 <div class="ppGC-field full">
 <label>Email *</label>
-<input id="ppgc_email" onblur="ppGCValidateField(this)" oninput="ppGCOnEmailInput(this)" placeholder="correo@ejemplo.cl" type="text"/>
+<input autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" id="ppgc_email" onblur="ppGCValidateField(this)" oninput="ppGCOnEmailInput(this)" placeholder="correo@ejemplo.cl" type="text"/>
 <div class="ppGC-field-error" id="ppgc_email_err">Ingresa un email válido</div>
 </div>
 <div class="ppGC-field full">
 <label>Dirección de facturación *</label>
-<input id="ppgc_bill_dir" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Av. Ejemplo 1234, Depto 5" type="text"/>
+<input autocomplete="street-address" id="ppgc_bill_dir" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Av. Ejemplo 1234, Depto 5" type="text"/>
 </div>
 <div class="ppGC-field">
 <label>Región *</label>
@@ -917,12 +918,12 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <div class="ppGC-form-grid" id="ppGC-fieldsEMP" style="display:none">
 <div class="ppGC-field">
 <label>RUT Empresa *</label>
-<input id="ppgc_emp_rut" onblur="ppGCValidateField(this)" oninput="ppGCFormatRut(this)" placeholder="76.543.210-K" type="text"/>
+<input autocomplete="off" autocapitalize="characters" id="ppgc_emp_rut" onblur="ppGCValidateField(this)" oninput="ppGCFormatRut(this)" placeholder="76.543.210-K" type="text"/>
 <div class="ppGC-field-error" id="ppgc_emp_rut_err">RUT inválido · revisa los números y el dígito verificador (ej: 76.123.456-K)</div>
 </div>
 <div class="ppGC-field full">
 <label>Razón Social *</label>
-<input id="ppgc_emp_razon" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Empresa Ejemplo SpA" type="text"/>
+<input autocomplete="organization" id="ppgc_emp_razon" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Empresa Ejemplo SpA" type="text"/>
 </div>
 <div class="ppGC-field">
 <label>Giro *</label>
@@ -930,17 +931,17 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 </div>
 <div class="ppGC-field">
 <label>Teléfono *</label>
-<input id="ppgc_emp_tel" onblur="ppGCValidateField(this)" onfocus="ppGCOnTelFocus(this)" oninput="ppGCOnTelInput(this)" onkeydown="ppGCOnTelKeydown(event,this)" type="tel" value="+56 "/>
+<input autocomplete="tel" inputmode="tel" id="ppgc_emp_tel" onblur="ppGCValidateField(this)" onfocus="ppGCOnTelFocus(this)" oninput="ppGCOnTelInput(this)" onkeydown="ppGCOnTelKeydown(event,this)" type="tel" value="+56 "/>
 <div class="ppGC-field-error" id="ppgc_emp_tel_err">Ingresa 9 dígitos (ej: +56 912345678)</div>
 </div>
 <div class="ppGC-field full">
 <label>Email *</label>
-<input id="ppgc_emp_email" onblur="ppGCValidateField(this)" oninput="ppGCOnEmailInput(this)" placeholder="contacto@empresa.cl" type="text"/>
+<input autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" id="ppgc_emp_email" onblur="ppGCValidateField(this)" oninput="ppGCOnEmailInput(this)" placeholder="contacto@empresa.cl" type="text"/>
 <div class="ppGC-field-error" id="ppgc_emp_email_err">Ingresa un email válido</div>
 </div>
 <div class="ppGC-field full">
 <label>Dirección *</label>
-<input id="ppgc_emp_dir" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Av. Ejemplo 1234, Oficina 5" type="text"/>
+<input autocomplete="street-address" id="ppgc_emp_dir" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Av. Ejemplo 1234, Oficina 5" type="text"/>
 </div>
 <div class="ppGC-field">
 <label>Región *</label>
@@ -970,7 +971,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <div class="ppGC-foot-sum"><div class="ppGC-foot-info"><div class="ppGC-foot-desc">Total del pedido</div><div class="ppGC-foot-iva" id="ppGC-foot-iva1">IVA incluido</div></div><b class="ppGC-foot-val">$ 0</b></div>
 <div class="ppGC-foot-btns">
 <button class="ppGC-btn-back" onclick="ppGCBackToCart()" type="button">Atrás</button>
-<button class="ppGC-btn-next" id="ppGC-btn-s1" onclick="ppGCContinuarAlPago()" type="button" disabled>Continuar al pago</button>
+<button class="ppGC-btn-next" id="ppGC-btn-s1" onclick="ppGCContinuarAlPago()" type="button">Continuar al pago</button>
 </div>
 </div>
 </div>
@@ -1258,11 +1259,19 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     if (nx) { nx.disabled = !selOk; nx.textContent = selOk ? 'Continuar' : 'Elige una entrega'; }
     var wb = gEl('ppGC-btn-wp'); if (!wb) return;
     var faltaT = gcTermsModules().length && !gcTermsAccepted;
-    var ok = selOk && !faltaT;
-    wb.disabled = !ok; wb.style.opacity = ''; wb.style.cursor = '';
-    wb.textContent = faltaT ? 'Acepta los términos para pagar' : (gcPago === 'transferencia' ? 'Confirmar pedido' : 'Pagar con Webpay');
+    // exp-013: activo aunque falten los términos; al presionar se resalta la casilla (gcFaltanTerminos)
+    wb.disabled = !selOk; wb.style.opacity = ''; wb.style.cursor = '';
+    wb.textContent = gcPago === 'transferencia' ? 'Confirmar pedido' : 'Pagar con Webpay';
+  }
+  function gcFaltanTerminos() {
+    var e2 = gEl('ppGC-s2-err');
+    if (e2) { e2.textContent = 'Para pagar, marca la casilla de los Términos y Condiciones.'; e2.style.display = 'block'; }
+    var row = gEl('ppGC-terms-row');
+    if (row) { row.classList.add('ppGC-terms-falta'); row.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    gcP3Push('pago_datos_revisar', { paso: 'pago', motivo: 'terminos' });
   }
   window.ppGCToggleTerms = function() {
+    var _row = gEl('ppGC-terms-row'); if (_row) _row.classList.remove('ppGC-terms-falta');
     gcSetTerms(!gcTermsAccepted);
     var e2 = gEl('ppGC-s2-err'); if (e2 && gcTermsAccepted) e2.style.display = 'none';
     gcCheckPayBtn();
@@ -1791,6 +1800,17 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     document.body.classList.add('ppGC-pago');
     gcLockScroll();
     try { gcAutollenarCuenta(); } catch (e) {} // solo clientes con sesión y compra anterior
+    // exp-013 (18-nov-2026): Región Metropolitana precargada; solo pide la comuna. Se puede cambiar.
+    // No aplica si el carro trae tinas o cascos (esos sí van a regiones).
+    try {
+      var _rpc = gEl('ppGC-regionPreCheck');
+      var _largo = gcItems.some(function(i) { return i.module === 'tinas' || i.module === 'cascos'; });
+      if (_rpc && !_rpc.value && !_largo) {
+        _rpc.value = 'RM';
+        gcP3.rmPrecargada = true;
+        ppGCOnRegionPreCheck();
+      }
+    } catch (e) {}
   }
 
   /* ── Datos de la cuenta (2026-11-16) ─────────────────────────
@@ -2182,7 +2202,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     if (ln) { ln.textContent = '🔒 Selecciona tu región para ver las opciones de envío disponibles.'; ln.style.display = 'block'; }
     var el = gEl('ppGC-entrega-locked'); if (el) el.style.display = 'none';
     var dl = gEl('ppGC-datos-locked'); if (dl) dl.style.display = 'none';
-    var btn = gEl('ppGC-btn-s1'); if (btn) btn.disabled = true;
+    // exp-013: el botón queda activo; si falta la comuna, ppGCContinuarAlPago lo explica
     gcResetEntregaUI();
   }
 
@@ -2244,6 +2264,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 
   function ppGCOnRegionPreCheck() {
     var region=(gEl('ppGC-regionPreCheck')||{}).value||'';
+    var _rs=gEl('ppGC-regionPreCheck'); if (_rs) _rs.classList.remove('ppGC-input-error');
     var msg=gEl('ppGC-regionNoDespachoMsg');
     var cc=gEl('ppGC-comunaCheck');
     gcResetEntregaUI();
@@ -2254,7 +2275,8 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       gcInitEntregaLocked();
       return;
     }
-    gcP3Push('pago_region', { paso: 'region', motivo: region === 'RM' ? 'rm' : 'fuera_rm', detalle: region });
+    if (gcP3.rmPrecargada && region === 'RM') { gcP3.rmPrecargada = false; gcP3Push('pago_region', { paso: 'region', motivo: 'rm_precargada', detalle: region }); }
+    else { gcP3.rmPrecargada = false; gcP3Push('pago_region', { paso: 'region', motivo: region === 'RM' ? 'rm' : 'fuera_rm', detalle: region }); }
     gcP3.paso = region === 'RM' ? 'comuna' : 'datos';
     if (region!=='RM') {
       // Fuera de la RM: desbloquear inmediatamente (retiro o envío propio según carrito)
@@ -2274,13 +2296,14 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       if (ln) { ln.textContent='🔒 Selecciona tu comuna para ver las opciones de envío.'; ln.style.display='block'; }
       var el=gEl('ppGC-entrega-locked'); if (el) el.style.display='none';
       var dl=gEl('ppGC-datos-locked'); if (dl) dl.style.display='none';
-      var btn=gEl('ppGC-btn-s1'); if (btn) btn.disabled=true;
+      // exp-013: botón activo (antes se desactivaba aquí)
     }
     gcRenderEntregaAviso();
   }
 
   function ppGCOnComunaPreCheck() {
     var comuna=(gEl('ppGC-comunaPreCheck')||{}).value||'';
+    var _cs=gEl('ppGC-comunaPreCheck'); if (_cs) _cs.classList.remove('ppGC-input-error');
     var cm=gEl('ppGC-comunaExcluidaMsg');
     gcResetEntregaUI();
     if (!comuna) { if (cm) cm.style.display='none'; return; }
@@ -2525,6 +2548,17 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 
   // Paso 3 → 4: valida datos y entrega (y la dirección si hay despacho) y muestra el resumen con el pago.
   function ppGCContinuarAlPago() {
+    // exp-013: si todavía no elige región/comuna, decirle qué falta y llevarlo ahí
+    var _dl = gEl('ppGC-datos-locked');
+    if (_dl && _dl.style.display === 'none') {
+      var _rg = (gEl('ppGC-regionPreCheck') || {}).value || '';
+      var _sel = _rg ? gEl('ppGC-comunaPreCheck') : gEl('ppGC-regionPreCheck');
+      gcP3Push('pago_datos_revisar', { paso: _rg ? 'comuna' : 'region', motivo: 'vacio', detalle: _rg ? 'comuna' : 'region' });
+      var _ln = gEl('ppGC-lock-notice');
+      if (_ln) { _ln.textContent = _rg ? '👉 Elige tu comuna para continuar.' : '👉 Elige tu región para continuar.'; _ln.style.display = 'block'; }
+      if (_sel) { _sel.classList.add('ppGC-input-error'); _sel.scrollIntoView({ behavior: 'smooth', block: 'center' }); try { _sel.focus({ preventScroll: true }); } catch (e) {} }
+      return;
+    }
     if (!gcValidarDatos()) return;
     gcRefreshEntrega(false);
     var e = gEl('ppGC-s2a-err'); if (e) e.style.display = 'none';
@@ -2572,7 +2606,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     var e2=gEl('ppGC-s2-err'), btn=gEl('ppGC-btn-wp');
     var listo=function(){ if (btn){ btn.disabled=false; btn.textContent='Confirmar pedido'; } };
     if (!gcSelectedEntrega || gcSelectedEntrega.bloqueado) { if (e2) { e2.textContent='Elige una modalidad de entrega.'; e2.style.display='block'; } return; }
-    if (gcTermsModules().length && !gcTermsAccepted) { if (e2) { e2.textContent='Debes aceptar los Términos y Condiciones para continuar.'; e2.style.display='block'; } return; }
+    if (gcTermsModules().length && !gcTermsAccepted) { gcFaltanTerminos(); return; }
     if (gcSelectedEntrega.needsAddress) {
       var dd=gEl('ppgc_pn_dir'), dr=gEl('ppgc_pn_region'), dc=gEl('ppgc_pn_ciudad');
       if (!dd||!dd.value||!dr||!dr.value||!dc||!dc.value) { if (e2){e2.textContent='Completa la dirección de despacho.';e2.style.display='block';} return; }
@@ -2619,7 +2653,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     if (gcPago === 'transferencia') return gcSubmitTransferencia();
     var e2=gEl('ppGC-s2-err'), btn=gEl('ppGC-btn-wp');
     if (!gcSelectedEntrega || gcSelectedEntrega.bloqueado) { if (e2) { e2.textContent='Elige una modalidad de entrega.'; e2.style.display='block'; } return; }
-    if (gcTermsModules().length && !gcTermsAccepted) { if (e2) { e2.textContent='Debes aceptar los Términos y Condiciones para continuar.'; e2.style.display='block'; } return; }
+    if (gcTermsModules().length && !gcTermsAccepted) { gcFaltanTerminos(); return; }
     if (gcSelectedEntrega.needsAddress) {
       var dd=gEl('ppgc_pn_dir'), dr=gEl('ppgc_pn_region'), dc=gEl('ppgc_pn_ciudad');
       if (!dd||!dd.value||!dr||!dr.value||!dc||!dc.value) { if (e2){e2.textContent='Completa la dirección de despacho.';e2.style.display='block';} return; }
