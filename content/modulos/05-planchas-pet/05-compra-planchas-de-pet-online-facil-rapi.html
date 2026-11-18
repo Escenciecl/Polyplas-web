@@ -9176,7 +9176,8 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
 }
 
 /* Paso 2 · Sin cortes: sin cantidad ni nota (la cantidad se elige en el Resumen) */
-#configuratorModal #ppCorteSinCorteContent { display: none !important; }
+/* exp-014: "Sin cortes" muestra CANTIDAD DE PLANCHAS (antes oculta: la cantidad iba en un Resumen que el flujo ya no muestra); la nota de medidas de corte sigue oculta */
+#configuratorModal #pccScNota { display: none !important; }
 /* Paso 3 · tarjeta "Plancha completa" */
 #configuratorModal .p3-thumb { display: flex; align-items: center; justify-content: center; border: 1px solid #e2e8f0; }
 #configuratorModal .p3-thumb span { font-size: 0.68rem; font-weight: 600; color: #64748b; }
@@ -10872,6 +10873,39 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
     if(window.changeQty)window.changeQty(d);
     renderCorteResumen(); // actualiza el precio según la cantidad
   };
+  /* exp-014 (18-nov-2026): con "Iguales"/"Distintos", si faltan las piezas se avisa y se lleva al campo.
+     Antes "Continuar" no hacía nada y la persona quedaba bloqueada. No cambia ninguna regla de corte. */
+  function pccFaltanPiezas(forzar){
+    // Filas a medio llenar: se marcan los campos que faltan. Filas vacías se ignoran,
+    // salvo que no haya ninguna fila completa (entonces se marca la primera).
+    var rows=[].slice.call(document.querySelectorAll('#pccList .pcc-row')),primero=null,completas=0,vacias=[];
+    var val=function(inp){return inp?parseFloat(String(inp.value).replace(',','.')):NaN;};
+    rows.forEach(function(row){
+      var id=row.id.replace('pccR_','');
+      var ins=['pccW_','pccH_','pccQ_'].map(function(p){return g(p+id);}).filter(Boolean);
+      var faltan=ins.filter(function(inp){return !(val(inp)>0);});
+      if(!faltan.length){completas++;return;}
+      if(faltan.length===ins.length){vacias.push(ins);return;}
+      faltan.forEach(function(inp){inp.classList.add('err');if(!primero)primero=inp;});
+    });
+    if(!primero&&!completas&&vacias.length){vacias[0].forEach(function(inp){inp.classList.add('err');});primero=vacias[0][0];}
+    if(!primero&&!forzar)return false;
+    var list=g('pccList'),msg=g('pccFaltaMsg');
+    if(!msg&&list&&list.parentNode){
+      msg=document.createElement('div');msg.id='pccFaltaMsg';msg.setAttribute('role','alert');
+      msg.style.cssText='margin:0 0 10px;padding:10px 12px;border-radius:8px;background:#fff4e5;border:1.5px solid #f59e0b;color:#7c4a03;font-size:.85rem;font-weight:600;line-height:1.35';
+      list.parentNode.insertBefore(msg,list);
+      list.addEventListener('input',function(){var m=g('pccFaltaMsg');if(m)m.style.display='none';});
+    }
+    if(msg){
+      msg.textContent=primero?'Ingresa el ancho, el alto y la cantidad de tus piezas para continuar.':'Revisa las medidas: alguna pieza no cabe en la plancha.';
+      msg.style.display='block';
+    }
+    var foco=primero||msg;
+    if(foco){foco.scrollIntoView({behavior:'smooth',block:'center'});if(primero)try{primero.focus({preventScroll:true});}catch(e){}}
+    if(window.ppPaso)try{window.ppPaso('conf_faltan_piezas','calc',{});}catch(e){}
+    return true;
+  }
   window.pccVerResumen=function(){
     if(pccSel==='reco'){
       var rc=document.querySelector('#pccRes .pcc-slide-reco');
@@ -10890,9 +10924,10 @@ html.pcc-paso4 #configuratorModal #pccP3Footer { margin-top: 12px !important; }
       if(diff!==0&&window.changeQty)window.changeQty(diff);
       showPaso4();
     }else{
+      if(pccFaltanPiezas())return;
       if(!lastRes){
         window.pccCalc();
-        setTimeout(function(){if(lastRes&&lastRes.sheets&&lastRes.sheets.length>0)window.pccOk();},400);
+        setTimeout(function(){if(lastRes&&lastRes.sheets&&lastRes.sheets.length>0)window.pccOk();else pccFaltanPiezas(true);},400);
       }else{window.pccOk();}
     }
   };

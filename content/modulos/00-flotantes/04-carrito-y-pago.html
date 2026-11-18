@@ -719,7 +719,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     <svg class="ppGC-ec-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
     <div><b>Despacho gratis en Santiago</b><span>desde <span data-crm-precio="DESPACHO|gratis">$200.000</span> · comunas con cobertura</span></div>
   </div>
-  <div class="ppGC-ec">
+  <div class="ppGC-ec" id="ppGC-ec-regiones">
     <svg class="ppGC-ec-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
     <div><b>A regiones</b><span>flete por pagar en destino</span></div>
   </div>
@@ -1698,7 +1698,14 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     if (acts)  acts.style.display = 'flex';
     var _sh = gEl('ppGC-share'); if (_sh) { _sh.style.display = ''; var _ok = gEl('ppGC-share-ok'); if (_ok) _ok.innerHTML = ''; }
     var cards = gEl('ppGC-entrega-cards');
-    if (cards) cards.style.display = '';
+    if (cards) {
+      cards.style.display = '';
+      // exp-014: "A regiones" solo si el carro trae tinas o cascos (las planchas y demás no van a regiones)
+      var _regOk = gcItems.some(function(i) { return i.module === 'tinas' || i.module === 'cascos'; });
+      var _reg = gEl('ppGC-ec-regiones'); if (_reg) _reg.style.display = _regOk ? '' : 'none';
+      var _vis = [].filter.call(cards.children, function(c) { return c.style.display !== 'none' && getComputedStyle(c).display !== 'none'; }).length;
+      cards.style.gridTemplateColumns = 'repeat(' + Math.max(1, _vis) + ',1fr)';
+    }
     // Con un producto sin stock, "Ir al pago" queda congelado
     var goBtn = acts ? acts.querySelector('.ppGC-btn-checkout-go') : null;
     if (goBtn) {
