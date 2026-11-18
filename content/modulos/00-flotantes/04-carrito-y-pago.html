@@ -2236,9 +2236,15 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     rEl.value = 'RM';
     ppGCUpdateComunas(prefix);
     if (cEl) {
+      // exp-013: usa la comuna que la persona eligió arriba (antes quedaba siempre "Santiago")
+      var _preR = (gEl('ppGC-regionPreCheck') || {}).value || '', _preC = (gEl('ppGC-comunaPreCheck') || {}).value || '';
+      var _buscar = (_preR === 'RM' && _preC) ? _preC.toLowerCase() : 'santiago';
       var idx = -1;
       for (var i = 0; i < cEl.options.length; i++) {
-        if (cEl.options[i].value.toLowerCase() === 'santiago') { idx = i; break; }
+        if (cEl.options[i].value.toLowerCase() === _buscar) { idx = i; break; }
+      }
+      if (idx < 0) for (var j = 0; j < cEl.options.length; j++) {
+        if (cEl.options[j].value.toLowerCase() === 'santiago') { idx = j; break; }
       }
       cEl.value = idx >= 0 ? cEl.options[idx].value : (cEl.options.length > 1 ? cEl.options[1].value : '');
     }
