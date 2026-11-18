@@ -1705,6 +1705,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
       var _reg = gEl('ppGC-ec-regiones'); if (_reg) _reg.style.display = _regOk ? '' : 'none';
       var _vis = [].filter.call(cards.children, function(c) { return c.style.display !== 'none' && getComputedStyle(c).display !== 'none'; }).length;
       cards.style.gridTemplateColumns = 'repeat(' + Math.max(1, _vis) + ',1fr)';
+      cards.classList.toggle('ppGC-ec-2', _vis === 2);
     }
     // Con un producto sin stock, "Ir al pago" queda congelado
     var goBtn = acts ? acts.querySelector('.ppGC-btn-checkout-go') : null;

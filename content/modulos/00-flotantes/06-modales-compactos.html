@@ -106,6 +106,8 @@ html body #ppGC-cart-modal .ppGC-shipping-label { font-size: 0.7rem !important; 
 
 /* Opciones de entrega: ahora van debajo de los productos (no en la franja fija), en una lista corta */
 html body #ppGC-cart-modal .ppGC-entrega-cards { grid-template-columns: repeat(3, 1fr) !important; gap: 6px !important; padding: 0 !important; margin: 4px 0 0 !important; }
+/* exp-014: con 2 tarjetas (sin 'A regiones') se reparten en 2 columnas; en celular (≤560px) sigue la lista de 1 columna */
+@media (min-width: 561px) { html body #ppGC-cart-modal .ppGC-entrega-cards.ppGC-ec-2 { grid-template-columns: repeat(2, 1fr) !important; } }
 html body #ppGC-cart-modal .ppGC-ec { flex-direction: row !important; align-items: flex-start !important; text-align: left !important; gap: 7px !important; padding: 8px 9px !important; border-radius: 8px !important; box-shadow: none !important; background: #f8fafc !important; }
 html body #ppGC-cart-modal .ppGC-ec-ico { width: 16px !important; height: 16px !important; margin-top: 1px !important; }
 html body #ppGC-cart-modal .ppGC-ec b { font-size: 0.72rem !important; line-height: 1.25 !important; margin-bottom: 1px !important; }
