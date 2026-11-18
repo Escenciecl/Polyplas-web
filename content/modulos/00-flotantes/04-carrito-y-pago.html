@@ -896,10 +896,6 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <input autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" id="ppgc_email" onblur="ppGCValidateField(this)" oninput="ppGCOnEmailInput(this)" placeholder="correo@ejemplo.cl" type="text"/>
 <div class="ppGC-field-error" id="ppgc_email_err">Ingresa un email válido</div>
 </div>
-<div class="ppGC-field full">
-<label>Dirección de facturación *</label>
-<input autocomplete="street-address" id="ppgc_bill_dir" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Av. Ejemplo 1234, Depto 5" type="text"/>
-</div>
 <div class="ppGC-field">
 <label>Región *</label>
 <select id="ppgc_bill_region" onblur="ppGCValidateField(this)" onchange="ppGCUpdateComunas('ppgc_bill'); this.classList.remove('ppGC-input-error');">
@@ -920,6 +916,10 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <select disabled="" id="ppgc_bill_ciudad" onblur="ppGCValidateField(this)">
 <option value="">Selecciona primero la región...</option>
 </select>
+</div>
+<div class="ppGC-field full">
+<label>Dirección de facturación *</label>
+<input autocomplete="street-address" id="ppgc_bill_dir" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Av. Ejemplo 1234, Depto 5" type="text"/>
 </div>
 </div>
 <!-- Empresa -->
@@ -947,10 +947,6 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <input autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" id="ppgc_emp_email" onblur="ppGCValidateField(this)" oninput="ppGCOnEmailInput(this)" placeholder="contacto@empresa.cl" type="text"/>
 <div class="ppGC-field-error" id="ppgc_emp_email_err">Ingresa un email válido</div>
 </div>
-<div class="ppGC-field full">
-<label>Dirección *</label>
-<input autocomplete="street-address" id="ppgc_emp_dir" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Av. Ejemplo 1234, Oficina 5" type="text"/>
-</div>
 <div class="ppGC-field">
 <label>Región *</label>
 <select id="ppgc_emp_region" onblur="ppGCValidateField(this)" onchange="ppGCUpdateComunas('ppgc_emp'); this.classList.remove('ppGC-input-error');">
@@ -971,6 +967,10 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <select disabled="" id="ppgc_emp_ciudad" onblur="ppGCValidateField(this)">
 <option value="">Selecciona primero la región...</option>
 </select>
+</div>
+<div class="ppGC-field full">
+<label>Dirección de facturación *</label>
+<input autocomplete="street-address" id="ppgc_emp_dir" onblur="ppGCValidateField(this)" oninput="this.classList.remove('ppGC-input-error')" placeholder="Av. Ejemplo 1234, Oficina 5" type="text"/>
 </div>
 </div>
 <div class="ppGC-form-error" id="ppGC-s1-err"></div>
