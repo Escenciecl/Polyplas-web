@@ -559,6 +559,14 @@ body.ppGC-open #polyplas-fab, body.ppGC-open #pp-cb-tab { display: none !importa
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field:has(#ppgc_bill_ciudad),
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field:has(#ppgc_emp_region),
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-field:has(#ppgc_emp_ciudad) { display: none !important; }
+/* exp-013 · modo "solo retiro": la entrega se muestra directo y región/comuna van con los datos de facturación */
+#ppGC-co-modal.ppGC-solo-retiro .ppGC-field:has(#ppgc_bill_region),
+#ppGC-co-modal.ppGC-solo-retiro .ppGC-field:has(#ppgc_bill_ciudad),
+#ppGC-co-modal.ppGC-solo-retiro .ppGC-field:has(#ppgc_emp_region),
+#ppGC-co-modal.ppGC-solo-retiro .ppGC-field:has(#ppgc_emp_ciudad) { display: block !important; }
+#ppGC-co-modal.ppGC-solo-retiro .ppGC-field:has(#ppGC-regionPreCheck),
+#ppGC-co-modal.ppGC-solo-retiro #ppGC-comunaCheck,
+#ppGC-co-modal.ppGC-solo-retiro #ppGC-lock-notice { display: none !important; }
 :is(#ppGC-co-modal, #ppGC-cart-modal) #ppGC-entregaTitulo { display: none !important; }
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-entrega-hint { font-size: 0.8rem; color: #475569; background: #f1f4f8; border-left: 3px solid #94a3b8; border-radius: 8px; padding: 10px 13px; line-height: 1.5; }
 :is(#ppGC-co-modal, #ppGC-cart-modal) .ppGC-summary { background: #f8fafc; border: 1px solid var(--gc-border); border-radius: 12px; }
@@ -1071,6 +1079,15 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     return antes !== gcFirmaDespacho();
   }
   function gcGratisActivo() { return !!window.PP_ENTREGA.despachoGratis.activo; }
+  // exp-013: true cuando ningún despacho es posible para este pedido (solo retiro en tienda)
+  var gcModoSoloRetiro = false;
+  function gcEsSoloRetiro(grand) {
+    var largo = gcItems.some(function(i) { return i.module === 'tinas' || i.module === 'cascos'; });
+    if (largo) return false;
+    if (gcDesdePagado()) return false;              // hay despacho pagado prendido
+    if (gcGratisActivo() && grand >= UMBRAL) return false; // califica para despacho gratis
+    return true;
+  }
   // Tarifa más baja de las zonas prendidas (0 = ninguna zona con despacho pagado)
   function gcDesdePagado() {
     var ps = window.PP_ENTREGA.zonasDespacho.filter(function(z) { return z.activo; }).map(function(z) { return z.precio; });
@@ -1803,12 +1820,29 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
     // exp-013 (18-nov-2026): Región Metropolitana precargada; solo pide la comuna. Se puede cambiar.
     // No aplica si el carro trae tinas o cascos (esos sí van a regiones).
     try {
+      var _co = gEl('ppGC-co-modal'), _tit = document.querySelector('#ppGC-entrega-sec .ppGC-sec-tit');
+      gcModoSoloRetiro = false;
+      if (_co) _co.classList.remove('ppGC-solo-retiro');
+      if (_tit) _tit.textContent = '¿Cómo recibes tu pedido?';
       var _rpc = gEl('ppGC-regionPreCheck');
       var _largo = gcItems.some(function(i) { return i.module === 'tinas' || i.module === 'cascos'; });
       if (_rpc && !_rpc.value && !_largo) {
         _rpc.value = 'RM';
-        gcP3.rmPrecargada = true;
-        ppGCOnRegionPreCheck();
+        if (gcEsSoloRetiro(gcCurrentGrand)) {
+          // Solo retiro: se muestra directo, sin preguntar comuna; región/comuna van en "Tus datos"
+          gcModoSoloRetiro = true;
+          if (_co) _co.classList.add('ppGC-solo-retiro');
+          if (_tit) _tit.textContent = 'Entrega';
+          gcP3Push('pago_region', { paso: 'region', motivo: 'solo_retiro', detalle: 'RM' });
+          gcP3.paso = 'datos';
+          gcUnlockCheckoutContent();
+          gcBuildEntregaOptions(gcCurrentGrand, 'RM', '');
+          gcBillingRegionRM();
+          gcRenderEntregaAviso();
+        } else {
+          gcP3.rmPrecargada = true;
+          ppGCOnRegionPreCheck();
+        }
       }
     } catch (e) {}
   }
@@ -2229,7 +2263,15 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   }
 
   // Auto-completa región/comuna de facturación con RM/Santiago cuando el usuario elige retiro
+  // exp-013: modo solo retiro → región de facturación RM (cambiable) y comuna sin elegir
+  function gcBillingRegionRM() {
+    ['ppgc_bill', 'ppgc_emp'].forEach(function(pre) {
+      var r = gEl(pre + '_region'); if (!r || r.value) return;
+      r.value = 'RM'; ppGCUpdateComunas(pre);
+    });
+  }
   function gcSyncBillingForRetiro() {
+    if (gcModoSoloRetiro) { gcBillingRegionRM(); return; }
     var prefix = gcClientType === 'EMP' ? 'ppgc_emp' : 'ppgc_bill';
     var rEl = gEl(prefix + '_region'), cEl = gEl(prefix + '_ciudad');
     if (!rEl) return;
@@ -2255,6 +2297,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 
   // Sincroniza región/comuna de facturación desde los selectores del bloque de entrega
   function gcSyncBillingFromPrecheck() {
+    if (gcModoSoloRetiro) { gcBillingRegionRM(); return; }
     var preR = (gEl('ppGC-regionPreCheck') || {}).value || '';
     var preC = (gEl('ppGC-comunaPreCheck') || {}).value || (GC_REGION_CAPITAL[preR] || '');
     if (!preR) return;
