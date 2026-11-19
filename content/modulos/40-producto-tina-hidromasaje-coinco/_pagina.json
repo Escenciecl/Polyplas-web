@@ -1,14 +1,14 @@
 {
   "url": "/tina-hidromasaje-coinco/",
   "tipo": "page",
-  "titulo": "Tina Coinco 167×92 cm, 6 Jets – Despacho RM Gratis | Polyplas",
-  "descripcion": "Tina hidromasaje Coinco 167×92×58 cm, 6 jets de alto caudal, 1 HP. Desde $499.990 c/IVA. Despacho en 3 a 5 días hábiles. RM gratis desde $200.000.",
+  "titulo": "Tina Coinco 167×92 cm, 6 Jets | Polyplas",
+  "descripcion": "Tina hidromasaje Coinco 167×92×58 cm, 6 jets de alto caudal, 1 HP. Desde $499.990 c/IVA. Despacho en 3 a 5 días hábiles.",
   "robots": "max-image-preview:large",
   "canonical": "/tina-hidromasaje-coinco/",
   "og": {
     "type": "website",
-    "title": "Tina Coinco 167×92 cm, 6 Jets – Despacho RM Gratis | Polyplas",
-    "description": "Tina hidromasaje Coinco 167×92×58 cm, 6 jets de alto caudal, 1 HP. Desde $499.990 c/IVA. Despacho en 3 a 5 días hábiles. RM gratis desde $200.000.",
+    "title": "Tina Coinco 167×92 cm, 6 Jets | Polyplas",
+    "description": "Tina hidromasaje Coinco 167×92×58 cm, 6 jets de alto caudal, 1 HP. Desde $499.990 c/IVA. Despacho en 3 a 5 días hábiles.",
     "image": "https://polyplas.cl/wp-content/uploads/2026/08/coinco.webp",
     "image:width": "900",
     "image:height": "593"
@@ -17,7 +17,7 @@
   "modificado": "2026-10-02T12:00:00+00:00",
   "css": [],
   "datosGoogle": [
-    "{\"@context\": \"https://schema.org\", \"@graph\": [{\"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Inicio\", \"item\": \"https://polyplas.cl/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Tinas de hidromasaje\", \"item\": \"https://polyplas.cl/categoria-producto/tinas-de-hidromasaje/\"}, {\"@type\": \"ListItem\", \"position\": 3, \"name\": \"Tina de Hidromasaje Coinco\", \"item\": \"https://polyplas.cl/tina-hidromasaje-coinco/\"}]}, {\"@type\": \"Product\", \"name\": \"Tina de Hidromasaje Coinco\", \"sku\": \"TINA-COINCO\", \"description\": \"Tina de Hidromasaje Coinco: 167×92×58 cm, para 1 persona, con 6 jets de alto caudal. $499.990 c/IVA.\", \"image\": \"https://polyplas.cl/wp-content/uploads/2026/08/coinco.webp\", \"url\": \"https://polyplas.cl/tina-hidromasaje-coinco/\", \"brand\": {\"@type\": \"Brand\", \"name\": \"Polyplas\"}, \"offers\": {\"@type\": \"Offer\", \"url\": \"https://polyplas.cl/tina-hidromasaje-coinco/\", \"price\": \"499990\", \"priceCurrency\": \"CLP\", \"itemCondition\": \"https://schema.org/NewCondition\", \"seller\": {\"@type\": \"Organization\", \"name\": \"Polyplas\", \"url\": \"https://polyplas.cl\"}, \"availability\": \"https://schema.org/InStock\", \"hasMerchantReturnPolicy\": {\"@type\": \"MerchantReturnPolicy\", \"applicableCountry\": \"CL\", \"returnPolicyCategory\": \"https://schema.org/MerchantReturnFiniteReturnWindow\", \"merchantReturnDays\": 1, \"returnMethod\": \"https://schema.org/ReturnInStore\", \"merchantReturnLink\": \"https://polyplas.cl/terminos-y-condiciones/#devoluciones\"}, \"shippingDetails\": {\"@type\": \"OfferShippingDetails\", \"shippingRate\": {\"@type\": \"MonetaryAmount\", \"value\": 0, \"currency\": \"CLP\"}, \"shippingDestination\": {\"@type\": \"DefinedRegion\", \"addressCountry\": \"CL\", \"addressRegion\": \"RM\"}, \"deliveryTime\": {\"@type\": \"ShippingDeliveryTime\", \"handlingTime\": {\"@type\": \"QuantitativeValue\", \"minValue\": 2, \"maxValue\": 3, \"unitCode\": \"DAY\"}, \"transitTime\": {\"@type\": \"QuantitativeValue\", \"minValue\": 1, \"maxValue\": 3, \"unitCode\": \"DAY\"}}}}}]}"
+    "{\"@context\": \"https://schema.org\", \"@graph\": [{\"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Inicio\", \"item\": \"https://polyplas.cl/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Tinas de hidromasaje\", \"item\": \"https://polyplas.cl/categoria-producto/tinas-de-hidromasaje/\"}, {\"@type\": \"ListItem\", \"position\": 3, \"name\": \"Tina de Hidromasaje Coinco\", \"item\": \"https://polyplas.cl/tina-hidromasaje-coinco/\"}]}, {\"@type\": \"Product\", \"name\": \"Tina de Hidromasaje Coinco\", \"sku\": \"TINA-COINCO\", \"description\": \"Tina de Hidromasaje Coinco: 167×92×58 cm, para 1 persona, con 6 jets de alto caudal. $499.990 c/IVA.\", \"image\": \"https://polyplas.cl/wp-content/uploads/2026/08/coinco.webp\", \"url\": \"https://polyplas.cl/tina-hidromasaje-coinco/\", \"brand\": {\"@type\": \"Brand\", \"name\": \"Polyplas\"}, \"offers\": {\"@type\": \"Offer\", \"url\": \"https://polyplas.cl/tina-hidromasaje-coinco/\", \"price\": \"499990\", \"priceCurrency\": \"CLP\", \"itemCondition\": \"https://schema.org/NewCondition\", \"seller\": {\"@type\": \"Organization\", \"name\": \"Polyplas\", \"url\": \"https://polyplas.cl\"}, \"availability\": \"https://schema.org/InStock\", \"hasMerchantReturnPolicy\": {\"@type\": \"MerchantReturnPolicy\", \"applicableCountry\": \"CL\", \"returnPolicyCategory\": \"https://schema.org/MerchantReturnFiniteReturnWindow\", \"merchantReturnDays\": 1, \"returnMethod\": \"https://schema.org/ReturnInStore\", \"merchantReturnLink\": \"https://polyplas.cl/terminos-y-condiciones/#devoluciones\"}}}]}"
   ],
   "dataLayer": null
 }

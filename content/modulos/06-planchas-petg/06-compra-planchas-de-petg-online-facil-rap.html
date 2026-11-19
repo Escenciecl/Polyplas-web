@@ -3818,8 +3818,8 @@
 <div class="pp-wrap" id="ppWrap" lang="es">
 <div class="pp-ventaja-entrega" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:13px;font-weight:600;color:#166534">
   <span>⚡ Retiro hoy en Santiago Centro</span>
-  <span style="color:#bbf7d0">·</span>
-  <span>🚚 Despacho gratis en la RM desde $200.000</span>
+  <span style="color:#bbf7d0" data-crm-activo="DESPACHO|gratis" hidden>·</span>
+  <span data-crm-activo="DESPACHO|gratis" hidden>🚚 Despacho gratis en la RM desde $200.000</span>
 </div>
 <div class="ppc-intro">
 <p class="ppc-intro-desc">
@@ -4061,7 +4061,7 @@
 <button id="btnGoCheckout" onclick="addToCart(true); if(window.closeConfigurator) closeConfigurator(); openCheckout();" style="width:100%;padding:17px;background:var(--pp-accent);color:#fff;border:none;border-radius:12px;font-size:0.95rem;font-weight:700;letter-spacing:2px;cursor:pointer;transition:background 0.15s">
               IR AL PAGO →
             </button>
-<p style="text-align:center;font-size:0.68rem;color:#6b7280;margin:4px 0 0">&#128274; Pago seguro &middot; Despacho gratis desde $200.000</p>
+<p style="text-align:center;font-size:0.68rem;color:#6b7280;margin:4px 0 0">&#128274; Pago seguro<span data-crm-activo="DESPACHO|gratis" hidden> &middot; Despacho gratis desde $200.000</span></p>
 <button class="pp-btn-add-order" id="btnAddToOrder" onclick="addToCartAndShowDrawer()">
               Agregar al carro y seguir comprando
             </button>
@@ -5126,7 +5126,7 @@ function showComboPricePreview() {
   if (!price) { pp.innerHTML = ""; return; }
   const dimLabel = dimMeta?.[state.dim]?.label || state.dim;
   pp.innerHTML =
-    '<div class="pp-x-conf pp-p1-conf"><span>Retiro el mismo día</span><span>Pago seguro con Webpay</span><span>Despacho gratis en la RM desde $200.000</span></div>' +
+    '<div class="pp-x-conf pp-p1-conf"><span>Retiro el mismo día</span><span>Pago seguro con Webpay</span>' + (ppGratisOn() ? '<span>Despacho gratis en la RM desde $200.000</span>' : '') + '</div>' +
     '<div class="pp-corte-footer pp-p1-footer">' +
       '<div class="pp-corte-footer-sum">' +
         '<div class="pp-corte-footer-info">' +
@@ -6298,7 +6298,7 @@ function renderPageCartBar() {
   const dShipFill  = document.getElementById("drawerShippingFill");
   const dShipLabel = document.getElementById("drawerShippingLabel");
   if (dShipBar && dShipFill && dShipLabel) {
-    dShipBar.style.display = "block";
+    dShipBar.style.display = ppGratisOn() ? "block" : "none";
     const pct = Math.min(100, Math.round(grand / UMBRAL_ENVIO_GRATIS * 100));
     dShipFill.style.width = pct + "%";
     if (grand >= UMBRAL_ENVIO_GRATIS) {
@@ -6467,7 +6467,7 @@ function renderCart() {
   const shippingFill  = document.getElementById("shippingFill");
   const shippingLabel = document.getElementById("shippingLabel");
   if (shippingBar && shippingFill && shippingLabel) {
-    shippingBar.style.display = "block";
+    shippingBar.style.display = ppGratisOn() ? "block" : "none";
     const pct = Math.min(100, Math.round(grand / UMBRAL_ENVIO_GRATIS * 100));
     shippingFill.style.width = pct + "%";
     if (grand >= UMBRAL_ENVIO_GRATIS) {
@@ -6592,6 +6592,8 @@ function formatRut(input) {
 }
 
 // ── Envío ─────────────────────────────────────────────────
+// Despacho gratis: lo prende o apaga el CRM (fila DESPACHO|gratis; cantidad 0 = apagado)
+function ppGratisOn() { var a = window.ppCRM, g = a && a.get && a.get("DESPACHO|gratis"); return g ? g.cantidad !== 0 : false; }
 const UMBRAL_ENVIO_GRATIS = 200000; // misma regla que PP_ENTREGA del carrito global
 const COMUNAS_SIN_DESPACHO_GRATIS_RM = [
   "Pirque","San José de Maipo","Tiltil","Buin","Calera de Tango","Paine",
