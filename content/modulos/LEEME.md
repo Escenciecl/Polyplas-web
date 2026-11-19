@@ -68,6 +68,12 @@ Para que un precio de cualquier página siga al CRM, el número se envuelve con 
 | `<p data-crm-agotado="TINAS|vilcun" hidden>Sin stock</p>` | Aparece solo cuando la cantidad es 0 |
 | `<button data-crm-bloquear="TINAS|vilcun">` | El botón se desactiva cuando la cantidad es 0 |
 | `<data data-crm-desde="TINAS">$479.990</data>` | El precio más bajo con stock de esa categoría |
+| `<span data-crm-activo="DESPACHO|gratis" hidden>…</span>` | Aparece solo si el despacho gratis está prendido en el CRM |
+
+**Despacho gratis:** todo texto que lo prometa va dentro de `data-crm-activo="DESPACHO|gratis" hidden`,
+así se oculta o aparece solo según el interruptor del CRM (sección *Despachos*). En scripts se usa
+`ppGratisOn()`. Los títulos, descripciones y datos para Google (`_pagina.json`) no se pueden ocultar:
+mientras el despacho gratis esté apagado, no lo mencionan.
 
 **Producto nuevo:** créalo en el CRM con *＋ Nuevo producto* (te muestra su clave) y usa esa clave
 en las marcas de su página. No hay que tocar nada más.
