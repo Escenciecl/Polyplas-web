@@ -715,7 +715,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
 <div class="ppGC-sec-tit">Tu pedido</div>
 <div id="ppGC-cart-items"></div>
 <div class="ppGC-entrega-cards" id="ppGC-entrega-cards" style="display:none">
-  <div class="ppGC-ec" data-crm-activo="DESPACHO|gratis">
+  <div class="ppGC-ec" data-crm-activo="DESPACHO|gratis" hidden>
     <svg class="ppGC-ec-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
     <div><b>Despacho gratis en Santiago</b><span>desde <span data-crm-precio="DESPACHO|gratis">$200.000</span> · comunas con cobertura</span></div>
   </div>
@@ -1035,7 +1035,7 @@ body.ppGC-open #ppGC-overlay { background: rgba(0,10,40,0.6); backdrop-filter: b
   // Estos valores son el respaldo si el CRM no responde. Las comunas de cada zona se editan aquí
   // y en functions/_lib/despacho.js (el servidor verifica el cobro con las mismas reglas).
   window.PP_ENTREGA = window.PP_ENTREGA || {
-    despachoGratis: { activo: true, desde: 200000 },
+    despachoGratis: { activo: false, desde: 200000 }, // apagado hasta que el CRM confirme que está prendido
     regionDespacho: 'RM',
     zonasDespacho: [
       { id: 1, precio: 19000, activo: false, comunas: ['Santiago','Estación Central','Independencia','Recoleta','Quinta Normal','Providencia','Ñuñoa','Las Condes','Vitacura','La Reina','Peñalolén','Macul','Conchalí','Huechuraba','Renca','Lo Prado','Cerro Navia','Pudahuel','Maipú','Cerrillos','San Miguel','San Joaquín','Pedro Aguirre Cerda','Lo Espejo','La Cisterna','San Ramón','La Granja','El Bosque','La Florida'] },
