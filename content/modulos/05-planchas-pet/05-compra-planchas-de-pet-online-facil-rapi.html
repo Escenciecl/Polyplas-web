@@ -6654,7 +6654,7 @@ function buildEntregaOptions(grand, regionPresel) {
   if (titulo) titulo.style.display = "block";
 
   // Despacho solo si región pre-seleccionada es RM
-  var esRM = regionPresel === "RM";
+  var esRM = regionPresel === "RM" && ppGratisOn(); // sin despacho gratis prendido en el CRM: solo retiro
 
   var opciones = [
     {
